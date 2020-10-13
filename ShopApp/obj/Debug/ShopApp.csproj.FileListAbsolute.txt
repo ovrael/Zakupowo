@@ -136,3 +136,7 @@ D:\GitHub\Zakupowo\ShopApp\bin\EntityFramework.dll
 D:\GitHub\Zakupowo\ShopApp\bin\EntityFramework.SqlServer.dll
 D:\GitHub\Zakupowo\ShopApp\bin\EntityFramework.xml
 D:\GitHub\Zakupowo\ShopApp\bin\EntityFramework.SqlServer.xml
+C:\Users\kamci\source\repos\ShopApp\ShopApp\bin\EntityFramework.dll
+C:\Users\kamci\source\repos\ShopApp\ShopApp\bin\EntityFramework.SqlServer.dll
+C:\Users\kamci\source\repos\ShopApp\ShopApp\bin\EntityFramework.xml
+C:\Users\kamci\source\repos\ShopApp\ShopApp\bin\EntityFramework.SqlServer.xml
