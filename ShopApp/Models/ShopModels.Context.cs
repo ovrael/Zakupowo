@@ -25,6 +25,8 @@ namespace ShopApp.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Products> Products { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Offers> Offers { get; set; }
     }
 }

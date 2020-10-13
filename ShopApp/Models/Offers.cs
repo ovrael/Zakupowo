@@ -12,11 +12,10 @@ namespace ShopApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class Offers
     {
-        public int Id { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
-        public string City { get; set; }
+        public int OfferID { get; set; }
+        public Nullable<int> ProductID { get; set; }
+        public int UserID { get; set; }
     }
 }
