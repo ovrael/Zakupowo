@@ -11,9 +11,14 @@ namespace ShopApp.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Diagnostics;
+
     public partial class Users
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, Column(Order = 0)]
         public int UserID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -22,8 +27,23 @@ namespace ShopApp.Models
         public string EncryptedPassword { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public System.DateTime CreationDate { get; set; }
+        public System.DateTime CreationDate { get; set; } = DateTime.Now;
         public string Country { get; set; }
         public string City { get; set; }
+
+        //public void Show()
+        //{
+        //    Debug.WriteLine("UserID: " + UserID);
+        //    Debug.WriteLine("FirstName: " + FirstName);
+        //    Debug.WriteLine("LastName: " + LastName);
+        //    Debug.WriteLine("BirthDate: " + BirthDate);
+        //    Debug.WriteLine("Login: " + Login);
+        //    Debug.WriteLine("EncryptedPassword: " + EncryptedPassword);
+        //    Debug.WriteLine("Email: " + Email);
+        //    Debug.WriteLine("Phone: " + Phone);
+        //    Debug.WriteLine("CreationDate: " + CreationDate);
+        //    Debug.WriteLine("Country: " + Country);
+        //    Debug.WriteLine("City: " + City);
+        //}
     }
 }

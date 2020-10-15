@@ -1,5 +1,7 @@
-﻿using System;
+﻿using ShopApp.Models;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -34,17 +36,38 @@ namespace ShopApp.Controllers
             {
                 // TODO: Add insert logic here
 
-                ViewData["UserID"] = collection[1];
-                ViewData["FirstName"] = collection[2];
-                ViewData["LastName"] = collection[3];
-                ViewData["BirthDate"] = collection[4];
-                ViewData["Login"] = collection[5];
-                ViewData["EncryptedPassword"] = collection[6];
-                ViewData["Email"] = collection[7];
-                ViewData["Phone"] = collection[8];
-                ViewData["CreationDate"] = collection[9];
-                ViewData["Country"] = collection[10];
-                ViewData["City"] = collection[11];
+                //Adding new User to database
+                ViewData["FirstName"] = collection[1];
+                ViewData["LastName"] = collection[2];
+                ViewData["BirthDate"] = collection[3];
+                ViewData["Login"] = collection[4];
+                ViewData["EncryptedPassword"] = collection[5];
+                ViewData["Email"] = collection[6];
+                ViewData["Phone"] = collection[7];
+                ViewData["Country"] = collection[8];
+                ViewData["City"] = collection[9];
+
+                var context = new ShopEntities();
+
+                DateTime.TryParse((string)ViewData["BirthDate"], out DateTime birthDate);
+
+                //Creating new user, UserID and CreationDate will be declared automatically
+                var user = new Users()
+                {
+                    FirstName = (string)ViewData["FirstName"],
+                    LastName = (string)ViewData["LastName"],
+                    BirthDate = birthDate,
+                    Login = (string)ViewData["Login"],
+                    EncryptedPassword = (string)ViewData["EncryptedPassword"],
+                    Email = (string)ViewData["Email"],
+                    Phone = (string)ViewData["Phone"],
+                    Country = (string)ViewData["Country"],
+                    City = (string)ViewData["City"],
+                };
+
+                context.Users.Add(user);
+                context.SaveChanges();
+
 
                 return View("Index");
                 //return RedirectToAction("Index");
