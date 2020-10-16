@@ -1,44 +1,31 @@
-﻿@model ShopApp.Models.Product
+﻿@model ShopApp.ViewModels.RandomProductViewModel
 @using ShopApp.Models
 @{
     ViewBag.Title = "Random";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{
-    //Adding new User to database
-    //var context = new ShopEntities();
-    //var user = new User()
-    //{
-    //    Login = "DefaultUser",
-    //    Password = "StrongPassword",
-    //    City = "Katowice"
-    //};
 
-    //context.User.Add(user);
-    //context.SaveChanges();
+<h2>@Model.Product.Name</h2>
+Zamawiający
+@if (Model.Customers.Count == 0)
+{
+    <p>No one ordered this product yet!</p>
+}
+else
+{
+<ul>
+    @foreach (var customer in Model.Customers)
+    {
+        <li>
+            @customer.Name
+        </li>
+    }
 
-
-    //Getting user
-    @*using (var context = new ShopEntities())
-        {
-            // Query for all blogs with names starting with B
-            //var blogs = from b in context.User
-            //            where b.Name.StartsWith("B")
-            //            select b;
-
-            // Query for the Blog named ADO.NET Blog
-            var user = context.User
-                            .Where(u => u.Login == "Jacek")
-                            .FirstOrDefault();
-
-            string info = user.Id + " - " + user.Login + " - " + user.Password + " - " + user.City;
-
-            <h1>@info</h1>
-        }*@
+</ul>
 }
 
 
 
-<h2>@Model.Name</h2>
+
 

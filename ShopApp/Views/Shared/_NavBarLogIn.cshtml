@@ -1,0 +1,18 @@
+﻿
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary navbar-fixed-top" style="top:0;width:100%;position:absolute;">
+    <div class="collapse navbar-collapse" id="navbarColor01">
+        @Html.ActionLink("Zakupowo.pl", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        <ul class="navbar-nav mr-auto">
+
+            <li class="px-2 ">@Html.ActionLink("Strona główna", "Index", "Home")</li>
+            <li class="px-2 ">@Html.ActionLink("Produkty", "Random", "Product")</li>
+            <li class="px-2 ">@Html.ActionLink("Użytkownicy", "Users", "Users")</li>
+
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <li class="px-2 ">Zaloguj się</li>
+            <li class="px-2 ">Zarejestruj się</li>
+        </form>
+    </div>
+</nav>

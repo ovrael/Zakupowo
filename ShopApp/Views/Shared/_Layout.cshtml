@@ -10,31 +10,17 @@
   
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary navbar-fixed-top" style="top:0;width:100%;position:absolute;" >
-        <div class="collapse navbar-collapse" id="navbarColor01" >
-            @Html.ActionLink("Zakupowo.pl", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <ul class="navbar-nav mr-auto">
 
-                <li class="px-2 ">@Html.ActionLink("Strona główna", "Index", "Home")</li>
-                <li class="px-2 ">@Html.ActionLink("Produkt", "Random", "Product")</li>
-                <li class="px-2 ">@Html.ActionLink("Kontakt", "Contact", "Home")</li>
 
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="...">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Szukaj</button>
-            </form>
-        </div>
-    </nav>
-    
-  
+    @Html.Partial("_NavBar");
     <div class="container body-content" style="padding-top:30px">
         @RenderBody()
-       
     </div>
-
+    <footer style="position:absolute;bottom:0px;width:100%">
+        <p>&copy; @DateTime.Now.Year - Zakupowo</p>
+    </footer>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-</body
+</body>
 </html>
