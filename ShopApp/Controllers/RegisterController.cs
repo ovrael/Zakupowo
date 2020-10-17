@@ -58,7 +58,7 @@ namespace ShopApp.Controllers
                     LastName = (string)ViewData["LastName"],
                     BirthDate = birthDate,
                     Login = (string)ViewData["Login"],
-                    EncryptedPassword = (string)ViewData["EncryptedPassword"],
+                    EncryptedPassword = Cryptographing.Encrypt((string)ViewData["EncryptedPassword"]),
                     Email = (string)ViewData["Email"],
                     Phone = (string)ViewData["Phone"],
                     Country = (string)ViewData["Country"],
@@ -69,7 +69,7 @@ namespace ShopApp.Controllers
                 context.SaveChanges();
 
 
-                return View("Index");
+                return View("Success");
                 //return RedirectToAction("Index");
             }
             catch

@@ -131,6 +131,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Cryptographing.cs" />
     <Compile Include="Models\Offers.cs">
       <DependentUpon>ShopModels.tt</DependentUpon>
     </Compile>
@@ -215,6 +216,7 @@
     <Content Include="Views\UserPanel\UserPanel.cshtml" />
     <Content Include="Views\Register\Create.cshtml" />
     <Content Include="Views\Register\Index.cshtml" />
+    <Content Include="Views\Register\Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -30,20 +30,5 @@ namespace ShopApp.Models
         public System.DateTime CreationDate { get; set; } = DateTime.Now;
         public string Country { get; set; }
         public string City { get; set; }
-
-        //public void Show()
-        //{
-        //    Debug.WriteLine("UserID: " + UserID);
-        //    Debug.WriteLine("FirstName: " + FirstName);
-        //    Debug.WriteLine("LastName: " + LastName);
-        //    Debug.WriteLine("BirthDate: " + BirthDate);
-        //    Debug.WriteLine("Login: " + Login);
-        //    Debug.WriteLine("EncryptedPassword: " + EncryptedPassword);
-        //    Debug.WriteLine("Email: " + Email);
-        //    Debug.WriteLine("Phone: " + Phone);
-        //    Debug.WriteLine("CreationDate: " + CreationDate);
-        //    Debug.WriteLine("Country: " + Country);
-        //    Debug.WriteLine("City: " + City);
-        //}
     }
 }

@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - moja aplikacja platformy ASP.NET</title>
+    <title>@ViewBag.Title - Shop site.</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -13,13 +13,10 @@
         <div class="collapse navbar-collapse" id="navbarColor01">
             @Html.ActionLink("Zakupowo.pl", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             <ul class="navbar-nav mr-auto">
-
                 <li class="px-2 ">@Html.ActionLink("Strona główna", "Index", "Home")</li>
                 <li class="px-2 ">@Html.ActionLink("Produkt", "Random", "Product")</li>
                 <li class="px-2 ">@Html.ActionLink("Kontakt", "Contact", "Home")</li>
                 <li class="px-2 ">@Html.ActionLink("Rejestracja", "Create", "Register")</li>
-
-
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="text" placeholder="...">
