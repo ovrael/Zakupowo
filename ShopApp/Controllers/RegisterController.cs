@@ -65,6 +65,18 @@ namespace ShopApp.Controllers
                     City = (string)ViewData["City"],
                 };
 
+                Debug.WriteLine(user.UserID);
+                Debug.WriteLine(user.FirstName);
+                Debug.WriteLine(user.LastName);
+                Debug.WriteLine(user.BirthDate);
+                Debug.WriteLine(user.Login);
+                Debug.WriteLine(user.EncryptedPassword);
+                Debug.WriteLine(user.EncryptedPassword.Length);
+                Debug.WriteLine(user.Email);
+                Debug.WriteLine(user.Phone);
+                Debug.WriteLine(user.Country);
+                Debug.WriteLine(user.City);
+
                 context.Users.Add(user);
                 context.SaveChanges();
 
