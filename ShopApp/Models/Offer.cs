@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Testowanie.Models
+namespace ShopApp.Models
 {
     public class Offer
     {

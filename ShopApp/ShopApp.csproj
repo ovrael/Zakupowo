@@ -131,6 +131,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Cryptographing.cs" />
+    <Compile Include="Models\Offer.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
