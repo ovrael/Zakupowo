@@ -24,5 +24,5 @@ namespace ShopApp.DAL
                 Users.ForEach(s => context.Users.Add(s));
                 context.SaveChanges();
              */
-    }
+        }
 }
