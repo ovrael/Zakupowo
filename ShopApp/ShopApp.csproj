@@ -132,31 +132,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Cryptographing.cs" />
-    <Compile Include="Models\Offers.cs">
-      <DependentUpon>ShopModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Product.cs" />
-    <Compile Include="Models\Products.cs">
-      <DependentUpon>ShopModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ShopModels.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ShopModels.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ShopModels.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ShopModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ShopModels.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ShopModels.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Users.cs">
-      <DependentUpon>ShopModels.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -168,25 +143,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\ShopModels.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ShopModels.edmx</DependentUpon>
-      <LastGenOutput>ShopModels.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\ShopModels.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ShopModels.edmx</DependentUpon>
-      <LastGenOutput>ShopModels.cs</LastGenOutput>
-    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="Models\ShopModels.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ShopModels.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\ShopModels.edmx.diagram">
-      <DependentUpon>ShopModels.edmx</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
