@@ -11,3 +11,9 @@
 /ShopApp/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 /ShopApp/obj/Debug/.NETFramework,Version=v4.7.2.AssemblyAttributes.cs
 /.vs/ShopApp/v16/.suo
+################################################################################
+# Ten plik .gitignore został utworzony automatycznie przez Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/ShopApp/v16/.suo
+/ShopApp/obj/Debug
