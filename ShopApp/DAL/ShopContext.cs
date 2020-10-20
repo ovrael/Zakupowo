@@ -14,6 +14,7 @@ namespace ShopApp.DAL
         public ShopContext() : base("Shop") { }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Offer> Offers { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

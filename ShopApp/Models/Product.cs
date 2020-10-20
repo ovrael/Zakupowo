@@ -10,6 +10,7 @@ namespace ShopApp.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ProductID { get; set; }
+        public string Category { get; set; }
         public string Name { get; set; }
         public double Weight { get; set; }
 

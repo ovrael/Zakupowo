@@ -7,7 +7,7 @@ using System.Web;
 using System.IO;
 using System.Text;
 
-namespace ShopApp.Models
+namespace ShopApp.Utility
 {
     public class Cryptographing
     {
