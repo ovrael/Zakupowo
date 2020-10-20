@@ -7,20 +7,22 @@
     <title>@ViewBag.Title - moja aplikacja platformy ASP.NET</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-  
+
 </head>
 <body>
-
 
     @Html.Partial("_NavBar");
     <div class="container body-content" style="padding-top:30px">
         @RenderBody()
     </div>
+
     <footer style="position:absolute;bottom:0px;width:100%">
         <p>&copy; @DateTime.Now.Year - Zakupowo</p>
     </footer>
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
 </body>
 </html>
