@@ -16,6 +16,7 @@
 ################################################################################
 
 /.vs/ShopApp/v16/.suo
-/ShopApp/obj/Debug
+/ShopApp/obj
+/ShopApp/bin
 
 .vs
