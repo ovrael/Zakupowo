@@ -1,9 +1,51 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-
-
-
+<script type="text/javascript" src="~/Scripts/script.js"></script>
 <h1 class="p-3">
-    Produkty
+    Rejestracja użytkownika
 </h1>
+
+@*<form class="user-register-form">
+        <div class="form-group">
+            <label for="exampleInputEmail">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        </div>
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>*@
+
+<div class="vh-100 container">
+    <div class="vh-100 row justify-content-center align-items-center text-center">
+        <div class="col-12 col-md-8 col-lg-8 col-xl-6">
+            <form id="signinForm" name="signinForm" class="signinForm shadow p-5 bg-white rounded">
+                <i class="fab fa-stripe-s mb-2"></i>
+                <h2 class="mb-4">ShopSite</h2>
+
+                <label for="emailAddressInput" class="sr-only">Email address</label>
+                <input type="email" id="emailAddressInput" name="emailAddressInput" class="form-control mb-2" placeholder="Email Address" required autofocus>
+                <div id="emailAddressInput_validation" class="invalid-feedback d-block text-left"></div>
+
+                <label for="password" class="sr-only">Password</label>
+                <input type="password" id="passwordInput" name="passwordInput" placeholder="Password" class="form-control mb-2" required>
+                <div id="passwordInput_validation" class="invalid-feedback d-block text-left"></div>
+
+                <label><input type="checkbox" id="rememberMeInput" name="rememberMeInput" value="rememberMe"> Remember me</label>
+                <input type="submit" name="signinInput" value="Sign in" class="bt btn-lg btn-primary btn-block mt-1 mb-1 ">
+
+                <a href="#">Forgot password?</a>
+                <p>
+                    Don't have account? <a href="register.html">Sign up</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>

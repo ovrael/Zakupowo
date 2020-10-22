@@ -1,0 +1,54 @@
+﻿@*<nav class="navbar navbar-expand-lg navbar-dark bg-primary navbar-fixed-top" style="top:0;width:100%;position:absolute;">
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            @Html.ActionLink("Zakupowo.pl", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <ul class="navbar-nav mr-auto">
+
+                <li class="px-2 ">@Html.ActionLink("Strona główna", "Index", "Home")</li>
+
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="...">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Szukaj</button>
+            </form>
+        </div>
+    </nav>*@
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white justify-content-between">
+    <a class="nav-item active navbar-brand" href="index.html"><i class="fab fa-stripe-s mb-2 d-inline-block align-middle"></i> ShopSite</a>
+    <button class="col-2 navbar-toggler square" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse col-lg-6" id="navbarSupportedContent">
+        <ul class="navbar-nav">
+            <li class="nav-item p-2">
+                <a class="nav-link" id="accountLink"><i class="fas fa-user fa-fw"></i> Account</a>
+            </li>
+            <li class="nav-item p-2">
+                <a class="nav-link" id="cartLink"><i class="fas fa-shopping-cart fa-fw"></i> Cart</a>
+            </li>
+            <li class="nav-item p-2">
+                <a class="nav-link" id="cartLink"><i class="fas fa-shopping-cart fa-fw"></i> placeholder</a>
+            </li>
+            <li class="nav-item p-2">
+                <a class="nav-link" id="cartLink"><i class="fas fa-shopping-cart fa-fw"></i> placeholder2</a>
+            </li>
+            <li class="nav-item p-2">
+                <a class="nav-link" id="cartLink"><i class="fas fa-shopping-cart fa-fw"></i> placeholder2</a>
+            </li>
+            <li class="nav-item p-2">
+                <a class="nav-link" id="cartLink"><i class="fas fa-shopping-cart fa-fw"></i> placeholder2</a>
+            </li>
+        </ul>
+    </div>
+    <form class="col-12 col-lg-4 mt-2 mt-lg-0 searchbarForm form-inline">
+        <div class="input-group input-group-lg w-100">
+            <input type="search" class="form-control" placeholder="Search for..." aria-label="Search">
+            <span class="input-group-append">
+                <button class="btn btn-outline-secondary" id="searchButton" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+</nav>
