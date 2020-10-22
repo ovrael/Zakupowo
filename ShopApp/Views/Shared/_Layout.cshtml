@@ -4,36 +4,33 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!--BootstrapCDN-->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <!--FontAwesomeCDN-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
-    <!--CustomCSS-->
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <!--GoogleFonts-->
-    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Open+Sans&display=swap" rel="stylesheet">
-
-    <title>@ViewBag.Title - moja aplikacja platformy ASP.NET</title>
-
+    <title>@ViewBag.Title - Shop site.</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
 </head>
-<body style="padding:0px">
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary navbar-fixed-top" style="top:0;width:100%;position:absolute;">
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            @Html.ActionLink("Zakupowo.pl", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <ul class="navbar-nav mr-auto">
+                <li class="px-2 ">@Html.ActionLink("Strona główna", "Index", "Home")</li>
+                <li class="px-2 ">@Html.ActionLink("Konto", "Account", "User")</li>
+                <li class="px-2 ">@Html.ActionLink("Rejestracja", "Create", "Register")</li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="...">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Szukaj</button>
+            </form>
+        </div>
+    </nav>
 
-    @Html.Partial("_NavBar");
-    <div class="container body-content">
+
+    <div class="container body-content" style="padding-top:30px">
         @RenderBody()
     </div>
-
-    <footer style="position:absolute;bottom:0px;width:100%">
-        <p>&copy; @DateTime.Now.Year - Zakupowo</p>
-    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-
 </body>
 </html>
