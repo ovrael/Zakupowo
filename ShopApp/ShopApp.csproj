@@ -133,6 +133,19 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202010232056498_InitialCreate.cs" />
+    <Compile Include="Migrations\202010232056498_InitialCreate.Designer.cs">
+      <DependentUpon>202010232056498_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010232110108_updatingUser.cs" />
+    <Compile Include="Migrations\202010232110108_updatingUser.Designer.cs">
+      <DependentUpon>202010232110108_updatingUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202010232312459_User model update.cs" />
+    <Compile Include="Migrations\202010232312459_User model update.Designer.cs">
+      <DependentUpon>202010232312459_User model update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Utility\Cryptographing.cs" />
     <Compile Include="Models\Offer.cs" />
@@ -141,6 +154,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AppFiles\Images\image.jpg" />
     <Content Include="aspnet-mvc.gitignore" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -163,6 +177,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Scripts.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -181,6 +196,7 @@
     <Content Include="Views\Register\Index.cshtml" />
     <Content Include="Views\Register\Success.cshtml" />
     <Content Include="Views\UserPanel\Index.cshtml" />
+    <Content Include="Views\UserPanel\AddOrEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -200,6 +216,17 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202010232056498_InitialCreate.resx">
+      <DependentUpon>202010232056498_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010232110108_updatingUser.resx">
+      <DependentUpon>202010232110108_updatingUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010232312459_User model update.resx">
+      <DependentUpon>202010232312459_User model update.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

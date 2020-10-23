@@ -24,8 +24,40 @@ namespace ShopApp.Controllers
 
             return View();
         }
-        
+        public ActionResult Create(FormCollection collection)
+        {
+            try
+            {
 
+                User user = new User()
+                {
+                    FirstName = collection["FirstName"],
+                    LastName = collection["LastName"],
+                    Email = collection["Email"],
+
+                };
+
+                db.Users.Add(user);
+                db.SaveChanges();
+
+
+                return View("Success");
+
+            }
+            catch (Exception e) { return View(e.Message); }
+
+
+        }
+        public ActionResult AddOrEdit(int id=0)
+        {
+            User user = new User();
+            return View(user);
+        }
+        [HttpPost]
+        public ActionResult AddOrEdit()
+        {
+            return View();
+        }
 
 
     }

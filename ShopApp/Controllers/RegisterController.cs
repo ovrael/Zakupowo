@@ -54,6 +54,7 @@ namespace ShopApp.Controllers
                 {
                     FirstName = collection["FirstName"],
                     LastName = collection["LastName"],
+                    Email = collection["Email"],
                     /*
                     BirthDate = birthDate,
                     Login = (string)ViewData["Login"],
