@@ -7,7 +7,7 @@
 
 <h1>Dodaj lub edytuj użytkownika</h1>
 
-@using (Html.BeginForm("AddOrEdit", "UserPanel", FormMethod.Post, new { enctype = "multipart/form-data", onSubmit = "return jQueryAjaxPost(this);" }))
+@using (Html.BeginForm("AddOrEdit", "UserPanel", FormMethod.Post, new { enctype = "multipart/form-data", onSubmit = "return jQueryAjaxPost(this);" }  ))
 {
     @Html.AntiForgeryToken()
 
