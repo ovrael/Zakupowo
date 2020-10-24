@@ -34,3 +34,13 @@ function jQueryAjaxPost(form) {
     }
     return false;
 }
+
+
+jQuery(document).ready(function () {
+    
+
+    jQuery('table tr').on('click', function () {
+        jQuery(this).remove();
+    })
+
+})
