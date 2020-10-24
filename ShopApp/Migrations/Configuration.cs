@@ -9,7 +9,7 @@ namespace ShopApp.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             ContextKey = "ShopApp.DAL.ShopContext";
         }
 

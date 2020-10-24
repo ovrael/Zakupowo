@@ -25,9 +25,11 @@ namespace ShopApp.Models
         public string Email { get; set; }
         [DisplayName("Zdjęcie")]
         public string ImagePath { get; set; }
+
         [NotMapped]
         public HttpPostedFileBase ImageUpload {get; set;}
 
+       
         public User()
         {
             ImagePath = "~/AppFiles/Images/image.jpg";

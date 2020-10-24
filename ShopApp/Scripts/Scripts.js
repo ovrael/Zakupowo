@@ -8,7 +8,29 @@
     }
 }
 
-jQuery('.user-create-form').on('submit', function (event) {
-    event.preventDefault();
-    console.log();
-})
+function jQueryAjaxPost(form) {
+    
+    jQuery.validator.unobtrusive.parse(form);
+    if (jQuery(form).valid()) {
+
+        var formData = new FormData(form);
+        $.ajax({
+            type: "POST",
+            url: form.action,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                console.log(formData);
+            }
+        });
+
+        //if (jQuery(form).attr('enctype') == "multipart/form-data") {
+        //    ajaxConfig["contentType"] == false;
+        //    ajaxConfig["processData"] == false; 
+        //}
+
+   
+    }
+    return false;
+}
