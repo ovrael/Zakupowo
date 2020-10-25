@@ -5,6 +5,7 @@
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
+   
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -14,6 +15,7 @@
 */
 .dl-horizontal dt {
     white-space: normal;
+    
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
@@ -21,4 +23,14 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+.account-info .account-about {
+    margin-top: 20px;
+}
+.nav-account .container {
+    padding: 12px;
+    text-decoration: none;
+    color: black;
+    display: block;
 }

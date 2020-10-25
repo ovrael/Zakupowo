@@ -1,29 +1,49 @@
 ﻿@model ShopApp.ViewModels.User.AccountViewModel
 @{
-    ViewBag.Title = "Witaj "+Model.Name + "!";
+    ViewBag.Title = "Witaj "+Model.FirstName + "!";
 }
 <h2>@ViewBag.Title</h2>
 
-<p>@Model.Name</p>
-<p>@Model.Surname</p>
-<p>@Model.Email</p>
+<nav class="nav-account">
 
-<div class="row">
+    <div class="container">
+
+        <div class="nav-links">
+            <a href="#">Ustawienia</a>
+            <a href="#">Historia zamówień</a>
+            <a href="#">Korespondencja</a>
+            <a href="#">Wyjście</a>
+        </div>
+
+    </div>
+
+</nav>
+
+
+<div class="account">
     <div class="col-md-4">
         <div class="profile-img">
             <img src="" alt="" />
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="account-info">
         <div class="profile-head">
-            <h5>
-                @Model.Name @Model.Surname
-            </h5>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
                 </li>
             </ul>
         </div>
+        <div class="account-about">
+            <p> @Model.FirstName @Model.Surname </p>
+            <p> @Model.Email</p>
+            <p> @Model.PhoneNumber </p>
+            <p>@Model.City</p>
+            <p>@Model.Street</p>
+            <p>@Model.StreetNumber</p>
+            <p>@Model.Postcode</p>
+            
+        </div>
+
     </div>
 </div>

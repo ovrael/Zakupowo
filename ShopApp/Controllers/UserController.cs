@@ -17,9 +17,15 @@ namespace ShopApp.Controllers
         public ActionResult Account()
         {
             AccountViewModel accountView = new AccountViewModel();
-            accountView.Name = "Jan";
+            accountView.FirstName = "Jan";
             accountView.Surname = "Kowalski";
             accountView.Email = "jan@example.pl";
+            accountView.PhoneNumber = "+48 111 222 333";
+            accountView.City = "Katowice";
+            accountView.Street = "Mickiewicza";
+            accountView.StreetNumber = 45;
+            accountView.Postcode = "40-008";
+
 
             return View(accountView);
         }
