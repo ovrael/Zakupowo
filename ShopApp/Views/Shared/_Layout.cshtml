@@ -15,12 +15,12 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="navbar-collapse collapse" id="navbarColor01" style="">
-            <form class="form-inline">
+        <div class="navbar-collapse collapse" id="navbarColor01" style="justify-content: center; width: 100%; flex-grow: unset" >
+            <form class="form-inline", style="margin-left:-113px">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
             </form>
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav" style="position: absolute; right: 14px">
                 <li class="nav-item">
                     @Html.ActionLink("Ulubione", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
                 </li>
