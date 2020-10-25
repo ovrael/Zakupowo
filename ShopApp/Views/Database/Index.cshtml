@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ShopApp.Models.User>
+
+<p>
+    @Html.ActionLink("Create New", "UserCreate")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Login)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EncryptedPassword)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+
+    <th>
+        @Html.DisplayFor(modelItem => item.UserID)
+    </th>
+    <td>
+        @Html.DisplayFor(modelItem => item.Email)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Login)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.EncryptedPassword)
+    </td>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = item.UserID }) |
+        @Html.ActionLink("Offers", "OffersIndex", new { id = item.UserID }) |
+        @Html.ActionLink("OfferCreate", "OfferCreate", new { id = item.UserID }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.UserID })
+    </td>
+</tr>
+}
+
+</table>

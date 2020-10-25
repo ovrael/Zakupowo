@@ -12,9 +12,9 @@ namespace ShopApp.Controllers
 {
     public class RegisterController : Controller
     {
-        private ShopContext db = new ShopContext();
+        // private ShopContext db = new ShopContext();
         // GET: Register
-        public ActionResult Index()
+        public ActionResult Usr()
         {
             return View();
         }
@@ -29,8 +29,8 @@ namespace ShopApp.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
-            try
-            {
+            //try
+            //{
                 // TODO: Add insert logic here
 
                 //Adding new User to database
@@ -52,8 +52,8 @@ namespace ShopApp.Controllers
                 //Creating new user, UserID and CreationDate will be declared automatically
                 User user = new User()
                 {
-                    FirstName = collection["FirstName"],
-                    LastName = collection["LastName"],
+                    //FirstName = collection["FirstName"],
+                    //LastName = collection["LastName"],
                     /*
                     BirthDate = birthDate,
                     Login = (string)ViewData["Login"],
@@ -65,17 +65,17 @@ namespace ShopApp.Controllers
                     */
                 };
 
-                db.Users.Add(user);
-                db.SaveChanges();
+               // db.Users.Add(user);
+                //db.SaveChanges();
 
 
                 return View("Success");
                 //return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            //}
+           // catch
+           // {
+           //     return View();
+           // }
         }
 
 #region NotYetUsedActions

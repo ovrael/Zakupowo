@@ -125,6 +125,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DatabaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="DAL\ShopContext.cs" />
@@ -132,10 +133,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Category.cs" />
-    <Compile Include="Utility\Cryptographing.cs" />
+    <Compile Include="Models\Bundle.cs" />
     <Compile Include="Models\Offer.cs" />
-    <Compile Include="Models\Product.cs" />
+    <Compile Include="Utility\Cryptographing.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -180,6 +180,13 @@
     <Content Include="Views\Register\Create.cshtml" />
     <Content Include="Views\Register\Index.cshtml" />
     <Content Include="Views\Register\Success.cshtml" />
+    <Content Include="Views\Database\Index.cshtml" />
+    <Content Include="Views\Database\UserCreate.cshtml" />
+    <Content Include="Views\Database\OffersIndex.cshtml" />
+    <Content Include="Views\Database\OfferCreate.cshtml" />
+    <Content Include="Views\Database\BundleIndex.cshtml" />
+    <Content Include="Views\Database\BundleCreate.cshtml" />
+    <Content Include="Views\Database\AddToBundle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -218,7 +225,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>52216</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:44312/</IISUrl>
+          <IISUrl>http://localhost:44352/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

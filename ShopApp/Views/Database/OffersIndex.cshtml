@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ShopApp.Models.Offer>
+
+<p>
+    @Html.ActionLink("Bundles", "BundleIndex", new { id = Model.Select(i => i.User.UserID).FirstOrDefault() }) |
+    @Html.ActionLink("Create new", "BundleCreate", new { id = Model.Select(i => i.User.UserID).FirstOrDefault() }) |
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stocking)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InStock)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Stocking)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InStock)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.ActionLink("Add Offer to bundle", "AddToBundle", new { id = item.OfferID }) |
+            @Html.ActionLink("Edit", "Edit", new { id = item.OfferID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.OfferID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.OfferID })
+        </td>
+    </tr>
+}
+
+</table>
