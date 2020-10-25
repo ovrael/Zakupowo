@@ -9,20 +9,36 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary navbar-fixed-top" style="top:0;width:100%;position:absolute;color:black;">
-        <div class="collapse navbar-collapse" id="navbarColor01">
-            @Html.ActionLink("Zakupowo.pl", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <ul class="navbar-nav mr-auto">
-                <li class="px-2 ">@Html.ActionLink("Strona główna", "Index", "Home")</li>
-                <li class="px-2 ">@Html.ActionLink("Konto", "Account", "User")</li>
-                <li class="px-2 ">@Html.ActionLink("Rejestracja", "Create", "Register")</li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="...">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Szukaj</button>
-            </form>
-        </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        @Html.ActionLink("Zakupowo.pl", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
+        <div class="navbar-collapse collapse" id="navbarColor01" style="justify-content: center; width: 100%; flex-grow: unset" >
+            <form class="form-inline", style="margin-left:-113px">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+            </form>
+            <ul class="navbar-nav" style="position: absolute; right: 14px">
+                <li class="nav-item">
+                    @Html.ActionLink("Ulubione", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Koszyk", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Konto
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        @Html.ActionLink("Profil", "Account", "User", new { area = "" }, new { @class = "dropdown-item" })
+                        @Html.ActionLink("Wyloguj", "Index", "Home", new { area = "" }, new { @class = "dropdown-item" })
+
+                    </div>
+                </li>
+            </ul>
+        </div>
     </nav>
     
 

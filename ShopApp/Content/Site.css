@@ -1,6 +1,4 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -33,4 +31,8 @@ textarea {
     text-decoration: none;
     color: black;
     display: block;
+}
+
+.bg-dark {
+    background-color: #002447 !important;
 }
