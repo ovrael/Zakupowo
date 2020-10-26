@@ -18,30 +18,37 @@
         <th>
             @Html.DisplayNameFor(model => model.Price)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Categories)
+        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Stocking)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.InStock)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.ActionLink("Add Offer to bundle", "AddToBundle", new { id = item.OfferID }) |
-            @Html.ActionLink("Edit", "Edit", new { id = item.OfferID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.OfferID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.OfferID })
-        </td>
-    </tr>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Title)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Stocking)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.InStock)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Price)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Categories)
+    </td>
+    <td>
+        @Html.ActionLink("Add Offer to bundle", "AddToBundle", new { id = item.OfferID }) |
+        @Html.ActionLink("Add Category to offer", "AddCategory", new { id = item.OfferID }) |
+        @Html.ActionLink("Edit", "Edit", new { id = item.OfferID }) |
+        @Html.ActionLink("Details", "Details", new { id = item.OfferID }) |
+        @Html.ActionLink("Delete", "Delete", new { id = item.OfferID })
+    </td>
+</tr>
 }
 
 </table>

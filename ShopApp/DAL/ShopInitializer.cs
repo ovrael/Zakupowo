@@ -21,6 +21,20 @@ namespace ShopApp.DAL
             };
             usrs.ForEach(u => context.Users.Add(u));
             context.SaveChanges();
+
+            var Cat = new List<Category>
+            {
+                new Category{ CategoryName=CategoryEnum.Elektronika,
+                    CategoryDescription="Wszystkie te takie z prądem"},
+                new Category{ CategoryName=CategoryEnum.ModaIUroda,
+                    CategoryDescription="Koszulka z napisem konstytucja"},
+                new Category{ CategoryName=CategoryEnum.Meble,
+                    CategoryDescription="Szafka prawie wisząca"},
+                new Category{ CategoryName=CategoryEnum.SlawekPo2Piwach,
+                    CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"}
+            };
+            Cat.ForEach(u => context.Categories.Add(u));
+            context.SaveChanges();
         }
 
     }

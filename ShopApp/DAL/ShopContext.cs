@@ -16,6 +16,7 @@ namespace ShopApp.DAL
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Offer> Offers { get; set; }
         public virtual DbSet<Bundle> Bundles { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
