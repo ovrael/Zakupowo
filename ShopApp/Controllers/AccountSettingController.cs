@@ -1,5 +1,4 @@
-﻿using ShopApp.ViewModels.User;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,55 +6,27 @@ using System.Web.Mvc;
 
 namespace ShopApp.Controllers
 {
-    public class UserController : Controller
+    public class AccountSettingController : Controller
     {
-        // GET: User
+        // GET: AccountSetting
         public ActionResult Index()
         {
             return View();
         }
-        public ActionResult Account()
-        {
-            AccountViewModel accountView = new AccountViewModel();
-            accountView.FirstName = "Jan";
-            accountView.Surname = "Kowalski";
-            accountView.Email = "jan@example.pl";
-            accountView.PhoneNumber = "+48 111 222 333";
-            accountView.City = "Katowice";
-            accountView.Street = "Mickiewicza";
-            accountView.StreetNumber = 45;
-            accountView.Postcode = "40-008";
 
-
-            return View(accountView);
-        }
-
-        public ActionResult AccountEdit()
-        {
-            return View();
-        }
-        public ActionResult AccountOrderHistory()
-        {
-            return View();
-        }
-        public ActionResult AccountAddProduct()
-        {
-            return View();
-        }
-
-        // GET: User/Details/5
+        // GET: AccountSetting/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: User/Create
+        // GET: AccountSetting/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: User/Create
+        // POST: AccountSetting/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
@@ -71,13 +42,13 @@ namespace ShopApp.Controllers
             }
         }
 
-        // GET: User/Edit/5
+        // GET: AccountSetting/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: User/Edit/5
+        // POST: AccountSetting/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -93,13 +64,13 @@ namespace ShopApp.Controllers
             }
         }
 
-        // GET: User/Delete/5
+        // GET: AccountSetting/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: User/Delete/5
+        // POST: AccountSetting/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {

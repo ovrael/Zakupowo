@@ -9,10 +9,13 @@
     <div class="container">
 
         <div class="nav-links">
-            <a href="#">Ustawienia</a>
-            <a href="#">Historia zamówień</a>
-            <a href="#">Korespondencja</a>
-            <a href="#">Wyjście</a>
+            @Html.ActionLink("Ustawienia", "AccountEdit", "User", new { area = "" }, new { @class = "nav-links" })
+            @Html.ActionLink("Historia zamówień", "AccountOrderHistory", "User", new { area = "" }, new { @class = "nav-links" })
+            @Html.ActionLink("Korespondencja", "", "", new { area = "" }, new { @class = "nav-links" })
+            @Html.ActionLink("Dodaj produkt", "AccountAddProduct", "User", new { area = "" }, new { @class = "nav-links" })
+            @Html.ActionLink("Wystawione oferty", "", "", new { area = "" }, new { @class = "nav-links" })
+            @Html.ActionLink("Wyloguj", "Index", "Home", new { area = "" }, new { @class = "nav-links" })
+
         </div>
 
     </div>
@@ -21,11 +24,11 @@
 
 
 <div class="account">
-    <div class="col-md-4">
-        <div class="profile-img">
-            <img src="" alt="" />
-        </div>
+
+    <div class="profile-img">
+        <img src="~/Images/user.jpg" width="120px" height="120px" />
     </div>
+
     <div class="account-info">
         <div class="profile-head">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -35,16 +38,27 @@
             </ul>
         </div>
 
-        <div class="account-about">
-            <p> @Model.FirstName @Model.Surname </p>
-            <p> @Model.Email</p>
-            <p> @Model.PhoneNumber </p>
-            <p>@Model.City</p>
-            <p>@Model.Street</p>
-            <p>@Model.StreetNumber</p>
-            <p>@Model.Postcode</p>
-
-        </div>
 
     </div>
+    <div class="wrapper">
+        <div class="box a" >Imię i nazwisko</div>
+        <div class="box b" style="border-right: none;">@Model.FirstName @Model.Surname</div>
+        <div class="box d">E-mail</div>
+        <div class="box e" style="border-right: none;"> @Model.Email</div>
+        <div class="box f">Telefon</div>
+        <div class="box f" style="border-right: none;">@Model.PhoneNumber</div>
+        <div class="box e">Miato</div>
+        <div class="box f" style="border-right: none;">@Model.City</div>
+        <div class="box f">Ulica</div>
+        <div class="box f" style="border-right: none;"> @Model.Street</div>
+        <div class="box f">Numer ulicy</div>
+        <div class="box e" style="border-right: none;"> @Model.StreetNumber</div>
+        <div class="box f">Kod pocztowy</div>
+        <div class="box f" style="border-right: none;"> @Model.Postcode</div>
+
+    </div>
+
+
 </div>
+
+           

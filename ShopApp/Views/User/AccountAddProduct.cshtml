@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewBag.Title = "AccountAddProduct";
+}
+
+<h2>Dodaj swoją ofertę:</h2>
+
+<nav class="nav-account">
+
+    <div class="container">
+
+        <div class="nav-links">
+            @Html.ActionLink("Ustawienia", "AccountEdit", "User", new { area = "" }, new { @class = "nav-links" })
+            @Html.ActionLink("Historia zamówień", "", "", new { area = "" }, new { @class = "nav-links" })
+            @Html.ActionLink("Korespondencja", "", "", new { area = "" }, new { @class = "nav-links" })
+            @Html.ActionLink("Dodaj produkt", "AccountAddProduct", "User", new { area = "" }, new { @class = "nav-links" })
+            @Html.ActionLink("Wystawione oferty", "", "", new { area = "" }, new { @class = "nav-links" })
+            @Html.ActionLink("Wyloguj", "Index", "Home", new { area = "" }, new { @class = "nav-links" })
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<div class="use-add-product">
+
+<form class="form-horizontal">
+    <fieldset class="add-produt">
+
+        <!-- Form Name -->
+        <legend>Dane produktu</legend>
+
+
+        <!-- Text input-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="product_name">NAZWA PRODUKTU</label>
+            <div class="col-md-4">
+                <input id="product_name" name="product_name" placeholder="PRODUCT NAME" class="form-control input-md" required="" type="text">
+
+            </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="product_name_fr">OPIS PRODUKTU </label>
+            <div class="col-md-4">
+                <input id="product_name_fr" name="product_name_fr" placeholder="PRODUCT DESCRIPTION FR" class="form-control input-md" required="" type="text">
+
+            </div>
+        </div>
+
+        <!-- Select Basic -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="product_categorie">KATEGORIA PRODUKTU</label>
+            <div class="col-md-4">
+                <select id="product_categorie" name="product_categorie" class="form-control">
+                </select>
+            </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="available_quantity">ILOŚĆ PRODUKTU</label>
+            <div class="col-md-4">
+                <input id="available_quantity" name="available_quantity" placeholder="AVAILABLE QUANTITY" class="form-control input-md" required="" type="text">
+
+            </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="product_weight">WAGA PRODUKTU</label>
+            <div class="col-md-4">
+                <input id="product_weight" name="product_weight" placeholder="PRODUCT WEIGHT" class="form-control input-md" required="" type="text">
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="product_weight">CENA</label>
+            <div class="col-md-4">
+                <input id="product_weight" name="product_weight" placeholder="PRODUCT WEIGHT" class="form-control input-md" required="" type="text">
+
+            </div>
+        </div>
+
+
+
+
+        <!-- File Button -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="filebutton">Główny obraz</label>
+            <div class="col-md-4">
+                <input id="filebutton" name="filebutton" class="input-file" type="file">
+            </div>
+        </div>
+        <!-- File Button -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="filebutton">Obrazy poboczne</label>
+            <div class="col-md-4">
+                <input id="filebutton" name="filebutton" class="input-file" type="file">
+            </div>
+        </div>
+
+        <!-- Button -->
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="singlebutton"></label>
+            <div class="col-md-4">
+                <button id="singlebutton" name="singlebutton" class="btn btn-primary">Dodaj produkt</button>
+            </div>
+        </div>
+
+    </fieldset>
+</form>
+</div>

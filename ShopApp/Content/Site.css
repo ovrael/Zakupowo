@@ -6,6 +6,8 @@
    
     padding-left: 15px;
     padding-right: 15px;
+  
+ 
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -21,18 +23,370 @@ input,
 select,
 textarea {
     max-width: 280px;
+
 }
 
+
+/*user profil*/
 .account-info .account-about {
-    margin-top: 20px;
-}
-.nav-account .container {
-    padding: 12px;
-    text-decoration: none;
-    color: black;
-    display: block;
+    margin-top: 50px;
 }
 
 .bg-dark {
     background-color: #002447 !important;
+    border-bottom: 6px solid #FFB24A;
+}
+
+.nav-account .container {
+    border-top: 6px solid #FFB24A;
+    height: 100%;
+    width: 210px;
+    position: fixed;
+    z-index: 1;
+    top: 65px;
+    left: 0;
+    background-color: #DCDCDC;
+    overflow-x: hidden;
+    padding-top: 20px;
+    display: flex;
+}
+    .nav-account .container .nav-links a{
+        padding: 6px 8px 6px 20px;
+        text-decoration: none;
+        font-size: 18px;
+        color: white;
+        display: block;
+       
+    }
+    .nav-account .container .nav-links :hover {
+        color: #f1f1f1;
+    }
+
+.account  .profile-img {
+    margin-left:-120px;
+}
+
+
+/*user profil edit*/
+
+body {
+    background: #f9f9fb;
+}
+.use-add-product
+{
+    background:red !important;
+}
+
+    .view-account .pro-label {
+        font-size: 13px;
+        padding: 4px 5px;
+        position: relative;
+        top: -5px;
+        margin-left: 10px;
+        display: inline-block
+    }
+
+    .view-account .side-bar {
+        padding-bottom: 30px;
+        padding-top:10px;
+    }
+
+        .view-account .side-bar .user-info {
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 30px;
+            color: #616670;
+            border-bottom: 1px solid #f3f3f3;
+        }
+
+
+        .view-account .side-bar .side-menu {
+            text-align: center
+        }
+
+            .view-account .side-bar .side-menu .nav {
+                display: inline-block;
+                margin: 0 auto
+            }
+
+                .view-account .side-bar .side-menu .nav > li {
+                    font-size: 14px;
+                    margin-bottom: 0;
+                    border-bottom: none;
+                    display: inline-block;
+                    float: left;
+                    margin-right: 15px;
+                    margin-bottom: 15px
+                }
+
+                    .view-account .side-bar .side-menu .nav > li:last-child {
+                        margin-right: 0
+                    }
+
+                    .view-account .side-bar .side-menu .nav > li > a {
+                        display: inline-block;
+                        color: #002447;
+                        padding: 5px;
+                        
+                    }
+
+
+
+                    .view-account .side-bar .side-menu .nav > li.active a {
+                        color: #002447;
+                        
+                        background: none;
+                        border-right: none
+                    }
+
+
+
+.view-account .side-bar .side-menu .nav > li .icon {
+    display: block;
+    font-size: 24px;
+    margin-bottom: 5px
+}
+
+.view-account .content-panel {
+    padding: 30px
+}
+
+    .view-account .content-panel .title {
+        margin-bottom: 15px;
+        margin-top: 0;
+        font-size: 18px
+    }
+
+    .view-account .content-panel .fieldset-title {
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eaeaf1;
+        margin-bottom: 30px;
+        color: #616670;
+        font-size: 16px
+    }
+
+
+    .view-account .content-panel .content-header-wrapper {
+        position: relative;
+        margin-bottom: 30px
+    }
+
+        .view-account .content-panel .content-header-wrapper .actions {
+            position: absolute;
+            right: 0;
+            top: 0
+        }
+
+    .view-account .content-panel .content-utilities {
+        position: relative;
+        margin-bottom: 30px
+    }
+
+        .view-account .content-panel .content-utilities .btn-group {
+            margin-right: 5px;
+            margin-bottom: 15px
+        }
+
+        .view-account .content-panel .content-utilities .fa {
+            font-size: 16px;
+            margin-right: 0
+        }
+
+        .view-account .content-panel .content-utilities .page-nav {
+            position: absolute;
+            right: 0;
+            top: 0
+        }
+
+            .view-account .content-panel .content-utilities .page-nav .btn-group {
+                margin-bottom: 0
+            }
+
+            .view-account .content-panel .content-utilities .page-nav .indicator {
+                color: #a2a6af;
+                margin-right: 5px;
+                display: inline-block
+            }
+
+    .view-account .content-panel .mails-wrapper .mail-item {
+        position: relative;
+        padding: 10px;
+        border-bottom: 1px solid #f3f3f3;
+        color: #616670;
+        overflow: hidden
+    }
+
+
+
+
+
+@media (max-width:767px) {
+    .view-account .content-panel .title {
+        text-align: center
+    }
+
+    .view-account .side-bar .user-info {
+        padding: 0
+    }
+
+        .view-account .side-bar .user-info .img-profile {
+            width: 60px;
+            height: 60px
+        }
+
+        .view-account .side-bar .user-info .meta li {
+            margin-bottom: 5px
+        }
+
+    .view-account .content-panel .content-header-wrapper .actions {
+        position: static;
+        margin-bottom: 30px
+    }
+
+    .view-account .content-panel {
+        padding: 0
+    }
+
+        .view-account .content-panel .content-utilities .page-nav {
+            position: static;
+            margin-bottom: 15px
+        }
+
+    .drive-wrapper .drive-item {
+        width: 100px;
+        margin-right: 5px;
+        float: none
+    }
+
+    .drive-wrapper .drive-item-thumb {
+        width: auto;
+        height: 54px
+    }
+
+        .drive-wrapper .drive-item-thumb .fa {
+            font-size: 24px;
+            padding-top: 0
+        }
+
+    .view-account .content-panel .avatar .figure img {
+        float: none;
+        margin-bottom: 15px
+    }
+
+    .view-account .file-uploader {
+        margin-bottom: 15px
+    }
+
+    .view-account .mail-subject {
+        max-width: 100px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis
+    }
+
+    .view-account .content-panel .mails-wrapper .mail-item .time-container {
+        position: static
+    }
+
+        .view-account .content-panel .mails-wrapper .mail-item .time-container .time {
+            width: auto;
+            text-align: left
+        }
+}
+
+@media (min-width:768px) {
+    .view-account .side-bar .user-info {
+        padding: 0;
+        padding-bottom: 15px
+    }
+
+    .view-account .mail-subject .subject {
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis
+    }
+}
+
+@media (min-width:992px) {
+    .view-account .content-panel {
+        min-height: 800px;
+        border-left: 1px solid #FFB24A;
+        margin-left: 200px
+    }
+
+    .view-account .mail-subject .subject {
+        max-width: 280px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis
+    }
+
+    .view-account .side-bar {
+        position: absolute;
+        width: 200px;
+        min-height: 600px
+    }
+
+        .view-account .side-bar .user-info {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding: 30px
+        }
+
+
+        .view-account .side-bar .side-menu {
+            text-align: left
+        }
+
+            .view-account .side-bar .side-menu .nav {
+                display: block
+            }
+
+                .view-account .side-bar .side-menu .nav > li {
+                    display: block;
+                    float: none;
+                    font-size: 14px;
+                    border-bottom: 1px solid #f3f3f7;
+                    margin-right: 0;
+                    margin-bottom: 0
+                }
+
+                    .view-account .side-bar .side-menu .nav > li > a {
+                        display: block;
+                        color: #FFB24A;
+                        padding: 10px 15px;
+                        padding-left: 30px
+                    }
+
+                        .view-account .side-bar .side-menu .nav > li > a:hover {
+                            background: #FFB24A;
+                        }
+
+                    .view-account .side-bar .side-menu .nav > li.active a {
+                        background: #f9f9fb;
+                        border-right: 4px solid #FFB24A;
+                        ;
+                        border-bottom: none
+                    }
+
+   
+    .view-account .side-bar .side-menu .nav > li .icon {
+        font-size: 24px;
+        vertical-align: middle;
+        text-align: center;
+        width: 40px;
+        display: inline-block
+    }
+}
+
+
+/*AccountOrderHistory*/
+body {
+   
+    background: red;
+}
+.form-horizontal .add-produt{
+    background: #FFFFFF;
+    margin-top:25px;
 }

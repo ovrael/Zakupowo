@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Twoje zamówieia";
+}
+
+<h2>AccountOrderHistory</h2>
+<nav class="nav-account">
+
+    <div class="container">
+
+        <div class="nav-links">
+            @Html.ActionLink("Ustawienia", "AccountEdit", "User", new { area = "" }, new { @class = "nav-links" })
+            @Html.ActionLink("Historia zamówień", "", "", new { area = "" }, new { @class = "nav-links" })
+            @Html.ActionLink("Korespondencja", "", "", new { area = "" }, new { @class = "nav-links" })
+            @Html.ActionLink("Dodaj produkt", "AccountAddProduct", "User", new { area = "" }, new { @class = "nav-links" })
+            @Html.ActionLink("Wystawione oferty", "", "", new { area = "" }, new { @class = "nav-links" })
+            @Html.ActionLink("Wyloguj", "Index", "Home", new { area = "" }, new { @class = "nav-links" })
+
+        </div>
+
+    </div>
+
+</nav>
+
+

@@ -1,0 +1,130 @@
+﻿@{
+    ViewBag.Title = "User edit page";
+}
+
+
+
+<h1 class="p-3">
+    Edycja ustawień konta
+</h1>
+<nav class="nav-account">
+
+<div class="container">
+
+    <div class="nav-links">
+        @Html.ActionLink("Ustawienia", "AccountEdit", "User", new { area = "" }, new { @class = "nav-links" })
+        @Html.ActionLink("Historia zamówień", "", "", new { area = "" }, new { @class = "nav-links" })
+        @Html.ActionLink("Korespondencja", "", "", new { area = "" }, new { @class = "nav-links" })
+        @Html.ActionLink("Dodaj produkt", "AccountAddProduct", "User", new { area = "" }, new { @class = "nav-links" })
+        @Html.ActionLink("Wystawione oferty", "", "", new { area = "" }, new { @class = "nav-links" })
+        @Html.ActionLink("Wyloguj", "Index", "Home", new { area = "" }, new { @class = "nav-links" })
+
+    </div>
+
+</div>
+
+</nav>
+
+<div class="container">
+    <div class="view-account">
+        <section class="module">
+            <div class="module-inner">
+                <div class="side-bar">
+                    <div class="user-info">
+
+                        <ul class="meta list list-unstyled">
+                            <li class="name">
+                                Jan Kowalski
+                           </li>
+                        </ul>
+                    </div>
+                    <nav class="side-menu">
+                        <ul class="nav">
+                            <li class="active"><a href="#"><span class="fa fa-user"></span> Profil</a></li>
+
+                        </ul>
+                    </nav>
+                </div>
+                <div class="content-panel">
+                    <form class="form-horizontal">
+                        <fieldset class="fieldset">
+                            <h3 class="fieldset-title">Personal Info</h3>
+
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Nazwa użytkownika</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Imię</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Nazwisko</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset class="fieldset">
+                            <h3 class="fieldset-title">Contact Info</h3>
+                            <div class="form-group">
+                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Email</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input type="email" class="form-control">
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Miato</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Ulica</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Numer ulicy/domu</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Kod pocztowy</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Nowe hasło</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Powtórz hasło</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                        </fieldset>
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
+                                <input class="btn btn-primary" type="submit" value="Zmień dane">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

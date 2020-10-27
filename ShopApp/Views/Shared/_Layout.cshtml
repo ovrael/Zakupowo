@@ -7,39 +7,50 @@
     <title>@ViewBag.Title - Shop site.</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
     <link href="@Url.Content("~/css/Style.css")" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        @Html.ActionLink("Zakupowo.pl", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-white justify-content-between">
+        <a class="nav-item active navbar-brand " href="index.html">Dom aukcyjny</a>
+        <button class="col-2 navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
-        <div class="navbar-collapse collapse" id="navbarColor01" style="justify-content: center; width: 100%; flex-grow: unset" >
-            <form class="form-inline", style="margin-left:-113px">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
-            </form>
-            <ul class="navbar-nav" style="position: absolute; right: 14px">
+        <div class="collapse navbar-collapse col-lg-4 order-lg-8" id="navbarSupportedContent">
+            <ul class="navbar-nav w-100 justify-content-end">
                 <li class="nav-item">
-                    @Html.ActionLink("Ulubione", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
+                    <a class="nav-link mx-4" id="chatLink"><i class="fas fa-envelope fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Wiadomości</p></a>
                 </li>
                 <li class="nav-item">
-                    @Html.ActionLink("Koszyk", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
+                    <a class="nav-link mx-4" id="favouriteLink"><i class="fas fa-heart fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Ulubione</p></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mx-4" id="cartLink"><i class="fas fa-shopping-cart fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Koszyk</p></a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Konto
+                    <a class="nav-link mx-4 dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Konto</p><i class="fas fa-sort-down ml-1 ml-lg-0"></i>
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        @Html.ActionLink("Profil", "Account", "User", new { area = "" }, new { @class = "dropdown-item" })
-                        @Html.ActionLink("Wyloguj", "Index", "Home", new { area = "" }, new { @class = "dropdown-item" })
-
+                    <div class="dropdown-menu dropdown-menu-right mt-lg-2 text-center animate slideIn" aria-labelledby="navbarDropdownMenuLink">
+                        blablabla
+                        @*<p class="p-2 d-none d-lg-block">
+                            Zaloguj się i zobacz swoje zakupy, ulubione oferty oraz wiadomości. W Domu Aukcyjnym zakupy są łatwe!
+                        </p>
+                        <a class="dropdown-item" id="logInItem" href="login.html">Zaloguj się</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="register.html">Zarejestruj się</a>*@
                     </div>
                 </li>
             </ul>
         </div>
+        <form class="form-inline col-lg-4" id="searchForm">
+            <div class="input-group mt-2 mt-lg-0 w-100">
+                <input type="search" class="form-control" id="searchbar" placeholder="Szukaj produktu..." aria-label="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary" id="searchButton" type="submit"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </form>
     </nav>
     
 
