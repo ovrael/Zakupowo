@@ -1,4 +1,5 @@
 ﻿body {
+    background-color: #F0EEEE !important;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -28,6 +29,7 @@ textarea {
 
 
 /*user profil*/
+
 .account-info .account-about {
     margin-top: 50px;
 }
@@ -62,8 +64,37 @@ textarea {
         color: #f1f1f1;
     }
 
-.account  .profile-img {
-    margin-left:-120px;
+@media (max-width:767px) {
+
+    .nav-account .container {
+        background-color: red;
+        position: relative;
+        min-height: 100vh;
+        padding-top: 100px;
+        padding-bottom: 2.5rem;
+    }
+
+
+
+}
+
+
+
+.wrapper {
+    display: grid;
+    grid-template-columns: 300px 300px;
+    grid-gap: 10px;
+    background-color: #fff;
+    color: #444;
+    border: 1px solid #FFB24A;
+}
+
+.box {
+    background-color: #fff;
+    color: black;
+    padding: 20px;
+    font-size: 100%;
+    border-right: solid #FFB24A ;
 }
 
 
@@ -72,10 +103,7 @@ textarea {
 body {
     background: #f9f9fb;
 }
-.use-add-product
-{
-    background:red !important;
-}
+
 
     .view-account .pro-label {
         font-size: 13px;
@@ -381,12 +409,23 @@ body {
 }
 
 
-/*AccountOrderHistory*/
-body {
-   
-    background: red;
-}
+AccountOrderHistory
 .form-horizontal .add-produt{
     background: #FFFFFF;
     margin-top:25px;
 }
+.use-add-product {
+    
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 8px;
+    background: #FFFFFF;
+}
+@media (max-width:767px) {
+    .form-horizontal .add-produt {
+        text-align: center;
+    }
+}
+
+/*//Responsywne said menu 
+*/

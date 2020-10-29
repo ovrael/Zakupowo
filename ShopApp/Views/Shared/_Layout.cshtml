@@ -7,7 +7,16 @@
     <title>@ViewBag.Title - Shop site.</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <!--BootstrapCDN-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <!--FontAwesomeCDN-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+    <!--CustomCSS-->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!--GoogleFonts-->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Staatliches&display=swap" rel="stylesheet">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="@Url.Content("~/css/Style.css")" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -19,7 +28,8 @@
         <div class="collapse navbar-collapse col-lg-4 order-lg-8" id="navbarSupportedContent">
             <ul class="navbar-nav w-100 justify-content-end">
                 <li class="nav-item">
-                    <a class="nav-link mx-4" id="chatLink"><i class="fas fa-envelope fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Wiadomości</p></a>
+                    <a class="nav-link mx-4" id="chatLink" href="@Url.Action("About", "Home")"><i class="fas fa-envelope fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Wiadomości</p></a>
+
                 </li>
                 <li class="nav-item">
                     <a class="nav-link mx-4" id="favouriteLink"><i class="fas fa-heart fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Ulubione</p></a>
@@ -32,13 +42,14 @@
                         <i class="fas fa-user fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Konto</p><i class="fas fa-sort-down ml-1 ml-lg-0"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right mt-lg-2 text-center animate slideIn" aria-labelledby="navbarDropdownMenuLink">
-                        blablabla
+                        @Html.ActionLink("Profil", "Account", "User", new { area = "" }, new { @class = "nav-links" })
+                        @Html.ActionLink("Wyloguj", "", "", new { area = "" }, new { @class = "nav-links" })
                         @*<p class="p-2 d-none d-lg-block">
-                            Zaloguj się i zobacz swoje zakupy, ulubione oferty oraz wiadomości. W Domu Aukcyjnym zakupy są łatwe!
-                        </p>
-                        <a class="dropdown-item" id="logInItem" href="login.html">Zaloguj się</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="register.html">Zarejestruj się</a>*@
+                                Zaloguj się i zobacz swoje zakupy, ulubione oferty oraz wiadomości. W Domu Aukcyjnym zakupy są łatwe!
+                            </p>
+                            <a class="dropdown-item" id="logInItem" href="login.html">Zaloguj się</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="register.html">Zarejestruj się</a>*@
                     </div>
                 </li>
             </ul>
@@ -52,7 +63,26 @@
             </div>
         </form>
     </nav>
-    
+    <div class="container">
+        <div class="row">
+            <div class="col">
+
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="row footer text-center">
+            <div class="col-12 my-auto">
+                ©2020 website created for educational purpose
+            </div>
+        </div>
+    </footer>
+    <!--BootstrapJS-->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <!--CustomJS-->
+    <script src="js/index.js" type="text/javascript"></script>
 
 
 
@@ -64,6 +94,6 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     <script src="~/Scripts/Scripts.js"></script>
-    
+
 </body>
 </html>
