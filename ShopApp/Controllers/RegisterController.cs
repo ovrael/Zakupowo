@@ -3,6 +3,7 @@ using ShopApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -22,60 +23,32 @@ namespace ShopApp.Controllers
         // GET: Register/Create
         public ActionResult Create()
         {
-            return View();
+            User user = new User();
+
+
+            return View(user);
+            
         }
 
         // POST: Register/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(User user)
         {
-            //try
-            //{
-                // TODO: Add insert logic here
-
-                //Adding new User to database
-                /*
-                ViewData["FirstName"] = collection[1];
-                ViewData["LastName"] = collection[2];
-                ViewData["BirthDate"] = collection[3];
-                ViewData["Login"] = collection[4];
-                ViewData["EncryptedPassword"] = collection[5];
-                ViewData["Email"] = collection[6];
-                ViewData["Phone"] = collection[7];
-                ViewData["Country"] = collection[8];
-                ViewData["City"] = collection[9];
-
-                var context = new ShopEntities();
-
-                DateTime.TryParse((string)ViewData["BirthDate"], out DateTime birthDate);
-                */
-                //Creating new user, UserID and CreationDate will be declared automatically
-                User user = new User()
-                {
-                    //FirstName = collection["FirstName"],
-                    //LastName = collection["LastName"],
-                    /*
-                    BirthDate = birthDate,
-                    Login = (string)ViewData["Login"],
-                    EncryptedPassword = Cryptographing.Encrypt((string)ViewData["EncryptedPassword"]),
-                    Email = (string)ViewData["Email"],
-                    Phone = (string)ViewData["Phone"],
-                    Country = (string)ViewData["Country"],
-                    City = (string)ViewData["City"],
-                    */
-                };
-
-               // db.Users.Add(user);
-                //db.SaveChanges();
+            if (user.ImageUpload != null)
+            {
+                string fileName = Path.GetFileNameWithoutExtension(user.ImageUpload.FileName);
+                string extension = Path.GetExtension(user.ImageUpload.FileName);
+                fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                user.ImagePath = "~/AppFiles/Images/" + fileName;
+                user.ImageUpload.SaveAs(Path.Combine(Server.MapPath("~/AppFiles/Images/"), fileName));
 
 
-                return View("Success");
-                //return RedirectToAction("Index");
-            //}
-           // catch
-           // {
-           //     return View();
-           // }
+            }
+
+            db.Users.Add(user);
+            db.SaveChanges();
+            ViewBag.Message = db.Users.ToList();
+            return View();
         }
 
 #region NotYetUsedActions
