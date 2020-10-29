@@ -4,26 +4,52 @@
 
 
 
-<h2 class="p-3">
-    Edycja ustawień konta
-</h2>
-<nav class="nav-account">
 
-<div class="container">
+<div class="wrapper">
+    <div class="sidebar">
+        <div class="bg_shadow"></div>
+        <div class="sidebar__inner">
+            <div class="close">
+                <i class="fas fa-times"></i>
+            </div>
 
-    <div class="nav-links">
-        @Html.ActionLink("Ustawienia", "AccountEdit", "User", new { area = "" }, new { @class = "nav-links" })
-        @Html.ActionLink("Historia zamówień", "", "", new { area = "" }, new { @class = "nav-links" })
-        @Html.ActionLink("Korespondencja", "", "", new { area = "" }, new { @class = "nav-links" })
-        @Html.ActionLink("Dodaj produkt", "AccountAddProduct", "User", new { area = "" }, new { @class = "nav-links" })
-        @Html.ActionLink("Wystawione oferty", "", "", new { area = "" }, new { @class = "nav-links" })
-        @Html.ActionLink("Wyloguj", "Index", "Home", new { area = "" }, new { @class = "nav-links" })
+            <ul class="siderbar_menu">
+                <li>
+                    <a href="@Url.Action("Account", "User")">
+                        <div class="icon"><i class="fa fa-user"></i></div>
+                        <div class="title">Profil</div>
 
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("AccountAddProduct", "User")" >
+                        <div class="icon"><i class="fa fa-plus"></i></div>
+                        <div class="title">Dodaj produkt</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("AccountOrderHistory", "User")">
+                        <div class="icon"><i class="fas fa-file-alt"></i></div>
+                        <div class="title">Historia</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("AccountEdit", "User")" class="active">
+                        <div class="icon"><i class="fas fa-cog"></i></div>
+                        <div class="title">Ustawienia</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="icon"><i class="fa fa-reply"></i></div>
+                        <div class="title">Wyloguj</div>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 
 </div>
-
-</nav>
 
 <div class="container">
     <div class="view-account">

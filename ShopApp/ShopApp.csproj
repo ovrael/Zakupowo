@@ -164,7 +164,8 @@
     <Compile Include="ViewModels\User\AccountViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AppFiles\Images\image.jpg" />
+    <Content Include="AppFiles\Images\avatar.jpg" />
+    <Content Include="AppFiles\Images\user2.jpg" />
     <Content Include="aspnet-mvc.gitignore" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
