@@ -24,8 +24,9 @@ namespace ShopApp.Models
         [MaxLength(200)]
         public string EncryptedPassword { get; set; }
         //[ForeignKey("UserID")]
+        public virtual Bucket Bucket { get; set; }
+        public virtual ICollection<Auction> Auction { get; set; }
         public virtual ICollection<Offer> Offers { get; set; }
         public virtual ICollection<Bundle> Bundles { get; set; }
-
     }
 }

@@ -122,6 +122,7 @@ namespace ShopApp.Controllers
             }
             return RedirectToAction("BundleIndex", new {id});
         }
+        //Add detail action to view more about specific bundle.
         #endregion
 
         #region Category database manipultion
@@ -130,90 +131,56 @@ namespace ShopApp.Controllers
             return View(db.Categories);
         }
 
-
-
-
         [HttpPost]
         public ActionResult AddCategory(FormCollection collection, int id)//Param is most likely a Offer's ID
         {
-            var offr = db.Offers.Where(i => i.OfferID == id).First();
+            var offr = db.Offers.Where(i => i.OfferID == id).First();//Lookinf for the exact offer
             var Checked = collection["CategoryID"].Split(',');//List of checked categories
+            int ID;// Foreach helper
             foreach (var item in Checked)
-            { 
+            {
+                ID = int.Parse(item);
                 //TU SIE PSUJE STRASZNIE FEST
-                (db.Categories.Where(i => i.CategoryID == int.Parse(item)).First())
+                (db.Categories.Where(i => i.CategoryID == ID).First())
                     .Offers.Add(db.Offers.Where(x=>x.OfferID == id).First());
-                offr.Categories.Add(db.Categories.Where(i => i.CategoryID == int.Parse(item)).First());
+                offr.Categories.Add(db.Categories.Where(i => i.CategoryID == ID).First());
             }
             db.SaveChanges();
             //If(ModelState.IsValid)
-            int Id = db.Users.Where(i => i.Offers.First().OfferID == id).Select(i => i.UserID).First();
-            return RedirectToAction("OffersIndex", "RegisterController", new { id = Id });
+            int Id = db.Users.Where(i => i.UserID == offr.User.UserID).Select(i => i.UserID).First();
+            return RedirectToAction("OffersIndex", "Database", new { id = Id });
         }
-
-
-
-
-
-
-        //public ActionResult AddToCategory(int id)
-        //{
-        //    return View();
-        //}
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult OfferCreate([Bind(Include = "Title,Stocking,InStock,Price")] Offer Offr, int id)
-        //{
-        //    Offr.User = db.Users.ToList().Where(i => i.UserID == id).First();
-        //    //TODO: Require a ModelState.IsValid
-        //    db.Offers.Add(Offr);// First we need to add it to proper table before really using it then save
-        //    db.SaveChanges();
-        //    var ofr = db.Offers.Where(i => i.User.UserID == id && i.OfferID == Offr.OfferID).First();//We look for exact offer
-        //    ofr.User.Offers.Add(ofr);// Adding the proper offer's object to a user
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");//Returning
-        //                                     //   }
-        //                                     //  return RedirectToAction("Index");
-        //}
 
         #endregion
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        #region Bucket Database Manipultion
 
-        public ActionResult Details(int id)
+        //Every user has his own unique bucket consisting other user's offers. Bucket represents shopping list which leads to shopping finalization.
+        public ActionResult BucketIndex(int Id)//User ID
         {
-            return View();
+            var User = db.Users.Where(i => i.UserID == Id).First();
+            return View(User.Bucket.Offers);
         }
-
-        public ActionResult Delete(int id)
+        public ActionResult AddToBucket(int Id)//Offer ID 
         {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
+            //Finding the specific user
+            var Offer = (db.Offers.Where(i => i.OfferID == Id).First());
+            var Usr = Offer.User;
+            if (Usr.Bucket == null)
             { 
-                return RedirectToAction("Index");
+            Usr.Bucket = new Bucket();
+            db.Buckets.Add(Usr.Bucket);
+            db.SaveChanges();
             }
-            catch
-            {
-                return View();
-            }
+            Usr.Bucket.Offers.Add(Offer);
+            db.SaveChanges();
+            return RedirectToAction("OffersIndex", "Database", new { id = Usr.UserID });
         }
+
+
+
+
+
+
+        #endregion
     }
 }

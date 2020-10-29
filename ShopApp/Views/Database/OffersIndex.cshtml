@@ -39,12 +39,18 @@
         @Html.DisplayFor(modelItem => item.Price)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => item.Categories)
+        @for (int x = 0; x < item.Categories.Count; x++)
+        { 
+            <p>
+                @item.Categories.ElementAt(x).CategoryName
+            </p>
+         }
     </td>
     <td>
         @Html.ActionLink("Add Offer to bundle", "AddToBundle", new { id = item.OfferID }) |
         @Html.ActionLink("Add Category to offer", "AddCategory", new { id = item.OfferID }) |
         @Html.ActionLink("Edit", "Edit", new { id = item.OfferID }) |
+        @Html.ActionLink("Add offer to bucket", "AddToBucket", new { id = item.OfferID }) |
         @Html.ActionLink("Details", "Details", new { id = item.OfferID }) |
         @Html.ActionLink("Delete", "Delete", new { id = item.OfferID })
     </td>

@@ -133,6 +133,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Auction.cs" />
+    <Compile Include="Models\Bucket.cs" />
     <Compile Include="Models\Bundle.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Offer.cs" />
@@ -189,6 +191,7 @@
     <Content Include="Views\Database\BundleCreate.cshtml" />
     <Content Include="Views\Database\AddToBundle.cshtml" />
     <Content Include="Views\Database\AddCategory.cshtml" />
+    <Content Include="Views\Database\BucketIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
