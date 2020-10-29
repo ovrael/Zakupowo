@@ -20,7 +20,6 @@ namespace ShopApp.Models
         [Required]
         public double Price { get; set; }
         [Required]
-        //[ForeignKey("OfferID")]
         public virtual User User { get; set; }
         public virtual Bundle Bundle { get; set; }
         public virtual Bucket Bucket { get; set; }

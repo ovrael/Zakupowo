@@ -11,14 +11,21 @@ namespace ShopApp.Models
     {
         [Key]
         public int AuctionID {get; set;}
-        [ForeignKey("User")]
-        public virtual User Bidder { get; set; }
-        [ForeignKey("User")]
-        public virtual User Winner { get; set; }
+        [Required]
         public double Price { get; set; }
+        [Required]
+        [Column("Title", TypeName = "char")]
+        [MaxLength(400)]
         public string Title { get; set; }
-        public string Description { get; set; }
+        [Required]
+        public string Descriptioon { get; set; }
+        [Required]
+        public virtual ICollection<User> Bidder { get; set; }
+        [Required]
+        public virtual User Winner { get; set; }
+        [Column("CreationDate", TypeName = "datetime2")]
         public DateTime StartDate { get; set; }
+        [Column("CreationDate", TypeName = "datetime2")]
         public DateTime EndDate { get; set; }
     }
 }

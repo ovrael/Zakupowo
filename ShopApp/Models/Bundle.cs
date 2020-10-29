@@ -13,6 +13,8 @@ namespace ShopApp.Models
         [Required]
         public double BundlePriceSum { get; set; }
         [Required]
+        [Column("Title", TypeName = "char")]
+        [MaxLength(400)]
         public string Title { get; set; }
         public virtual ICollection<Offer> Offers { get; set; }
         public virtual User User { get; set; }

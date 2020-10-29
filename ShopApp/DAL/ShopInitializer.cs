@@ -16,8 +16,15 @@ namespace ShopApp.DAL
         {
             var usrs = new List<User>
             {
-                new User{ Email="Mail@SeedUsr.com", Login="LoginSeedUsr",
-                    EncryptedPassword="PasswwordSeedUsr"}
+                new User{ Email="Mail@SeedUsr.com",
+                    Login="LoginSeedUsr",
+                    EncryptedPassword="PasswwordSeedUsr",
+                    FirstName ="Imie",
+                    LastName="Nazwisko",
+                    Phone ="123456789",
+                    Country = "Polska",
+                    City = "Katowice"
+                }
             };
             usrs.ForEach(u => context.Users.Add(u));
             context.SaveChanges();

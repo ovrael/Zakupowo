@@ -138,6 +138,7 @@
     <Compile Include="Models\Bundle.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Offer.cs" />
+    <Compile Include="Models\Transaction.cs" />
     <Compile Include="Utility\Cryptographing.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

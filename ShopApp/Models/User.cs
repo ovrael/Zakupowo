@@ -23,8 +23,32 @@ namespace ShopApp.Models
         [Column("EncryptedPassword", TypeName = "char")]
         [MaxLength(200)]
         public string EncryptedPassword { get; set; }
-        //[ForeignKey("UserID")]
+        [Required]
+        [Column("FirstName", TypeName = "char")]
+        [MaxLength(50)]
+        public string FirstName { get; set; }
+        [Required]
+        [Column("LastName", TypeName = "char")]
+        [MaxLength(50)]
+        public string LastName { get; set; }
+        [Required]
+        [Column("Phone", TypeName = "char")]
+        [MaxLength(12)]
+        public string Phone { get; set; }
+        [Required]
+        [Column("Country", TypeName = "char")]
+        [MaxLength(50)]
+        public string Country { get; set; }
+        [Required]
+        [Column("City", TypeName = "char")]
+        [MaxLength(50)]
+        public string City { get; set; }
+        [Column("BirthDate", TypeName = "datetime2")]
+        public DateTime BirthDate { get; set; }
+        [Column("CreationDate", TypeName = "datetime2")]
+        public DateTime CreationDate { get; set; } = DateTime.Now;
         public virtual Bucket Bucket { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<Auction> Auction { get; set; }
         public virtual ICollection<Offer> Offers { get; set; }
         public virtual ICollection<Bundle> Bundles { get; set; }

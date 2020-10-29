@@ -16,6 +16,7 @@ namespace ShopApp.DAL
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Auction> Auctions { get; set; }
         public virtual DbSet<Offer> Offers { get; set; }
+        public virtual DbSet<Transaction> Transactions { get; set; }
         public virtual DbSet<Bundle> Bundles { get; set; }
         public virtual DbSet<Bucket> Buckets { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
