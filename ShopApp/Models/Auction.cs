@@ -23,9 +23,9 @@ namespace ShopApp.Models
         public virtual ICollection<User> Bidder { get; set; }
         [Required]
         public virtual User Winner { get; set; }
-        [Column("CreationDate", TypeName = "datetime2")]
+        [Column("StartDate", TypeName = "datetime2")]
         public DateTime StartDate { get; set; }
-        [Column("CreationDate", TypeName = "datetime2")]
+        [Column("EndDate", TypeName = "datetime2")]
         public DateTime EndDate { get; set; }
     }
 }

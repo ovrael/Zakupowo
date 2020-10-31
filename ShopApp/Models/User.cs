@@ -47,7 +47,7 @@ namespace ShopApp.Models
         [Column("BirthDate", TypeName = "datetime2")]
         public DateTime BirthDate { get; set; }
         [Column("CreationDate", TypeName = "datetime2")]
-        public DateTime CreationDate { get; set; } = DateTime.Now;
+        public DateTime CreationDate { get; set; } 
         public virtual Bucket Bucket { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<Auction> Auction { get; set; }

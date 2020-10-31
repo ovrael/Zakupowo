@@ -137,23 +137,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202010232056498_InitialCreate.cs" />
-    <Compile Include="Migrations\202010232056498_InitialCreate.Designer.cs">
-      <DependentUpon>202010232056498_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202010232110108_updatingUser.cs" />
-    <Compile Include="Migrations\202010232110108_updatingUser.Designer.cs">
-      <DependentUpon>202010232110108_updatingUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202010232312459_User model update.cs" />
-    <Compile Include="Migrations\202010232312459_User model update.Designer.cs">
-      <DependentUpon>202010232312459_User model update.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202010240853025_EmptyMigration.cs" />
-    <Compile Include="Migrations\202010240853025_EmptyMigration.Designer.cs">
-      <DependentUpon>202010240853025_EmptyMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\Bucket.cs" />
     <Compile Include="Models\Bundle.cs" />
@@ -300,8 +283,6 @@
     <Content Include="Views\Register\Create.cshtml" />
     <Content Include="Views\Register\Index.cshtml" />
     <Content Include="Views\Register\Success.cshtml" />
-    <Content Include="Views\Database\Index.cshtml" />
-    <Content Include="Views\Database\UserCreate.cshtml" />
     <Content Include="Views\Database\OffersIndex.cshtml" />
     <Content Include="Views\Database\OfferCreate.cshtml" />
     <Content Include="Views\Database\BundleIndex.cshtml" />
@@ -321,6 +302,8 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Database\UserCreate.cshtml" />
+    <Content Include="Views\Database\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -333,20 +316,6 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202010232056498_InitialCreate.resx">
-      <DependentUpon>202010232056498_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202010232110108_updatingUser.resx">
-      <DependentUpon>202010232110108_updatingUser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202010232312459_User model update.resx">
-      <DependentUpon>202010232312459_User model update.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202010240853025_EmptyMigration.resx">
-      <DependentUpon>202010240853025_EmptyMigration.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

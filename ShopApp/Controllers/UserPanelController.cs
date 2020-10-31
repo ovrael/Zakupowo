@@ -13,6 +13,7 @@ namespace ShopApp.Controllers
 {
     public class UserPanelController : Controller
     {
+        /*
         private ShopContext db = new ShopContext();
         // GET: UserPanel
         public ActionResult Index()
@@ -78,6 +79,6 @@ namespace ShopApp.Controllers
             return View();
         }
 
-
+        */
     }
 }
