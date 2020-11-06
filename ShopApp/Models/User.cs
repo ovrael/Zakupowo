@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +9,7 @@ using System.Web;
 
 namespace ShopApp.Models
 {
-    public class User
+    public class User : IdentityUser
     {
         [Key]
         public int UserID { get; set; }
@@ -47,7 +48,7 @@ namespace ShopApp.Models
         [Column("BirthDate", TypeName = "datetime2")]
         public DateTime BirthDate { get; set; }
         [Column("CreationDate", TypeName = "datetime2")]
-        public DateTime CreationDate { get; set; } 
+        public DateTime CreationDate { get; set; }
         public virtual Bucket Bucket { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<Auction> Auction { get; set; }
