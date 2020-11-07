@@ -24,33 +24,31 @@ namespace ShopApp.Controllers
         //  GET: Register/Create
         public ActionResult Create()
         {
-            User user = new User();
 
-
-            return View(user);
+            return View();
 
         }
 
         //POST: Register/Create
-        //[HttpPost]
-        //public ActionResult Create(User user)
-        //{
-        //    if (user.ImageUpload != null)
-        //    {
-        //        string fileName = Path.GetFileNameWithoutExtension(user.ImageUpload.FileName);
-        //        string extension = Path.GetExtension(user.ImageUpload.FileName);
-        //        fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-        //        user.ImagePath = "~/AppFiles/Images/" + fileName;
-        //        user.ImageUpload.SaveAs(Path.Combine(Server.MapPath("~/AppFiles/Images/"), fileName));
+        [HttpPost]
+        public ActionResult Create(User user)
+        {
+            //if (user.ImageUpload != null)
+            //{
+            //    string fileName = Path.GetFileNameWithoutExtension(user.ImageUpload.FileName);
+            //    string extension = Path.GetExtension(user.ImageUpload.FileName);
+            //    fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+            //    user.ImagePath = "~/AppFiles/Images/" + fileName;
+            //    user.ImageUpload.SaveAs(Path.Combine(Server.MapPath("~/AppFiles/Images/"), fileName));
 
 
-        //    }
+            //}
 
-        //    db.Users.Add(user);
-        //    db.SaveChanges();
-        //    ViewBag.Message = db.Users.ToList();
-        //    return View();
-        //}
+            db.Users.Add(user);
+            db.SaveChanges();
+            ViewBag.Message = db.Users.ToList();
+            return View();
+        }
 
         #region NotYetUsedActions
         // GET: Register/Details/5

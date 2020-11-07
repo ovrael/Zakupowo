@@ -2,7 +2,7 @@
 using ShopApp.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Infrastructure;
+//using System.Data.Entity.Infrastructure;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -13,7 +13,7 @@ namespace ShopApp.Controllers
 {
     public class UserPanelController : Controller
     {
-        
+
         //private ShopContext db = new ShopContext();
         //// GET: UserPanel
         //public ActionResult Index()
@@ -54,11 +54,11 @@ namespace ShopApp.Controllers
         //public ActionResult AddOrEdit(int id=0)
         //{
         //    User user = new User();
-         
-          
+
+
         //    return View(user);
         //}
-        
+
         //[HttpPost]
         //public ActionResult AddOrEdit(User user)
         //{
@@ -70,15 +70,15 @@ namespace ShopApp.Controllers
         //        user.ImagePath = "~/AppFiles/Images/" + fileName;
         //        user.ImageUpload.SaveAs(Path.Combine(Server.MapPath("~/AppFiles/Images/"),fileName));
 
-              
+
         //    }
-           
+
         //    db.Users.Add(user);
         //    db.SaveChanges();
         //    ViewBag.Message = db.Users.ToList();
         //    return View();
         //}
 
-        
+
     }
 }
