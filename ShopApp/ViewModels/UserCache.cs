@@ -20,7 +20,7 @@ namespace ShopApp.ViewModels
                         FirstName = "Jan",
                         LastName = "Kowalski",
                         UserID = 1,
-                        Password = "9876",
+                        EncryptedPassword = "9876",
                         Offers = new List<Offer>() { },
                     };
                 }
