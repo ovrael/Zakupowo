@@ -26,7 +26,7 @@ namespace ShopApp.Controllers
         }
         public ActionResult UserCreate()
         {
-                return View();
+            return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -38,7 +38,8 @@ namespace ShopApp.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
+
+            return RedirectToAction("UserCreate");
         }
         #endregion
 
@@ -65,15 +66,15 @@ namespace ShopApp.Controllers
         public ActionResult OfferCreate([Bind(Include = "Title,Stocking,InStock,Price")] Offer Offr, int id)
         {
             Offr.User = db.Users.ToList().Where(i => i.UserID == id).First();
-           //TODO: Require a ModelState.IsValid
-                db.Offers.Add(Offr);// First we need to add it to proper table before really using it then save
-                db.SaveChanges();
-                var ofr = db.Offers.Where(i => i.User.UserID == id && i.OfferID == Offr.OfferID).First();//We look for exact offer
-                ofr.User.Offers.Add(ofr);// Adding the proper offer's object to a user
-                db.SaveChanges();
-                return RedirectToAction("Index");//Returning
-         //   }
-          //  return RedirectToAction("Index");
+            //TODO: Require a ModelState.IsValid
+            db.Offers.Add(Offr);// First we need to add it to proper table before really using it then save
+            db.SaveChanges();
+            var ofr = db.Offers.Where(i => i.User.UserID == id && i.OfferID == Offr.OfferID).First();//We look for exact offer
+            ofr.User.Offers.Add(ofr);// Adding the proper offer's object to a user
+            db.SaveChanges();
+            return RedirectToAction("Index");//Returning
+                                             //   }
+                                             //  return RedirectToAction("Index");
         }
         #endregion
 
@@ -87,7 +88,7 @@ namespace ShopApp.Controllers
         //Tworzenie bundli
         public ActionResult BundleCreate(int id)
         {
-            return id == 0 ?  (ActionResult)RedirectToAction("Index") :  View();
+            return id == 0 ? (ActionResult)RedirectToAction("Index") : View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -120,7 +121,7 @@ namespace ShopApp.Controllers
                 bundle.Offers.Add(offer);
                 db.SaveChanges();
             }
-            return RedirectToAction("BundleIndex", new {id});
+            return RedirectToAction("BundleIndex", new { id });
         }
         //Add detail action to view more about specific bundle.
         #endregion
@@ -142,7 +143,7 @@ namespace ShopApp.Controllers
                 ID = int.Parse(item);
                 //TU SIE PSUJE STRASZNIE FEST
                 (db.Categories.Where(i => i.CategoryID == ID).First())
-                    .Offers.Add(db.Offers.Where(x=>x.OfferID == id).First());
+                    .Offers.Add(db.Offers.Where(x => x.OfferID == id).First());
                 offr.Categories.Add(db.Categories.Where(i => i.CategoryID == ID).First());
             }
             db.SaveChanges();
@@ -166,10 +167,10 @@ namespace ShopApp.Controllers
             var Offer = (db.Offers.Where(i => i.OfferID == Id).First());
             var Usr = Offer.User;
             if (Usr.Bucket == null)
-            { 
-            Usr.Bucket = new Bucket();
-            db.Buckets.Add(Usr.Bucket);
-            db.SaveChanges();
+            {
+                Usr.Bucket = new Bucket();
+                db.Buckets.Add(Usr.Bucket);
+                db.SaveChanges();
             }
             Usr.Bucket.Offers.Add(Offer);
             db.SaveChanges();
