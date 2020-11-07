@@ -7,7 +7,7 @@
 
 <h1>Dodaj lub edytuj użytkownika</h1>
 
-@using (Html.BeginForm("AddOrEdit", "UserPanel", FormMethod.Post, new { enctype = "multipart/form-data", onSubmit = "return jQueryAjaxPost(this);" }  ))
+@using (Html.BeginForm("AddOrEdit", "UserPanel", FormMethod.Post, new { enctype = "multipart/form-data", onSubmit = "return jQueryAjaxPost(this);" }))
 {
     @Html.AntiForgeryToken()
 
@@ -33,10 +33,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.EncryptedPassword, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.EncryptedPassword, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EncryptedPassword, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -69,8 +69,6 @@
     </div>
 
 }
-
-
 
 <div>
 

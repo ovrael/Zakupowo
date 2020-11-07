@@ -6,6 +6,7 @@ using ShopApp.Models;
 
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Security.AccessControl;
 
 namespace ShopApp.DAL
 {
@@ -13,9 +14,12 @@ namespace ShopApp.DAL
     {
         public ShopContext() : base("Shop") { }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Auction> Auctions { get; set; }
         public virtual DbSet<Offer> Offers { get; set; }
+        public virtual DbSet<Transaction> Transactions { get; set; }
+        public virtual DbSet<Bundle> Bundles { get; set; }
+        public virtual DbSet<Bucket> Buckets { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

@@ -16,10 +16,6 @@
 ################################################################################
 
 /.vs/ShopApp/v16/.suo
-/ShopApp/obj
-/ShopApp/bin
-
-/ShopApp/packages
-/packages
-
-.vs
+/ShopApp/obj/Debug
+.vs/ShopApp/config/applicationhost.config
+.vs/ShopApp/config/applicationhost.config

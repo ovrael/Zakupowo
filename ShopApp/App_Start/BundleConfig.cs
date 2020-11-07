@@ -8,8 +8,11 @@ namespace ShopApp
         // Aby uzyskać więcej informacji o grupowaniu, odwiedź stronę https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+            bundles.Add(new ScriptBundle("~/bundles/jquery351").Include(
+                        "~/Scripts/jquery-3.5.1.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jquery341").Include(
+                        "~/Scripts/jquery-3.4.1.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));

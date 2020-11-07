@@ -14,44 +14,45 @@ namespace ShopApp.Controllers
     public class RegisterController : Controller
     {
         private ShopContext db = new ShopContext();
-        // GET: Register
-        public ActionResult Index()
+        //  GET: Register
+
+        public ActionResult Usr()
         {
             return View();
         }
 
-        // GET: Register/Create
+        //  GET: Register/Create
         public ActionResult Create()
         {
             User user = new User();
 
 
             return View(user);
-            
+
         }
 
-        // POST: Register/Create
-        [HttpPost]
-        public ActionResult Create(User user)
-        {
-            if (user.ImageUpload != null)
-            {
-                string fileName = Path.GetFileNameWithoutExtension(user.ImageUpload.FileName);
-                string extension = Path.GetExtension(user.ImageUpload.FileName);
-                fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                user.ImagePath = "~/AppFiles/Images/" + fileName;
-                user.ImageUpload.SaveAs(Path.Combine(Server.MapPath("~/AppFiles/Images/"), fileName));
+        //POST: Register/Create
+        //[HttpPost]
+        //public ActionResult Create(User user)
+        //{
+        //    if (user.ImageUpload != null)
+        //    {
+        //        string fileName = Path.GetFileNameWithoutExtension(user.ImageUpload.FileName);
+        //        string extension = Path.GetExtension(user.ImageUpload.FileName);
+        //        fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+        //        user.ImagePath = "~/AppFiles/Images/" + fileName;
+        //        user.ImageUpload.SaveAs(Path.Combine(Server.MapPath("~/AppFiles/Images/"), fileName));
 
 
-            }
+        //    }
 
-            db.Users.Add(user);
-            db.SaveChanges();
-            ViewBag.Message = db.Users.ToList();
-            return View();
-        }
+        //    db.Users.Add(user);
+        //    db.SaveChanges();
+        //    ViewBag.Message = db.Users.ToList();
+        //    return View();
+        //}
 
-#region NotYetUsedActions
+        #region NotYetUsedActions
         // GET: Register/Details/5
         public ActionResult Details(int id)
         {
@@ -70,7 +71,7 @@ namespace ShopApp.Controllers
         {
             try
             {
-                // TODO: Add update logic here
+                //TODO: Add update logic here
 
                 return RedirectToAction("Index");
             }
@@ -80,7 +81,7 @@ namespace ShopApp.Controllers
             }
         }
 
-        // GET: Register/Delete/5
+        //  GET: Register/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
