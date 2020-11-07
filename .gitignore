@@ -1,4 +1,21 @@
+﻿################################################################################
+# Ten plik .gitignore został utworzony automatycznie przez Microsoft(R) Visual Studio.
+################################################################################
 
+/ShopApp/obj/Debug/ShopApp.pdb
+/ShopApp/obj/Debug/ShopApp.dll
+/ShopApp/obj/Debug/ShopApp.csprojAssemblyReference.cache
+/ShopApp/obj/Debug/ShopApp.csproj.FileListAbsolute.txt
+/ShopApp/obj/Debug/ShopApp.csproj.CoreCompileInputs.cache
+/ShopApp/obj/Debug/ShopApp.csproj.CopyComplete
+/ShopApp/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+/ShopApp/obj/Debug/.NETFramework,Version=v4.7.2.AssemblyAttributes.cs
+/.vs/ShopApp/v16/.suo
+################################################################################
+# Ten plik .gitignore został utworzony automatycznie przez Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/ShopApp/v16/.suo
+/ShopApp/obj/Debug
 .vs/ShopApp/config/applicationhost.config
-ShopApp/obj/Debug/ShopApp.csprojAssemblyReference.cache
-.vs/ShopApp/v16/.suo
+.vs/ShopApp/config/applicationhost.config

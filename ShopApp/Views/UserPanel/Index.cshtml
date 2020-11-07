@@ -1,0 +1,55 @@
+﻿
+@model ShopApp.Models.User
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>USER PANEL</title>
+</head>
+<body>
+    <h1>Panel użytkownika</h1>
+    <div>
+        @{
+            var data = ViewBag.Message;
+        }
+     
+        <table class="table">
+            <thead>
+                <tr>
+
+                    <th scope="col">Imię</th>
+                    <th scope="col">Nazwisko</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Avatar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in data)
+                {
+                <tr>
+                    <td> @user.FirstName </td>
+                    <td> @user.LastName </td>
+                    <td> @user.Email </td>
+                    <td> @user.ImagePath </td>
+
+                </tr>
+                }
+            </tbody>
+        </table>
+        @Html.Action("AddOrEdit")
+       
+    </div>
+
+    @section scripts{
+        @Scripts.Render("~/bundles/jqueryval");
+        
+     }
+</body>
+</html>
