@@ -162,6 +162,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\User\AccountViewModel.cs" />
+    <Compile Include="ViewModels\UserCache.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AppFiles\Images\avatar.jpg" />
@@ -178,6 +179,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\user.jpg" />
+    <Content Include="Images\user2.jpg" />
     <Content Include="libman.json" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -319,9 +321,13 @@
     <Content Include="Views\User\AccountEdit.cshtml" />
     <Content Include="Views\User\AccountOrderHistory.cshtml" />
     <Content Include="Views\User\AccountAddProduct.cshtml" />
+    <Content Include="Views\User\AccountMessage.cshtml" />
+    <Content Include="Views\User\AccountEditPassword.cshtml" />
+    <Content Include="Views\User\AccountEditContact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\AccountEdit\" />
     <Folder Include="Views\AccountSetting\" />
   </ItemGroup>
   <ItemGroup>

@@ -3,7 +3,6 @@
     ViewBag.Title = "Twoje zamówieia";
 }
 
-<h2>AccountOrderHistory</h2>
 
 
 
@@ -16,7 +15,7 @@
             <div class="close">
                 <i class="fas fa-times"></i>
             </div>
-         
+
             <ul class="siderbar_menu">
                 <li>
                     <a href="@Url.Action("Account", "User")">
@@ -34,7 +33,19 @@
                 <li>
                     <a href="@Url.Action("AccountOrderHistory", "User")"class="active">
                         <div class="icon"><i class="fas fa-file-alt"></i></div>
+                        <div class="title">Sprzedaż</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("AccountOrderHistory", "User")">
+                        <div class="icon"><i class="fas fa-history"></i></div>
                         <div class="title">Historia</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("AccountMessage", "User")">
+                        <div class="icon"><i class="fas fa-envelope"></i></div>
+                        <div class="title">Wiadomości</div>
                     </a>
                 </li>
                 <li>
@@ -52,25 +63,82 @@
             </ul>
         </div>
     </div>
-    <div class="main_container">
-        <div class="top_navbar">
-            <div class="hamburger">
-                <div class="hamburger__inner">
-                    <i class="fas fa-bars"></i>
+   
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="header-title pb-3 mt-0">Zamówienia</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr class="align-self-center">
+                                    <th>Nazwa produktu</th>
+                                    <th>Nazwa klienta</th>
+                                    <th>Adres wysłki</th>
+                                    <th>Forma zapłaty</th>
+                                    <th>Data zamównia</th>
+                                    <th>Kwota</th>
+                                    <th>Transakcja</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Komputer</td>
+                                    <td>Jan Kowalski</td>
+                                    <td>Katowice, ul Andrzeja 5/23a 40-080</td>
+                                    <td>Paypal</td>
+                                    <td>15/10/2020</td>
+                                    <td>7.000 zł</td>
+                                    <td><span class="badge badge-boxed badge-soft-warning">W oczekiwaniu</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Telefon</td>
+                                    <td>Karol Nowak</td>
+                                    <td></td>
+                                    <td>Paypal</td>
+                                    <td>15/10/2020</td>
+                                    <td>2.500 zł</td>
+                                    <td><span class="badge badge-boxed badge-soft-primary">Zapłacono</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Klawiatura</td>
+                                    <td>Anna Kowalczyk</td>
+                                    <td></td>
+                                    <td>Za pobraniem</td>
+                                    <td>15/10/2020</td>
+                                    <td>350 zł</td>
+                                    <td><span class="badge badge-boxed badge-soft-warning">W oczekwianiu</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Laptop</td>
+                                    <td>Andrzej Wiśniewski</td>
+                                    <td></td>
+                                    <td>Karta Visa</td>
+                                    <td>1/11/2020</td>
+                                    <td>5.000 zł</td>
+                                    <td><span class="badge badge-boxed badge-soft-primary">Zapłacono</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Słuchawki bezprzewodowe</td>
+                                    <td>Zofia Nowak</td>
+                                    <td></td>
+                                    <td>Blik</td>
+                                    <td>25/10/2020</td>
+                                    <td>250 zł</td>
+                                    <td><span class="badge badge-boxed badge-soft-warning">W oczekiwaniu</span></td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="pt-3 border-top text-right"><a href="#" class="text-primary">View all <i class="mdi mdi-arrow-right"></i></a></div>
                 </div>
             </div>
-            <ul class="menu">
-                <li><a href="#" class="active">Blogs</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">About</a></li>
-            </ul>
-            <ul class="right_bar">
-                <li><i class="fas fa-search"></i></li>
-                <li><i class="fas fa-sign-out-alt"></i></li>
-            </ul>
         </div>
-
-       
-
     </div>
 </div>

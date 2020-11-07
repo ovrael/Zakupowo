@@ -1,8 +1,10 @@
-﻿
-@model ShopApp.ViewModels.User.AccountViewModel
+﻿@model ShopApp.ViewModels.User.AccountViewModel
 @{
     ViewBag.Title = "";
 }
+
+
+
 
 
 <div class="wrapper">
@@ -22,7 +24,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="@Url.Action("AccountAddProduct", "User")" >
+                    <a href="@Url.Action("AccountAddProduct", "User")">
                         <div class="icon"><i class="fa fa-plus"></i></div>
                         <div class="title">Dodaj produkt</div>
                     </a>
@@ -72,17 +74,17 @@
 
                         <ul class="meta list list-unstyled">
                             <li class="name">
-                              @Model.FirstName @Model.Surname
+                               @Model.FirstName @Model.Surname
                             </li>
                         </ul>
                     </div>
                     <nav class="side-menu">
                         <ul class="nav">
-                            <li class="active"><a href="#"><span class="fa fa-user"></span> Dane osobowe</a></li>
+                            <li><a href="@Url.Action("AccountEdit", "User")"><span class="fa fa-user"></span> Dane osobowe</a></li>
 
                         </ul>
                         <ul class="nav">
-                            <li><a href="@Url.Action("AccountEditContact", "User")"><span class="fas fa-address-book"></span> Dane kontaktowe</a></li>
+                            <li class="active"><a href="@Url.Action("AccountEditContact", "User")"><span class="fas fa-address-book"></span> Dane kontaktowe</a></liclass="active">
 
                         </ul>
                         <ul class="nav">
@@ -93,48 +95,68 @@
 
                 </div>
                 <div class="content-panel">
-                    @using (Html.BeginForm("EditAccount", "User", FormMethod.Post))
+                    @using (Html.BeginForm("AccountEditContact", "User", FormMethod.Post))
                     {
-                        <fieldset class="fieldset">
-                            <h3 class="fieldset-title">Dane użytkownika</h3>
 
-                            <div class="form-group">
-                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Imię</label>
-                                <div class="col-md-10 col-sm-9 col-xs-12">
-                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-                                </div>
+
+                    <fieldset class="fieldset">
+                        <h3 class="fieldset-title">Dane kontaktowe</h3>
+                        <div class="form-group">
+                            <label class="col-md-2  col-sm-3 col-xs-12 control-label">E-mail</label>
+                            <div class="col-md-10 col-sm-9 col-xs-12">
+                                <input type="email" class="form-control">
+
                             </div>
-                            <div class="form-group">
-                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Nazwisko</label>
-                                <div class="col-md-10 col-sm-9 col-xs-12">
-                                    @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2  col-sm-3 col-xs-12 control-label">Nowy E-mail</label>
+                            <div class="col-md-10 col-sm-9 col-xs-12">
+                                <input type="email" class="form-control">
                             </div>
-                            
-                            <div class="form-group">
-                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Data urodzenia</label>
-                                <div class="col-md-10 col-sm-9 col-xs-12">
-                                    @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control" })
-                                </div>
+                        </div>
+                   
+                        <div class="form-group">
+                            <label class="col-md-2  col-sm-3 col-xs-12 control-label">Miato</label>
+                            <div class="col-md-10 col-sm-9 col-xs-12">
+                                @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+
                             </div>
-                            
-                            <div class="form-group">
-                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Kraj</label>
-                                <div class="col-md-10 col-sm-9 col-xs-12">
-                                    @Html.TextBoxFor(m => m.Country, new { @class = "form-control" })
-                                </div>
+                        </div>
+                
+                        <div class="form-group">
+                            <label class="col-md-2  col-sm-3 col-xs-12 control-label">Ulica</label>
+                            <div class="col-md-10 col-sm-9 col-xs-12">
+                                @Html.TextBoxFor(m => m.Street, new { @class = "form-control" })
                             </div>
-                            <hr>
-                            <div class="form-group">
-                                <div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
-                                    <input class="btn btn-dark" type="submit" value="Zmień ">
-                                </div>
+                        </div>
+                     
+                        <div class="form-group">
+                            <label class="col-md-2  col-sm-3 col-xs-12 control-label">Numer ulicy/domu</label>
+                            <div class="col-md-10 col-sm-9 col-xs-12">
+                                @Html.TextBoxFor(m => m.StreetNumber, new { @class = "form-control" })
                             </div>
-                        </fieldset>
+                        </div>
+                      
+                        <div class="form-group">
+                            <label class="col-md-2  col-sm-3 col-xs-12 control-label">Kod pocztowy</label>
+                            <div class="col-md-10 col-sm-9 col-xs-12">
+                                @Html.TextBoxFor(m => m.Postcode, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        
+                        
+                        <hr>
+                        <div class="form-group">
+                            <div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
+                                <input class="btn btn-dark" type="submit" value="Zmień">
+                            </div>
+                        </div>
+                    </fieldset>
 
                     }
-                    </div>
+                </div>
             </div>
         </section>
     </div>
 </div>
+

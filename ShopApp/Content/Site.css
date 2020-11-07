@@ -19,59 +19,69 @@
     
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
 
-}
-/*footer*/
 
 /*user profil*/
-.account-info .account-about {
-    margin-top: 50px;
-}
 
-
-.account-gird-container {
-    display: grid;
-    grid-template-columns: 300px 300px;
-    grid-gap: 10px;
-    background-color: #fff;
-    color: #444;
-    border: 1px solid #FFB24A;
-   
-}
-
-.box {
-    background-color: #fff;
-    color: black;
-    padding: 20px;
-    font-size: 100%;
-    border-right: solid #FFB24A ;
-}
-.profile-img{
-    padding-bottom:10px;
-}
-/*user profil edit*/
 body {
-    background: #f9f9fb;
+    padding-top: 68px;
+    padding-bottom: 100px;
+}
+.image-container {
+    position: relative;
 }
 
+.image {
+    opacity: 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: .5s ease;
+    backface-visibility: hidden;
+}
 
+.middle {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.image-container:hover .image {
+    opacity: 0.3;
+}
+
+.image-container:hover .middle {
+    opacity: 1;
+}
+
+.container, .container-fluid, .container-sm, .container-md, .container-lg, .container-xl {
+    padding-left:40px;
+    padding-
+}
+    /*user profil edit*/
+    .view-account {
+    background-color: #FFFFFF;
+}
     .view-account .pro-label {
         font-size: 13px;
         padding: 4px 5px;
         position: relative;
         top: -5px;
         margin-left: 10px;
-        display: inline-block
+        display: inline-block;
+        background-color:pink;
+
     }
 
     .view-account .side-bar {
-        padding-bottom: 30px;
+        padding-bottom: 10px;
         padding-top:0px;
+       
     }
 
         .view-account .side-bar .user-info {
@@ -203,79 +213,42 @@ body {
 
 
 
-@media (max-width:767px) {
-    .view-account .content-panel .title {
-        text-align: center
-    }
-
-    .view-account .side-bar .user-info {
-        padding: 0
-    }
-
-        .view-account .side-bar .user-info .img-profile {
-            width: 60px;
-            height: 60px
-        }
-
-        .view-account .side-bar .user-info .meta li {
-            margin-bottom: 5px
-        }
-
-    .view-account .content-panel .content-header-wrapper .actions {
-        position: static;
-        margin-bottom: 30px
-    }
+@media (max-width:414px) {
+   
 
     .view-account .content-panel {
-        padding: 0
+        max-height: 568px;
+        margin-bottom:2.5rem;
+    }
+    .view-account .side-bar .user-info {
+        padding: 0;
+        padding-bottom: 5px;
+        
     }
 
-        .view-account .content-panel .content-utilities .page-nav {
-            position: static;
-            margin-bottom: 15px
-        }
+    .view-account .mail-subject .subject {
+        
+        max-width: 30px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis
+    }
+}
 
-    .drive-wrapper .drive-item {
-        width: 100px;
-        margin-right: 5px;
-        float: none
+@media (min-width:607px) {
+    .view-account .side-bar .user-info {
+        padding: 0;
+        padding-bottom: 15px
     }
 
-    .drive-wrapper .drive-item-thumb {
-        width: auto;
-        height: 54px
-    }
-
-        .drive-wrapper .drive-item-thumb .fa {
-            font-size: 24px;
-            padding-top: 0
-        }
-
-    .view-account .content-panel .avatar .figure img {
-        float: none;
-        margin-bottom: 15px
-    }
-
-    .view-account .file-uploader {
-        margin-bottom: 15px
-    }
-
-    .view-account .mail-subject {
+    .view-account .mail-subject .subject {
         max-width: 100px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis
     }
-
-    .view-account .content-panel .mails-wrapper .mail-item .time-container {
-        position: static
-    }
-
-        .view-account .content-panel .mails-wrapper .mail-item .time-container .time {
-            width: auto;
-            text-align: left
-        }
 }
+
 
 @media (min-width:768px) {
     .view-account .side-bar .user-info {
@@ -291,7 +264,7 @@ body {
     }
 }
 
-@media (min-width:992px) {
+@media (min-width:811px) {
     .view-account .content-panel {
         min-height: 800px;
         border-left: 1px solid #FFB24A;
@@ -349,23 +322,21 @@ body {
                     .view-account .side-bar .side-menu .nav > li.active a {
                         background: #f9f9fb;
                         border-right: 4px solid #FFB24A;
-                        ;
                         border-bottom: none
                     }
 
-   
-    .view-account .side-bar .side-menu .nav > li .icon {
-        font-size: 24px;
-        vertical-align: middle;
-        text-align: center;
-        width: 40px;
-        display: inline-block
-    }
+
+                    .view-account .side-bar .side-menu .nav > li .icon {
+                        font-size: 24px;
+                        vertical-align: middle;
+                        text-align: center;
+                        width: 40px;
+                        display: inline-block
+                    }
 }
 
-
-AccountOrderHistory
-.form-horizontal .add-produt{
+/*Add prduct*/
+.form-horizontal .add-produt {
     background: #FFFFFF;
     margin-top:25px;
 }
@@ -375,6 +346,7 @@ AccountOrderHistory
     padding-right: 10px;
     padding-top: 8px;
     background: #FFFFFF;
+    margin-left:40px;
 }
 @media (max-width:767px) {
     .form-horizontal .add-produt {
@@ -382,8 +354,9 @@ AccountOrderHistory
     }
 }
 
-/*//Responsywne said menu 
-*/
+
+//Responsywne said menu 
+
 @import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,700&display=swap");
 
 * {
@@ -401,7 +374,8 @@ body {
 
 .wrapper {
     display: flex;
-    width: 100%;
+    width: 150%;
+   
 }
 
     .wrapper .sidebar {
@@ -426,10 +400,11 @@ body {
         position: fixed;
         top: 68px;
         left: 0;
-        height: 92.1%;
+        height: 100%;
         background: #DCDCDC;
         z-index: 999;
         transition: all 0.3s ease;
+        
     }
 
     .wrapper .main_container {
@@ -438,45 +413,7 @@ body {
         transition: all 0.3s ease;
     }
 
-    .wrapper .sidebar__inner .profile_info {
-        padding: 30px 50px;
-        text-align: center;
-    }
-
-        .wrapper .sidebar__inner .profile_info .profile_img {
-            width: 125px;
-            margin: 0 auto 15px;
-        }
-
-            .wrapper .sidebar__inner .profile_info .profile_img img {
-                width: 100%;
-                display: block;
-            }
-
-        .wrapper .sidebar__inner .profile_info .profile_data .name {
-            font-size: 22px;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .wrapper .sidebar__inner .profile_info .profile_data .role {
-            font-weight: 300;
-            color: #88a3d0;
-            margin-bottom: 15px;
-        }
-
-        .wrapper .sidebar__inner .profile_info .profile_data .btn {
-            padding: 10px;
-            border: 1px solid #1fafec;
-            border-radius: 25px;
-            color: #1fafec;
-            cursor: pointer;
-        }
-
-            .wrapper .sidebar__inner .profile_info .profile_data .btn:hover {
-                background: #1fafec;
-                color: #fff;
-            }
+ 
 
     .wrapper .sidebar__inner .siderbar_menu li a {
         padding: 10px 50px;
@@ -501,7 +438,7 @@ body {
             left: 0;
             width: 3px;
             height: 100%;
-            background: #1fafec;
+            background: #002447;
             display: none;
         }
 
@@ -530,77 +467,8 @@ body {
         transition: all 0.3s ease;
     }
 
-        .wrapper .main_container .top_navbar .hamburger {
-            width: 30px;
-            height: 30px;
-            position: relative;
-            display: none;
-        }
 
-            .wrapper .main_container .top_navbar .hamburger .fas {
-                color: #88a3d0;
-                font-size: 25px;
-                cursor: pointer;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-            }
-
-        .wrapper .main_container .top_navbar .menu {
-            display: flex;
-            align-items: center;
-        }
-
-            .wrapper .main_container .top_navbar .menu li a {
-                margin: 0 15px;
-                padding: 0 15px;
-                position: relative;
-                color: #1d4c9e;
-                font-weight: 400;
-                text-align: center;
-            }
-
-                .wrapper .main_container .top_navbar .menu li a:before {
-                    content: "";
-                    position: absolute;
-                    bottom: -20px;
-                    left: 0;
-                    width: 100%;
-                    height: 3px;
-                    background: #1fafec;
-                    display: none;
-                }
-
-                .wrapper .main_container .top_navbar .menu li a.active,
-                .wrapper .main_container .top_navbar .menu li a:hover {
-                    color: #1fafec;
-                }
-
-                    .wrapper .main_container .top_navbar .menu li a:hover:before,
-                    .wrapper .main_container .top_navbar .menu li a.active:before {
-                        display: block;
-                    }
-
-        .wrapper .main_container .top_navbar .right_bar {
-            display: flex;
-            align-item: center;
-        }
-
-            .wrapper .main_container .top_navbar .right_bar li {
-                margin: 0 10px;
-            }
-
-            .wrapper .main_container .top_navbar .right_bar .fas {
-                font-size: 25px;
-                cursor: pointer;
-                color: #88a3d0;
-            }
-
-            .wrapper .main_container .top_navbar .right_bar li:hover,
-            .wrapper .main_container .top_navbar .hamburger .fas:hover {
-                opacity: 0.5;
-            }
+      
 
     .wrapper .main_container .container {
         padding: 30px;
@@ -631,38 +499,273 @@ body {
         }
 
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1578px) {
     .wrapper .sidebar__inner {
         left: -100%;
-    }
-
-    .wrapper .main_container,
-    .wrapper .main_container .top_navbar {
-        margin-left: 0;
-        width: 100%;
-    }
-
-        .wrapper .main_container .top_navbar {
-            left: 0;
-        }
-
-    .wrapper.active .sidebar__inner {
+        width: 150px;
+        position: fixed;
+        height:100%;
+        top: 68px;
         left: 0;
-    }
-
-    .wrapper .sidebar__inner .close,
-    .wrapper .main_container .top_navbar .hamburger {
-        display: block;
+        background: #DCDCDC;
+        z-index: 999;
+        transition: all 0.3s ease;
     }
 
     .wrapper.active .sidebar .bg_shadow {
         visibility: visible;
         opacity: 0.7;
     }
+
+   
+
+    .wrapper .sidebar .bg_shadow {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0px;
+        left: 0;
+        background: #000;
+        z-index: 998;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    
 }
 
-@media screen and (max-width: 530px) {
-    .wrapper .main_container .top_navbar .menu {
+@media screen and (max-width: 1410px) {
+    .wrapper .main_container {
         display: none;
     }
+
+    .title {
+        display: none;
+    }
+
+    .wrapper .sidebar__inner {
+        width: 80px;
+        height: 100%;
+        position: fixed;
+        top:68px;
+    }
+
+        .wrapper .sidebar__inner .siderbar_menu li a {
+            padding: 10px 0px;
+            display: block;
+            height: 100px;
+            position: relative;
+            margin-bottom: 1px;
+            color: #002447;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+   
 }
+
+@media screen and (max-width:1261px) {
+    .wrapper .sidebar__inner {
+       
+        width: 60px;
+        position: fixed;
+        height: 100%;
+        top: 55px;
+        left: 0;
+        background: #DCDCDC;
+        z-index: 999;
+        transition: all 0.3s ease;
+    }
+
+    .wrapper.active .sidebar .bg_shadow {
+        visibility: visible;
+        opacity: 0.7;
+    }
+
+
+
+    .wrapper .sidebar .bg_shadow {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0px;
+        left: 0;
+        background: #000;
+        z-index: 998;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+}
+@media screen and (max-width:968px) {
+    .wrapper .sidebar__inner {
+        width: 60px;
+        position: fixed;
+        height: 100%;
+        top: 90px;
+        left: 0;
+        background: #DCDCDC;
+        z-index: 999;
+        transition: all 0.3s ease;
+    }
+
+    .wrapper.active .sidebar .bg_shadow {
+        visibility: visible;
+        opacity: 0.7;
+    }
+
+
+
+    .wrapper .sidebar .bg_shadow {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0px;
+        left: 0;
+        background: #000;
+        z-index: 998;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    @media screen and (max-width: 597px) {
+        .wrapper .sidebar__inner {
+            width: 40px;
+            position: fixed;
+            height: 100%;
+            top: 80px;
+            left: 0;
+            background: #DCDCDC;
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+
+        .wrapper.active .sidebar .bg_shadow {
+            visibility: visible;
+            opacity: 0.7;
+        }
+
+
+
+        .wrapper .sidebar .bg_shadow {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0px;
+            left: 0;
+            background: #000;
+            z-index: 998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+    }
+
+    @media (max-height: 746px) {
+        .wrapper .sidebar__inner .siderbar_menu li a .icon {
+            font-size: 20px;
+            margin-bottom: 0px;
+        }
+
+        .wrapper .sidebar__inner .siderbar_menu li a {
+            height: 60px;
+        }
+    }
+
+    /*oderhistory*/
+    body {
+        background: #f5f5f5;
+    }
+
+    .card {
+        border: none;
+        -webkit-box-shadow: 1px 0 20px rgba(96,93,175,.05);
+        box-shadow: 1px 0 20px rgba(96,93,175,.05);
+        margin-bottom: 30px;
+    }
+
+    .table th {
+        font-weight: 500;
+        color: #827fc0;
+    }
+
+    .table thead {
+        background-color: #f3f2f7;
+    }
+
+    .table > tbody > tr > td, .table > tfoot > tr > td, .table > thead > tr > td {
+        padding: 14px 12px;
+        vertical-align: middle;
+    }
+
+    .table tr td {
+        color: #8887a9;
+    }
+
+    .thumb-sm {
+        height: 32px;
+        width: 32px;
+    }
+
+    .badge-soft-warning {
+        background-color: rgba(248,201,85,.2);
+        color: #f8c955;
+    }
+
+    .badge {
+        font-weight: 500;
+    }
+
+    .badge-soft-primary {
+        background-color: rgba(96,93,175,.2);
+        color: #605daf;
+    }
+
+
+    /*AccountMessage*/
+
+    .container py-5 px-4 {
+        background-image: linear-gradient(90deg, #002447 0%, #FFB24A 100%);
+    }
+
+    body {
+        background-color: #74EBD;
+        min-height: 100vh;
+    }
+
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+        width: 5px;
+        background: #f5f5f5;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        width: 1em;
+        background-color: #ddd;
+        outline: 1px solid slategrey;
+        border-radius: 1rem;
+    }
+
+    .text-small {
+        font-size: 0.9rem;
+    }
+
+    .messages-box,
+    .chat-box {
+        height: 510px;
+        overflow-y: scroll;
+    }
+
+    .rounded-lg {
+        border-radius: 0.5rem;
+    }
+
+   
+
+    
