@@ -1,9 +1,18 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿
 
+@model IEnumerable<ShopApp.Models.Offer>
+
+
+@if (Model != null)
+{
 
 
 <h1 class="p-3">
-   coś tam
+    @foreach (var item in Model)
+    {
+    <h2>@item.Title</h2>
+    <p>@item.Description</p>
+
+    }
 </h1>
+}
