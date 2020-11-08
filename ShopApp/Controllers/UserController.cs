@@ -14,6 +14,18 @@ namespace ShopApp.Controllers
     public class UserController : Controller
     {
         private ShopContext db = new ShopContext();
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+
+
         //  GET: Register
 
         public ActionResult Usr()

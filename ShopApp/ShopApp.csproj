@@ -328,7 +328,6 @@
     <Content Include="Views\Database\OfferCreate.cshtml" />
     <Content Include="Views\Database\OffersIndex.cshtml" />
     <Content Include="Views\Database\UserCreate.cshtml" />
-    <Content Include="Views\UserPanel\Index.cshtml" />
     <Content Include="Views\User\Account.cshtml" />
     <Content Include="Views\UserPanel\AccountAddProduct.cshtml" />
     <Content Include="Views\User\Register.cshtml" />

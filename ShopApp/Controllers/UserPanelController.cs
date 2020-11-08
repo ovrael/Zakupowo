@@ -64,7 +64,7 @@ namespace ShopApp.Controllers
             db.SaveChanges();
             db.Users.Where(i => i.UserID == 1).First().Offers.Add(Oferta);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index","Home");
         }
         public ActionResult Account()
         {

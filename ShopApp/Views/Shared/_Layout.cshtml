@@ -41,9 +41,9 @@
                         <p class="p-2 d-none d-lg-block">
                             Zaloguj się i zobacz swoje zakupy, ulubione oferty oraz wiadomości. W Domu Aukcyjnym zakupy są łatwe!
                         </p>
-                        <a class="dropdown-item" id="logInItem" href="login.html">Zaloguj się</a>
+                        <a class="dropdown-item" id="logInItem" href="@Url.Action("Login", "user")">Zaloguj się</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="register.html">Zarejestruj się</a>
+                        <a class="dropdown-item" href="@Url.Action("Register", "user")">Zarejestruj się</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="@Url.Action("Account", "userpanel")">Panel użytkownika</a>
                     </div>
