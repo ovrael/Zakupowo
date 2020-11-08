@@ -3,16 +3,19 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Shop site.</title>
+    <title>Auction House</title>
+    <!-- BOOTSTRAP CSS -->
+    @Styles.Render("~/bundles/bootstrap")
     <!--Custom CSS-->
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/bundles/Layout")
     <!--FontAwesomeCDN-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
     <!--GoogleFonts-->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Staatliches&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--TODO: SEO-->
 </head>
 <body>
+    <!-- NAVBAR -->
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-white justify-content-between">
         <a class="nav-item active navbar-brand " href="@Url.Action("Index", "Home")">Dom aukcyjny</a>
         <button class="col-2 navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,7 +24,7 @@
         <div class="collapse navbar-collapse col-lg-4 order-lg-8" id="navbarSupportedContent">
             <ul class="navbar-nav w-100 justify-content-end">
                 <li class="nav-item">
-                    <a class="nav-link mx-4" id="chatLink" href="@Url.Action("AccountMessage", "user")"><i class="fas fa-envelope fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Wiadomości</p></a>
+                    <a class="nav-link mx-4" id="chatLink" href="@Url.Action("AccountMessage", "userpanel")"><i class="fas fa-envelope fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Wiadomości</p></a>
 
                 </li>
                 <li class="nav-item">
@@ -38,17 +41,17 @@
                         <p class="p-2 d-none d-lg-block">
                             Zaloguj się i zobacz swoje zakupy, ulubione oferty oraz wiadomości. W Domu Aukcyjnym zakupy są łatwe!
                         </p>
-                        <a class="dropdown-item" id="logInItem" href="login.html">Zaloguj się</a>
+                        <a class="dropdown-item" id="logInItem" href="@Url.Action("Login", "user")">Zaloguj się</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="register.html">Zarejestruj się</a>
+                        <a class="dropdown-item" href="@Url.Action("Register", "user")">Zarejestruj się</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="@Url.Action("Account", "user")">Panel użytkownika</a>
+                        <a class="dropdown-item" href="@Url.Action("Account", "userpanel")">Panel użytkownika</a>
                     </div>
                 </li>
             </ul>
         </div>
 
-
+        <!-- SEARCH FORM -->
         <form class="form-inline col-lg-4" id="searchForm">
             <div class="input-group mt-2 mt-lg-0 w-100">
                 <input type="search" class="form-control" id="searchbar" placeholder="Szukaj produktu..." aria-label="Search">
@@ -66,7 +69,8 @@
         </div>
     </div>
 
-    <div class="container" style="padding-top:30px">
+    <!-- TODO: CONTAINER-FLEX-->
+    <div class="container">
         @RenderBody()
     </div>
 
@@ -79,6 +83,6 @@
     </footer>
 
     @Scripts.Render("~/bundles/jquery351")
-    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/bootstrapjs")
 </body>
 </html>

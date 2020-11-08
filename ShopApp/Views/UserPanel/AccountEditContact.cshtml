@@ -3,9 +3,7 @@
     ViewBag.Title = "";
 }
 
-
-
-
+@Styles.Render("~/bundles/UserPanel")
 
 <div class="wrapper">
     <div class="sidebar">
@@ -17,38 +15,38 @@
 
             <ul class="siderbar_menu">
                 <li>
-                    <a href="@Url.Action("Account", "User")">
+                    <a href="@Url.Action("Account", "UserPanel")">
                         <div class="icon"><i class="fa fa-user"></i></div>
                         <div class="title">Profil</div>
 
                     </a>
                 </li>
                 <li>
-                    <a href="@Url.Action("AccountAddProduct", "User")">
+                    <a href="@Url.Action("AccountAddProduct", "UserPanel")">
                         <div class="icon"><i class="fa fa-plus"></i></div>
                         <div class="title">Dodaj produkt</div>
                     </a>
                 </li>
                 <li>
-                    <a href="@Url.Action("AccountOrderHistory", "User")">
+                    <a href="@Url.Action("AccountOrderHistory", "UserPanel")">
                         <div class="icon"><i class="fas fa-file-alt"></i></div>
                         <div class="title">Sprzedaż</div>
                     </a>
                 </li>
                 <li>
-                    <a href="@Url.Action("AccountOrderHistory", "User")">
+                    <a href="@Url.Action("AccountOrderHistory", "UserPanel")">
                         <div class="icon"><i class="fas fa-history"></i></div>
                         <div class="title">Historia</div>
                     </a>
                 </li>
                 <li>
-                    <a href="@Url.Action("AccountMessage", "User")">
+                    <a href="@Url.Action("AccountMessage", "UserPanel")">
                         <div class="icon"><i class="fas fa-envelope"></i></div>
                         <div class="title">Wiadomości</div>
                     </a>
                 </li>
                 <li>
-                    <a href="@Url.Action("AccountEdit", "User")"class="active">
+                    <a href="@Url.Action("AccountEdit", "UserPanel")" class="active">
                         <div class="icon"><i class="fas fa-cog"></i></div>
                         <div class="title">Ustawienia</div>
                     </a>
@@ -74,7 +72,7 @@
 
                         <ul class="meta list list-unstyled">
                             <li class="name">
-                               @Model.FirstName @Model.Surname
+                                @Model.FirstName @Model.Surname
                             </li>
                         </ul>
                     </div>
@@ -99,59 +97,59 @@
                     {
 
 
-                    <fieldset class="fieldset">
-                        <h3 class="fieldset-title">Dane kontaktowe</h3>
-                        <div class="form-group">
-                            <label class="col-md-2  col-sm-3 col-xs-12 control-label">E-mail</label>
-                            <div class="col-md-10 col-sm-9 col-xs-12">
-                                <input type="email" class="form-control">
+                        <fieldset class="fieldset">
+                            <h3 class="fieldset-title">Dane kontaktowe</h3>
+                            <div class="form-group">
+                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">E-mail</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input type="email" class="form-control">
 
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-2  col-sm-3 col-xs-12 control-label">Nowy E-mail</label>
-                            <div class="col-md-10 col-sm-9 col-xs-12">
-                                <input type="email" class="form-control">
+                            <div class="form-group">
+                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Nowy E-mail</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input type="email" class="form-control">
+                                </div>
                             </div>
-                        </div>
-                   
-                        <div class="form-group">
-                            <label class="col-md-2  col-sm-3 col-xs-12 control-label">Miato</label>
-                            <div class="col-md-10 col-sm-9 col-xs-12">
-                                @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
 
+                            <div class="form-group">
+                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Miato</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+
+                                </div>
                             </div>
-                        </div>
-                
-                        <div class="form-group">
-                            <label class="col-md-2  col-sm-3 col-xs-12 control-label">Ulica</label>
-                            <div class="col-md-10 col-sm-9 col-xs-12">
-                                @Html.TextBoxFor(m => m.Street, new { @class = "form-control" })
+
+                            <div class="form-group">
+                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Ulica</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    @Html.TextBoxFor(m => m.Street, new { @class = "form-control" })
+                                </div>
                             </div>
-                        </div>
-                     
-                        <div class="form-group">
-                            <label class="col-md-2  col-sm-3 col-xs-12 control-label">Numer ulicy/domu</label>
-                            <div class="col-md-10 col-sm-9 col-xs-12">
-                                @Html.TextBoxFor(m => m.StreetNumber, new { @class = "form-control" })
+
+                            <div class="form-group">
+                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Numer ulicy/domu</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    @Html.TextBoxFor(m => m.StreetNumber, new { @class = "form-control" })
+                                </div>
                             </div>
-                        </div>
-                      
-                        <div class="form-group">
-                            <label class="col-md-2  col-sm-3 col-xs-12 control-label">Kod pocztowy</label>
-                            <div class="col-md-10 col-sm-9 col-xs-12">
-                                @Html.TextBoxFor(m => m.Postcode, new { @class = "form-control" })
+
+                            <div class="form-group">
+                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Kod pocztowy</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    @Html.TextBoxFor(m => m.Postcode, new { @class = "form-control" })
+                                </div>
                             </div>
-                        </div>
-                        
-                        
-                        <hr>
-                        <div class="form-group">
-                            <div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
-                                <input class="btn btn-dark" type="submit" value="Zmień">
+
+
+                            <hr>
+                            <div class="form-group">
+                                <div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
+                                    <input class="btn btn-dark" type="submit" value="Zmień">
+                                </div>
                             </div>
-                        </div>
-                    </fieldset>
+                        </fieldset>
 
                     }
                 </div>
