@@ -1,0 +1,25 @@
+﻿@model ShopApp.Models.User
+
+<div class="row justify-content-center text-center">
+    <div class="col-12 col-md-8 col-lg-5 col-xl-4 absolute">
+        <form id="signinForm" name="signinForm" class="signinForm shadow p-5 m-2 bg-white rounded">
+            <i class="fab fa-stripe-s mb-2"></i>
+            <h2 class="mb-4">
+                Logowanie</h2>
+
+                <label for="emailAddressInput" class="sr-only">Adres email</label>
+                <input type="email" id="emailAddressInput" name="emailAddressInput" class="form-control mb-2" placeholder="Adres email" required autofocus>
+                <div id="emailAddressInput_validation" class="invalid-feedback d-block text-left"></div>
+
+                <label for="password" class="sr-only">Hasło</label>
+                <input type="password" id="passwordInput" name="passwordInput" placeholder="Hasło" class="form-control mb-2" required>
+                <div id="passwordInput_validation" class="invalid-feedback d-block text-left"></div>
+
+                <label><input type="checkbox" id="rememberMeInput" name="rememberMeInput" value="rememberMe"> Zapamiętaj mnie</label>
+                <input type="submit" name="signinInput" value="Zaloguj się" class="bt btn-lg btn-primary btn-block mt-1 mb-1">
+
+                <a href="#">Zapomniałeś hasła?</a>
+                <p>Nie masz konta? <a href="register.html">Zarejestruj się</a></p>
+        </form>
+    </div>
+</div>

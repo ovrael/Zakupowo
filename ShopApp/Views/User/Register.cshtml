@@ -1,0 +1,43 @@
+﻿@model ShopApp.Models.User
+
+@Styles.Render("")
+
+<body>
+    <div class="row justify-content-center align-items-center">
+        <div class="col-12 col-md-8 col-lg-5 col-xl-4 absolute">
+            <form name="signupForm" id="signupForm" class="signupForm shadow p-4 m-2 bg-white rounded">
+                <div class="row justify-content-center">
+                    <i class="fab fa-stripe-s mb-2"></i>
+                </div>
+                <div class="row justify-content-center">
+                    <h2 class="mb-4">Rejestracja</h2>
+                </div>
+
+                <label for="firstNameRegisterInput">Imię</label>
+                <input type="text" id="firstNameRegisterInput" name="firstNameRegisterInput" class="form-control mb-2" required autofocus>
+                <div id="firstNameRegisterInput_validation" class="invalid-feedback d-block"></div>
+
+                <label for="lastNameRegisterInput">Nazwisko</label>
+                <input type="text" id="lastNameRegisterInput" name="lastNameRegisterInput" class="form-control mb-2" required>
+                <div id="lastNameRegisterInput_validation" class="invalid-feedback d-block"></div>
+
+                <label for="emailAddressRegisterInput">Adres email</label>
+                <input type="email" id="emailAddressRegisterInput" name="emailAddressRegisterInput" class="form-control mb-2" required>
+                <div id="emailAddressRegisterInput_validation" class="invalid-feedback d-block"> </div>
+
+                <label for="passwordRegisterInput">Hasło</label>
+                <input type="password" id="passwordRegisterInput" name="passwordRegisterInput" class="form-control mb-2" required>
+                <div id="passwordRegisterInput_validation" class="invalid-feedback d-block"> </div>
+
+                <label for="passwordRegisterInput2">Potwierdź hasło</label>
+                <input type="password" id="passwordRegisterInput2" name="passwordRegisterInput2" class="form-control mb-2" required>
+                <div id="passwordRegisterInput2_validation" class="invalid-feedback d-block"> </div>
+
+                <input type="submit" id="signupInput" name="signupInput" value="Zarejestruj się" class="bt btn-lg btn-primary btn-block mt-3 mb-1">
+                <p class="text-center">Masz już konto? <a href="login.html">Zaloguj się</a></p>
+            </form>
+        </div>
+    </div>
+
+
+</body>

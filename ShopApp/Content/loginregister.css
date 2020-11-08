@@ -1,0 +1,34 @@
+﻿.fa-stripe-s {
+    color: #FFB24A;
+    font-size: 28px;
+}
+
+.btn-primary {
+    background-color: #FFB24A;
+    border: solid 1px black;
+    text-shadow: none;
+    color: black;
+}
+
+    .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+        background-color: #ffaa3a !important;
+        color: black !important;
+    }
+
+a {
+    color: #6684A1;
+}
+
+    a:hover {
+        color: #517aa1;
+    }
+
+@media (min-width: 1200px) {
+    h1 {
+        font-size: 38px;
+    }
+
+    .fa-stripe-s {
+        font-size: 52px;
+    }
+}

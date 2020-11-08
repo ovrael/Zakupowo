@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auction House</title>
     <!-- BOOTSTRAP CSS -->
-    @Styles.Render("~/bundles/bootstrapcss")
+    @Styles.Render("~/bundles/bootstrap")
     <!--Custom CSS-->
     @Styles.Render("~/bundles/Layout")
     <!--FontAwesomeCDN-->
@@ -24,7 +24,7 @@
         <div class="collapse navbar-collapse col-lg-4 order-lg-8" id="navbarSupportedContent">
             <ul class="navbar-nav w-100 justify-content-end">
                 <li class="nav-item">
-                    <a class="nav-link mx-4" id="chatLink" href="@Url.Action("AccountMessage", "user")"><i class="fas fa-envelope fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Wiadomości</p></a>
+                    <a class="nav-link mx-4" id="chatLink" href="@Url.Action("AccountMessage", "userpanel")"><i class="fas fa-envelope fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Wiadomości</p></a>
 
                 </li>
                 <li class="nav-item">
@@ -45,7 +45,7 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="register.html">Zarejestruj się</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="@Url.Action("Account", "user")">Panel użytkownika</a>
+                        <a class="dropdown-item" href="@Url.Action("Account", "userpanel")">Panel użytkownika</a>
                     </div>
                 </li>
             </ul>
@@ -83,6 +83,6 @@
     </footer>
 
     @Scripts.Render("~/bundles/jquery351")
-    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/bootstrapjs")
 </body>
 </html>

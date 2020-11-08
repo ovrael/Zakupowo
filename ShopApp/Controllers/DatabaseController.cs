@@ -30,7 +30,7 @@ namespace ShopApp.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UserCreate([Bind(Include = "Email,Login,EncryptedPassword,FirstName,LastName,Phone,Country,City,BirthDate,CreationTime")] User Usr)
+        public ActionResult UserCreate([Bind(Include = "Email,Login,EncryptedPassword,FirstName,LastName,Phone,Country,City,BirthDate,CreationTime")] Models.User Usr)
         {
             if (ModelState.IsValid)
             {
