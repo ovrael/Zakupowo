@@ -1,0 +1,264 @@
+﻿
+@{
+    ViewBag.Title = "";
+}
+
+
+<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+
+<div class="wrapper">
+    <div class="sidebar">
+        <div class="bg_shadow"></div>
+        <div class="sidebar__inner">
+            <div class="close">
+                <i class="fas fa-times"></i>
+            </div>
+
+            <ul class="siderbar_menu">
+                <li>
+                    <a href="@Url.Action("Account", "User")">
+                        <div class="icon"><i class="fa fa-user"></i></div>
+                        <div class="title">Profil</div>
+
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("AccountAddProduct", "User")">
+                        <div class="icon"><i class="fa fa-plus"></i></div>
+                        <div class="title">Dodaj produkt</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("AccountOrderHistory", "User")">
+                        <div class="icon"><i class="fas fa-file-alt"></i></div>
+                        <div class="title">Sprzedaż</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("AccountOrderHistory", "User")">
+                        <div class="icon"><i class="fas fa-history"></i></div>
+                        <div class="title">Historia</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("AccountMessage", "User")"class="active">
+                        <div class="icon"><i class="fas fa-envelope"></i></div>
+                        <div class="title">Wiadomości</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("AccountEdit", "User")">
+                        <div class="icon"><i class="fas fa-cog"></i></div>
+                        <div class="title">Ustawienia</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="icon"><i class="fa fa-reply"></i></div>
+                        <div class="title">Wyloguj</div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+    <div class="container py-5 px-4">
+
+        <header class="text-center">
+            <h1 class="display-4 text-white">Wiadomości</h1>
+        </header>
+
+        <div class="row rounded-lg overflow-hidden shadow">
+            <!-- Users box-->
+            <div class="col-5 px-0">
+                <div class="bg-white">
+
+                    <div class="bg-gray px-4 py-2 bg-light">
+                        <p class="h5 mb-0 py-1">Najnowsze</p>
+                    </div>
+
+                    <div class="messages-box">
+                        <div class="list-group rounded-0">
+                            <a class="list-group-item list-group-item-action active text-white rounded-0">
+                                <div class="media">
+                                    <img src="~/Images/user2.jpg" alt="user" width="50" class="rounded-circle">
+                                    <div class="media-body ml-4">
+                                        <div class="d-flex align-items-center justify-content-between mb-1">
+                                            <h6 class="mb-0">Jan Kowalski</h6><small class="small font-weight-bold">25 Paź</small>
+                                        </div>
+                                        <p class="font-italic mb-0 text-small">:)</p>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+                                <div class="media">
+                                    <img src="~/Images/user2.jpg" alt="user" width="50" class="rounded-circle">
+                                    <div class="media-body ml-4">
+                                        <div class="d-flex align-items-center justify-content-between mb-1">
+                                            <h6 class="mb-0">Anna Kowalczyk</h6><small class="small font-weight-bold">14 Paź</small>
+                                        </div>
+                                        <p class="font-italic text-muted mb-0 text-small">Dziękuje za informacje.</p>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+                                <div class="media">
+                                    <img src="~/Images/user2.jpg" alt="user" width="50" class="rounded-circle">
+                                    <div class="media-body ml-4">
+                                        <div class="d-flex align-items-center justify-content-between mb-1">
+                                            <h6 class="mb-0">Andrzej Wiśniewski</h6><small class="small font-weight-bold">9 Paź</small>
+                                        </div>
+                                        <p class="font-italic text-muted mb-0 text-small">Przy wyborze zapłaty jest możliwość tylko płatność kartą.Rozumiem że nie można zapłacić za pobraniem ?</p>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+                                <div class="media">
+                                    <img src="~/Images/user2.jpg" alt="user" width="50" class="rounded-circle">
+                                    <div class="media-body ml-4">
+                                        <div class="d-flex align-items-center justify-content-between mb-1">
+                                            <h6 class="mb-0">Zofia Nowak</h6><small class="small font-weight-bold">18 Wrz</small>
+                                        </div>
+                                        <p class="font-italic text-muted mb-0 text-small">Chcialambym zgłosić rekamacje.</p>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+                                <div class="media">
+                                    <img src="~/Images/user2.jpg" alt="user" width="50" class="rounded-circle">
+                                    <div class="media-body ml-4">
+                                        <div class="d-flex align-items-center justify-content-between mb-1">
+                                            <h6 class="mb-0">Karol Nowak</h6><small class="small font-weight-bold">17 Wrz</small>
+                                        </div>
+                                        <p class="font-italic text-muted mb-0 text-small">Dziękuję za odpowiedź.</p>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+                                <div class="media">
+                                    <img src="~/Images/user2.jpg" alt="user" width="50" class="rounded-circle">
+                                    <div class="media-body ml-4">
+                                        <div class="d-flex align-items-center justify-content-between mb-1">
+                                            <h6 class="mb-0">Stanisław Kowalski</h6><small class="small font-weight-bold">2 Sie</small>
+                                        </div>
+                                        <p class="font-italic text-muted mb-0 text-small">Chciałbym zrezygnować z zakupu</p>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+                                <div class="media">
+                                    <img src="~/Images/user2.jpg" alt="user" width="50" class="rounded-circle">
+                                    <div class="media-body ml-4">
+                                        <div class="d-flex align-items-center justify-content-between mb-1">
+                                            <h6 class="mb-0">xy</h6><small class="small font-weight-bold">30 Lip</small>
+                                        </div>
+                                        <p class="font-italic text-muted mb-0 text-small"></p>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+                                <div class="media">
+                                    <img src="~/Images/user2.jpg" alt="user" width="50" class="rounded-circle">
+                                    <div class="media-body ml-4">
+                                        <div class="d-flex align-items-center justify-content-between mb-3">
+                                            <h6 class="mb-0">xy</h6><small class="small font-weight-bold">21 Lip</small>
+                                        </div>
+                                        <p class="font-italic text-muted mb-0 text-small"></p>
+                                    </div>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Chat Box-->
+            <div class="col-7 px-0">
+                <div class="px-4 py-5 chat-box bg-white">
+                    <!-- Sender Message-->
+                    <div class="media w-50 mb-3">
+                        <img src="~/Images/user.jpg" alt="user" width="50" class="rounded-circle">
+                        <div class="media-body ml-3">
+                            <div class="bg-light rounded py-2 px-3 mb-2">
+                                <p class="text-small mb-0 text-muted">Dzień dobry, chciałbym zapytać o czas wystłki prokduktu.</p>
+                            </div>
+                            <p class="small text-muted">11:00 PM | Paź 31</p>
+                        </div>
+                    </div>
+
+                    <!-- Reciever Message-->
+                    <div class="media w-50 ml-auto mb-3">
+                        <div class="media-body">
+                            <div class="bg-primary rounded py-2 px-3 mb-2">
+                                <p class="text-small mb-0 text-white">Dzień dobry, wysyłka została już do pana wysłana.Powinna dotrzeć do 2 dni roboczych.</p>
+                            </div>
+                            <p class="small text-muted">11:05 PM | Paź 31</p>
+                        </div>
+                    </div>
+
+                    <!-- Sender Message-->
+                    <div class="media w-50 mb-3">
+                        <img src="~/Images/user.jpg" alt="user" width="50" class="rounded-circle">
+                        <div class="media-body ml-3">
+                            <div class="bg-light rounded py-2 px-3 mb-2">
+                                <p class="text-small mb-0 text-muted">Dziękuje za szybką odpowiedź.</p>
+                            </div>
+                            <p class="small text-muted">11:07 PM | Paź 31</p>
+                        </div>
+                    </div>
+
+                    <!-- Reciever Message-->
+                    <div class="media w-50 ml-auto mb-3">
+                        <div class="media-body">
+                            <div class="bg-primary rounded py-2 px-3 mb-2">
+                                <p class="text-small mb-0 text-white">Proszę bardzo.</p>
+                            </div>
+                            <p class="small text-muted">11:10 PM | Paź 31</p>
+                        </div>
+                    </div>
+
+                    <!-- Sender Message-->
+                    <div class="media w-50 mb-3">
+                        <img src="~/Images/user.jpg" alt="user" width="50" class="rounded-circle">
+                        <div class="media-body ml-3">
+                            <div class="bg-light rounded py-2 px-3 mb-2">
+                                <p class="text-small mb-0 text-muted">:)</p>
+                            </div>
+                            <p class="small text-muted">11:11 PM | Paź 31</p>
+                        </div>
+                    </div>
+
+                    <!-- Reciever Message-->
+                    <div class="media w-50 ml-auto mb-3">
+                        <div class="media-body">
+                            <div class="bg-primary rounded py-2 px-3 mb-2">
+                                <p class="text-small mb-0 text-white">:)</p>
+                            </div>
+                            <p class="small text-muted">11:12 PM | Paź 31</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Typing area -->
+                <form action="#" class="bg-light">
+                    <div class="input-group">
+                        <input type="text" placeholder="Napisz wiadomość" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+                        <div class="input-group-append">
+                            <button id="button-addon2" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
