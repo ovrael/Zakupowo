@@ -140,6 +140,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011071747530_InitialCreate.cs" />
+    <Compile Include="Migrations\202011071747530_InitialCreate.designer.cs">
+      <DependentUpon>202011071747530_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011081506006_updatingOfferModel.cs" />
+    <Compile Include="Migrations\202011081506006_updatingOfferModel.designer.cs">
+      <DependentUpon>202011081506006_updatingOfferModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\Bucket.cs" />
     <Compile Include="Models\Bundle.cs" />
@@ -346,6 +355,14 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202011071747530_InitialCreate.resx">
+      <DependentUpon>202011071747530_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011081506006_updatingOfferModel.resx">
+      <DependentUpon>202011081506006_updatingOfferModel.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
