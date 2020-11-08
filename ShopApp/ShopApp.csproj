@@ -293,7 +293,6 @@
     <Content Include="Views\Register\Create.cshtml" />
     <Content Include="Views\Register\Index.cshtml" />
     <Content Include="Views\Register\Success.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Account.cshtml" />
     <Content Include="Views\UserPanel\Index.cshtml" />
     <Content Include="Views\UserPanel\AddOrEdit.cshtml" />
@@ -326,6 +325,7 @@
     <Content Include="Views\Database\UserCreate.cshtml" />
     <Content Include="Views\Account\Create.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

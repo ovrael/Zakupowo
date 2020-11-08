@@ -68,90 +68,87 @@
 
 <div class="use-add-product">
 
-    <form class="form-horizontal">
+    <form class="form-horizontal" method="post">
             
         <fieldset class="add-produt">
            
             <h2>Dodaj swoją ofertę :</h2>
             <p>Dane produktu</p>
 
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="product_name">NAZWA PRODUKTU</label>
+                    <div class="col-md-4">
+                        <input id="product_name" name="product_name" placeholder="NAZWA PRODUKTU" class="form-control input-md" required="" type="text">
 
-            
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="product_name">NAZWA PRODUKTU</label>
-                <div class="col-md-4">
-                    <input id="product_name" name="product_name" placeholder="NAZWA PRODUKTU" class="form-control input-md" required="" type="text">
-
+                    </div>
                 </div>
-            </div>
 
-          
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="product_name_fr">OPIS PRODUKTU </label>
-                <div class="col-md-4">
-                   
-                    <textarea id="product_name_fr" name="product_name_fr" placeholder="OPIS PRODUKTU" class="form-control input-md" required=""> </textarea>
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="product_name_fr">OPIS PRODUKTU </label>
+                    <div class="col-md-4">
+
+                        <textarea id="product_name_fr" name="product_name_fr" placeholder="OPIS PRODUKTU" class="form-control input-md" required=""> </textarea>
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="product_categorie">KATEGORIA PRODUKTU</label>
-                <div class="col-md-4">
-                    <select id="product_categorie" name="product_categorie" class="form-control">
-                        <option selected>Wybierz kategorie</option>
-                        <option value="1">Kategoria 1</option>
-                        <option value="2">Kategoria 2</option>
-                        <option value="3">Kategoria 3</option>
-                    </select>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="product_categorie">KATEGORIA PRODUKTU</label>
+                    <div class="col-md-4">
+                        <select id="product_categorie" name="product_categorie" class="form-control">
+                            <option selected>Wybierz kategorie</option>
+                            <option value="1">Kategoria 1</option>
+                            <option value="2">Kategoria 2</option>
+                            <option value="3">Kategoria 3</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-           
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="available_quantity">ILOŚĆ PRODUKTU</label>
-                <div class="col-md-4">
-                    <input id="available_quantity" name="available_quantity" placeholder="ILOŚĆ PRODUKTU" class="form-control input-md" required="" type="number">
 
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="available_quantity">ILOŚĆ PRODUKTU</label>
+                    <div class="col-md-4">
+                        <input id="available_quantity" name="available_quantity" placeholder="ILOŚĆ PRODUKTU" class="form-control input-md" required="" type="number">
+
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="product_weight">WAGA PRODUKTU</label>
-                <div class="col-md-4">
-                    <input id="product_weight" name="product_weight" placeholder="WAGA PRODUKTU" class="form-control input-md" required="" type="text">
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="product_weight">WAGA PRODUKTU</label>
+                    <div class="col-md-4">
+                        <input id="product_weight" name="product_weight" placeholder="WAGA PRODUKTU" class="form-control input-md" required="" type="text">
 
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="product_price">CENA</label>
-                <div class="col-md-4">
-                    <input id="product_weight" name="product_weight" placeholder="CENA" class="form-control input-md" required="" type="text">
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="product_price">CENA</label>
+                    <div class="col-md-4">
+                        <input id="product_weight" name="product_price" placeholder="CENA" class="form-control input-md" required="" type="text">
 
+                    </div>
                 </div>
-            </div>
 
-           
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="filebutton">Główny obraz</label>
-                <div class="col-md-4">
-                    <input id="filebutton" name="filebutton" class="input-file" type="file">
-                </div>
-            </div>
-        
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="filebutton">Obrazy poboczne</label>
-                <div class="col-md-4">
-                    <input id="filebutton" name="filebutton" class="input-file" type="file">
-                </div>
-            </div>
 
-        
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="singlebutton"></label>
-                <div class="col-md-4">
-                    <button id="singlebutton" name="singlebutton" class="btn btn-dark">Dodaj produkt</button>
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="filebutton">Główny obraz</label>
+                    <div class="col-md-4">
+                        <input id="filebutton" name="filebutton" class="input-file" type="file">
+                    </div>
                 </div>
-            </div>
 
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="filebutton">Obrazy poboczne</label>
+                    <div class="col-md-4">
+                        <input id="filebutton" name="filebutton" class="input-file" type="file">
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="singlebutton"></label>
+                    <div class="col-md-4">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
         </fieldset>
     </form>
 </div>

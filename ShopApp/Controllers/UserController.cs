@@ -7,6 +7,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ShopApp.DAL;
+using Microsoft.Ajax.Utilities;
+using Antlr.Runtime.Tree;
 
 namespace ShopApp.Controllers
 {
@@ -18,13 +20,51 @@ namespace ShopApp.Controllers
         // GET: User
         public ActionResult Index()
         {
+            return View(db.Offers);
+        }
+        public ActionResult AccountAddProduct()
+        {
             return View();
         }
         [HttpPost]
-        public ActionResult Index([Bind(Include = "")] Offer Oferta)
+        public ActionResult AccountAddProduct(FormCollection collection)
         {
-
-            return View();
+            Offer Oferta = new Offer
+            {
+                Title = collection["product_name"],
+                Description = collection["product_name_fr"],
+                InStock = Convert.ToDouble(collection["available_quantity"]),
+                Price = Convert.ToDouble(collection["product_price"])
+            };
+            db.Users.Add(new User
+            {
+                Email = "Toniezle@Migracje.com",
+                Login ="Migracja",
+                EncryptedPassword = "TakO",
+                FirstName = "Wywala",
+                LastName = "Seeda:D"
+            }
+            );
+            db.SaveChanges();
+            Oferta.User = db.Users.Where(i => i.UserID == 1).First();//DO PIERWSZEGO SPRINTU WSZYSTKO WLATUJE DO DEFAULTOWEGO USERA
+            db.Offers.Add(Oferta);
+            db.SaveChanges();
+            /*
+            int ID;
+            foreach (var item in collection["product_categorie"])
+            {
+                ID = Convert.ToInt32(item);
+                //TU SIE PSUJE STRASZNIE FEST
+                (db.Categories.Where(i => i.CategoryID == ID).First())
+                    .Offers.Add(db.Offers.Where(x => x.OfferID == Oferta.OfferID).First());
+                Oferta.Categories.Add(db.Categories.Where(i => i.CategoryID == ID).First());
+            }
+            */
+            
+            db.SaveChanges();
+            db.Users.Where(i => i.UserID == 1).First().Offers.Add(Oferta);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
         public ActionResult Account()
         {
@@ -81,11 +121,7 @@ namespace ShopApp.Controllers
         {
             return View();
         }
-        public ActionResult AccountAddProduct()
-        {
-
-            return View();
-        }
+        
         public ActionResult AccountMessage()
         {
             return View();
