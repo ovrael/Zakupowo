@@ -171,6 +171,15 @@ body {
     }
 }
 
+.offer-box {
+    width: 250px;
+    height: 200px;
+    background: gold;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 20px;
+}
+
 /* RESPONSIVE BREAKPOINTS */
 @media (min-width: 1200px) {
     html {
@@ -209,3 +218,4 @@ body {
         animation-name: slideIn;
     }
 }
+
