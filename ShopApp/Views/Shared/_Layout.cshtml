@@ -6,12 +6,17 @@
     <title>Auction House</title>
     <!-- BOOTSTRAP CSS -->
     @Styles.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jquery351")
+
+    @Scripts.Render("~/bundles/bootstrapjs")
     <!--Custom CSS-->
     @Styles.Render("~/bundles/Layout")
+    <script type="text/javascript" src="~/Scripts/Scripts.js"></script>
     <!--FontAwesomeCDN-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
     <!--GoogleFonts-->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Staatliches&display=swap" rel="stylesheet">
+
     <!--TODO: SEO-->
 </head>
 <body>
@@ -54,7 +59,7 @@
         <!-- SEARCH FORM -->
         <form class="form-inline col-lg-4" id="searchForm">
             <div class="input-group mt-2 mt-lg-0 w-100">
-                <input type="search" class="form-control" id="searchbar" placeholder="Szukaj produktu..." aria-label="Search">
+                <input type="search" class="form-control product-search" placeholder="Szukaj produktu..." aria-label="Search">
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" id="searchButton" type="submit"><i class="fas fa-search"></i></button>
                 </div>
@@ -70,7 +75,7 @@
     </div>
 
     <!-- TODO: CONTAINER-FLEX-->
-    <div class="container">
+    <div class="container" style="position:relative; margin-top:200px;">
         @RenderBody()
     </div>
 
@@ -82,7 +87,6 @@
         </div>
     </footer>
 
-    @Scripts.Render("~/bundles/jquery351")
-    @Scripts.Render("~/bundles/bootstrapjs")
+
 </body>
 </html>

@@ -37,11 +37,18 @@ function jQueryAjaxPost(form) {
 
 
 jQuery(document).ready(function () {
-    
-
-    jQuery('table tr').on('click', function () {
-        jQuery(this).remove();
-    })
+   
+    jQuery('.product-search').on('input change', function () {
+        var offers = jQuery('.offer-box');
+        var value = jQuery(this).val().toLowerCase();
+        jQuery(offers).each(function () {
+            var text = jQuery(this).find('h2').text().toLowerCase();
+            if (text.includes(value)) jQuery(this).removeClass('hidden');
+            else jQuery(this).addClass('hidden');
+        })
+      
+        
+    });
 
 })
 
@@ -89,3 +96,5 @@ $(document).ready(function () {
 // SideNav Scrollbar Initialization
 var sideNavScrollbar = document.querySelector('siderbar_menu');
 Ps.initialize(sideNavScrollbar);
+
+
