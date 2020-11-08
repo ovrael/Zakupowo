@@ -13,6 +13,8 @@ namespace ShopApp.Models
         public int OfferID { get; set; }
         [Required]
         public string Title { get; set; }
+        [Required]
+        public string Description { get; set; }
         //Stocking should be an ENUM
         public string Stocking { get; set; }
         [Required]

@@ -6,17 +6,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ShopApp.DAL;
 
 namespace ShopApp.Controllers
 {
     public class UserController : Controller
     {
+        private ShopContext db = new ShopContext();
 
-       
 
         // GET: User
         public ActionResult Index()
         {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Index([Bind(Include = "")] Offer Oferta)
+        {
+
             return View();
         }
         public ActionResult Account()
@@ -76,6 +83,7 @@ namespace ShopApp.Controllers
         }
         public ActionResult AccountAddProduct()
         {
+
             return View();
         }
         public ActionResult AccountMessage()
