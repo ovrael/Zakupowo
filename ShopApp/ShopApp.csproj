@@ -334,6 +334,7 @@
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\UserPanelJonak\AddOrEdit.cshtml" />
     <Content Include="Views\UserPanelJonak\Index.cshtml" />
+    <Content Include="Views\UserPanel\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

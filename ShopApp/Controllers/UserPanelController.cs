@@ -9,12 +9,46 @@ using System.Web.Mvc;
 using ShopApp.DAL;
 using Microsoft.Ajax.Utilities;
 using Antlr.Runtime.Tree;
+using ShopApp.Utility;
 
 namespace ShopApp.Controllers
 {
     public class UserPanelController : Controller
     {
         private ShopContext db = new ShopContext();
+
+        //USER REGISTRATION
+        public ActionResult Register()
+        {
+
+            return View();
+
+        }
+
+        //POST: Register/Create
+        [HttpPost]
+        public ActionResult Register(FormCollection collection)
+        {
+            User user = new User()
+            {
+                FirstName = collection["FirstName"],
+                LastName = collection["LastName"],
+                Login = "TEST_LOGIN",
+                EncryptedPassword = Cryptographing.Encrypt(collection["Password"]),
+                Email = collection["Email"],
+                BirthDate = DateTime.UtcNow
+            };
+
+
+            //Debug.WriteLine("DANE USERA");
+            //Debug.WriteLine(user.FirstName + " " + user.LastName + " " + user.Login + " " + user.EncryptedPassword + " " + user.Email);
+
+            db.Users.Add(user);
+            db.SaveChanges();
+            ViewBag.Message = db.Users.ToList();
+            return RedirectToAction("Account");
+        }
+
 
 
         // GET: User
@@ -39,7 +73,7 @@ namespace ShopApp.Controllers
             db.Users.Add(new Models.User
             {
                 Email = "Toniezle@Migracje.com",
-                Login ="Migracja",
+                Login = "Migracja",
                 EncryptedPassword = "TakO",
                 FirstName = "Wywala",
                 LastName = "Seeda:D"
@@ -60,17 +94,17 @@ namespace ShopApp.Controllers
                 Oferta.Categories.Add(db.Categories.Where(i => i.CategoryID == ID).First());
             }
             */
-            
+
             db.SaveChanges();
             db.Users.Where(i => i.UserID == 1).First().Offers.Add(Oferta);
             db.SaveChanges();
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
         public ActionResult Account()
         {
             AccountViewModel accountView = new AccountViewModel();
             accountView.FirstName = UserCache.CachedUser.FirstName;
-            accountView.Surname = UserCache.CachedUser.LastName;
+            accountView.LastName = UserCache.CachedUser.LastName;
             accountView.Email = UserCache.CachedUser.Email;
             accountView.PhoneNumber = "+48 111 222 333";
             accountView.City = "Katowice";
@@ -82,13 +116,13 @@ namespace ShopApp.Controllers
 
             return View(accountView);
         }
-        
+
         public ActionResult AccountEdit()
         {
 
             AccountViewModel accountView = new AccountViewModel();
             accountView.FirstName = UserCache.CachedUser.FirstName;
-            accountView.Surname = UserCache.CachedUser.LastName;
+            accountView.LastName = UserCache.CachedUser.LastName;
             accountView.Email = UserCache.CachedUser.Email;
             accountView.PhoneNumber = "+48 111 222 333";
             accountView.City = "Katowice";
@@ -105,7 +139,7 @@ namespace ShopApp.Controllers
 
             AccountViewModel accountView = new AccountViewModel();
             accountView.FirstName = UserCache.CachedUser.FirstName;
-            accountView.Surname = UserCache.CachedUser.LastName;
+            accountView.LastName = UserCache.CachedUser.LastName;
             accountView.Email = UserCache.CachedUser.Email;
             accountView.PhoneNumber = "+48 111 222 333";
             accountView.City = "Katowice";
@@ -121,7 +155,7 @@ namespace ShopApp.Controllers
         {
             return View();
         }
-        
+
         public ActionResult AccountMessage()
         {
             return View();
@@ -130,7 +164,7 @@ namespace ShopApp.Controllers
         {
             AccountViewModel accountView = new AccountViewModel();
             accountView.FirstName = UserCache.CachedUser.FirstName;
-            accountView.Surname = UserCache.CachedUser.LastName;
+            accountView.LastName = UserCache.CachedUser.LastName;
             accountView.Email = UserCache.CachedUser.Email;
             accountView.PhoneNumber = "+48 111 222 333";
             accountView.City = "Katowice";
@@ -142,8 +176,8 @@ namespace ShopApp.Controllers
 
             return View(accountView);
         }
-      
-      
+
+
         // GET: User/Details/5
         public ActionResult Details(int id)
         {
@@ -178,10 +212,10 @@ namespace ShopApp.Controllers
             UserCache.CachedUser.FirstName = viewModel["FirstName"];
             UserCache.CachedUser.LastName = viewModel["SurName"];
             UserCache.CachedUser.Email = viewModel["Email"];
-            
+
             AccountViewModel accountView = new AccountViewModel();
             accountView.FirstName = UserCache.CachedUser.FirstName;
-            accountView.Surname = UserCache.CachedUser.LastName;
+            accountView.LastName = UserCache.CachedUser.LastName;
             accountView.Email = UserCache.CachedUser.Email;
             accountView.PhoneNumber = "+48 111 222 333";
             accountView.City = "Katowice";
@@ -195,20 +229,34 @@ namespace ShopApp.Controllers
         [HttpPost]
         public ActionResult AccountEditContact(FormCollection viewModel)
         {
-            
-            UserCache.CachedUser.Email = viewModel["Email"];
+            User showUser = db.Users.Last();
+
+            //UserCache.CachedUser.Email = viewModel["Email"];
 
             AccountViewModel accountView = new AccountViewModel();
-            accountView.FirstName = UserCache.CachedUser.FirstName;
-            accountView.Surname = UserCache.CachedUser.LastName;
-            accountView.Email = UserCache.CachedUser.Email;
-            accountView.PhoneNumber = "+48 111 222 333";
-            accountView.City = "Katowice";
-            accountView.Street = "Mickiewicza";
-            accountView.StreetNumber = 45;
-            accountView.Postcode = "40-008";
-            accountView.BirthDate = "21 kwietnia 1999";
-            accountView.Country = "Polska";
+            //accountView.FirstName = UserCache.CachedUser.FirstName;
+            //accountView.LastName = UserCache.CachedUser.LastName;
+            //accountView.Email = UserCache.CachedUser.Email;
+            //accountView.PhoneNumber = "+48 111 222 333";
+            //accountView.City = "Katowice";
+            //accountView.Street = "Mickiewicza";
+            //accountView.StreetNumber = 45;
+            //accountView.Postcode = "40-008";
+            //accountView.BirthDate = "21 kwietnia 1999";
+            //accountView.Country = "Polska";
+
+            accountView.Login = showUser.Login;
+            accountView.FirstName = showUser.FirstName;
+            accountView.LastName = showUser.LastName;
+            accountView.Email = showUser.Email;
+            //accountView.PhoneNumber = "+48 111 222 333";
+            //accountView.City = "Katowice";
+            //accountView.Street = "Mickiewicza";
+            //accountView.StreetNumber = 45;
+            //accountView.Postcode = "40-008";
+            accountView.BirthDate = showUser.BirthDate.ToString();
+            //accountView.Country = "Polska";
+
             return View("AccountEditContact", accountView);
         }
         // GET: User/Edit/5

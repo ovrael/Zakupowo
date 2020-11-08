@@ -1,7 +1,9 @@
 ﻿using ShopApp.DAL;
 using ShopApp.Models;
+using ShopApp.Utility;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -19,12 +21,6 @@ namespace ShopApp.Controllers
         {
             return View();
         }
-        public ActionResult Register()
-        {
-            return View();
-        }
-
-
 
         //  GET: Register
 
@@ -34,7 +30,7 @@ namespace ShopApp.Controllers
         }
 
         //  GET: Register/Create
-        public ActionResult Create()
+        public ActionResult Register()
         {
 
             return View();
@@ -43,23 +39,26 @@ namespace ShopApp.Controllers
 
         //POST: Register/Create
         [HttpPost]
-        public ActionResult Create(Models.User user)
+        public ActionResult Register(FormCollection collection)
         {
-            //if (user.ImageUpload != null)
-            //{
-            //    string fileName = Path.GetFileNameWithoutExtension(user.ImageUpload.FileName);
-            //    string extension = Path.GetExtension(user.ImageUpload.FileName);
-            //    fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-            //    user.ImagePath = "~/AppFiles/Images/" + fileName;
-            //    user.ImageUpload.SaveAs(Path.Combine(Server.MapPath("~/AppFiles/Images/"), fileName));
+            User user = new User()
+            {
+                FirstName = collection["FirstName"],
+                LastName = collection["LastName"],
+                Login = "TEST_LOGIN",
+                EncryptedPassword = Cryptographing.Encrypt(collection["Password"]),
+                Email = collection["Email"],
+                BirthDate = DateTime.UtcNow
+            };
 
 
-            //}
+            //Debug.WriteLine("DANE USERA");
+            //Debug.WriteLine(user.FirstName + " " + user.LastName + " " + user.Login + " " + user.EncryptedPassword + " " + user.Email);
 
             db.Users.Add(user);
             db.SaveChanges();
             ViewBag.Message = db.Users.ToList();
-            return View();
+            return RedirectToAction("~/Userpanel/Account");
         }
 
         #region NotYetUsedActions
