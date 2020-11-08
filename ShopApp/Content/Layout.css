@@ -174,10 +174,17 @@ body {
 .offer-box {
     width: 250px;
     height: 200px;
-    background: gold;
+    background: white;
     border: 1px solid black;
     border-radius: 5px;
     padding: 20px;
+    margin-bottom: 20px;
+    
+}
+
+.hidden{
+    display : none;
+   
 }
 
 /* RESPONSIVE BREAKPOINTS */
