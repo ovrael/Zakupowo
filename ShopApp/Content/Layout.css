@@ -113,24 +113,6 @@ body {
     font-size: 14px;
 }
 
-/* OFFERS */
-.offer-header {
-    font-weight: 700;
-}
-
-.offer-price {
-    font-size: 2rem;
-    font-weight: 600;
-}
-
-.offer-delivery {
-    color: #6684A1;
-}
-
-.offer-cart {
-    color: green;
-}
-
 /* FOOTER */
 .footer {
     background-color: #002447;
@@ -195,7 +177,7 @@ body {
         font-size: 14px;
     }
 
-    .container {
+    .container-fluid {
         padding-top: 80px;
     }
 
