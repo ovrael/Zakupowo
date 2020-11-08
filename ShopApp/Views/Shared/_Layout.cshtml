@@ -7,8 +7,6 @@
     <title>@ViewBag.Title - Shop site.</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <!--BootstrapCDN-->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <!--FontAwesomeCDN-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
     <!--CustomCSS-->
@@ -38,22 +36,25 @@
                     <a class="nav-link mx-4" id="cartLink"><i class="fas fa-shopping-cart fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Koszyk</p></a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link mx-4 dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link mx-4 dropdown-toggle" href="@Url.Action("Account", "user")" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-user fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Konto</p><i class="fas fa-sort-down ml-1 ml-lg-0"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right mt-lg-2 text-center animate slideIn" aria-labelledby="navbarDropdownMenuLink">
-                        @Html.ActionLink("Profil", "Account", "User", new { area = "" }, new { @class = "nav-links" })
-                        @Html.ActionLink("Wyloguj", "", "", new { area = "" }, new { @class = "nav-links" })
-                        @*<p class="p-2 d-none d-lg-block">
-                                Zaloguj się i zobacz swoje zakupy, ulubione oferty oraz wiadomości. W Domu Aukcyjnym zakupy są łatwe!
-                            </p>
-                            <a class="dropdown-item" id="logInItem" href="login.html">Zaloguj się</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="register.html">Zarejestruj się</a>*@
+                        @*@Html.ActionLink("Profil", "Account", "User", new { area = "" }, new { @class = "nav-links" })
+                        @Html.ActionLink("Wyloguj", "", "", new { area = "" }, new { @class = "nav-links" })*@
+                        <p class="p-2 d-none d-lg-block">
+                            Zaloguj się i zobacz swoje zakupy, ulubione oferty oraz wiadomości. W Domu Aukcyjnym zakupy są łatwe!
+                        </p>
+                        <a class="dropdown-item" id="logInItem" href="login.html">Zaloguj się</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="register.html">Zarejestruj się</a>
+
                     </div>
                 </li>
             </ul>
         </div>
+   
+      
         <form class="form-inline col-lg-4" id="searchForm">
             <div class="input-group mt-2 mt-lg-0 w-100">
                 <input type="search" class="form-control" id="searchbar" placeholder="Szukaj produktu..." aria-label="Search">
@@ -71,7 +72,7 @@
         </div>
     </div>
     <footer>
-        <div class="row footer text-center">
+        <div class=" footer text-center">
             <div class="col-12 my-auto">
                 ©2020 website created for educational purpose
             </div>

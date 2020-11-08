@@ -15,7 +15,7 @@ namespace ShopApp.ViewModels.User
         public string Street;
         public int  StreetNumber;
         public string Postcode;
-
-
+        public string BirthDate;
+        public string Country;
     }
 }
