@@ -126,7 +126,7 @@ namespace ShopApp.Controllers
         {
             if (Session["userId"] == null)
             {
-                Response.Redirect("~/User/Login");
+                return RedirectToAction("Login", "User");
             }
 
             int userID = (int)Session["userId"];
@@ -148,7 +148,7 @@ namespace ShopApp.Controllers
         {
             if (Session["userId"] == null)
             {
-                Response.Redirect("~/User/Login");
+                return RedirectToAction("Login", "User");
             }
 
             int userID = (int)Session["userId"];
@@ -162,6 +162,7 @@ namespace ShopApp.Controllers
                 string changedFirstName = collection["FirstName"].Trim();
                 string changedLastName = collection["LastName"].Trim();
                 string changedEmail = collection["Email"].Trim();
+                string changedLogin = collection["Login"].Trim();
                 string changedPhoneNumber = collection["PhoneNumber"].Trim();
 
 
@@ -177,6 +178,9 @@ namespace ShopApp.Controllers
                 if (changedPhoneNumber != editUser.Phone && changedPhoneNumber != null)
                     editUser.Phone = changedPhoneNumber;
 
+                if (changedLogin != editUser.Login && changedLogin != null)
+                    editUser.Login = changedLogin;
+
                 Debug.WriteLine(editUser.showBasicInformation());
 
                 db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
@@ -191,7 +195,7 @@ namespace ShopApp.Controllers
         {
             if (Session["userId"] == null)
             {
-                Response.Redirect("~/User/Login");
+                return RedirectToAction("Login", "User");
             }
 
             int userID = (int)Session["userId"];
@@ -209,7 +213,7 @@ namespace ShopApp.Controllers
         {
             if (Session["userId"] == null)
             {
-                Response.Redirect("~/User/Login");
+                return RedirectToAction("Login", "User");
             }
 
             int userID = (int)Session["userId"];
@@ -252,17 +256,64 @@ namespace ShopApp.Controllers
 
         public ActionResult AccountEditPassword()
         {
-            User showUser = db.Users.ToList()[db.Users.ToList().Count - 1];
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            int userID = (int)Session["userId"];
+            User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
 
             AccountViewModel accountView = new AccountViewModel();
-
             accountView.Login = showUser.Login;
             accountView.FirstName = showUser.FirstName;
             accountView.LastName = showUser.LastName;
             accountView.Email = showUser.Email;
             accountView.BirthDate = showUser.BirthDate.ToString();
+            accountView.PhoneNumber = showUser.Phone;
 
             return View(accountView);
+        }
+
+        [HttpPost]
+        public ActionResult AccountEditPassword(FormCollection collection)
+        {
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            int userID = (int)Session["userId"];
+            User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+
+            if (editUser != null)
+            {
+                Debug.WriteLine(collection["OldPassword"].Trim());
+                Debug.WriteLine(collection["NewPassword"].Trim());
+                Debug.WriteLine(collection["NewPasswordValidation"].Trim());
+
+
+                string encryptedOldPassword = Cryptographing.Encrypt(collection["OldPassword"].Trim());
+                string encryptedNewPassword = Cryptographing.Encrypt(collection["NewPassword"].Trim());
+                string encryptedNewPasswordValidation = Cryptographing.Encrypt(collection["NewPasswordValidation"].Trim());
+
+                if (encryptedOldPassword != editUser.EncryptedPassword && encryptedOldPassword != null)
+                {
+                    Debug.WriteLine("STARE HASŁO OK");
+                    if (encryptedNewPassword.Equals(encryptedNewPasswordValidation))
+                    {
+                        Debug.WriteLine("ZMIENIAM HASŁA");
+                        editUser.EncryptedPassword = encryptedNewPassword;
+
+                        db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
+
+                        db.SaveChanges();
+                    }
+                }
+
+            }
+
+            return RedirectToAction("Account", "UserPanel");
         }
     }
 }
