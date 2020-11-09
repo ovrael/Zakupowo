@@ -76,7 +76,7 @@
 
                                     <ul class="meta list list-unstyled">
                                         <li class="name">
-                                            @Model.FirstName @Model.Surname
+                                            @Model.FirstName @Model.LastName
                                         </li>
                                     </ul>
                                 </div>
@@ -111,7 +111,7 @@
                                         <div class="form-group">
                                             <label class="col-md-2 col-sm-3 col-xs-12 control-label">Nazwisko</label>
                                             <div class="col-md-10 col-sm-9 col-xs-12">
-                                                @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
+                                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
                                             </div>
                                         </div>
 

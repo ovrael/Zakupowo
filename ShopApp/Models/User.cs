@@ -14,7 +14,7 @@ namespace ShopApp.Models
         [Key]
         public int UserID { get; set; }
 
-        [Required]
+        [Required (ErrorMessage="This field is required")]
         [MaxLength(50)]
         [Column("Email", TypeName = "char")]
         public string Email { get; set; }
