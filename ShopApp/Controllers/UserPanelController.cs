@@ -103,7 +103,7 @@ namespace ShopApp.Controllers
         {
             if (Session["userId"] == null)
             {
-                Response.Redirect("~/User/Login");
+                return RedirectToAction("Login", "User");
             }
 
             int userID = (int)Session["userId"];
@@ -116,6 +116,8 @@ namespace ShopApp.Controllers
             accountView.Email = showUser.Email;
             accountView.BirthDate = showUser.BirthDate.ToString();
             accountView.PhoneNumber = showUser.Phone;
+            accountView.Country = showUser.Country;
+            accountView.City = showUser.City;
 
             return View(accountView);
         }
