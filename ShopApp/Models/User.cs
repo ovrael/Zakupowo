@@ -11,20 +11,24 @@ namespace ShopApp.Models
 {
     public class User
     {
+
+        public static string ErrorMessage { get; set; }
+
+
         [Key]
         public int UserID { get; set; }
 
-        [Required (ErrorMessage="This field is required")]
+        [Required (ErrorMessage="To pole jest wymagane")]
         [MaxLength(50)]
         [Column("Email", TypeName = "char")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "To pole jest wymagane")]
         [Column("Login", TypeName = "char")]
         [MaxLength(50)]
         public string Login { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "To pole jest wymagane")]
         [Column("EncryptedPassword", TypeName = "char")]
         [MaxLength(200)]
         public string EncryptedPassword { get; set; }

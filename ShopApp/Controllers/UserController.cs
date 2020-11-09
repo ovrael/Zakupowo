@@ -18,6 +18,8 @@ namespace ShopApp.Controllers
     {
         private ShopContext db = new ShopContext();
 
+
+        //Login methods
         public ActionResult Login()
         {
             return View();
@@ -27,14 +29,34 @@ namespace ShopApp.Controllers
         public ActionResult Login(FormCollection collection)
         {
             var email = collection["Email"];
-            var password = collection["Password"];
+            var password = Cryptographing.Encrypt(collection["EncryptedPassword"]);
+            var userDetail = db.Users.Where(x => x.Email == email && x.EncryptedPassword == password).FirstOrDefault();
 
 
-            Cryptographing.Encrypt(collection["Password"]);
+            if (userDetail == null)
+            {
+                
+                
+                ViewBag.Error = "Nieprawidłowe dane logowania";
+                return View("Login");
+            }
+            else
+            {
+                int userId = userDetail.UserID;
+                Session["userId"] = userId;
+                return RedirectToAction("Index", "Home");
+            }
            
-            ViewBag.Message = db.Users.ToList();
-            return RedirectToAction("~/Userpanel/Account");
+          
         }
+        //Logout method 
+
+        public ActionResult Logout()
+        {
+            Session.Abandon();
+            return RedirectToAction("Login", "User");
+        }
+
 
         //  GET: Register
 

@@ -95,6 +95,6 @@ $(document).ready(function () {
 
 // SideNav Scrollbar Initialization
 var sideNavScrollbar = document.querySelector('siderbar_menu');
-Ps.initialize(sideNavScrollbar);
+//Ps.initialize(sideNavScrollbar);
 
 
