@@ -19,7 +19,7 @@ namespace ShopApp.Models
         [Key]
         public int UserID { get; set; }
 
-        [Required (ErrorMessage="To pole jest wymagane")]
+        [Required(ErrorMessage = "To pole jest wymagane")]
         [MaxLength(50)]
         [Column("Email", TypeName = "char")]
         public string Email { get; set; }
@@ -74,8 +74,9 @@ namespace ShopApp.Models
             string name = "Full name: " + FirstName + " " + LastName;
             string email = "E-mail: " + Email;
             string login = "Login: " + Login;
+            string phone = "Phone: " + Phone;
 
-            return name + " " + login + " " + email;
+            return name + " " + login + " " + email + " " + phone;
         }
 
     }
