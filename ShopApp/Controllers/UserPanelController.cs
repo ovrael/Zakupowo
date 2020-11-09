@@ -10,6 +10,7 @@ using ShopApp.DAL;
 using Microsoft.Ajax.Utilities;
 using Antlr.Runtime.Tree;
 using ShopApp.Utility;
+using System.Diagnostics;
 
 namespace ShopApp.Controllers
 {
@@ -48,8 +49,6 @@ namespace ShopApp.Controllers
             ViewBag.Message = db.Users.ToList();
             return RedirectToAction("Account");
         }
-
-
 
         // GET: User
         public ActionResult Index()
@@ -100,54 +99,119 @@ namespace ShopApp.Controllers
             db.SaveChanges();
             return RedirectToAction("Index", "Home");
         }
+
         public ActionResult Account()
         {
+            User showUser = db.Users.ToList()[db.Users.ToList().Count - 1];
+            //UserCache.CachedUser.Email = viewModel["Email"];
+
             AccountViewModel accountView = new AccountViewModel();
-            accountView.FirstName = UserCache.CachedUser.FirstName;
-            accountView.LastName = UserCache.CachedUser.LastName;
-            accountView.Email = UserCache.CachedUser.Email;
-            accountView.PhoneNumber = "+48 111 222 333";
-            accountView.City = "Katowice";
-            accountView.Street = "Mickiewicza";
-            accountView.StreetNumber = 45;
-            accountView.Postcode = "40-008";
-            accountView.BirthDate = "21 kwietnia 1999";
-            accountView.Country = "Polska";
+            //accountView.FirstName = UserCache.CachedUser.FirstName;
+            //accountView.LastName = UserCache.CachedUser.LastName;
+            //accountView.Email = UserCache.CachedUser.Email;
+            //accountView.PhoneNumber = "+48 111 222 333";
+            //accountView.City = "Katowice";
+            //accountView.Street = "Mickiewicza";
+            //accountView.StreetNumber = 45;
+            //accountView.Postcode = "40-008";
+            //accountView.BirthDate = "21 kwietnia 1999";
+            //accountView.Country = "Polska";
+
+            Debug.WriteLine("WYŚWIETLAM INFO");
+            Debug.WriteLine(showUser.showBasicInformation());
+
+            accountView.Login = showUser.Login;
+            accountView.FirstName = showUser.FirstName;
+            accountView.LastName = showUser.LastName;
+            accountView.Email = showUser.Email;
+            //accountView.PhoneNumber = "+48 111 222 333";
+            //accountView.City = "Katowice";
+            //accountView.Street = "Mickiewicza";
+            //accountView.StreetNumber = 45;
+            //accountView.Postcode = "40-008";
+            accountView.BirthDate = showUser.BirthDate.ToString();
+            //accountView.Country = "Polska";
 
             return View(accountView);
+        }
+
+        [HttpPost]
+        public ActionResult AccountEdit(FormCollection collection)
+        {
+            User editUser = db.Users.ToList()[db.Users.ToList().Count - 1];
+
+            if (editUser != null)
+            {
+                Debug.WriteLine("ZMIENIAM INFO");
+
+                Debug.WriteLine(editUser.showBasicInformation());
+
+                if (collection["FirstName"] != editUser.FirstName && collection["FirstName"] != null)
+                    editUser.FirstName = collection["FirstName"];
+
+                if (collection["LastName"] != editUser.LastName && collection["LastName"] != null)
+                    editUser.LastName = collection["LastName"];
+
+                if (collection["Email"] != editUser.Email && collection["Email"] != null)
+                    editUser.Email = collection["Email"];
+
+                if (collection["Login"] != editUser.Login && collection["Login"] != null)
+                    editUser.Login = collection["Login"];
+
+                Debug.WriteLine(editUser.showBasicInformation());
+
+                db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
+
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Account", "UserPanel");
         }
 
         public ActionResult AccountEdit()
         {
+            User showUser = db.Users.ToList()[db.Users.ToList().Count - 1];
 
             AccountViewModel accountView = new AccountViewModel();
-            accountView.FirstName = UserCache.CachedUser.FirstName;
-            accountView.LastName = UserCache.CachedUser.LastName;
-            accountView.Email = UserCache.CachedUser.Email;
-            accountView.PhoneNumber = "+48 111 222 333";
-            accountView.City = "Katowice";
-            accountView.Street = "Mickiewicza";
-            accountView.StreetNumber = 45;
-            accountView.Postcode = "40-008";
-            accountView.BirthDate = "21 kwietnia 1999";
-            accountView.Country = "Polska";
+            accountView.Login = showUser.Login;
+            accountView.FirstName = showUser.FirstName;
+            accountView.LastName = showUser.LastName;
+            accountView.Email = showUser.Email;
+            accountView.BirthDate = showUser.BirthDate.ToString();
 
             return View(accountView);
         }
+
+
         public ActionResult AccountEditContact()
         {
+            User showUser = db.Users.ToList()[db.Users.ToList().Count - 1];
+
+            //UserCache.CachedUser.Email = viewModel["Email"];
 
             AccountViewModel accountView = new AccountViewModel();
-            accountView.FirstName = UserCache.CachedUser.FirstName;
-            accountView.LastName = UserCache.CachedUser.LastName;
-            accountView.Email = UserCache.CachedUser.Email;
-            accountView.PhoneNumber = "+48 111 222 333";
-            accountView.City = "Katowice";
-            accountView.Street = "Mickiewicza";
-            accountView.StreetNumber = 45;
-            accountView.Postcode = "40-008";
-            accountView.BirthDate = "21 kwietnia 1999";
-            accountView.Country = "Polska";
+            //accountView.FirstName = UserCache.CachedUser.FirstName;
+            //accountView.LastName = UserCache.CachedUser.LastName;
+            //accountView.Email = UserCache.CachedUser.Email;
+            //accountView.PhoneNumber = "+48 111 222 333";
+            //accountView.City = "Katowice";
+            //accountView.Street = "Mickiewicza";
+            //accountView.StreetNumber = 45;
+            //accountView.Postcode = "40-008";
+            //accountView.BirthDate = "21 kwietnia 1999";
+            //accountView.Country = "Polska";
+
+            accountView.Login = showUser.Login;
+            accountView.FirstName = showUser.FirstName;
+            accountView.LastName = showUser.LastName;
+            accountView.Email = showUser.Email;
+            //accountView.PhoneNumber = "+48 111 222 333";
+            //accountView.City = "Katowice";
+            //accountView.Street = "Mickiewicza";
+            //accountView.StreetNumber = 45;
+            //accountView.Postcode = "40-008";
+            accountView.BirthDate = showUser.BirthDate.ToString();
+            //accountView.Country = "Polska";
 
             return View(accountView);
         }
@@ -162,17 +226,33 @@ namespace ShopApp.Controllers
         }
         public ActionResult AccountEditPassword()
         {
+            User showUser = db.Users.ToList()[db.Users.ToList().Count - 1];
+
+            //UserCache.CachedUser.Email = viewModel["Email"];
+
             AccountViewModel accountView = new AccountViewModel();
-            accountView.FirstName = UserCache.CachedUser.FirstName;
-            accountView.LastName = UserCache.CachedUser.LastName;
-            accountView.Email = UserCache.CachedUser.Email;
-            accountView.PhoneNumber = "+48 111 222 333";
-            accountView.City = "Katowice";
-            accountView.Street = "Mickiewicza";
-            accountView.StreetNumber = 45;
-            accountView.Postcode = "40-008";
-            accountView.BirthDate = "21 kwietnia 1999";
-            accountView.Country = "Polska";
+            //accountView.FirstName = UserCache.CachedUser.FirstName;
+            //accountView.LastName = UserCache.CachedUser.LastName;
+            //accountView.Email = UserCache.CachedUser.Email;
+            //accountView.PhoneNumber = "+48 111 222 333";
+            //accountView.City = "Katowice";
+            //accountView.Street = "Mickiewicza";
+            //accountView.StreetNumber = 45;
+            //accountView.Postcode = "40-008";
+            //accountView.BirthDate = "21 kwietnia 1999";
+            //accountView.Country = "Polska";
+
+            accountView.Login = showUser.Login;
+            accountView.FirstName = showUser.FirstName;
+            accountView.LastName = showUser.LastName;
+            accountView.Email = showUser.Email;
+            //accountView.PhoneNumber = "+48 111 222 333";
+            //accountView.City = "Katowice";
+            //accountView.Street = "Mickiewicza";
+            //accountView.StreetNumber = 45;
+            //accountView.Postcode = "40-008";
+            accountView.BirthDate = showUser.BirthDate.ToString();
+            //accountView.Country = "Polska";
 
             return View(accountView);
         }
@@ -184,52 +264,10 @@ namespace ShopApp.Controllers
             return View();
         }
 
-        // GET: User/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: User/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        [HttpPost]
-        public ActionResult EditAccount(FormCollection viewModel)
-        {
-            UserCache.CachedUser.FirstName = viewModel["FirstName"];
-            UserCache.CachedUser.LastName = viewModel["SurName"];
-            UserCache.CachedUser.Email = viewModel["Email"];
-
-            AccountViewModel accountView = new AccountViewModel();
-            accountView.FirstName = UserCache.CachedUser.FirstName;
-            accountView.LastName = UserCache.CachedUser.LastName;
-            accountView.Email = UserCache.CachedUser.Email;
-            accountView.PhoneNumber = "+48 111 222 333";
-            accountView.City = "Katowice";
-            accountView.Street = "Mickiewicza";
-            accountView.StreetNumber = 45;
-            accountView.Postcode = "40-008";
-            accountView.BirthDate = "21 kwietnia 1999";
-            accountView.Country = "Polska";
-            return View("AccountEdit", accountView);
-        }
         [HttpPost]
         public ActionResult AccountEditContact(FormCollection viewModel)
         {
-            User showUser = db.Users.Last();
+            User showUser = db.Users.ToList()[db.Users.ToList().Count - 1];
 
             //UserCache.CachedUser.Email = viewModel["Email"];
 

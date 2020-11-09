@@ -67,5 +67,15 @@ namespace ShopApp.Models
         public virtual ICollection<Auction> Auction { get; set; }
         public virtual ICollection<Offer> Offers { get; set; }
         public virtual ICollection<Bundle> Bundles { get; set; }
+
+        public string showBasicInformation()
+        {
+            string name = "Full name: " + FirstName + " " + LastName;
+            string email = "E-mail: " + Email;
+            string login = "Login: " + Login;
+
+            return name + " " + login + " " + email;
+        }
+
     }
 }
