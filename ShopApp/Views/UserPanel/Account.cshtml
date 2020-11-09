@@ -2,12 +2,12 @@
 @{
     ViewBag.Title = "";
 
-   
-        if (Session["userId"] == null)
-        {
-            Response.Redirect("~/User/Login");
-        }
-    
+
+    if (Session["userId"] == null)
+    {
+        Response.Redirect("~/User/Login");
+    }
+
 }
 
 @Styles.Render("~/bundles/UserPanel")
@@ -60,7 +60,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="@Url.Action("Logout", "User")">
                         <div class="icon"><i class="fa fa-reply"></i></div>
                         <div class="title">Wyloguj</div>
                     </a>
@@ -128,7 +128,6 @@
                                             @Model.Login
                                         </div>
                                     </div>
-                                    <hr />
 
                                     <hr />
                                     <div class="row">
@@ -207,14 +206,10 @@
                                     </div>
                                     <hr />
                                 </div>
-
                             </div>
                         </div>
                     </div>
-
-
                 </div>
-
             </div>
         </div>
     </div>

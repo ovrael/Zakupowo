@@ -35,8 +35,8 @@ namespace ShopApp.Controllers
 
             if (userDetail == null)
             {
-                
-                
+
+
                 ViewBag.Error = "Nieprawidłowe dane logowania";
                 return View("Login");
             }
@@ -46,8 +46,8 @@ namespace ShopApp.Controllers
                 Session["userId"] = userId;
                 return RedirectToAction("Index", "Home");
             }
-           
-          
+
+
         }
         //Logout method 
 
@@ -56,47 +56,6 @@ namespace ShopApp.Controllers
             Session.Abandon();
             return RedirectToAction("Login", "User");
         }
-
-
-        //  GET: Register
-
-        public ActionResult Usr()
-        {
-            return View();
-        }
-
-        //  GET: Register/Create
-        public ActionResult Register()
-        {
-
-            return View();
-
-        }
-
-        //POST: Register/Create
-        [HttpPost]
-        public ActionResult Register(FormCollection collection)
-        {
-            User user = new User()
-            {
-                FirstName = collection["FirstName"],
-                LastName = collection["LastName"],
-                Login = "TEST_LOGIN",
-                EncryptedPassword = Cryptographing.Encrypt(collection["Password"]),
-                Email = collection["Email"],
-                BirthDate = DateTime.UtcNow
-            };
-
-
-            //Debug.WriteLine("DANE USERA");
-            //Debug.WriteLine(user.FirstName + " " + user.LastName + " " + user.Login + " " + user.EncryptedPassword + " " + user.Email);
-
-            db.Users.Add(user);
-            db.SaveChanges();
-            ViewBag.Message = db.Users.ToList();
-            return RedirectToAction("Login", "User");
-        }
-
         #region NotYetUsedActions
         // GET: Register/Details/5
         public ActionResult Details(int id)

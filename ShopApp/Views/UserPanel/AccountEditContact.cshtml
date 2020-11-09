@@ -52,7 +52,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="@Url.Action("Logout", "User")">
                         <div class="icon"><i class="fa fa-reply"></i></div>
                         <div class="title">Wyloguj</div>
                     </a>
@@ -69,7 +69,6 @@
             <div class="module-inner">
                 <div class="side-bar">
                     <div class="user-info">
-
                         <ul class="meta list list-unstyled">
                             <li class="name">
                                 @Model.FirstName @Model.LastName
@@ -78,43 +77,41 @@
                     </div>
                     <nav class="side-menu">
                         <ul class="nav">
-                            <li><a href="@Url.Action("AccountEdit", "User")"><span class="fa fa-user"></span> Dane osobowe</a></li>
+                            <li><a href="@Url.Action("AccountEdit", "UserPanel")"><span class="fa fa-user"></span> Dane osobowe</a></li>
 
                         </ul>
                         <ul class="nav">
-                            <li class="active"><a href="@Url.Action("AccountEditContact", "User")"><span class="fas fa-address-book"></span> Dane kontaktowe</a></li>
+                            <li class="active"><a href="@Url.Action("AccountEditContact", "UserPanel")"><span class="fas fa-address-book"></span> Adresy wysyłki</a></li>
 
                         </ul>
                         <ul class="nav">
-                            <li><a href="@Url.Action("AccountEditPassword", "User")"><span class="fas fa-key"></span> Zmiana hasła</a></li>
+                            <li><a href="@Url.Action("AccountEditPassword", "UserPanel")"><span class="fas fa-key"></span> Zmiana hasła</a></li>
 
                         </ul>
                     </nav>
 
                 </div>
                 <div class="content-panel">
-                    @using (Html.BeginForm("AccountEditContact", "User", FormMethod.Post))
+                    @using (Html.BeginForm("AccountEditContact", "UserPanel", FormMethod.Post))
                     {
-
-
                         <fieldset class="fieldset">
                             <h3 class="fieldset-title">Dane kontaktowe</h3>
-                            <div class="form-group">
-                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">E-mail</label>
-                                <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input type="email" class="form-control">
+                            @*<div class="form-group">
+                                    <label class="col-md-2  col-sm-3 col-xs-12 control-label">E-mail</label>
+                                    <div class="col-md-10 col-sm-9 col-xs-12">
+                                        <input type="email" class="form-control">
 
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Nowy E-mail</label>
-                                <div class="col-md-10 col-sm-9 col-xs-12">
-                                    <input type="email" class="form-control">
-                                </div>
-                            </div>
+                                <div class="form-group">
+                                    <label class="col-md-2  col-sm-3 col-xs-12 control-label">Nowy E-mail</label>
+                                    <div class="col-md-10 col-sm-9 col-xs-12">
+                                        <input type="email" class="form-control">
+                                    </div>
+                                </div>*@
 
                             <div class="form-group">
-                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Miato</label>
+                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Miasto</label>
                                 <div class="col-md-10 col-sm-9 col-xs-12">
                                     @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
 
@@ -150,7 +147,6 @@
                                 </div>
                             </div>
                         </fieldset>
-
                     }
                 </div>
             </div>

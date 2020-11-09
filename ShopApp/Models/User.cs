@@ -14,6 +14,7 @@ namespace ShopApp.Models
 
         public static string ErrorMessage { get; set; }
 
+        //PO 1 SPRINCIE TESTUJEMY "varchar(200)"/ "text"
 
         [Key]
         public int UserID { get; set; }

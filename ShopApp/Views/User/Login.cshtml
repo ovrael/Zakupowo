@@ -1,5 +1,5 @@
 ﻿@model ShopApp.Models.User
-@{ 
+@{
 
 }
 @Styles.Render("~/bundles/User")
@@ -27,7 +27,7 @@
             <input type="submit" name="signinInput" value="Zaloguj się" class="bt btn-lg btn-primary btn-block mt-1 mb-1">
 
             <a href="#">Zapomniałeś hasła?</a>
-            <p>Nie masz konta? <a href="@Url.Action("Register", "User")">Zarejestruj się</a></p>
+            <p>Nie masz konta? <a href="@Url.Action("Register", "UserPanel")">Zarejestruj się</a></p>
 
             <div class="messages-box h5">
                 @if (ViewBag.Error != null)
