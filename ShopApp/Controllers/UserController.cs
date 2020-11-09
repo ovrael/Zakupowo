@@ -4,6 +4,7 @@ using ShopApp.Utility;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -20,6 +21,19 @@ namespace ShopApp.Controllers
         public ActionResult Login()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(FormCollection collection)
+        {
+            var email = collection["Email"];
+            var password = collection["Password"];
+
+
+            Cryptographing.Encrypt(collection["Password"]);
+           
+            ViewBag.Message = db.Users.ToList();
+            return RedirectToAction("~/Userpanel/Account");
         }
 
         //  GET: Register
@@ -58,7 +72,7 @@ namespace ShopApp.Controllers
             db.Users.Add(user);
             db.SaveChanges();
             ViewBag.Message = db.Users.ToList();
-            return RedirectToAction("~/Userpanel/Account");
+            return RedirectToAction("Login", "User");
         }
 
         #region NotYetUsedActions
