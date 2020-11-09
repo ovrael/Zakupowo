@@ -10,7 +10,9 @@ namespace ShopApp.ViewModels
     {
         private static Models.User user;
 
-        public static Models.User CachedUser { get
+        public static Models.User CachedUser
+        {
+            get
             {
                 if (user == null)
                 {
@@ -26,7 +28,8 @@ namespace ShopApp.ViewModels
                 }
 
                 return user;
-            } }
-        
+            }
+        }
+
     }
 }
