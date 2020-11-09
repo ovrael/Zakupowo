@@ -35,8 +35,6 @@ namespace ShopApp.Controllers
 
             if (userDetail == null)
             {
-
-
                 ViewBag.Error = "Nieprawidłowe dane logowania";
                 return View("Login");
             }

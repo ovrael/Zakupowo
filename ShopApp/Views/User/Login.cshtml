@@ -1,6 +1,9 @@
 ﻿@model ShopApp.Models.User
 @{
-
+    if (Session["userId"] != null)
+    {
+        Response.Redirect("~/Home/Index");
+    }
 }
 @Styles.Render("~/bundles/User")
 
