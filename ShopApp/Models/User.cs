@@ -14,7 +14,7 @@ namespace ShopApp.Models
         [Key]
         public int UserID { get; set; }
 
-        [Required (ErrorMessage="This field is required")]
+        [Required(ErrorMessage = "This field is required")]
         [MaxLength(50)]
         [Column("Email", TypeName = "char")]
         public string Email { get; set; }
@@ -63,5 +63,15 @@ namespace ShopApp.Models
         public virtual ICollection<Auction> Auction { get; set; }
         public virtual ICollection<Offer> Offers { get; set; }
         public virtual ICollection<Bundle> Bundles { get; set; }
+
+        public string showBasicInformation()
+        {
+            string name = "Full name: " + FirstName + " " + LastName;
+            string email = "E-mail: " + Email;
+            string login = "Login: " + Login;
+
+            return name + " " + login + " " + email;
+        }
+
     }
 }
