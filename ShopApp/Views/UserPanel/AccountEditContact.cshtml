@@ -1,5 +1,9 @@
 ﻿@model ShopApp.ViewModels.User.AccountViewModel
 @{
+    if (Session["userId"] == null)
+    {
+        Response.Redirect("~/User/Login");
+    }
     ViewBag.Title = "";
 }
 

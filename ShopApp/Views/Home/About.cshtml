@@ -1,4 +1,8 @@
 ﻿@{
+    if (Session["userId"] == null)
+    {
+        Response.Redirect("~/User/Login");
+    }
     ViewBag.Title = "About";
 }
 <h2>@ViewBag.Title.</h2>
