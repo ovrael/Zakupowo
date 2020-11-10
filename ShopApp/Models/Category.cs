@@ -16,7 +16,7 @@ namespace ShopApp.Models
         SlawekPo2Piwach = 5
     }
     public class Category
-    { 
+    {
         [Key]
         public int CategoryID { get; set; }
         [Required]

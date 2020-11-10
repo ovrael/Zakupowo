@@ -21,7 +21,7 @@ namespace ShopApp.Migrations
 
         protected override void Seed(ShopContext context)
         {
-            var usrs = new List<User>
+            var users = new List<User>
             {
                 new User{ Email="Mail@SeedUsr.com",
                     Login="LoginSeedUsr",
@@ -33,10 +33,10 @@ namespace ShopApp.Migrations
                     City = "Katowice"
                 }
             };
-            usrs.ForEach(u => context.Users.Add(u));
+            users.ForEach(u => context.Users.Add(u));
             context.SaveChanges();
 
-            var Cat = new List<Category>
+            var categories = new List<Category>
             {
                 new Category{ CategoryName=CategoryEnum.Elektronika,
                     CategoryDescription="Wszystkie te takie z prądem"},
@@ -47,7 +47,7 @@ namespace ShopApp.Migrations
                 new Category{ CategoryName=CategoryEnum.SlawekPo2Piwach,
                     CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"}
             };
-            Cat.ForEach(u => context.Categories.Add(u));
+            categories.ForEach(u => context.Categories.Add(u));
             context.SaveChanges();
 
             var adresses = new List<ShippingAdress>
@@ -59,8 +59,7 @@ namespace ShopApp.Migrations
                     Street = "Mariacka",
                     PremisesNumber = "33",
                     PostalCode = "40-220",
-                    FlatNumber = "5",
-                    User = usrs[0]
+                    User = users[0]
                 }
             };
             adresses.ForEach(a => context.ShippingAdresses.Add(a));

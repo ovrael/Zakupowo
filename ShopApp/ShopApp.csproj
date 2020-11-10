@@ -158,6 +158,14 @@
     <Compile Include="Migrations\202011101205531_ShippingAdressChanged1.designer.cs">
       <DependentUpon>202011101205531_ShippingAdressChanged1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011101210386_ShippingAdressChanged2.cs" />
+    <Compile Include="Migrations\202011101210386_ShippingAdressChanged2.designer.cs">
+      <DependentUpon>202011101210386_ShippingAdressChanged2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011101939238_ShippingAdressUpdate_DeletedFlatNumber.cs" />
+    <Compile Include="Migrations\202011101939238_ShippingAdressUpdate_DeletedFlatNumber.designer.cs">
+      <DependentUpon>202011101939238_ShippingAdressUpdate_DeletedFlatNumber.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\Bucket.cs" />
@@ -342,13 +350,14 @@
     <Content Include="Views\Database\OfferCreate.cshtml" />
     <Content Include="Views\Database\OffersIndex.cshtml" />
     <Content Include="Views\Database\UserCreate.cshtml" />
-    <Content Include="Views\UserPanel\AddProduct.cshtml" />
+    <Content Include="Views\UserPanel\AddOffer.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\UserPanelJonak\AddOrEdit.cshtml" />
     <Content Include="Views\UserPanelJonak\Index.cshtml" />
     <Content Include="Views\UserPanel\Register.cshtml" />
     <Content Include="Views\UserPanel\_SideBar.cshtml" />
+    <Content Include="Views\UserPanel\AddShippingAdress.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -383,6 +392,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011101205531_ShippingAdressChanged1.resx">
       <DependentUpon>202011101205531_ShippingAdressChanged1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011101210386_ShippingAdressChanged2.resx">
+      <DependentUpon>202011101210386_ShippingAdressChanged2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011101939238_ShippingAdressUpdate_DeletedFlatNumber.resx">
+      <DependentUpon>202011101939238_ShippingAdressUpdate_DeletedFlatNumber.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

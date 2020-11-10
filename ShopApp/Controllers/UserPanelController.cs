@@ -118,50 +118,9 @@ namespace ShopApp.Controllers
             int userID = (int)Session["userId"];
             User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
 
-            AccountViewModel accountView = new AccountViewModel();
+            List<ShippingAdress> listaAdresow = showUser.ShippingAdresses.ToList();
 
-            List<ShippingAdressViewModel> listaAdresow = new List<ShippingAdressViewModel>()
-            {
-                new ShippingAdressViewModel()
-                {
-                    Country = "Poland",
-                    City = "Katowice",
-                    Street = "3 Maja",
-                    PremisesNumber = "25",
-                    PostalCode = "40-215"
-                },
-                new ShippingAdressViewModel()
-                {
-                    Country = "Poland",
-                    City = "Warszawa",
-                    Street = "Piłsudskiego",
-                    PremisesNumber = "4",
-                    PostalCode = "40-452"
-                },
-                new ShippingAdressViewModel()
-                {
-                    Country = "Poland",
-                    City = "Sosnowiec",
-                    Street = "Niepodległości",
-                    PremisesNumber = "7",
-                    PostalCode = "40-218"
-                },
-                new ShippingAdressViewModel()
-                {
-                    Country = "Poland",
-                    City = "Katowice",
-                    Street = "Mariacka",
-                    PremisesNumber = "13",
-                    PostalCode = "40-215"
-                }
-            };
-
-            accountView.ShippingAdresses = listaAdresow;
-
-            //accountView.Country = showUser.Country;
-            //accountView.City = showUser.City;
-
-            return View(accountView);
+            return View(listaAdresow);
         }
 
         [HttpPost]
@@ -201,8 +160,53 @@ namespace ShopApp.Controllers
         [HttpPost]
         public ActionResult AddShippingAdress(FormCollection collection)
         {
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            int userID = (int)Session["userId"];
+            User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+
+            string country = collection["Country"];
+            string city = collection["city"];
+            string street = collection["street"];
+            string premisesNumber = collection["PremisesNumber"];
+            string postalCode = collection["PostalCode"];
+
+            ShippingAdress adress = new ShippingAdress
+            {
+                Country = country,
+                City = city,
+                Street = street,
+                PremisesNumber = premisesNumber,
+                PostalCode = postalCode,
+                User = editUser
+            };
+
+            //using (var dataBase = new ShopContext())
+            //{
+
+            //    dataBase.Entry(adress).State = System.Data.Entity.EntityState.Modified;
+            //    dataBase.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
+
+            //    editUser.ShippingAdresses.Add(adress);
+            //    dataBase.SaveChanges();
 
 
+            //    dataBase.ShippingAdresses.Add(adress);
+            //    dataBase.SaveChanges();
+            //}
+
+            db.Entry(adress).State = System.Data.Entity.EntityState.Modified;
+            db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
+
+            editUser.ShippingAdresses.Add(adress);
+            db.SaveChanges();
+
+
+            db.ShippingAdresses.Add(adress);
+            db.SaveChanges();
 
             return RedirectToAction("ShippingAdresses", "UserPanel");
         }
@@ -264,48 +268,51 @@ namespace ShopApp.Controllers
 
         #endregion
 
-        public ActionResult AddProduct()
+        public ActionResult AddOffer()
         {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult AddProduct(FormCollection collection)
-        {
-            Offer Oferta = new Offer
-            {
-                Title = collection["product_name"],
-                Description = collection["product_name_fr"],
-                InStock = Convert.ToDouble(collection["available_quantity"]),
-                Price = Convert.ToDouble(collection["product_price"])
-            };
-            db.Users.Add(new Models.User
-            {
-                Email = "Toniezle@Migracje.com",
-                Login = "Migracja",
-                EncryptedPassword = "TakO",
-                FirstName = "Wywala",
-                LastName = "Seeda:D"
-            }
-            );
-            db.SaveChanges();
-            Oferta.User = db.Users.Where(i => i.UserID == 1).First();//DO PIERWSZEGO SPRINTU WSZYSTKO WLATUJE DO DEFAULTOWEGO USERA
-            db.Offers.Add(Oferta);
-            db.SaveChanges();
-            /*
-            int ID;
-            foreach (var item in collection["product_categorie"])
-            {
-                ID = Convert.ToInt32(item);
-                //TU SIE PSUJE STRASZNIE FEST
-                (db.Categories.Where(i => i.CategoryID == ID).First())
-                    .Offers.Add(db.Offers.Where(x => x.OfferID == Oferta.OfferID).First());
-                Oferta.Categories.Add(db.Categories.Where(i => i.CategoryID == ID).First());
-            }
-            */
+            List<Category> categoriesView = new List<Category>();
 
-            db.SaveChanges();
-            db.Users.Where(i => i.UserID == 1).First().Offers.Add(Oferta);
-            db.SaveChanges();
+            using (ShopContext dataBase = new ShopContext())
+            {
+                //Adds new offer in offer table
+                categoriesView = dataBase.Categories.ToList();
+            }
+
+            return View(categoriesView);
+        }
+
+        [HttpPost]
+        public ActionResult AddOffer(FormCollection collection)
+        {
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            int userID = (int)Session["userId"];
+            User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+
+            Offer offer = new Offer
+            {
+                Title = collection["Name"],
+                Description = collection["Description"],
+                InStock = Convert.ToDouble(collection["Quantity"]),
+                Price = Convert.ToDouble(collection["Price"]),
+                //Category =
+                User = editUser
+            };
+
+            using (ShopContext dataBase = new ShopContext())
+            {
+                //Adds new offer in offer table
+                dataBase.Offers.Add(offer);
+                dataBase.SaveChanges();
+
+                //Adds the offer to offersList in User
+                editUser.Offers.Add(offer);
+                dataBase.SaveChanges();
+            }
+
             return RedirectToAction("Index", "Home");
         }
 
