@@ -198,14 +198,10 @@ namespace ShopApp.Controllers
             //    dataBase.SaveChanges();
             //}
 
-            db.Entry(adress).State = System.Data.Entity.EntityState.Modified;
-            db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
-
-            editUser.ShippingAdresses.Add(adress);
+            db.ShippingAdresses.Add(adress);
             db.SaveChanges();
 
-
-            db.ShippingAdresses.Add(adress);
+            editUser.ShippingAdresses.Add(adress);
             db.SaveChanges();
 
             return RedirectToAction("ShippingAdresses", "UserPanel");
@@ -302,16 +298,24 @@ namespace ShopApp.Controllers
                 User = editUser
             };
 
-            using (ShopContext dataBase = new ShopContext())
-            {
-                //Adds new offer in offer table
-                dataBase.Offers.Add(offer);
-                dataBase.SaveChanges();
+            //using (ShopContext dataBase = new ShopContext())
+            //{
+            //    //Adds new offer in offer table
+            //    dataBase.Offers.Add(offer);
+            //    dataBase.SaveChanges();
 
-                //Adds the offer to offersList in User
-                editUser.Offers.Add(offer);
-                dataBase.SaveChanges();
-            }
+            //    //Adds the offer to offersList in User
+            //    editUser.Offers.Add(offer);
+            //    dataBase.SaveChanges();
+            //}
+
+            //Adds new offer in offer table
+            db.Offers.Add(offer);
+            db.SaveChanges();
+
+            //Adds the offer to offersList in User
+            editUser.Offers.Add(offer);
+            db.SaveChanges();
 
             return RedirectToAction("Index", "Home");
         }
