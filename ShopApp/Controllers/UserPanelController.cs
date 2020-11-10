@@ -12,6 +12,9 @@ using Antlr.Runtime.Tree;
 using ShopApp.Utility;
 using System.Diagnostics;
 using System.Security;
+using System.Web.Configuration;
+using System.Net;
+using System.Web.Security;
 
 namespace ShopApp.Controllers
 {
@@ -19,6 +22,8 @@ namespace ShopApp.Controllers
     public class UserPanelController : Controller
     {
         private ShopContext db = new ShopContext();
+
+       
 
         // GET: User
 
