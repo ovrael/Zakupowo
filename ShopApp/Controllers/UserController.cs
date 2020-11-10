@@ -32,21 +32,22 @@ namespace ShopApp.Controllers
         [HttpPost]
         public ActionResult Register(FormCollection collection)
         {
-
+            if (ModelState.IsValid && DateTime.TryParse(collection["BirthDate"], out DateTime DataUrodzenia))
+            { 
             User user = new User()
             {
-                FirstName = collection["FirstName"],
-                LastName = collection["LastName"],
-                Login = collection["Login"],
+                FirstName = collection["FirstName"].Trim(),
+                LastName = collection["LastName"].Trim(),
+                Login = collection["Login"].Trim(),
                 EncryptedPassword = Cryptographing.Encrypt(collection["Password"]),
-                Email = collection["Email"],
+                Email = collection["Email"].Trim(),
                 BirthDate = DateTime.Parse(collection["BirthDate"]),
                 CreationDate = DateTime.Now
             };
-            db.Users.Add(user);
-            db.SaveChanges();
-            ViewBag.Message = db.Users.ToList();
+            DataBase.AddToDatabase(user);
             return RedirectToAction("Account","userpanel");
+            }
+            return RedirectToAction("Register");
         }
 
 
@@ -65,19 +66,10 @@ namespace ShopApp.Controllers
             var user = db.Users.Where(x => x.Email == email && x.EncryptedPassword == password).First();
             if (user != null)
             {
-                Debug.WriteLine(collection["rememberMe"]);
-                FormsAuthentication.SetAuthCookie(user.Login,false); //TODO ISCHECKED
-                Debug.WriteLine(HttpContext.Items.Keys);
-                GenericIdentity gi = new GenericIdentity(user.Login);
-                GenericPrincipal gp = new GenericPrincipal(gi,new string[] { "Admin"});
-                Debug.WriteLine(gp.Identities);
-                Debug.WriteLine(gp.Claims);
+                FormsAuthentication.SetAuthCookie(user.Login, (collection["rememberMeInput"] == "rememberMe"? true : false)); //TODO ISCHECKED
                 return RedirectToAction("Index", "Home");
             }
-
             return RedirectToAction("Login");
-
-
         }
         //Logout method 
 

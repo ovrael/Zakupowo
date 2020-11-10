@@ -1,6 +1,6 @@
-﻿@model ShopApp.ViewModels.User.AccountViewModel
+﻿@model ShopApp.Models.User
 @{
-    ViewBag.Title = "";
+    ViewBag.Title = "Konto";
 }
 
 @Styles.Render("~/bundles/UserPanel")
@@ -79,7 +79,7 @@
                                             <label style="font-weight:bold;">Telefon</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            @Model.PhoneNumber
+                                            @Model.Phone
                                         </div>
                                     </div>
                                     <hr />
@@ -89,7 +89,7 @@
                                             <label style="font-weight:bold;">Data urodzenia</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            @Model.BirthDate
+                                            @(((DateTime)Model.BirthDate).ToShortDateString())
                                         </div>
                                     </div>
                                     <hr />
@@ -99,7 +99,7 @@
                                             <label style="font-weight:bold;">Data utworzenia konta</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            @Model.CreationDate
+                                            @(((DateTime)Model.CreationDate).ToShortDateString())
                                         </div>
                                     </div>
                                     <hr />

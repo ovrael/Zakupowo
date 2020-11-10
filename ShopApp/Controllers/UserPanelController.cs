@@ -24,19 +24,10 @@ namespace ShopApp.Controllers
         private ShopContext db = new ShopContext();
 
        
-
-        // GET: User
-
-        public ActionResult Index()
-        {
-            return View(db.Offers);
-        }
-        [AllowAnonymous]
         public ActionResult AccountAddProduct()
         {
             return View();
         }
-        [AllowAnonymous]
         [HttpPost]
         public ActionResult AccountAddProduct(FormCollection collection)
         {
@@ -85,16 +76,18 @@ namespace ShopApp.Controllers
         {
             User showUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
-            AccountViewModel accountView = new AccountViewModel();
-            accountView.Login = showUser.Login;
-            accountView.Email = showUser.Email;
-            accountView.FirstName = showUser.FirstName;
-            accountView.LastName = showUser.LastName;
-            accountView.PhoneNumber = showUser.Phone;
-            accountView.BirthDate = showUser.BirthDate.ToString();
-            accountView.CreationDate = showUser.CreationDate.ToString();
+            //AccountViewModel accountView = new AccountViewModel();
+            //accountView.Login = showUser.Login;
+            //accountView.Email = showUser.Email;
+            //accountView.FirstName = showUser.FirstName;
+            //accountView.LastName = showUser.LastName;
+            //accountView.PhoneNumber = showUser.Phone;
+            //accountView.BirthDate = showUser.BirthDate.ToString();
+            //accountView.CreationDate = showUser.CreationDate.ToString();
 
-            return View(accountView);
+            //As we pass the actual user the code above is unnecessary
+
+            return View(showUser);
         }
 
         // VIEW WHERE USER CAN EDIT *BASIC* INFORMATION
