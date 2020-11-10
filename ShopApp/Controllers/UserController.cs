@@ -66,7 +66,7 @@ namespace ShopApp.Controllers
             if (user != null)
             {
                 Debug.WriteLine(collection["rememberMe"]);
-                FormsAuthentication.SetAuthCookie(user.Login,false)); //TODO ISCHECKED
+                FormsAuthentication.SetAuthCookie(user.Login,false); //TODO ISCHECKED
                 Debug.WriteLine(HttpContext.Items.Keys);
                 GenericIdentity gi = new GenericIdentity(user.Login);
                 GenericPrincipal gp = new GenericPrincipal(gi,new string[] { "Admin"});
