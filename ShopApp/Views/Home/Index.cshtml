@@ -1,13 +1,4 @@
-﻿
-
-
-@{ 
-    if(Session["userId"] == null)
-    {
-        Response.Redirect("~/User/Login");
-    }
-}
-@model IEnumerable<ShopApp.Models.Offer>
+﻿@model IEnumerable<ShopApp.Models.Offer>
 <div style="height: 30px;">
     <div style="width:100%;   padding-bottom:40px;">
         <select name="cars" id="cars" value="Kategorie">

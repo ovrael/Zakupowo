@@ -1,13 +1,6 @@
 ﻿@model ShopApp.ViewModels.User.AccountViewModel
 @{
     ViewBag.Title = "";
-
-
-    if (Session["userId"] == null)
-    {
-        Response.Redirect("~/User/Login");
-    }
-
 }
 
 @Styles.Render("~/bundles/UserPanel")

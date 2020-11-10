@@ -11,6 +11,7 @@ namespace ShopApp.Controllers
     {
 
         private ShopContext db = new ShopContext();
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View(db.Offers);

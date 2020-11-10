@@ -11,53 +11,27 @@ using Microsoft.Ajax.Utilities;
 using Antlr.Runtime.Tree;
 using ShopApp.Utility;
 using System.Diagnostics;
+using System.Security;
 
 namespace ShopApp.Controllers
 {
+    [Authorize]
     public class UserPanelController : Controller
     {
         private ShopContext db = new ShopContext();
 
-        //USER REGISTRATION
-        public ActionResult Register()
-        {
-            return View();
-        }
-
-        //POST: Register/Create
-        [HttpPost]
-        public ActionResult Register(FormCollection collection)
-        {
-            User user = new User()
-            {
-                FirstName = collection["FirstName"],
-                LastName = collection["LastName"],
-                Login = collection["Login"],
-                EncryptedPassword = Cryptographing.Encrypt(collection["Password"]),
-                Email = collection["Email"],
-                BirthDate = DateTime.Parse(collection["BirthDate"]),
-                CreationDate = DateTime.Now
-            };
-
-
-            //Debug.WriteLine("DANE USERA");
-            //Debug.WriteLine(user.FirstName + " " + user.LastName + " " + user.Login + " " + user.EncryptedPassword + " " + user.Email);
-
-            db.Users.Add(user);
-            db.SaveChanges();
-            ViewBag.Message = db.Users.ToList();
-            return RedirectToAction("Account");
-        }
-
         // GET: User
+
         public ActionResult Index()
         {
             return View(db.Offers);
         }
+        [AllowAnonymous]
         public ActionResult AccountAddProduct()
         {
             return View();
         }
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult AccountAddProduct(FormCollection collection)
         {
@@ -98,16 +72,10 @@ namespace ShopApp.Controllers
             db.SaveChanges();
             return RedirectToAction("Index", "Home");
         }
-
+        [Authorize]
         public ActionResult Account()
         {
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
-
-            int userID = (int)Session["userId"];
-            User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+            User showUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
             AccountViewModel accountView = new AccountViewModel();
             accountView.Login = showUser.Login;
