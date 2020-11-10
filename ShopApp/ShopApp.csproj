@@ -133,6 +133,7 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserPanelController.cs" />
     <Compile Include="Controllers\UserPanelJonakController.cs" />
+    <Compile Include="Controllers\DataBase.cs" />
     <Compile Include="DAL\ShopContext.cs" />
     <Compile Include="DAL\ShopInitializer.cs" />
     <Compile Include="Global.asax.cs">
@@ -355,7 +356,6 @@
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\UserPanelJonak\AddOrEdit.cshtml" />
     <Content Include="Views\UserPanelJonak\Index.cshtml" />
-    <Content Include="Views\UserPanel\Register.cshtml" />
     <Content Include="Views\UserPanel\_SideBar.cshtml" />
     <Content Include="Views\UserPanel\AddShippingAdress.cshtml" />
   </ItemGroup>
