@@ -146,6 +146,18 @@
     <Compile Include="Migrations\202011081506006_updatingOfferModel.designer.cs">
       <DependentUpon>202011081506006_updatingOfferModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011101134219_AddedAdresses.cs" />
+    <Compile Include="Migrations\202011101134219_AddedAdresses.designer.cs">
+      <DependentUpon>202011101134219_AddedAdresses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011101201288_ShippingAdressChanged.cs" />
+    <Compile Include="Migrations\202011101201288_ShippingAdressChanged.designer.cs">
+      <DependentUpon>202011101201288_ShippingAdressChanged.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011101205531_ShippingAdressChanged1.cs" />
+    <Compile Include="Migrations\202011101205531_ShippingAdressChanged1.designer.cs">
+      <DependentUpon>202011101205531_ShippingAdressChanged1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\Bucket.cs" />
@@ -362,6 +374,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011081506006_updatingOfferModel.resx">
       <DependentUpon>202011081506006_updatingOfferModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011101134219_AddedAdresses.resx">
+      <DependentUpon>202011101134219_AddedAdresses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011101201288_ShippingAdressChanged.resx">
+      <DependentUpon>202011101201288_ShippingAdressChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011101205531_ShippingAdressChanged1.resx">
+      <DependentUpon>202011101205531_ShippingAdressChanged1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

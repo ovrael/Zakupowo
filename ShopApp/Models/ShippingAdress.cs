@@ -31,6 +31,10 @@ namespace ShopApp.Models
         public string Street { get; set; }
 
         [MaxLength(10)]
+        [Column("FlatNumber", TypeName = "char")]
+        public string FlatNumber { get; set; }
+
+        [MaxLength(10)]
         [Column("PremisesNumber", TypeName = "char")]
         public string PremisesNumber { get; set; }
 
@@ -38,6 +42,8 @@ namespace ShopApp.Models
         [Column("PostalCode", TypeName = "char")]
         public string PostalCode { get; set; }
 
+        [Required]
+        [Column("UserID")]
         public virtual User User { get; set; }
     }
 }
