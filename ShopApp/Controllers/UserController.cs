@@ -19,6 +19,31 @@ namespace ShopApp.Controllers
     {
         private ShopContext db = new ShopContext();
 
+        // VIEW WHERE USER CAN CREATE ACCOUNT
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Register(FormCollection collection)
+        {
+            User user = new User()
+            {
+                FirstName = collection["FirstName"],
+                LastName = collection["LastName"],
+                Login = collection["Login"],
+                EncryptedPassword = Cryptographing.Encrypt(collection["Password"]),
+                Email = collection["Email"],
+                BirthDate = DateTime.Parse(collection["BirthDate"]),
+                CreationDate = DateTime.Now
+            };
+
+            db.Users.Add(user);
+            db.SaveChanges();
+            ViewBag.Message = db.Users.ToList();
+            return RedirectToAction("Account", "UserPanel");
+        }
 
         //USER REGISTRATION
         public ActionResult Register()
@@ -57,7 +82,7 @@ namespace ShopApp.Controllers
         {
             return View();
         }
-
+        
         [HttpPost]
         public ActionResult Login(FormCollection collection)
         {

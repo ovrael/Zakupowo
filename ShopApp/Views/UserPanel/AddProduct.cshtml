@@ -6,72 +6,13 @@
 
 @Styles.Render("~/bundles/UserPanel")
 <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+@Html.Partial("_SideBar")
 
-
-<div class="wrapper">
-    <div class="sidebar">
-        <div class="bg_shadow"></div>
-        <div class="sidebar__inner">
-            <div class="close">
-                <i class="fas fa-times"></i>
-            </div>
-
-            <ul class="siderbar_menu">
-                <li>
-                    <a href="@Url.Action("Account", "UserPanel")">
-                        <div class="icon"><i class="fa fa-user"></i></div>
-                        <div class="title">Profil</div>
-
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("AccountAddProduct", "UserPanel")" class="active">
-                        <div class="icon"><i class="fa fa-plus"></i></div>
-                        <div class="title">Dodaj produkt</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("AccountOrderHistory", "UserPanel")">
-                        <div class="icon"><i class="fas fa-file-alt"></i></div>
-                        <div class="title">Sprzedaż</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("AccountOrderHistory", "UserPanel")">
-                        <div class="icon"><i class="fas fa-history"></i></div>
-                        <div class="title">Historia</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("AccountMessage", "UserPanel")">
-                        <div class="icon"><i class="fas fa-envelope"></i></div>
-                        <div class="title">Wiadomości</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("AccountEdit", "UserPanel")">
-                        <div class="icon"><i class="fas fa-cog"></i></div>
-                        <div class="title">Ustawienia</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("Logout", "User")">
-                        <div class="icon"><i class="fa fa-reply"></i></div>
-                        <div class="title">Wyloguj</div>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-
-</div>
 
 <div class="container">
     <div class="row">
         <div class="col-12">
             <div class="use-add-product">
-
-
 
                 <form class="form-horizontal" method="post">
 
@@ -156,13 +97,8 @@
                         </div>
                     </fieldset>
                 </form>
-
             </div>
-
         </div>
     </div>
-
-
 </div>
-    </div>
 

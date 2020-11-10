@@ -49,6 +49,22 @@ namespace ShopApp.Migrations
             };
             Cat.ForEach(u => context.Categories.Add(u));
             context.SaveChanges();
+
+            var adresses = new List<ShippingAdress>
+            {
+                new ShippingAdress()
+                {
+                    Country = "Czechy",
+                    City = "Katowice",
+                    Street = "Mariacka",
+                    PremisesNumber = "33",
+                    PostalCode = "40-220",
+                    FlatNumber = "5",
+                    User = usrs[0]
+                }
+            };
+            adresses.ForEach(a => context.ShippingAdresses.Add(a));
+            context.SaveChanges();
         }
     }
 }

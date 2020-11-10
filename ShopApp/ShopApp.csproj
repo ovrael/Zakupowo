@@ -146,11 +146,24 @@
     <Compile Include="Migrations\202011081506006_updatingOfferModel.designer.cs">
       <DependentUpon>202011081506006_updatingOfferModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011101134219_AddedAdresses.cs" />
+    <Compile Include="Migrations\202011101134219_AddedAdresses.designer.cs">
+      <DependentUpon>202011101134219_AddedAdresses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011101201288_ShippingAdressChanged.cs" />
+    <Compile Include="Migrations\202011101201288_ShippingAdressChanged.designer.cs">
+      <DependentUpon>202011101201288_ShippingAdressChanged.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011101205531_ShippingAdressChanged1.cs" />
+    <Compile Include="Migrations\202011101205531_ShippingAdressChanged1.designer.cs">
+      <DependentUpon>202011101205531_ShippingAdressChanged1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\Bucket.cs" />
     <Compile Include="Models\Bundle.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\ShippingAdress.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Utility\Cryptographing.cs" />
     <Compile Include="Models\Offer.cs" />
@@ -158,6 +171,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\User\AccountViewModel.cs" />
     <Compile Include="ViewModels\UserCache.cs" />
+    <Compile Include="ViewModels\User\ShippingAdressViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AppFiles\Images\avatar.jpg" />
@@ -314,11 +328,11 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\UserPanel\AccountEdit.cshtml" />
-    <Content Include="Views\UserPanel\AccountOrderHistory.cshtml" />
-    <Content Include="Views\UserPanel\AccountMessage.cshtml" />
-    <Content Include="Views\UserPanel\AccountEditPassword.cshtml" />
-    <Content Include="Views\UserPanel\AccountEditContact.cshtml" />
+    <Content Include="Views\UserPanel\EditBasicInfo.cshtml" />
+    <Content Include="Views\UserPanel\OrderHistory.cshtml" />
+    <Content Include="Views\UserPanel\Communicator.cshtml" />
+    <Content Include="Views\UserPanel\EditPassword.cshtml" />
+    <Content Include="Views\UserPanel\ShippingAdresses.cshtml" />
     <Content Include="Views\Database\AddCategory.cshtml" />
     <Content Include="Views\Database\AddToBundle.cshtml" />
     <Content Include="Views\Database\BucketIndex.cshtml" />
@@ -328,13 +342,13 @@
     <Content Include="Views\Database\OfferCreate.cshtml" />
     <Content Include="Views\Database\OffersIndex.cshtml" />
     <Content Include="Views\Database\UserCreate.cshtml" />
-    <Content Include="Views\User\Account.cshtml" />
-    <Content Include="Views\UserPanel\AccountAddProduct.cshtml" />
+    <Content Include="Views\UserPanel\AddProduct.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\UserPanelJonak\AddOrEdit.cshtml" />
     <Content Include="Views\UserPanelJonak\Index.cshtml" />
     <Content Include="Views\UserPanel\Register.cshtml" />
+    <Content Include="Views\UserPanel\_SideBar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -360,6 +374,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011081506006_updatingOfferModel.resx">
       <DependentUpon>202011081506006_updatingOfferModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011101134219_AddedAdresses.resx">
+      <DependentUpon>202011101134219_AddedAdresses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011101201288_ShippingAdressChanged.resx">
+      <DependentUpon>202011101201288_ShippingAdressChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011101205531_ShippingAdressChanged1.resx">
+      <DependentUpon>202011101205531_ShippingAdressChanged1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

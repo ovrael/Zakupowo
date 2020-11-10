@@ -73,24 +73,27 @@ namespace ShopApp.Controllers
             return RedirectToAction("Index", "Home");
         }
         [Authorize]
+        #region UserData 
+
+        // VIEW WITH BASIC INFORMATION ABOUT USER
         public ActionResult Account()
         {
             User showUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
             AccountViewModel accountView = new AccountViewModel();
             accountView.Login = showUser.Login;
+            accountView.Email = showUser.Email;
             accountView.FirstName = showUser.FirstName;
             accountView.LastName = showUser.LastName;
-            accountView.Email = showUser.Email;
-            accountView.BirthDate = showUser.BirthDate.ToString();
             accountView.PhoneNumber = showUser.Phone;
-            accountView.Country = showUser.Country;
-            accountView.City = showUser.City;
+            accountView.BirthDate = showUser.BirthDate.ToString();
+            accountView.CreationDate = showUser.CreationDate.ToString();
 
             return View(accountView);
         }
 
-        public ActionResult AccountEdit()
+        // VIEW WHERE USER CAN EDIT *BASIC* INFORMATION
+        public ActionResult EditBasicInfo()
         {
             if (Session["userId"] == null)
             {
@@ -112,7 +115,7 @@ namespace ShopApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult AccountEdit(FormCollection collection)
+        public ActionResult EditBasicInfo(FormCollection collection)
         {
             if (Session["userId"] == null)
             {
@@ -124,9 +127,6 @@ namespace ShopApp.Controllers
 
             if (editUser != null)
             {
-                Debug.WriteLine("ZMIENIAM INFO");
-                Debug.WriteLine(editUser.showBasicInformation());
-
                 string changedFirstName = collection["FirstName"].Trim();
                 string changedLastName = collection["LastName"].Trim();
                 string changedEmail = collection["Email"].Trim();
@@ -149,17 +149,15 @@ namespace ShopApp.Controllers
                 if (changedLogin != editUser.Login && changedLogin != null)
                     editUser.Login = changedLogin;
 
-                Debug.WriteLine(editUser.showBasicInformation());
-
                 db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
-
                 db.SaveChanges();
             }
 
             return RedirectToAction("Account", "UserPanel");
         }
 
-        public ActionResult AccountEditContact()
+        // VIEW WHERE USER CAN EDIT SHIPPING ADRESSES
+        public ActionResult ShippingAdresses()
         {
             if (Session["userId"] == null)
             {
@@ -170,14 +168,53 @@ namespace ShopApp.Controllers
             User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
 
             AccountViewModel accountView = new AccountViewModel();
-            accountView.Country = showUser.Country;
-            accountView.City = showUser.City;
+
+            List<ShippingAdressViewModel> listaAdresow = new List<ShippingAdressViewModel>()
+            {
+                new ShippingAdressViewModel()
+                {
+                    Country = "Poland",
+                    City = "Katowice",
+                    Street = "3 Maja",
+                    PremisesNumber = "25",
+                    PostalCode = "40-215"
+                },
+                new ShippingAdressViewModel()
+                {
+                    Country = "Poland",
+                    City = "Warszawa",
+                    Street = "Piłsudskiego",
+                    PremisesNumber = "4",
+                    PostalCode = "40-452"
+                },
+                new ShippingAdressViewModel()
+                {
+                    Country = "Poland",
+                    City = "Sosnowiec",
+                    Street = "Niepodległości",
+                    PremisesNumber = "7",
+                    PostalCode = "40-218"
+                },
+                new ShippingAdressViewModel()
+                {
+                    Country = "Poland",
+                    City = "Katowice",
+                    Street = "Mariacka",
+                    PremisesNumber = "13",
+                    PostalCode = "40-215"
+                }
+            };
+
+            accountView.ShippingAdresses = listaAdresow;
+
+            //accountView.Country = showUser.Country;
+            //accountView.City = showUser.City;
 
             return View(accountView);
         }
 
         [HttpPost]
-        public ActionResult AccountEditContact(FormCollection collection)
+        public ActionResult ShippingAdresses(FormCollection collection)
         {
             if (Session["userId"] == null)
             {
@@ -189,12 +226,8 @@ namespace ShopApp.Controllers
 
             if (editUser != null)
             {
-                Debug.WriteLine("ZMIENIAM INFO");
-                Debug.WriteLine(editUser.showBasicInformation());
-
                 string changedCountry = collection["Country"].Trim();
                 string changedCity = collection["City"].Trim();
-
 
                 if (changedCountry != editUser.Country && changedCountry != null)
                     editUser.Country = changedCountry;
@@ -202,27 +235,30 @@ namespace ShopApp.Controllers
                 if (changedCity != editUser.City && changedCity != null)
                     editUser.City = changedCity;
 
-                Debug.WriteLine(editUser.showBasicInformation());
-
                 db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
-
                 db.SaveChanges();
             }
 
             return RedirectToAction("Account", "UserPanel");
         }
 
-        public ActionResult AccountOrderHistory()
+        public ActionResult AddShippingAdress()
         {
             return View();
         }
 
-        public ActionResult AccountMessage()
+        [HttpPost]
+        public ActionResult AddShippingAdress(FormCollection collection)
         {
-            return View();
+
+
+
+            return RedirectToAction("ShippingAdresses", "UserPanel");
         }
 
-        public ActionResult AccountEditPassword()
+
+        // VIEW WHERE USER CAN EDIT PASSWORD
+        public ActionResult EditPassword()
         {
             if (Session["userId"] == null)
             {
@@ -244,7 +280,7 @@ namespace ShopApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult AccountEditPassword(FormCollection collection)
+        public ActionResult EditPassword(FormCollection collection)
         {
             if (Session["userId"] == null)
             {
@@ -256,32 +292,80 @@ namespace ShopApp.Controllers
 
             if (editUser != null)
             {
-                Debug.WriteLine(collection["OldPassword"].Trim());
-                Debug.WriteLine(collection["NewPassword"].Trim());
-                Debug.WriteLine(collection["NewPasswordValidation"].Trim());
-
-
                 string encryptedOldPassword = Cryptographing.Encrypt(collection["OldPassword"].Trim());
                 string encryptedNewPassword = Cryptographing.Encrypt(collection["NewPassword"].Trim());
                 string encryptedNewPasswordValidation = Cryptographing.Encrypt(collection["NewPasswordValidation"].Trim());
 
                 if (encryptedOldPassword != editUser.EncryptedPassword && encryptedOldPassword != null)
                 {
-                    Debug.WriteLine("STARE HASŁO OK");
                     if (encryptedNewPassword.Equals(encryptedNewPasswordValidation))
                     {
-                        Debug.WriteLine("ZMIENIAM HASŁA");
                         editUser.EncryptedPassword = encryptedNewPassword;
 
                         db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
-
                         db.SaveChanges();
                     }
                 }
-
             }
 
             return RedirectToAction("Account", "UserPanel");
+        }
+
+        #endregion
+
+        public ActionResult AddProduct()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddProduct(FormCollection collection)
+        {
+            Offer Oferta = new Offer
+            {
+                Title = collection["product_name"],
+                Description = collection["product_name_fr"],
+                InStock = Convert.ToDouble(collection["available_quantity"]),
+                Price = Convert.ToDouble(collection["product_price"])
+            };
+            db.Users.Add(new Models.User
+            {
+                Email = "Toniezle@Migracje.com",
+                Login = "Migracja",
+                EncryptedPassword = "TakO",
+                FirstName = "Wywala",
+                LastName = "Seeda:D"
+            }
+            );
+            db.SaveChanges();
+            Oferta.User = db.Users.Where(i => i.UserID == 1).First();//DO PIERWSZEGO SPRINTU WSZYSTKO WLATUJE DO DEFAULTOWEGO USERA
+            db.Offers.Add(Oferta);
+            db.SaveChanges();
+            /*
+            int ID;
+            foreach (var item in collection["product_categorie"])
+            {
+                ID = Convert.ToInt32(item);
+                //TU SIE PSUJE STRASZNIE FEST
+                (db.Categories.Where(i => i.CategoryID == ID).First())
+                    .Offers.Add(db.Offers.Where(x => x.OfferID == Oferta.OfferID).First());
+                Oferta.Categories.Add(db.Categories.Where(i => i.CategoryID == ID).First());
+            }
+            */
+
+            db.SaveChanges();
+            db.Users.Where(i => i.UserID == 1).First().Offers.Add(Oferta);
+            db.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult OrderHistory()
+        {
+            return View();
+        }
+
+        public ActionResult Communicator()
+        {
+            return View();
         }
     }
 }

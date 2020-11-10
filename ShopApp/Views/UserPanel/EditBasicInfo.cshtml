@@ -6,63 +6,8 @@
 
 @Styles.Render("~/bundles/UserPanel")
 
-<div class="wrapper">
-    <div class="sidebar">
-        <div class="bg_shadow"></div>
-        <div class="sidebar__inner">
-            <div class="close">
-                <i class="fas fa-times"></i>
-            </div>
+@Html.Partial("_SideBar")
 
-            <ul class="siderbar_menu">
-                <li>
-                    <a href="@Url.Action("Account", "UserPanel")">
-                        <div class="icon"><i class="fa fa-user"></i></div>
-                        <div class="title">Profil</div>
-
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("AccountAddProduct", "UserPanel")">
-                        <div class="icon"><i class="fa fa-plus"></i></div>
-                        <div class="title">Dodaj produkt</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("AccountOrderHistory", "UserPanel")">
-                        <div class="icon"><i class="fas fa-file-alt"></i></div>
-                        <div class="title">Sprzedaż</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("AccountOrderHistory", "UserPanel")">
-                        <div class="icon"><i class="fas fa-history"></i></div>
-                        <div class="title">Historia</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("AccountMessage", "UserPanel")">
-                        <div class="icon"><i class="fas fa-envelope"></i></div>
-                        <div class="title">Wiadomości</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("AccountEdit", "UserPanel")" class="active">
-                        <div class="icon"><i class="fas fa-cog"></i></div>
-                        <div class="title">Ustawienia</div>
-                    </a>
-                </li>
-                <li>
-                    <a href="@Url.Action("Logout", "User")">
-                        <div class="icon"><i class="fa fa-reply"></i></div>
-                        <div class="title">Wyloguj</div>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-
-</div>
 <div class="container">
     <div class="row">
         <div class="col-12">
@@ -85,18 +30,18 @@
 
                                     </ul>
                                     <ul class="nav">
-                                        <li><a href="@Url.Action("AccountEditContact", "UserPanel")"><span class="fas fa-address-book"></span> Adresy wysyłki </a></li>
+                                        <li><a href="@Url.Action("ShippingAdresses", "UserPanel")"><span class="fas fa-address-book"></span> Adresy wysyłki </a></li>
 
                                     </ul>
                                     <ul class="nav">
-                                        <li><a href="@Url.Action("AccountEditPassword", "UserPanel")"><span class="fas fa-key"></span> Zmiana hasła</a></li>
+                                        <li><a href="@Url.Action("EditPassword", "UserPanel")"><span class="fas fa-key"></span> Zmiana hasła</a></li>
 
                                     </ul>
                                 </nav>
 
                             </div>
                             <div class="content-panel">
-                                @using (Html.BeginForm("AccountEdit", "UserPanel", FormMethod.Post))
+                                @using (Html.BeginForm("EditBasicInfo", "UserPanel", FormMethod.Post))
                                 {
                                     <fieldset class="fieldset">
                                         <h3 class="fieldset-title">Dane użytkownika</h3>
@@ -116,16 +61,16 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="col-md-2 col-sm-3 col-xs-12 control-label">E-mail</label>
+                                            <label class="col-md-2 col-sm-3 col-xs-12 control-label">Login</label>
                                             <div class="col-md-10 col-sm-9 col-xs-12">
-                                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                                @Html.TextBoxFor(m => m.Login, new { @class = "form-control" })
                                             </div>
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="col-md-2 col-sm-3 col-xs-12 control-label">Login</label>
+                                            <label class="col-md-2 col-sm-3 col-xs-12 control-label">E-mail</label>
                                             <div class="col-md-10 col-sm-9 col-xs-12">
-                                                @Html.TextBoxFor(m => m.Login, new { @class = "form-control" })
+                                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                                             </div>
                                         </div>
 
@@ -135,13 +80,6 @@
                                                 @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
                                             </div>
                                         </div>
-
-                                        @*<div class="form-group">
-                                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Data urodzenia</label>
-                                                <div class="col-md-10 col-sm-9 col-xs-12">
-                                                    @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control" })
-                                                </div>
-                                            </div>*@
 
                                         <hr>
 
