@@ -1,0 +1,124 @@
+﻿@model ShopApp.ViewModels.User.AccountViewModel
+@{
+    if (Session["userId"] == null)
+    {
+        Response.Redirect("~/User/Login");
+    }
+    ViewBag.Title = "";
+}
+
+@Styles.Render("~/bundles/UserPanel")
+@Html.Partial("_SideBar")
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="container-accout-edit">
+                <div class="view-account">
+                    <section class="module">
+                        <div class="module-inner">
+                            <div class="side-bar">
+                                <div class="user-info">
+                                    <ul class="meta list list-unstyled">
+                                        <li class="name">
+                                            @Model.FirstName @Model.LastName
+                                        </li>
+                                    </ul>
+                                </div>
+                                <nav class="side-menu">
+                                    <ul class="nav">
+                                        <li><a href="@Url.Action("EditBasicInfo", "UserPanel")"><span class="fa fa-user"></span> Dane osobowe</a></li>
+
+                                    </ul>
+                                    <ul class="nav">
+                                        <li class="active"><a href="@Url.Action("ShippingAdresses", "UserPanel")"><span class="fas fa-address-book"></span> Adresy wysyłki</a></li>
+
+                                    </ul>
+                                    <ul class="nav">
+                                        <li><a href="@Url.Action("EditPassword", "UserPanel")"><span class="fas fa-key"></span> Zmiana hasła</a></li>
+
+                                    </ul>
+                                </nav>
+
+                            </div>
+                            <div class="content-panel">
+                                @using (Html.BeginForm("ShippingAdresses", "UserPanel", FormMethod.Post))
+                                {
+                                    <fieldset class="fieldset">
+                                        <div class="row fieldset-title">
+                                            <div class="col-10" style="display: inline-block;">
+                                                <h3>Adresy wysyłki</h3>
+                                            </div>
+                                            <div class="col-2" style="display: inline-block;">
+                                                <a class="btn btn-dark" href="@Url.Action("Account", "UserPanel")">Dodaj adres!</a>
+                                            </div>
+
+                                        </div>
+
+                                        <hr style="border: 2px solid #ffb24a; border-radius: 1px" ;>
+
+                                        @for (int i = 0; i < Model.ShippingAdresses.Count; i++)
+                                        {
+                                            <p> Adres wysyłki numer: @(i+1)  </p>
+
+                                            <div class="form-group">
+                                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Kraj</label>
+                                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                                    @Html.TextBoxFor(m => m.ShippingAdresses[i].Country, new { @class = "form-control" })
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Miasto</label>
+                                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                                    @Html.TextBoxFor(m => m.ShippingAdresses[i].City, new { @class = "form-control" })
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Ulica</label>
+                                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                                    @Html.TextBoxFor(m => m.ShippingAdresses[i].Street, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Numer lokalu</label>
+                                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                                    @Html.TextBoxFor(m => m.ShippingAdresses[i].PremisesNumber, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Kod pocztowy</label>
+                                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                                    @Html.TextBoxFor(m => m.ShippingAdresses[i].PostalCode, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
+                                                    <input class="btn btn-dark" type="submit" value="Zmień">
+                                                </div>
+                                            </div>
+
+                                            if (Model.ShippingAdresses.Count > 1)
+                                            {
+                                                <hr style="border: 3px solid #ffb24a; border-radius: 3px" ;>
+                                            }
+                                        }
+                                    </fieldset>
+                                }
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

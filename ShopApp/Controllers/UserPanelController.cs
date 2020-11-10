@@ -18,48 +18,258 @@ namespace ShopApp.Controllers
     {
         private ShopContext db = new ShopContext();
 
-        //USER REGISTRATION
-        public ActionResult Register()
+        #region UserData 
+
+        // VIEW WITH BASIC INFORMATION ABOUT USER
+        public ActionResult Account()
         {
-            return View();
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            int userID = (int)Session["userId"];
+            User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+
+            AccountViewModel accountView = new AccountViewModel();
+            accountView.Login = showUser.Login;
+            accountView.Email = showUser.Email;
+            accountView.FirstName = showUser.FirstName;
+            accountView.LastName = showUser.LastName;
+            accountView.PhoneNumber = showUser.Phone;
+            accountView.BirthDate = showUser.BirthDate.ToString();
+            accountView.CreationDate = showUser.CreationDate.ToString();
+
+            return View(accountView);
         }
 
-        //POST: Register/Create
-        [HttpPost]
-        public ActionResult Register(FormCollection collection)
+        // VIEW WHERE USER CAN EDIT *BASIC* INFORMATION
+        public ActionResult EditBasicInfo()
         {
-            User user = new User()
+            if (Session["userId"] == null)
             {
-                FirstName = collection["FirstName"],
-                LastName = collection["LastName"],
-                Login = collection["Login"],
-                EncryptedPassword = Cryptographing.Encrypt(collection["Password"]),
-                Email = collection["Email"],
-                BirthDate = DateTime.Parse(collection["BirthDate"]),
-                CreationDate = DateTime.Now
+                return RedirectToAction("Login", "User");
+            }
+
+            int userID = (int)Session["userId"];
+            User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+
+            AccountViewModel accountView = new AccountViewModel();
+            accountView.Login = showUser.Login;
+            accountView.FirstName = showUser.FirstName;
+            accountView.LastName = showUser.LastName;
+            accountView.Email = showUser.Email;
+            accountView.BirthDate = showUser.BirthDate.ToString();
+            accountView.PhoneNumber = showUser.Phone;
+
+            return View(accountView);
+        }
+
+        [HttpPost]
+        public ActionResult EditBasicInfo(FormCollection collection)
+        {
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            int userID = (int)Session["userId"];
+            User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+
+            if (editUser != null)
+            {
+                string changedFirstName = collection["FirstName"].Trim();
+                string changedLastName = collection["LastName"].Trim();
+                string changedEmail = collection["Email"].Trim();
+                string changedLogin = collection["Login"].Trim();
+                string changedPhoneNumber = collection["PhoneNumber"].Trim();
+
+
+                if (changedFirstName != editUser.FirstName && changedFirstName != null)
+                    editUser.FirstName = changedFirstName;
+
+                if (changedLastName != editUser.LastName && changedLastName != null)
+                    editUser.LastName = changedLastName;
+
+                if (changedEmail != editUser.Email && changedEmail != null)
+                    editUser.Email = changedEmail;
+
+                if (changedPhoneNumber != editUser.Phone && changedPhoneNumber != null)
+                    editUser.Phone = changedPhoneNumber;
+
+                if (changedLogin != editUser.Login && changedLogin != null)
+                    editUser.Login = changedLogin;
+
+                db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Account", "UserPanel");
+        }
+
+        // VIEW WHERE USER CAN EDIT SHIPPING ADRESSES
+        public ActionResult ShippingAdresses()
+        {
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            int userID = (int)Session["userId"];
+            User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+
+            AccountViewModel accountView = new AccountViewModel();
+
+            List<ShippingAdressViewModel> listaAdresow = new List<ShippingAdressViewModel>()
+            {
+                new ShippingAdressViewModel()
+                {
+                    Country = "Poland",
+                    City = "Katowice",
+                    Street = "3 Maja",
+                    PremisesNumber = "25",
+                    PostalCode = "40-215"
+                },
+                new ShippingAdressViewModel()
+                {
+                    Country = "Poland",
+                    City = "Warszawa",
+                    Street = "Piłsudskiego",
+                    PremisesNumber = "4",
+                    PostalCode = "40-452"
+                },
+                new ShippingAdressViewModel()
+                {
+                    Country = "Poland",
+                    City = "Sosnowiec",
+                    Street = "Niepodległości",
+                    PremisesNumber = "7",
+                    PostalCode = "40-218"
+                },
+                new ShippingAdressViewModel()
+                {
+                    Country = "Poland",
+                    City = "Katowice",
+                    Street = "Mariacka",
+                    PremisesNumber = "13",
+                    PostalCode = "40-215"
+                }
             };
 
+            accountView.ShippingAdresses = listaAdresow;
 
-            //Debug.WriteLine("DANE USERA");
-            //Debug.WriteLine(user.FirstName + " " + user.LastName + " " + user.Login + " " + user.EncryptedPassword + " " + user.Email);
+            //accountView.Country = showUser.Country;
+            //accountView.City = showUser.City;
 
-            db.Users.Add(user);
-            db.SaveChanges();
-            ViewBag.Message = db.Users.ToList();
-            return RedirectToAction("Account");
+            return View(accountView);
         }
 
-        // GET: User
-        public ActionResult Index()
+        [HttpPost]
+        public ActionResult ShippingAdresses(FormCollection collection)
         {
-            return View(db.Offers);
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            int userID = (int)Session["userId"];
+            User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+
+            if (editUser != null)
+            {
+                string changedCountry = collection["Country"].Trim();
+                string changedCity = collection["City"].Trim();
+
+                if (changedCountry != editUser.Country && changedCountry != null)
+                    editUser.Country = changedCountry;
+
+                if (changedCity != editUser.City && changedCity != null)
+                    editUser.City = changedCity;
+
+                db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Account", "UserPanel");
         }
-        public ActionResult AccountAddProduct()
+
+        public ActionResult AddShippingAdress()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddShippingAdress(FormCollection collection)
+        {
+
+
+
+            return RedirectToAction("ShippingAdresses", "UserPanel");
+        }
+
+
+        // VIEW WHERE USER CAN EDIT PASSWORD
+        public ActionResult EditPassword()
+        {
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            int userID = (int)Session["userId"];
+            User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+
+            AccountViewModel accountView = new AccountViewModel();
+            accountView.Login = showUser.Login;
+            accountView.FirstName = showUser.FirstName;
+            accountView.LastName = showUser.LastName;
+            accountView.Email = showUser.Email;
+            accountView.BirthDate = showUser.BirthDate.ToString();
+            accountView.PhoneNumber = showUser.Phone;
+
+            return View(accountView);
+        }
+
+        [HttpPost]
+        public ActionResult EditPassword(FormCollection collection)
+        {
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            int userID = (int)Session["userId"];
+            User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+
+            if (editUser != null)
+            {
+                string encryptedOldPassword = Cryptographing.Encrypt(collection["OldPassword"].Trim());
+                string encryptedNewPassword = Cryptographing.Encrypt(collection["NewPassword"].Trim());
+                string encryptedNewPasswordValidation = Cryptographing.Encrypt(collection["NewPasswordValidation"].Trim());
+
+                if (encryptedOldPassword != editUser.EncryptedPassword && encryptedOldPassword != null)
+                {
+                    if (encryptedNewPassword.Equals(encryptedNewPasswordValidation))
+                    {
+                        editUser.EncryptedPassword = encryptedNewPassword;
+
+                        db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+            }
+
+            return RedirectToAction("Account", "UserPanel");
+        }
+
+        #endregion
+
+        public ActionResult AddProduct()
         {
             return View();
         }
         [HttpPost]
-        public ActionResult AccountAddProduct(FormCollection collection)
+        public ActionResult AddProduct(FormCollection collection)
         {
             Offer Oferta = new Offer
             {
@@ -99,221 +309,14 @@ namespace ShopApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult Account()
-        {
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
-
-            int userID = (int)Session["userId"];
-            User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
-
-            AccountViewModel accountView = new AccountViewModel();
-            accountView.Login = showUser.Login;
-            accountView.FirstName = showUser.FirstName;
-            accountView.LastName = showUser.LastName;
-            accountView.Email = showUser.Email;
-            accountView.BirthDate = showUser.BirthDate.ToString();
-            accountView.PhoneNumber = showUser.Phone;
-            accountView.Country = showUser.Country;
-            accountView.City = showUser.City;
-
-            return View(accountView);
-        }
-
-        public ActionResult AccountEdit()
-        {
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
-
-            int userID = (int)Session["userId"];
-            User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
-
-            AccountViewModel accountView = new AccountViewModel();
-            accountView.Login = showUser.Login;
-            accountView.FirstName = showUser.FirstName;
-            accountView.LastName = showUser.LastName;
-            accountView.Email = showUser.Email;
-            accountView.BirthDate = showUser.BirthDate.ToString();
-            accountView.PhoneNumber = showUser.Phone;
-
-            return View(accountView);
-        }
-
-        [HttpPost]
-        public ActionResult AccountEdit(FormCollection collection)
-        {
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
-
-            int userID = (int)Session["userId"];
-            User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
-
-            if (editUser != null)
-            {
-                Debug.WriteLine("ZMIENIAM INFO");
-                Debug.WriteLine(editUser.showBasicInformation());
-
-                string changedFirstName = collection["FirstName"].Trim();
-                string changedLastName = collection["LastName"].Trim();
-                string changedEmail = collection["Email"].Trim();
-                string changedLogin = collection["Login"].Trim();
-                string changedPhoneNumber = collection["PhoneNumber"].Trim();
-
-
-                if (changedFirstName != editUser.FirstName && changedFirstName != null)
-                    editUser.FirstName = changedFirstName;
-
-                if (changedLastName != editUser.LastName && changedLastName != null)
-                    editUser.LastName = changedLastName;
-
-                if (changedEmail != editUser.Email && changedEmail != null)
-                    editUser.Email = changedEmail;
-
-                if (changedPhoneNumber != editUser.Phone && changedPhoneNumber != null)
-                    editUser.Phone = changedPhoneNumber;
-
-                if (changedLogin != editUser.Login && changedLogin != null)
-                    editUser.Login = changedLogin;
-
-                Debug.WriteLine(editUser.showBasicInformation());
-
-                db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
-
-                db.SaveChanges();
-            }
-
-            return RedirectToAction("Account", "UserPanel");
-        }
-
-        public ActionResult AccountEditContact()
-        {
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
-
-            int userID = (int)Session["userId"];
-            User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
-
-            AccountViewModel accountView = new AccountViewModel();
-            accountView.Country = showUser.Country;
-            accountView.City = showUser.City;
-
-            return View(accountView);
-        }
-
-        [HttpPost]
-        public ActionResult AccountEditContact(FormCollection collection)
-        {
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
-
-            int userID = (int)Session["userId"];
-            User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
-
-            if (editUser != null)
-            {
-                Debug.WriteLine("ZMIENIAM INFO");
-                Debug.WriteLine(editUser.showBasicInformation());
-
-                string changedCountry = collection["Country"].Trim();
-                string changedCity = collection["City"].Trim();
-
-
-                if (changedCountry != editUser.Country && changedCountry != null)
-                    editUser.Country = changedCountry;
-
-                if (changedCity != editUser.City && changedCity != null)
-                    editUser.City = changedCity;
-
-                Debug.WriteLine(editUser.showBasicInformation());
-
-                db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
-
-                db.SaveChanges();
-            }
-
-            return RedirectToAction("Account", "UserPanel");
-        }
-
-        public ActionResult AccountOrderHistory()
+        public ActionResult OrderHistory()
         {
             return View();
         }
 
-        public ActionResult AccountMessage()
+        public ActionResult Communicator()
         {
             return View();
-        }
-
-        public ActionResult AccountEditPassword()
-        {
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
-
-            int userID = (int)Session["userId"];
-            User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
-
-            AccountViewModel accountView = new AccountViewModel();
-            accountView.Login = showUser.Login;
-            accountView.FirstName = showUser.FirstName;
-            accountView.LastName = showUser.LastName;
-            accountView.Email = showUser.Email;
-            accountView.BirthDate = showUser.BirthDate.ToString();
-            accountView.PhoneNumber = showUser.Phone;
-
-            return View(accountView);
-        }
-
-        [HttpPost]
-        public ActionResult AccountEditPassword(FormCollection collection)
-        {
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
-
-            int userID = (int)Session["userId"];
-            User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
-
-            if (editUser != null)
-            {
-                Debug.WriteLine(collection["OldPassword"].Trim());
-                Debug.WriteLine(collection["NewPassword"].Trim());
-                Debug.WriteLine(collection["NewPasswordValidation"].Trim());
-
-
-                string encryptedOldPassword = Cryptographing.Encrypt(collection["OldPassword"].Trim());
-                string encryptedNewPassword = Cryptographing.Encrypt(collection["NewPassword"].Trim());
-                string encryptedNewPasswordValidation = Cryptographing.Encrypt(collection["NewPasswordValidation"].Trim());
-
-                if (encryptedOldPassword != editUser.EncryptedPassword && encryptedOldPassword != null)
-                {
-                    Debug.WriteLine("STARE HASŁO OK");
-                    if (encryptedNewPassword.Equals(encryptedNewPasswordValidation))
-                    {
-                        Debug.WriteLine("ZMIENIAM HASŁA");
-                        editUser.EncryptedPassword = encryptedNewPassword;
-
-                        db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
-
-                        db.SaveChanges();
-                    }
-                }
-
-            }
-
-            return RedirectToAction("Account", "UserPanel");
         }
     }
 }

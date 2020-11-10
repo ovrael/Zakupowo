@@ -68,6 +68,7 @@ namespace ShopApp.Models
         public virtual ICollection<Auction> Auction { get; set; }
         public virtual ICollection<Offer> Offers { get; set; }
         public virtual ICollection<Bundle> Bundles { get; set; }
+        public virtual ICollection<ShippingAdress> ShippingAdresses { get; set; }
 
         public string showBasicInformation()
         {
