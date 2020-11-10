@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<ShopApp.Models.Category>
 @{
     ViewBag.Title = "AccountAddProduct";
 }
@@ -18,58 +18,55 @@
 
                     <fieldset class="add-produt">
 
-                        <h2>Dodaj swoją ofertę :</h2>
-                        <p>Dane produktu</p>
+                        <h2>Dodaj ofertę</h2>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="product_name">NAZWA PRODUKTU</label>
+                            <label class="col-md-4 control-label" for="Name">Nazwa oferty</label>
                             <div class="col-md-4">
-                                <input id="product_name" name="product_name" placeholder="NAZWA PRODUKTU" class="form-control input-md" required="" type="text">
-
+                                <input id="product_name" name="Name" placeholder="Offer name" class="form-control input-md" required="" type="text">
                             </div>
                         </div>
 
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="product_name_fr">OPIS PRODUKTU </label>
+                            <label class="col-md-4 control-label" for="Description">Opis</label>
                             <div class="col-md-4">
-
-                                <textarea id="product_name_fr" name="product_name_fr" placeholder="OPIS PRODUKTU" class="form-control input-md" required=""> </textarea>
+                                <textarea id="product_name_fr" name="Description" placeholder="Description" class="form-control input-md" required=""> </textarea>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="product_categorie">KATEGORIA PRODUKTU</label>
+                            <label class="col-md-4 control-label" for="Category">Kategoria</label>
                             <div class="col-md-4">
-                                <select id="product_categorie" name="product_categorie" class="form-control">
+                                <select id="product_categorie" name="Category" class="form-control">
                                     <option selected>Wybierz kategorie</option>
-                                    <option value="1">Kategoria 1</option>
-                                    <option value="2">Kategoria 2</option>
-                                    <option value="3">Kategoria 3</option>
+                                    @{
+                                        for (int i = 0; i < Model.Count(); i++)
+                                        {
+                                            <option value="@(i+1)">@Model.ElementAt(i).CategoryName</option>
+                                        }
+                                    }
                                 </select>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="available_quantity">ILOŚĆ PRODUKTU</label>
+                            <label class="col-md-4 control-label" for="Quantity">Ilość produktu</label>
                             <div class="col-md-4">
-                                <input id="available_quantity" name="available_quantity" placeholder="ILOŚĆ PRODUKTU" class="form-control input-md" required="" type="number">
-
+                                <input id="available_quantity" name="Quantity" placeholder="Product quantity" class="form-control input-md" required="" type="number">
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="product_weight">WAGA PRODUKTU</label>
+                            <label class="col-md-4 control-label" for="Weigth">Waga</label>
                             <div class="col-md-4">
-                                <input id="product_weight" name="product_weight" placeholder="WAGA PRODUKTU" class="form-control input-md" required="" type="text">
-
+                                <input id="product_weight" name="Weigth" placeholder="Weight" class="form-control input-md" required="" type="text">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="product_price">CENA</label>
+                            <label class="col-md-4 control-label" for="Price">Cena</label>
                             <div class="col-md-4">
-                                <input id="product_weight" name="product_price" placeholder="CENA" class="form-control input-md" required="" type="text">
-
+                                <input id="product_weight" name="Price" placeholder="Price" class="form-control input-md" required="" type="text">
                             </div>
                         </div>
 
@@ -77,14 +74,14 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="filebutton">Główny obraz</label>
                             <div class="col-md-4">
-                                <input id="filebutton" name="filebutton" class="input-file" type="file">
+                                <input id="filebutton" name="filebutton" class="form-control-file input-file" type="file">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="filebutton">Obrazy poboczne</label>
                             <div class="col-md-4">
-                                <input id="filebutton" name="filebutton" class="input-file" type="file">
+                                <input id="filebutton" name="filebutton" class="form-control-file input-file" type="file">
                             </div>
                         </div>
 

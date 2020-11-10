@@ -9,19 +9,22 @@
         </select>
     </div>
 </div>
-    <div class="d-flex justify-content-center flex-wrap">
-        @foreach (var item in Model)
-        {
+
+
+@* PARTIAL VIEW DLA OFERT*@
+<div class="d-flex justify-content-center flex-wrap">
+    @foreach (var item in Model)
+    {
         <div class="offer-box">
-       
-                <img class="img-fluid rounded" style="height:50%;" src="~/Images/product.jpg" />
-                <h2>@item.Title</h2>
-                <p>@item.Description</p>
-           
+
+            <img class="img-fluid rounded" style="height:50%;" src="~/Images/product.jpg" />
+            <h2>@item.Title</h2>
+            <p>@item.Description</p>
+
 
         </div>
-           
-        }
-    </div>
-   
+
+    }
+</div>
+
 

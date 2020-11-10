@@ -31,10 +31,6 @@ namespace ShopApp.Models
         public string Street { get; set; }
 
         [MaxLength(10)]
-        [Column("FlatNumber", TypeName = "char")]
-        public string FlatNumber { get; set; }
-
-        [MaxLength(10)]
         [Column("PremisesNumber", TypeName = "char")]
         public string PremisesNumber { get; set; }
 

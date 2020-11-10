@@ -1,4 +1,4 @@
-﻿@model ShopApp.ViewModels.User.AccountViewModel
+﻿@model IEnumerable<ShopApp.Models.ShippingAdress>
 @{
     if (Session["userId"] == null)
     {
@@ -18,13 +18,7 @@
                     <section class="module">
                         <div class="module-inner">
                             <div class="side-bar">
-                                <div class="user-info">
-                                    <ul class="meta list list-unstyled">
-                                        <li class="name">
-                                            @Model.FirstName @Model.LastName
-                                        </li>
-                                    </ul>
-                                </div>
+
                                 <nav class="side-menu">
                                     <ul class="nav">
                                         <li><a href="@Url.Action("EditBasicInfo", "UserPanel")"><span class="fa fa-user"></span> Dane osobowe</a></li>
@@ -42,76 +36,80 @@
 
                             </div>
                             <div class="content-panel">
-                                @using (Html.BeginForm("ShippingAdresses", "UserPanel", FormMethod.Post))
-                                {
+                                <form class="form-horizontal" method="post">
+
                                     <fieldset class="fieldset">
                                         <div class="row fieldset-title">
                                             <div class="col-10" style="display: inline-block;">
                                                 <h3>Adresy wysyłki</h3>
                                             </div>
                                             <div class="col-2" style="display: inline-block;">
-                                                <a class="btn btn-dark" href="@Url.Action("Account", "UserPanel")">Dodaj adres!</a>
+                                                <a class="btn btn-dark" href="@Url.Action("AddShippingAdress", "UserPanel")">Dodaj adres!</a>
                                             </div>
 
                                         </div>
 
                                         <hr style="border: 2px solid #ffb24a; border-radius: 1px" ;>
 
-                                        @for (int i = 0; i < Model.ShippingAdresses.Count; i++)
-                                        {
-                                            <p> Adres wysyłki numer: @(i+1)  </p>
-
-                                            <div class="form-group">
-                                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Kraj</label>
-                                                <div class="col-md-10 col-sm-9 col-xs-12">
-                                                    @Html.TextBoxFor(m => m.ShippingAdresses[i].Country, new { @class = "form-control" })
-
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Miasto</label>
-                                                <div class="col-md-10 col-sm-9 col-xs-12">
-                                                    @Html.TextBoxFor(m => m.ShippingAdresses[i].City, new { @class = "form-control" })
-
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Ulica</label>
-                                                <div class="col-md-10 col-sm-9 col-xs-12">
-                                                    @Html.TextBoxFor(m => m.ShippingAdresses[i].Street, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Numer lokalu</label>
-                                                <div class="col-md-10 col-sm-9 col-xs-12">
-                                                    @Html.TextBoxFor(m => m.ShippingAdresses[i].PremisesNumber, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Kod pocztowy</label>
-                                                <div class="col-md-10 col-sm-9 col-xs-12">
-                                                    @Html.TextBoxFor(m => m.ShippingAdresses[i].PostalCode, new { @class = "form-control" })
-                                                </div>
-                                            </div>
-
-
-                                            <div class="form-group">
-                                                <div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
-                                                    <input class="btn btn-dark" type="submit" value="Zmień">
-                                                </div>
-                                            </div>
-
-                                            if (Model.ShippingAdresses.Count > 1)
+                                        @{
+                                            List<ShopApp.Models.ShippingAdress> adresses = Model.ToList();
+                                            for (int i = 0; i < adresses.Count; i++)
                                             {
-                                                <hr style="border: 3px solid #ffb24a; border-radius: 3px" ;>
+                                                <p> Adres wysyłki numer: @(i+1)  </p>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label" for="Country">Kraj</label>
+                                                    <div class="col-md-4">
+                                                        <input id="countryAdress" name="Country" placeholder="@adresses[i].Country" class="form-control input-md" type="text" required autofocus>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label" for="City">Miasto</label>
+                                                    <div class="col-md-4">
+                                                        <input id="cityAdress" name="City" placeholder="@adresses[i].City" class="form-control input-md" type="text" required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label" for="Street">Ulica</label>
+                                                    <div class="col-md-4">
+                                                        <input id="streetAdress" name="Street" placeholder="@adresses[i].Street" class="form-control input-md" type="text" required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label" for="PremisesNumber">Numer lokalu</label>
+                                                    <div class="col-md-4">
+                                                        <input id="premisesNumber" name="PremisesNumber" placeholder="@adresses[i].PremisesNumber" class="form-control input-md" type="text">
+                                                        <small id="premisesNumberHelp" class="form-text text-muted">Pole nie jest wymagane.</small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label" for="PostalCode">Kod pocztowy*</label>
+                                                    <div class="col-md-4">
+                                                        <input id="postalCode" name="PostalCode" placeholder="@adresses[i].PostalCode" class="form-control input-md" type="text">
+                                                        <small id="postalCodeHelp" class="form-text text-muted">Pole nie jest wymagane.</small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-4 control-label" for="singlebutton"></label>
+                                                    <div class="col-md-4">
+                                                        <input type="submit" value="Change" class="btn btn-default" />
+                                                    </div>
+                                                </div>
+
+                                                if (adresses.Count > 1)
+                                                {
+                                                    <hr style="border: 3px solid #ffb24a; border-radius: 3px" ;>
+                                                }
                                             }
                                         }
+
                                     </fieldset>
-                                }
+                                </form>
                             </div>
                         </div>
                     </section>
