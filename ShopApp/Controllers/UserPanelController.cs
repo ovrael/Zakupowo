@@ -146,6 +146,12 @@ namespace ShopApp.Controllers
                 string changedPremisesNumber = collection["PremisesNumber"].Trim();
                 string changedPostalCode = collection["PostalCode"].Trim();
 
+                Debug.WriteLine(changedCountry);
+                Debug.WriteLine(changedCity);
+                Debug.WriteLine(changedStreet);
+                Debug.WriteLine(changedPremisesNumber);
+                Debug.WriteLine(changedPostalCode);
+
                 if (changedCountry != shippingAdress.Country && changedCountry != null)
                     shippingAdress.Country = changedCountry;
 
@@ -162,13 +168,12 @@ namespace ShopApp.Controllers
                     shippingAdress.PostalCode = changedPostalCode;
 
 
-                db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
 
                 editUser.ShippingAdresses.ToList()[adressNumber] = shippingAdress;
 
+                db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
             }
-
             return RedirectToAction("ShippingAdresses", "UserPanel");
         }
 
