@@ -133,23 +133,43 @@ namespace ShopApp.Controllers
 
             int userID = (int)Session["userId"];
             User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+            ShippingAdress shippingAdress;
 
             if (editUser != null)
             {
+                int adressNumber = int.Parse(collection["AdressNumber"].Trim());
+                shippingAdress = editUser.ShippingAdresses.ToList()[adressNumber];
+
                 string changedCountry = collection["Country"].Trim();
                 string changedCity = collection["City"].Trim();
+                string changedStreet = collection["Street"].Trim();
+                string changedPremisesNumber = collection["PremisesNumber"].Trim();
+                string changedPostalCode = collection["PostalCode"].Trim();
 
-                if (changedCountry != editUser.Country && changedCountry != null)
-                    editUser.Country = changedCountry;
+                if (changedCountry != shippingAdress.Country && changedCountry != null)
+                    shippingAdress.Country = changedCountry;
 
-                if (changedCity != editUser.City && changedCity != null)
-                    editUser.City = changedCity;
+                if (changedCity != shippingAdress.City && changedCity != null)
+                    shippingAdress.City = changedCity;
+
+                if (changedStreet != shippingAdress.Street && changedStreet != null)
+                    shippingAdress.Street = changedStreet;
+
+                if (changedPremisesNumber != shippingAdress.PremisesNumber && changedPremisesNumber != null)
+                    shippingAdress.PremisesNumber = changedPremisesNumber;
+
+                if (changedPostalCode != shippingAdress.PostalCode && changedPostalCode != null)
+                    shippingAdress.PostalCode = changedPostalCode;
+
 
                 db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
+
+                editUser.ShippingAdresses.ToList()[adressNumber] = shippingAdress;
+
                 db.SaveChanges();
             }
 
-            return RedirectToAction("Account", "UserPanel");
+            return RedirectToAction("ShippingAdresses", "UserPanel");
         }
 
         public ActionResult AddShippingAdress()
@@ -203,6 +223,34 @@ namespace ShopApp.Controllers
 
             editUser.ShippingAdresses.Add(adress);
             db.SaveChanges();
+
+            return RedirectToAction("ShippingAdresses", "UserPanel");
+        }
+
+        public ActionResult DeleteShippingAdress(int? adressNumber)
+        {
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            Debug.WriteLine(adressNumber);
+            if (adressNumber == null)
+                return RedirectToAction("ShippingAdresses", "UserPanel");
+
+
+            int userID = (int)Session["userId"];
+            User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+
+            List<ShippingAdress> lista = db.ShippingAdresses.Where(u => u.User.UserID == userID).ToList();
+
+            ShippingAdress adressToRemove = db.ShippingAdresses.Where(u => u.User.UserID == userID).ToList()[(int)adressNumber];
+
+            Debug.WriteLine(adressToRemove.User.UserID + " " + adressToRemove.Country);
+
+            db.ShippingAdresses.Remove(adressToRemove);
+            db.SaveChanges();
+
 
             return RedirectToAction("ShippingAdresses", "UserPanel");
         }
