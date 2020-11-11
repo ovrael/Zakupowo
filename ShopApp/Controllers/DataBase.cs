@@ -23,9 +23,16 @@ namespace ShopApp.Controllers
             db.Users.Add(user);
             db.SaveChanges();
         }
-        public static void AddToDatabase()
+        public static void AddToDatabase(Offer oferta, User user)
         {
+            db.Offers.Add(oferta);
+            db.SaveChanges();
+            oferta.User = user;
+            
 
+            db.SaveChanges();
+            db.Users.Where(i => i.UserID == 1).First().Offers.Add(oferta);
+            db.SaveChanges();
         }
 }
 }

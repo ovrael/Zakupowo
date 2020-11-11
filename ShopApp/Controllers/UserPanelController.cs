@@ -31,27 +31,16 @@ namespace ShopApp.Controllers
         [HttpPost]
         public ActionResult AccountAddProduct(FormCollection collection)
         {
+            User user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
             Offer Oferta = new Offer
             {
                 Title = collection["product_name"],
                 Description = collection["product_name_fr"],
                 InStock = Convert.ToDouble(collection["available_quantity"]),
-                Price = Convert.ToDouble(collection["product_price"])
-            };
-            db.Users.Add(new Models.User
-            {
-                Email = "Toniezle@Migracje.com",
-                Login = "Migracja",
-                EncryptedPassword = "TakO",
-                FirstName = "Wywala",
-                LastName = "Seeda:D"
-            }
-            );
-            db.SaveChanges();
-            Oferta.User = db.Users.Where(i => i.UserID == 1).First();//DO PIERWSZEGO SPRINTU WSZYSTKO WLATUJE DO DEFAULTOWEGO USERA
-            db.Offers.Add(Oferta);
-            db.SaveChanges();
-            /*
+                Price = Convert.ToDouble(collection["product_price"]),
+
+
+                /*
             int ID;
             foreach (var item in collection["product_categorie"])
             {
@@ -62,10 +51,8 @@ namespace ShopApp.Controllers
                 Oferta.Categories.Add(db.Categories.Where(i => i.CategoryID == ID).First());
             }
             */
-
-            db.SaveChanges();
-            db.Users.Where(i => i.UserID == 1).First().Offers.Add(Oferta);
-            db.SaveChanges();
+            };
+            DataBase.AddToDatabase(Oferta, user);
             return RedirectToAction("Index", "Home");
         }
         [Authorize]
