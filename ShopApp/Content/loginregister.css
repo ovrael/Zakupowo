@@ -1,4 +1,4 @@
-﻿.fa-stripe-s {
+﻿.formlogo {
     color: #FFB24A;
     font-size: 28px;
 }
@@ -28,7 +28,7 @@ a {
         font-size: 38px;
     }
 
-    .fa-stripe-s {
-        font-size: 52px;
+    .formlogo {
+        font-size: 48px;
     }
 }

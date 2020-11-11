@@ -4,11 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zakupowo</title>
-    <!-- BOOTSTRAP CSS -->
+    <!--BOOTSTRAP CSS & JS-->
     @Styles.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jquery351")
-
     @Scripts.Render("~/bundles/bootstrapjs")
+    <!--CUSTOM JS-->
+    @Scripts.Render("~/bundles/Layoutjs")
     <!--Custom CSS-->
     @Styles.Render("~/bundles/Layout")
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
@@ -43,7 +44,7 @@
     <!-- NAVBAR -->
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-white justify-content-between">
         <a class="nav-item active navbar-brand " href="@Url.Action("Index", "Home")">
-            <i class="fas fa-shopping-bag" style="color:white"></i> Zakupowo
+            <i class="fas fa-shopping-bag"></i> Zakupowo
         </a>
         <button class="col-2 navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -82,7 +83,6 @@
                                 <a class="dropdown-item" id="logInItem" href="@Url.Action("Login", "User")">Zaloguj się</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="@Url.Action("Register", "User")">Zarejestruj się</a>
-                                <div class="dropdown-divider"></div>
                             }
                         }
                     </div>
@@ -108,7 +108,6 @@
         </div>
     </div>
 
-    <!-- TODO: CONTAINER-FLEX-->
     <div class="container-fluid">
         @RenderBody()
     </div>

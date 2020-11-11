@@ -1,10 +1,7 @@
-﻿
-
-* {
+﻿* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-   
 }
 
 html {
@@ -44,6 +41,10 @@ body {
     letter-spacing: 2px;
     font-size: 24px;
     color: #FFB24A !important;
+}
+
+.fa-shopping-bag {
+    color: white;
 }
 
 .navbar-toggler {
@@ -104,9 +105,9 @@ body {
     background-color: #FFB24A;
 }
 
-    #logInItem:hover, #logInItem:focus, #logInItem:active {
-        background-color: #ffaa3a;
-    }
+#logInItem:hover, #logInItem:focus, #logInItem:active {
+    background-color: #ffaa3a;
+}
 
 .fa-search {
     color: #ECF9FF;
@@ -182,9 +183,8 @@ body {
     
 }
 
-.hidden{
-    display : none;
-   
+.hidden {
+    display: none;
 }
 
 /* RESPONSIVE BREAKPOINTS */
@@ -221,8 +221,8 @@ body {
     }
 
     .slideIn {
-        -webkit-animation-name: slideIn;
-        animation-name: slideIn;
+        -webkit-animation-name: none;
+        animation-name: none;
     }
 }
 
