@@ -19,8 +19,11 @@ namespace ShopApp
                          "~/Scripts/umd/popper.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Userjs").Include(
-                        "~/Scripts/register.js",
-                        "~/Scripts/login.js"));
+                       "~/Scripts/register.js",
+                       "~/Scripts/login.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Layoutjs").Include(
+                        "~/Scripts/layout.js"));
 
             // Użyj wersji deweloperskiej biblioteki Modernizr do nauki i opracowywania rozwiązań. Następnie, kiedy wszystko będzie
             // gotowe do produkcji, użyj narzędzia do kompilowania ze strony https://modernizr.com, aby wybrać wyłącznie potrzebne testy.
