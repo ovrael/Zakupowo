@@ -9,9 +9,9 @@
     activeView.Add("EditBasicInfo", string.Empty);
     activeView.Add("ShippingAdresses", string.Empty);
     activeView.Add("EditPassword", string.Empty);
+    activeView.Add("EditAvatar", string.Empty);
 
     activeView[viewName] = "active";
-    System.Diagnostics.Debug.WriteLine(activeView[viewName]);
 }
 
 <div class="side-bar">
@@ -41,7 +41,13 @@
 
             <li class="@activeView["EditPassword"]">
                 <a href="@Url.Action("EditPassword", "UserPanel")">
-                    <span class="fas fa-key"></span> Zmiana hasła
+                    <span class="fas fa-key"></span> Zmień hasło
+                </a>
+            </li>
+
+            <li class="@activeView["EditAvatar"]">
+                <a href="@Url.Action("EditAvatar", "UserPanel")">
+                    <span class="far fa-user-circle"></span> Zmień avatar
                 </a>
             </li>
 

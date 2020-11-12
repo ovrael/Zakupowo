@@ -11,6 +11,7 @@ using Microsoft.Ajax.Utilities;
 using Antlr.Runtime.Tree;
 using ShopApp.Utility;
 using System.Diagnostics;
+using System.IO;
 
 namespace ShopApp.Controllers
 {
@@ -64,7 +65,6 @@ namespace ShopApp.Controllers
                 string changedFirstName = collection["FirstName"].Trim();
                 string changedLastName = collection["LastName"].Trim();
                 string changedEmail = collection["Email"].Trim();
-                string changedLogin = collection["Login"].Trim();
                 string changedPhoneNumber = collection["Phone"].Trim();
 
 
@@ -79,9 +79,6 @@ namespace ShopApp.Controllers
 
                 if (changedPhoneNumber != editUser.Phone && changedPhoneNumber != null)
                     editUser.Phone = changedPhoneNumber;
-
-                if (changedLogin != editUser.Login && changedLogin != null)
-                    editUser.Login = changedLogin;
 
                 db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
@@ -277,6 +274,100 @@ namespace ShopApp.Controllers
 
             return RedirectToAction("Account", "UserPanel");
         }
+
+        // VIEW WHERE USER CAN EDIT PASSWORD
+        public ActionResult EditAvatar()
+        {
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            int userID = (int)Session["userId"];
+            User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+
+            return View(showUser);
+        }
+
+        [HttpPost]
+        public ActionResult EditAvatar(HttpPostedFileBase file)
+        {
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            int userID = (int)Session["userId"];
+            User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+
+            string[] validExtensions = new string[] { "jpg", "png", "jpeg" };
+            bool isExtensionValid = false;
+
+            if (file != null && file.ContentLength > 0)
+            {
+                try
+                {
+                    string folderLoadPath = @"../../App_Files/Images/UserAvatars/";
+                    string folderSavePath = @"~/App_Files/Images/UserAvatars/";
+                    string fileName = editUser.UserID + "_" + editUser.Login + "_" + "Avatar" + file.FileName.Substring(file.FileName.IndexOf('.'));
+
+                    for (int i = 0; i < validExtensions.Length; i++)
+                    {
+                        if (fileName.EndsWith(validExtensions[i]))
+                        {
+                            isExtensionValid = true;
+                            break;
+                        }
+                    }
+
+                    if (isExtensionValid)
+                    {
+                        string oldPath = string.Empty;
+                        if (editUser.AvatarImage != null)
+                            oldPath = editUser.AvatarImage.PathToFile;
+
+                        string path = Path.Combine(Server.MapPath(folderSavePath), Path.GetFileName(fileName));
+
+                        if (oldPath != path)
+                        {
+                            if (System.IO.File.Exists(oldPath))
+                                System.IO.File.Delete(oldPath);
+                        }
+
+                        file.SaveAs(path);
+
+
+                        AvatarImage newAvatar = new AvatarImage() { PathToFile = folderLoadPath + fileName, User = editUser };
+
+                        db.Entry(newAvatar).State = System.Data.Entity.EntityState.Added;
+                        db.SaveChanges();
+
+                        editUser.AvatarImage = newAvatar;
+                        db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+
+                        ViewBag.Message = "File uploaded successfully";
+                    }
+                    else
+                    {
+                        throw new Exception("The file extension is invalid!");
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.Message = "ERROR:" + ex.Message.ToString();
+                }
+            }
+            else
+            {
+                ViewBag.Message = "You have not specified a file.";
+            }
+
+
+            return RedirectToAction("EditAvatar", "UserPanel");
+        }
+
 
         #endregion
 

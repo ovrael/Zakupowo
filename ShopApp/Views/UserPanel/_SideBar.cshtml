@@ -2,7 +2,7 @@
     string viewPath = Request.RawUrl;
     string viewName = viewPath.Substring(viewPath.LastIndexOf('/') + 1);
 
-    string[] settingsViews = new string[] { "EditBasicInfo", "ShippingAdresses", "EditPassword" };
+    string[] settingsViews = new string[] { "EditBasicInfo", "ShippingAdresses", "EditPassword", "EditAvatar" };
 
     if (settingsViews.Contains(viewName))
     {

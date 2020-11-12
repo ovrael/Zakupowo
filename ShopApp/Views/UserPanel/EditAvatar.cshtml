@@ -1,0 +1,61 @@
+﻿@model ShopApp.Models.User
+@{
+    ViewBag.Title = "";
+
+
+    if (Session["userId"] == null)
+    {
+        Response.Redirect("~/User/Login");
+    }
+
+    string avatarUrl = string.Empty;
+    string defaultAvatarUrl = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg";
+
+
+    if (Model.AvatarImage != null)
+    {
+        avatarUrl = Model.AvatarImage.PathToFile;
+    }
+    else
+    {
+        avatarUrl = defaultAvatarUrl;
+    }
+}
+
+@Styles.Render("~/bundles/UserPanel")
+<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+
+
+@Html.Partial("_SideBar")
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="container-accout-edit">
+                <div class="view-account">
+                    <section class="module">
+                        <div class="module-inner">
+
+                            @Html.Partial("_SettingsSideBar", Model)
+
+                            <div class="content-panel">
+
+                                <img src="@avatarUrl" class="img-fluid" alt="example placeholder">
+                                <br><br>
+
+                                @using (Html.BeginForm("EditAvatar", "UserPanel", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    <label for="file">Choose new avatar:</label>
+                                    <input type="file" name="file" id="file" /><br><br>
+                                    <input type="submit" value="Change avatar" class="btn btn-outline-success"/>
+                                    <br><br>
+                                }
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
