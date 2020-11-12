@@ -17,25 +17,25 @@ namespace ShopApp.Models
 
         [Required(ErrorMessage = "To pole jest wymagane")]
         [MaxLength(75)]
-        [Column("Country", TypeName = "char")]
+        [Column("Country", TypeName = "nvarchar")]
         public string Country { get; set; }
 
         [Required(ErrorMessage = "To pole jest wymagane")]
         [MaxLength(75)]
-        [Column("City", TypeName = "char")]
+        [Column("City", TypeName = "nvarchar")]
         public string City { get; set; }
 
         [Required(ErrorMessage = "To pole jest wymagane")]
         [MaxLength(75)]
-        [Column("Street", TypeName = "char")]
+        [Column("Street", TypeName = "nvarchar")]
         public string Street { get; set; }
 
         [MaxLength(10)]
-        [Column("PremisesNumber", TypeName = "char")]
+        [Column("PremisesNumber", TypeName = "nvarchar")]
         public string PremisesNumber { get; set; }
 
         [MaxLength(15)]
-        [Column("PostalCode", TypeName = "char")]
+        [Column("PostalCode", TypeName = "nvarchar")]
         public string PostalCode { get; set; }
 
         [Required]

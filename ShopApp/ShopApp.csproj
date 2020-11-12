@@ -166,6 +166,18 @@
     <Compile Include="Migrations\202011101939238_ShippingAdressUpdate_DeletedFlatNumber.designer.cs">
       <DependentUpon>202011101939238_ShippingAdressUpdate_DeletedFlatNumber.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011120008154_UserModelChangedTypeNames.cs" />
+    <Compile Include="Migrations\202011120008154_UserModelChangedTypeNames.designer.cs">
+      <DependentUpon>202011120008154_UserModelChangedTypeNames.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011120018127_UserModelChangedTypeNames2.cs" />
+    <Compile Include="Migrations\202011120018127_UserModelChangedTypeNames2.designer.cs">
+      <DependentUpon>202011120018127_UserModelChangedTypeNames2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011120029449_UserAndAdressChanged.cs" />
+    <Compile Include="Migrations\202011120029449_UserAndAdressChanged.designer.cs">
+      <DependentUpon>202011120029449_UserAndAdressChanged.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\Bucket.cs" />
@@ -400,6 +412,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011101939238_ShippingAdressUpdate_DeletedFlatNumber.resx">
       <DependentUpon>202011101939238_ShippingAdressUpdate_DeletedFlatNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011120008154_UserModelChangedTypeNames.resx">
+      <DependentUpon>202011120008154_UserModelChangedTypeNames.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011120018127_UserModelChangedTypeNames2.resx">
+      <DependentUpon>202011120018127_UserModelChangedTypeNames2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011120029449_UserAndAdressChanged.resx">
+      <DependentUpon>202011120029449_UserAndAdressChanged.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

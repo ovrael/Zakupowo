@@ -21,46 +21,38 @@ namespace ShopApp.Models
 
         [Required(ErrorMessage = "To pole jest wymagane")]
         [MaxLength(50)]
-        [Column("Email", TypeName = "char")]
+        [Column("Email", TypeName = "nvarchar")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "To pole jest wymagane")]
-        [Column("Login", TypeName = "char")]
+        [Column("Login", TypeName = "nvarchar")]
         [MaxLength(50)]
         public string Login { get; set; }
 
         [Required(ErrorMessage = "To pole jest wymagane")]
-        [Column("EncryptedPassword", TypeName = "char")]
+        [Column("EncryptedPassword", TypeName = "nvarchar")]
         [MaxLength(200)]
         public string EncryptedPassword { get; set; }
 
         [Required]
-        [Column("FirstName", TypeName = "char")]
+        [Column("FirstName", TypeName = "nvarchar")]
         [MaxLength(50)]
         public string FirstName { get; set; }
 
         [Required]
-        [Column("LastName", TypeName = "char")]
+        [Column("LastName", TypeName = "nvarchar")]
         [MaxLength(50)]
         public string LastName { get; set; }
 
-        [Column("Phone", TypeName = "char")]
+        [Column("Phone", TypeName = "nvarchar")]
         [MaxLength(12)]
         public string Phone { get; set; }
 
-        [Column("Country", TypeName = "char")]
-        [MaxLength(50)]
-        public string Country { get; set; }
-
-        [Column("City", TypeName = "char")]
-        [MaxLength(50)]
-        public string City { get; set; }
-
         [Required]
-        [Column("BirthDate", TypeName = "datetime2")]
+        [Column("BirthDate", TypeName = "DateTime2")]
         public DateTime BirthDate { get; set; }
 
-        [Column("CreationDate", TypeName = "datetime2")]
+        [Column("CreationDate", TypeName = "DateTime2")]
         public DateTime CreationDate { get; set; }
 
         public virtual Bucket Bucket { get; set; }

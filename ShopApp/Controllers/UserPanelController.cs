@@ -146,12 +146,6 @@ namespace ShopApp.Controllers
                 string changedPremisesNumber = collection["PremisesNumber"].Trim();
                 string changedPostalCode = collection["PostalCode"].Trim();
 
-                Debug.WriteLine(changedCountry);
-                Debug.WriteLine(changedCity);
-                Debug.WriteLine(changedStreet);
-                Debug.WriteLine(changedPremisesNumber);
-                Debug.WriteLine(changedPostalCode);
-
                 if (changedCountry != shippingAdress.Country && changedCountry != null)
                     shippingAdress.Country = changedCountry;
 
@@ -166,7 +160,6 @@ namespace ShopApp.Controllers
 
                 if (changedPostalCode != shippingAdress.PostalCode && changedPostalCode != null)
                     shippingAdress.PostalCode = changedPostalCode;
-
 
 
                 editUser.ShippingAdresses.ToList()[adressNumber] = shippingAdress;
@@ -239,7 +232,6 @@ namespace ShopApp.Controllers
                 return RedirectToAction("Login", "User");
             }
 
-            Debug.WriteLine(adressNumber);
             if (adressNumber == null)
                 return RedirectToAction("ShippingAdresses", "UserPanel");
 
@@ -250,8 +242,6 @@ namespace ShopApp.Controllers
             List<ShippingAdress> lista = db.ShippingAdresses.Where(u => u.User.UserID == userID).ToList();
 
             ShippingAdress adressToRemove = db.ShippingAdresses.Where(u => u.User.UserID == userID).ToList()[(int)adressNumber];
-
-            Debug.WriteLine(adressToRemove.User.UserID + " " + adressToRemove.Country);
 
             db.ShippingAdresses.Remove(adressToRemove);
             db.SaveChanges();

@@ -36,7 +36,6 @@
     {
         userID = (int)Session["userID"];
         userName = db.Users.Where(u => u.UserID == userID).FirstOrDefault().FirstName.Trim();
-        System.Diagnostics.Debug.WriteLine(userName.Length);
     }
 }
 
