@@ -1,4 +1,26 @@
-﻿<div class="wrapper">
+﻿@{
+    string viewPath = Request.RawUrl;
+    string viewName = viewPath.Substring(viewPath.LastIndexOf('/') + 1);
+
+    string[] settingsViews = new string[] { "EditBasicInfo", "ShippingAdresses", "EditPassword" };
+
+    if (settingsViews.Contains(viewName))
+    {
+        viewName = "Settings";
+    }
+
+    Dictionary<string, string> activeView = new Dictionary<string, string>();
+
+    activeView.Add("Account", string.Empty);
+    activeView.Add("AddOffer", string.Empty);
+    activeView.Add("OrderHistory", string.Empty);
+    activeView.Add("Communicator", string.Empty);
+    activeView.Add("Settings", string.Empty);
+
+    activeView[viewName] = "active";
+}
+
+<div class="wrapper">
     <div class="sidebar">
         <div class="bg_shadow"></div>
         <div class="sidebar__inner">
@@ -8,38 +30,38 @@
 
             <ul class="siderbar_menu">
                 <li>
-                    <a href="@Url.Action("Account", "UserPanel")">
+                    <a href="@Url.Action("Account", "UserPanel")" class="@activeView["Account"]">
                         <div class="icon"><i class="fa fa-user"></i></div>
                         <div class="title">Profil</div>
 
                     </a>
                 </li>
                 <li>
-                    <a href="@Url.Action("AddOffer", "UserPanel")">
+                    <a href="@Url.Action("AddOffer", "UserPanel")" class="@activeView["AddOffer"]">
                         <div class="icon"><i class="fa fa-plus"></i></div>
                         <div class="title">Dodaj produkt</div>
                     </a>
                 </li>
                 <li>
-                    <a href="@Url.Action("OrderHistory", "UserPanel")">
+                    <a href="@Url.Action("OrderHistory", "UserPanel")" class="@activeView["OrderHistory"]">
                         <div class="icon"><i class="fas fa-file-alt"></i></div>
                         <div class="title">Sprzedaż</div>
                     </a>
                 </li>
                 <li>
-                    <a href="@Url.Action("OrderHistory", "UserPanel")">
+                    <a href="@Url.Action("OrderHistory", "UserPanel")" class="@activeView["OrderHistory"]">
                         <div class="icon"><i class="fas fa-history"></i></div>
                         <div class="title">Historia</div>
                     </a>
                 </li>
                 <li>
-                    <a href="@Url.Action("Communicator", "UserPanel")">
+                    <a href="@Url.Action("Communicator", "UserPanel")" class="@activeView["Communicator"]">
                         <div class="icon"><i class="fas fa-envelope"></i></div>
                         <div class="title">Wiadomości</div>
                     </a>
                 </li>
                 <li>
-                    <a href="@Url.Action("EditBasicInfo", "UserPanel")">
+                    <a href="@Url.Action("EditBasicInfo", "UserPanel")" class="@activeView["Settings"]">
                         <div class="icon"><i class="fas fa-cog"></i></div>
                         <div class="title">Ustawienia</div>
                     </a>

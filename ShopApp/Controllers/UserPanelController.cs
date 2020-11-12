@@ -31,16 +31,7 @@ namespace ShopApp.Controllers
             int userID = (int)Session["userId"];
             User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
 
-            AccountViewModel accountView = new AccountViewModel();
-            accountView.Login = showUser.Login;
-            accountView.Email = showUser.Email;
-            accountView.FirstName = showUser.FirstName;
-            accountView.LastName = showUser.LastName;
-            accountView.PhoneNumber = showUser.Phone;
-            accountView.BirthDate = showUser.BirthDate.ToString();
-            accountView.CreationDate = showUser.CreationDate.ToString();
-
-            return View(accountView);
+            return View(showUser);
         }
 
         // VIEW WHERE USER CAN EDIT *BASIC* INFORMATION
@@ -54,15 +45,7 @@ namespace ShopApp.Controllers
             int userID = (int)Session["userId"];
             User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
 
-            AccountViewModel accountView = new AccountViewModel();
-            accountView.Login = showUser.Login;
-            accountView.FirstName = showUser.FirstName;
-            accountView.LastName = showUser.LastName;
-            accountView.Email = showUser.Email;
-            accountView.BirthDate = showUser.BirthDate.ToString();
-            accountView.PhoneNumber = showUser.Phone;
-
-            return View(accountView);
+            return View(showUser);
         }
 
         [HttpPost]
@@ -82,7 +65,7 @@ namespace ShopApp.Controllers
                 string changedLastName = collection["LastName"].Trim();
                 string changedEmail = collection["Email"].Trim();
                 string changedLogin = collection["Login"].Trim();
-                string changedPhoneNumber = collection["PhoneNumber"].Trim();
+                string changedPhoneNumber = collection["Phone"].Trim();
 
 
                 if (changedFirstName != editUser.FirstName && changedFirstName != null)
@@ -104,7 +87,7 @@ namespace ShopApp.Controllers
                 db.SaveChanges();
             }
 
-            return RedirectToAction("Account", "UserPanel");
+            return RedirectToAction("EditBasicInfo", "UserPanel");
         }
 
         // VIEW WHERE USER CAN EDIT SHIPPING ADRESSES
@@ -118,9 +101,7 @@ namespace ShopApp.Controllers
             int userID = (int)Session["userId"];
             User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
 
-            List<ShippingAdress> listaAdresow = showUser.ShippingAdresses.ToList();
-
-            return View(listaAdresow);
+            return View(showUser);
         }
 
         [HttpPost]
@@ -262,15 +243,7 @@ namespace ShopApp.Controllers
             int userID = (int)Session["userId"];
             User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
 
-            AccountViewModel accountView = new AccountViewModel();
-            accountView.Login = showUser.Login;
-            accountView.FirstName = showUser.FirstName;
-            accountView.LastName = showUser.LastName;
-            accountView.Email = showUser.Email;
-            accountView.BirthDate = showUser.BirthDate.ToString();
-            accountView.PhoneNumber = showUser.Phone;
-
-            return View(accountView);
+            return View(showUser);
         }
 
         [HttpPost]

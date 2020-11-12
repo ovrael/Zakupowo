@@ -1,4 +1,4 @@
-﻿@model ShopApp.ViewModels.User.AccountViewModel
+﻿@model ShopApp.Models.User
 @{
     ViewBag.Title = "";
 
@@ -7,13 +7,13 @@
     {
         Response.Redirect("~/User/Login");
     }
-
 }
 
 @Styles.Render("~/bundles/UserPanel")
 <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 
-@Html.Partial("_SideBar")
+
+@Html.Partial("_SideBar", Request.RawUrl)
 
 <div class="container">
     <div class="row">
@@ -26,7 +26,6 @@
 
                                 @* ŚCIEŻKA DO PLIKU PROFILOWEGO UŻYTKOWNIKA *@
                                 <img src="~/Images/user2.jpg" id="imgProfile" style="width: 100px; height: 100px" class="img-thumbnail" />
-
 
                                 <div class="middle">
                                     <input type="button" class="btn btn-secondary" id="btnChangePicture" value="Change" />
@@ -47,7 +46,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-12">                    
+                        <div class="col-12">
                             <div class="tab-content ml-1" id="myTabContent">
                                 <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
 
@@ -86,7 +85,7 @@
                                             <label style="font-weight:bold;">Telefon</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            @Model.PhoneNumber
+                                            @Model.Phone
                                         </div>
                                     </div>
                                     <hr />
