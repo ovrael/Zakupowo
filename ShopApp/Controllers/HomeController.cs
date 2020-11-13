@@ -1,4 +1,6 @@
 ﻿using ShopApp.DAL;
+using ShopApp.Models;
+using ShopApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +11,26 @@ namespace ShopApp.Controllers
 {
     public class HomeController : Controller
     {
-
-        private ShopContext db = new ShopContext();
-        [AllowAnonymous]
+        //private ShopContext db = new ShopContext();
         public ActionResult Index()
         {
-            return View(db.Offers);
+            HomeIndexView viewData;
+            List<Category> categories;
+            List<Offer> offers;
+
+            using (var dataBase = new ShopContext())
+            {
+                categories = dataBase.Categories.ToList();
+                offers = dataBase.Offers.ToList();
+            }
+
+            viewData = new HomeIndexView
+            {
+                CategoryList = categories,
+                OfferList = offers
+            };
+
+            return View(viewData);
         }
 
         public ActionResult About()

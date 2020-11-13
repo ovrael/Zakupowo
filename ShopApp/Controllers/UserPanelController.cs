@@ -63,16 +63,8 @@ namespace ShopApp.Controllers
         {
             User showUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
-            //AccountViewModel accountView = new AccountViewModel();
-            //accountView.Login = showUser.Login;
-            //accountView.Email = showUser.Email;
-            //accountView.FirstName = showUser.FirstName;
-            //accountView.LastName = showUser.LastName;
-            //accountView.PhoneNumber = showUser.Phone;
-            //accountView.BirthDate = showUser.BirthDate.ToString();
-            //accountView.CreationDate = showUser.CreationDate.ToString();
-
-            //As we pass the actual user the code above is unnecessary
+            int userID = (int)Session["userId"];
+            User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
 
             return View(showUser);
         }
@@ -88,15 +80,7 @@ namespace ShopApp.Controllers
             int userID = (int)Session["userId"];
             User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
 
-            AccountViewModel accountView = new AccountViewModel();
-            accountView.Login = showUser.Login;
-            accountView.FirstName = showUser.FirstName;
-            accountView.LastName = showUser.LastName;
-            accountView.Email = showUser.Email;
-            accountView.BirthDate = showUser.BirthDate.ToString();
-            accountView.PhoneNumber = showUser.Phone;
-
-            return View(accountView);
+            return View(showUser);
         }
 
         [HttpPost]
@@ -116,7 +100,7 @@ namespace ShopApp.Controllers
                 string changedLastName = collection["LastName"].Trim();
                 string changedEmail = collection["Email"].Trim();
                 string changedLogin = collection["Login"].Trim();
-                string changedPhoneNumber = collection["PhoneNumber"].Trim();
+                string changedPhoneNumber = collection["Phone"].Trim();
 
 
                 if (changedFirstName != editUser.FirstName && changedFirstName != null)
@@ -138,7 +122,7 @@ namespace ShopApp.Controllers
                 db.SaveChanges();
             }
 
-            return RedirectToAction("Account", "UserPanel");
+            return RedirectToAction("EditBasicInfo", "UserPanel");
         }
 
         // VIEW WHERE USER CAN EDIT SHIPPING ADRESSES
@@ -152,9 +136,7 @@ namespace ShopApp.Controllers
             int userID = (int)Session["userId"];
             User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
 
-            List<ShippingAdress> listaAdresow = showUser.ShippingAdresses.ToList();
-
-            return View(listaAdresow);
+            return View(showUser);
         }
 
         [HttpPost]
@@ -167,23 +149,41 @@ namespace ShopApp.Controllers
 
             int userID = (int)Session["userId"];
             User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+            ShippingAdress shippingAdress;
 
             if (editUser != null)
             {
+                int adressNumber = int.Parse(collection["AdressNumber"].Trim());
+                shippingAdress = editUser.ShippingAdresses.ToList()[adressNumber];
+
                 string changedCountry = collection["Country"].Trim();
                 string changedCity = collection["City"].Trim();
+                string changedStreet = collection["Street"].Trim();
+                string changedPremisesNumber = collection["PremisesNumber"].Trim();
+                string changedPostalCode = collection["PostalCode"].Trim();
 
-                if (changedCountry != editUser.Country && changedCountry != null)
-                    editUser.Country = changedCountry;
+                if (changedCountry != shippingAdress.Country && changedCountry != null)
+                    shippingAdress.Country = changedCountry;
 
-                if (changedCity != editUser.City && changedCity != null)
-                    editUser.City = changedCity;
+                if (changedCity != shippingAdress.City && changedCity != null)
+                    shippingAdress.City = changedCity;
+
+                if (changedStreet != shippingAdress.Street && changedStreet != null)
+                    shippingAdress.Street = changedStreet;
+
+                if (changedPremisesNumber != shippingAdress.PremisesNumber && changedPremisesNumber != null)
+                    shippingAdress.PremisesNumber = changedPremisesNumber;
+
+                if (changedPostalCode != shippingAdress.PostalCode && changedPostalCode != null)
+                    shippingAdress.PostalCode = changedPostalCode;
+
+
+                editUser.ShippingAdresses.ToList()[adressNumber] = shippingAdress;
 
                 db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
             }
-
-            return RedirectToAction("Account", "UserPanel");
+            return RedirectToAction("ShippingAdresses", "UserPanel");
         }
 
         public ActionResult AddShippingAdress()
@@ -241,6 +241,31 @@ namespace ShopApp.Controllers
             return RedirectToAction("ShippingAdresses", "UserPanel");
         }
 
+        public ActionResult DeleteShippingAdress(int? adressNumber)
+        {
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            if (adressNumber == null)
+                return RedirectToAction("ShippingAdresses", "UserPanel");
+
+
+            int userID = (int)Session["userId"];
+            User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+
+            List<ShippingAdress> lista = db.ShippingAdresses.Where(u => u.User.UserID == userID).ToList();
+
+            ShippingAdress adressToRemove = db.ShippingAdresses.Where(u => u.User.UserID == userID).ToList()[(int)adressNumber];
+
+            db.ShippingAdresses.Remove(adressToRemove);
+            db.SaveChanges();
+
+
+            return RedirectToAction("ShippingAdresses", "UserPanel");
+        }
+
 
         // VIEW WHERE USER CAN EDIT PASSWORD
         public ActionResult EditPassword()
@@ -253,15 +278,7 @@ namespace ShopApp.Controllers
             int userID = (int)Session["userId"];
             User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
 
-            AccountViewModel accountView = new AccountViewModel();
-            accountView.Login = showUser.Login;
-            accountView.FirstName = showUser.FirstName;
-            accountView.LastName = showUser.LastName;
-            accountView.Email = showUser.Email;
-            accountView.BirthDate = showUser.BirthDate.ToString();
-            accountView.PhoneNumber = showUser.Phone;
-
-            return View(accountView);
+            return View(showUser);
         }
 
         [HttpPost]

@@ -28,9 +28,7 @@ namespace ShopApp.Migrations
                     EncryptedPassword="PasswwordSeedUsr",
                     FirstName ="Imie",
                     LastName="Nazwisko",
-                    Phone ="123456789",
-                    Country = "Polska",
-                    City = "Katowice"
+                    Phone ="123456789"
                 }
             };
             users.ForEach(u => context.Users.Add(u));

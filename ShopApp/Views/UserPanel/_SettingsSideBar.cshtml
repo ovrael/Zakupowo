@@ -1,0 +1,51 @@
+﻿@model ShopApp.Models.User
+
+@{
+    string viewPath = Request.RawUrl;
+    string viewName = viewPath.Substring(viewPath.LastIndexOf('/') + 1);
+
+    Dictionary<string, string> activeView = new Dictionary<string, string>();
+
+    activeView.Add("EditBasicInfo", string.Empty);
+    activeView.Add("ShippingAdresses", string.Empty);
+    activeView.Add("EditPassword", string.Empty);
+
+    activeView[viewName] = "active";
+    System.Diagnostics.Debug.WriteLine(activeView[viewName]);
+}
+
+<div class="side-bar">
+
+    <div class="user-info">
+        <ul class="meta list list-unstyled">
+            <li class="name">
+                @Model.FirstName @Model.LastName
+            </li>
+        </ul>
+    </div>
+
+    <nav class="side-menu">
+        <ul class="nav">
+
+            <li class="@activeView["EditBasicInfo"]">
+                <a href="@Url.Action("EditBasicInfo", "UserPanel")">
+                    <span class="fa fa-user"></span> Dane osobowe
+                </a>
+            </li>
+
+            <li class="@activeView["ShippingAdresses"]">
+                <a href="@Url.Action("ShippingAdresses", "UserPanel")">
+                    <span class="fas fa-address-book"></span> Adresy wysyłki
+                </a>
+            </li>
+
+            <li class="@activeView["EditPassword"]">
+                <a href="@Url.Action("EditPassword", "UserPanel")">
+                    <span class="fas fa-key"></span> Zmiana hasła
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+
+</div>

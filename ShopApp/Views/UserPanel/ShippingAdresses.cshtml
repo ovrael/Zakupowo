@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ShopApp.Models.ShippingAdress>
+﻿@model ShopApp.Models.User
 @{
     if (Session["userId"] == null)
     {
@@ -8,7 +8,7 @@
 }
 
 @Styles.Render("~/bundles/UserPanel")
-@Html.Partial("_SideBar")
+@Html.Partial("_SideBar", Request.RawUrl)
 
 <div class="container">
     <div class="row">
@@ -17,106 +17,96 @@
                 <div class="view-account">
                     <section class="module">
                         <div class="module-inner">
-                            <div class="side-bar">
 
-                                <nav class="side-menu">
-                                    <ul class="nav">
-                                        <li><a href="@Url.Action("EditBasicInfo", "UserPanel")"><span class="fa fa-user"></span> Dane osobowe</a></li>
+                            @Html.Partial("_SettingsSideBar", Model)
 
-                                    </ul>
-                                    <ul class="nav">
-                                        <li class="active"><a href="@Url.Action("ShippingAdresses", "UserPanel")"><span class="fas fa-address-book"></span> Adresy wysyłki</a></li>
-
-                                    </ul>
-                                    <ul class="nav">
-                                        <li><a href="@Url.Action("EditPassword", "UserPanel")"><span class="fas fa-key"></span> Zmiana hasła</a></li>
-
-                                    </ul>
-                                </nav>
-
-                            </div>
                             <div class="content-panel">
-                                <form class="form-horizontal" method="post">
+                                <div class="row">
+                                    <div class="col-10" style="display: inline-block;">
+                                        <h3>Adresy wysyłki</h3>
+                                    </div>
+                                    <div class="col-2" style="display: inline-block;">
+                                        <a class="btn btn-dark" href="@Url.Action("AddShippingAdress", "UserPanel")">Dodaj adres!</a>
+                                    </div>
 
-                                    <fieldset class="fieldset">
-                                        <div class="row fieldset-title">
-                                            <div class="col-10" style="display: inline-block;">
-                                                <h3>Adresy wysyłki</h3>
+                                </div>
+
+                                <hr style="border: 2px solid #ffb24a; border-radius: 1px" ;>
+
+
+                                @{
+                                    List<ShopApp.Models.ShippingAdress> adresses = Model.ShippingAdresses.ToList();
+                                    for (int i = 0; i < adresses.Count; i++)
+                                    {
+                                        <form class="form-horizontal" method="post">
+
+                                            <p> Adres wysyłki numer: @(i+1)  </p>
+
+                                            <input id="adressIndex" name="AdressNumber" value="@i" class="hidden">
+
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label" for="Country">Kraj</label>
+                                                <div class="col-md-4">
+                                                    <input id="countryAdress" name="Country" value="@adresses[i].Country" class="form-control input-md" type="text" required autofocus>
+                                                </div>
                                             </div>
-                                            <div class="col-2" style="display: inline-block;">
-                                                <a class="btn btn-dark" href="@Url.Action("AddShippingAdress", "UserPanel")">Dodaj adres!</a>
+
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label" for="City">Miasto</label>
+                                                <div class="col-md-4">
+                                                    <input id="cityAdress" name="City" value="@adresses[i].City" class="form-control input-md" type="text" required>
+                                                </div>
                                             </div>
 
-                                        </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label" for="Street">Ulica</label>
+                                                <div class="col-md-4">
+                                                    <input id="streetAdress" name="Street" value="@adresses[i].Street" class="form-control input-md" type="text" required>
+                                                </div>
+                                            </div>
 
-                                        <hr style="border: 2px solid #ffb24a; border-radius: 1px" ;>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label" for="PremisesNumber">Numer lokalu</label>
+                                                <div class="col-md-4">
+                                                    <input id="premisesNumber" name="PremisesNumber" value="@adresses[i].PremisesNumber" class="form-control input-md" type="text">
+                                                    <small id="premisesNumberHelp" class="form-text text-muted">Pole nie jest wymagane.</small>
+                                                </div>
+                                            </div>
 
-                                        @{
-                                            List<ShopApp.Models.ShippingAdress> adresses = Model.ToList();
-                                            for (int i = 0; i < adresses.Count; i++)
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label" for="PostalCode">Kod pocztowy*</label>
+                                                <div class="col-md-4">
+                                                    <input id="postalCode" name="PostalCode" value="@adresses[i].PostalCode" class="form-control input-md" type="text">
+                                                    <small id="postalCodeHelp" class="form-text text-muted">Pole nie jest wymagane.</small>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="row">
+
+                                                    <div class="col-md-3">
+                                                        <input type="submit" value="Change" class="btn btn-success" />
+                                                    </div>
+
+                                                    <div class="col-md-2">
+                                                        <a href="@Url.Action("DeleteShippingAdress", "UserPanel", new { adressNumber = i })" value="Delete" class="btn btn-danger">Delete</a>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            @if (adresses.Count > 1)
                                             {
-                                                <p> Adres wysyłki numer: @(i+1)  </p>
-
-                                                <div class="form-group">
-                                                    <label class="col-md-4 control-label" for="Country">Kraj</label>
-                                                    <div class="col-md-4">
-                                                        <input id="countryAdress" name="Country" placeholder="@adresses[i].Country" class="form-control input-md" type="text" required autofocus>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="col-md-4 control-label" for="City">Miasto</label>
-                                                    <div class="col-md-4">
-                                                        <input id="cityAdress" name="City" placeholder="@adresses[i].City" class="form-control input-md" type="text" required>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="col-md-4 control-label" for="Street">Ulica</label>
-                                                    <div class="col-md-4">
-                                                        <input id="streetAdress" name="Street" placeholder="@adresses[i].Street" class="form-control input-md" type="text" required>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="col-md-4 control-label" for="PremisesNumber">Numer lokalu</label>
-                                                    <div class="col-md-4">
-                                                        <input id="premisesNumber" name="PremisesNumber" placeholder="@adresses[i].PremisesNumber" class="form-control input-md" type="text">
-                                                        <small id="premisesNumberHelp" class="form-text text-muted">Pole nie jest wymagane.</small>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="col-md-4 control-label" for="PostalCode">Kod pocztowy*</label>
-                                                    <div class="col-md-4">
-                                                        <input id="postalCode" name="PostalCode" placeholder="@adresses[i].PostalCode" class="form-control input-md" type="text">
-                                                        <small id="postalCodeHelp" class="form-text text-muted">Pole nie jest wymagane.</small>
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label class="col-md-4 control-label" for="singlebutton"></label>
-                                                    <div class="col-md-4">
-                                                        <input type="submit" value="Change" class="btn btn-default" />
-                                                    </div>
-                                                </div>
-
-                                                if (adresses.Count > 1)
-                                                {
-                                                    <hr style="border: 3px solid #ffb24a; border-radius: 3px" ;>
-                                                }
+                                                <hr style="border: 3px solid #ffb24a; border-radius: 3px">
                                             }
-                                        }
-
-                                    </fieldset>
-                                </form>
+                                        </form>
+                                    }
+                                }
                             </div>
                         </div>
                     </section>
                 </div>
             </div>
-
-
         </div>
     </div>
 </div>
