@@ -208,6 +208,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Layout.css" />
     <Content Include="Content\loginregister.css" />
+    <Content Include="Content\offer.css" />
     <Content Include="Content\UserPanel.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -253,6 +254,7 @@
     <Content Include="Scripts\layout.js" />
     <Content Include="Scripts\login.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\offer.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -374,6 +376,7 @@
     <Content Include="Views\UserPanel\_SideBar.cshtml" />
     <Content Include="Views\UserPanel\AddShippingAdress.cshtml" />
     <Content Include="Views\UserPanel\_SettingsSideBar.cshtml" />
+    <Content Include="Views\Home\Offer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -25,6 +25,9 @@ namespace ShopApp
             bundles.Add(new ScriptBundle("~/bundles/Layoutjs").Include(
                         "~/Scripts/layout.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/Offerjs").Include(
+                        "~/Scripts/offer.js"));
+
             // Użyj wersji deweloperskiej biblioteki Modernizr do nauki i opracowywania rozwiązań. Następnie, kiedy wszystko będzie
             // gotowe do produkcji, użyj narzędzia do kompilowania ze strony https://modernizr.com, aby wybrać wyłącznie potrzebne testy.
             /* bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
@@ -43,6 +46,10 @@ namespace ShopApp
 
             bundles.Add(new StyleBundle("~/bundles/User").Include(
                       "~/Content/loginregister.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/Offer").Include(
+                      "~/Content/offer.css"));
+
         }
     }
 }

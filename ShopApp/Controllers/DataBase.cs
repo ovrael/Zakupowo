@@ -34,5 +34,10 @@ namespace ShopApp.Controllers
             db.Users.Where(i => i.UserID == 1).First().Offers.Add(oferta);
             db.SaveChanges();
         }
+
+        public static Offer SearchForOffer(int id)
+        {
+            return db.Offers.Where(i => i.OfferID == id).First();
+        }
 }
 }

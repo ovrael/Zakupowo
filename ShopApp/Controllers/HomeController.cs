@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace ShopApp.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         //private ShopContext db = new ShopContext();
@@ -32,6 +33,22 @@ namespace ShopApp.Controllers
 
             return View(viewData);
         }
+
+        public ActionResult Kat(int KatID)//We come here from index 
+        {
+            
+
+
+            return View();
+        }
+        
+        public ActionResult Offer(int OfferID)//We come here from index 
+        {
+            return View(DataBase.SearchForOffer(OfferID));
+        }
+
+
+
 
         public ActionResult About()
         {

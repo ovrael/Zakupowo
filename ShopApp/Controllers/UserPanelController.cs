@@ -62,10 +62,6 @@ namespace ShopApp.Controllers
         public ActionResult Account()
         {
             User showUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-
-            int userID = (int)Session["userId"];
-            User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
-
             return View(showUser);
         }
 

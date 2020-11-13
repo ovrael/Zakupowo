@@ -1,0 +1,114 @@
+.offer {
+  background-color: white;
+  font-size: 14px;
+  padding: 10px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.seller-name:hover, .seller-name:visited {
+  color: #FFB24A;
+}
+
+#carousel-offer > .carousel-inner {
+  height: 300px !important;
+  background-color: white;
+}
+
+.carousel .carousel-indicators li {
+  background-color: #fff;
+  background-color: rgba(70, 70, 70, 0.25);
+}
+
+.carousel .carousel-indicators .active {
+  background-color: #444;
+}
+
+.product-name {
+  font-weight: 700;
+  font-size: 26px;
+}
+
+.seller-name {
+  color: #FFB24A;
+  font-weight: 700;
+}
+
+.product-price {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.product-fav {
+  font-size: 22px;
+  transition: 0.4s;
+  color: grey;
+}
+
+.fav-active {
+  color: red !important;
+}
+
+.quantity-button {
+  padding: 8px 13px 8px 13px;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.quantity-field {
+  padding: 0 5px 0 5px;
+  border: 1px solid black;
+}
+
+.offer-button {
+  background-color: #FFB24A;
+  box-shadow: none;
+  border: none;
+  font-weight: 700;
+  letter-spacing: 3px;
+  border-radius: 2px;
+  color: white;
+}
+
+/* RESPONSIVE BREAKPOINTS */
+@media (min-width: 576px) { 
+  #carousel-offer > .carousel-inner {
+    height: 500px !important;
+  }
+}
+
+@media (min-width: 992px) {
+  #carousel-offer > .carousel-inner {
+    height: 620px !important;
+  }
+
+  .offer {
+    font-size: 16px;
+    width: 80%;
+  }
+
+  .offer-info {
+    position: relative;
+  }
+  
+  .offer-info > form {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+  }
+
+   .offer-button {
+    width: 100%;
+  }
+
+}

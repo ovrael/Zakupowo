@@ -2,12 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\ShopApp",
-    "\\ShopApp\\App_Start",
-    "\\ShopApp\\Content",
-    "\\ShopApp\\css",
+    "\\ShopApp\\Controllers",
+    "\\ShopApp\\Models",
     "\\ShopApp\\Views",
+    "\\ShopApp\\Views\\Home",
     "\\ShopApp\\Views\\Shared"
   ],
-  "SelectedNode": "\\ShopApp\\Views\\Shared\\_Layout.cshtml",
   "PreviewInSolutionExplorer": false
 }
