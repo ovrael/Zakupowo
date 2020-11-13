@@ -54,8 +54,8 @@
 
 <body>
     <!-- NAVBAR -->
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-white justify-content-between">
-        <a class="nav-item active navbar-brand " href="@Url.Action("Index", "Home")">
+    <nav class="navbar navbar-main fixed-top navbar-expand-lg navbar-dark bg-white justify-content-between">
+        <a class="nav-item active navbar-brand" href="@Url.Action("Index", "Home")">
             <i class="fas fa-shopping-bag"></i> Zakupowo
         </a>
         <button class="col-2 navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,16 +63,16 @@
         </button>
         <div class="collapse navbar-collapse col-lg-4 order-lg-8" id="navbarSupportedContent">
             <ul class="navbar-nav w-100 justify-content-end">
-                <li class="nav-item">
+                <li class="nav-item main-nav-item">
                     <a class="nav-link mx-4" id="chatLink" href="@Url.Action("Communicator", "UserPanel")"><i class="fas fa-envelope fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Wiadomości</p></a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item main-nav-item">
                     <a class="nav-link mx-4" id="favouriteLink"><i class="fas fa-heart fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Ulubione</p></a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item main-nav-item">
                     <a class="nav-link mx-4" id="cartLink"><i class="fas fa-shopping-cart fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Koszyk</p></a>
                 </li>
-                <li class="nav-item dropdown">
+                <li class="nav-item main-nav-item dropdown">
                     <a class="nav-link mx-4 dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-user fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Konto</p><i class="fas fa-sort-down ml-1 ml-lg-0"></i>
                     </a>
