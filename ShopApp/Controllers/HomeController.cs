@@ -42,12 +42,14 @@ namespace ShopApp.Controllers
         
         public ActionResult Offer(int OfferID)//We come here from index 
         {
-            return View(DataBase.SearchForOffer(OfferID));
+            if (OfferID > 0)
+            {
+                Offer oferta = DataBase.SearchForOffer(OfferID);
+                return View(oferta);
+            }
+            else
+                return RedirectToAction("Index");
         }
-
-
-
-
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

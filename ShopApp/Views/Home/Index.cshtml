@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ShopApp.Models.Offer>
+﻿@model ShopApp.ViewModels.HomeIndexView
+
 <div style="height: 30px;">
     <div style="width:100%;   padding-bottom:40px;">
         <select name="cars" id="cars" value="Kategorie">
@@ -22,7 +23,7 @@
             string pictureUrl = string.Empty;
             if (show.OfferPictures != null && show.OfferPictures.Count > 0)
             {
-                System.Diagnostics.Debug.WriteLine("Oferta nr: " + (i+1) + "\tZdjęć: " + show.OfferPictures.Count);
+                System.Diagnostics.Debug.WriteLine("Oferta nr: " + (i + 1) + "\tZdjęć: " + show.OfferPictures.Count);
                 pictureUrl = show.OfferPictures.ToList()[0].PathToFile;
             }
             else
@@ -32,13 +33,14 @@
 
             System.Diagnostics.Debug.WriteLine(pictureUrl);
 
+        <a href="Offer/?OfferId=@show.OfferID">
             <div class="offer-box">
                 <img class="img-fluid rounded" style="height:50%;" src="@pictureUrl" />
                 <h2>@show.Title</h2>
                 <p>@show.Description</p>
             </div>
+        </a>
         }
-
     }
 
 
