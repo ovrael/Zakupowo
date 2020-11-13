@@ -31,23 +31,23 @@ body {
 }
 
 /* NAVBAR */
-.navbar {
+.navbar-main {
     background-color: #002447 !important;
     border-bottom: 1px solid #FFB24A;
 }
 
-.navbar-brand {
+.navbar-main > .navbar-brand {
     font-family: 'Staatliches', cursive;
     letter-spacing: 2px;
     font-size: 24px;
     color: #FFB24A !important;
 }
 
-.fa-shopping-bag {
+.navbar-main > navbar-brand > .fa-shopping-bag {
     color: white;
 }
 
-.navbar-toggler {
+.navbar-main > .navbar-toggler {
     border-color: #6684A1 !important;
 }
 
@@ -55,26 +55,26 @@ body {
     background-color: #6684A1;
 }
 
-.nav-link {
+.main-nav-item {
     font-size: 14px;
     cursor: pointer;
     color: white !important;
     font-weight: 700;
 }
 
-    .nav-link:hover > i {
-        color: #FFB24A !important;
-        transition: 0.3s;
-    }
+.main-nav-item:hover > i {
+    color: #FFB24A !important;
+    transition: 0.3s;
+}
 
-    .nav-link:hover > .fa-heart {
-        color: rgb(211, 2, 2) !important;
-        transition: 0.3s;
-    }
+.main-nav-item:hover > .fa-heart {
+    color: rgb(211, 2, 2) !important;
+    transition: 0.3s;
+}
 
-    .nav-link > i {
-        font-size: 14px;
-    }
+.main-nav-item > i {
+    font-size: 14px;
+}
 
 .fa-sort-down {
     font-size: 12px !important;
@@ -96,10 +96,10 @@ body {
     text-align: center;
 }
 
-    .dropdown-item:focus, .dropdown-item:active {
-        background-color: #F8F9FA;
-        color: black;
-    }
+.dropdown-item:focus, .dropdown-item:active {
+    background-color: #F8F9FA;
+    color: black;
+}
 
 #logInItem {
     background-color: #FFB24A;
@@ -204,15 +204,15 @@ body {
         transform: translate(-50%, -50%);
     }
 
-    .navbar-brand {
+    .navbar-main > .navbar-brand {
         font-size: 30px;
     }
 
-    .nav-link {
+    .main-nav-link {
         font-size: 16px;
     }
 
-        .nav-link > i {
+    .main-nav-link > i {
             font-size: 20px;
         }
 

@@ -12,18 +12,16 @@ namespace ShopApp.Controllers
     [AllowAnonymous]
     public class HomeController : Controller
     {
-        //private ShopContext db = new ShopContext();
+        private ShopContext db = new ShopContext();
         public ActionResult Index()
         {
             HomeIndexView viewData;
             List<Category> categories;
             List<Offer> offers;
 
-            using (var dataBase = new ShopContext())
-            {
-                categories = dataBase.Categories.ToList();
-                offers = dataBase.Offers.ToList();
-            }
+
+            categories = db.Categories.ToList();
+            offers = db.Offers.ToList();
 
             viewData = new HomeIndexView
             {

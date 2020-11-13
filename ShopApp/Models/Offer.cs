@@ -26,5 +26,6 @@ namespace ShopApp.Models
         public virtual Bundle Bundle { get; set; }
         public virtual Bucket Bucket { get; set; }
         public virtual ICollection<Category> Categories { get; set; }
+        public virtual ICollection<OfferPicture> OfferPictures { get; set; }
     }
 }

@@ -15,6 +15,7 @@ using System.Security;
 using System.Web.Configuration;
 using System.Net;
 using System.Web.Security;
+using System.IO;
 
 namespace ShopApp.Controllers
 {
@@ -110,9 +111,6 @@ namespace ShopApp.Controllers
 
                 if (changedPhoneNumber != editUser.Phone && changedPhoneNumber != null)
                     editUser.Phone = changedPhoneNumber;
-
-                if (changedLogin != editUser.Login && changedLogin != null)
-                    editUser.Login = changedLogin;
 
                 db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
@@ -309,19 +307,98 @@ namespace ShopApp.Controllers
             return RedirectToAction("Account", "UserPanel");
         }
 
+        // VIEW WHERE USER CAN EDIT PASSWORD
+        public ActionResult EditAvatar()
+        {
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            int userID = (int)Session["userId"];
+            User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+
+            return View(showUser);
+        }
+
+        [HttpPost]
+        public ActionResult EditAvatar(HttpPostedFileBase file)
+        {
+            if (Session["userId"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+
+            int userID = (int)Session["userId"];
+            User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+
+            string[] validExtensions = new string[] { "jpg", "png", "jpeg" };
+
+            if (file != null && file.ContentLength > 0)
+            {
+                try
+                {
+                    string folderLoadPath = @"../../App_Files/Images/UserAvatars/";
+                    string folderSavePath = @"~/App_Files/Images/UserAvatars/";
+                    string fileExtenstion = file.FileName.Substring(file.FileName.IndexOf('.') + 1);
+                    string fileName = "Avatar_" + editUser.UserID + "." + fileExtenstion;
+
+                    if (validExtensions.Contains(fileExtenstion))
+                    {
+                        string oldPath = string.Empty;
+                        if (editUser.AvatarImage != null)
+                            oldPath = editUser.AvatarImage.PathToFile;
+
+                        string path = Path.Combine(Server.MapPath(folderSavePath), Path.GetFileName(fileName));
+
+                        if (oldPath != path)
+                        {
+                            if (System.IO.File.Exists(oldPath))
+                                System.IO.File.Delete(oldPath);
+                        }
+
+                        file.SaveAs(path);
+
+
+                        AvatarImage newAvatar = new AvatarImage() { PathToFile = folderLoadPath + fileName, User = editUser };
+
+                        db.Entry(newAvatar).State = System.Data.Entity.EntityState.Added;
+                        db.SaveChanges();
+
+                        editUser.AvatarImage = newAvatar;
+                        db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+
+                        ViewBag.Message = "File uploaded successfully";
+                    }
+                    else
+                    {
+                        throw new Exception("The file extension is invalid!");
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.Message = "ERROR:" + ex.Message.ToString();
+                }
+            }
+            else
+            {
+                ViewBag.Message = "You have not specified a file.";
+            }
+
+
+            return RedirectToAction("EditAvatar", "UserPanel");
+        }
+
         #endregion
 
         public ActionResult AddOffer()
         {
-            List<Category> categoriesView = new List<Category>();
+            List<Category> categoryList = db.Categories.ToList();
 
-            using (ShopContext dataBase = new ShopContext())
-            {
-                //Adds new offer in offer table
-                categoriesView = dataBase.Categories.ToList();
-            }
 
-            return View(categoriesView);
+            return View(categoryList);
         }
 
         [HttpPost]
@@ -334,6 +411,8 @@ namespace ShopApp.Controllers
 
             int userID = (int)Session["userId"];
             User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+            var files = Request.Files;
+            string[] validExtensions = new string[] { "jpg", "png", "jpeg" };
 
             Offer offer = new Offer
             {
@@ -341,28 +420,81 @@ namespace ShopApp.Controllers
                 Description = collection["Description"],
                 InStock = Convert.ToDouble(collection["Quantity"]),
                 Price = Convert.ToDouble(collection["Price"]),
-                //Category =
+                //Category = collection["Category"],
                 User = editUser
             };
 
-            //using (ShopContext dataBase = new ShopContext())
-            //{
-            //    //Adds new offer in offer table
-            //    dataBase.Offers.Add(offer);
-            //    dataBase.SaveChanges();
-
-            //    //Adds the offer to offersList in User
-            //    editUser.Offers.Add(offer);
-            //    dataBase.SaveChanges();
-            //}
-
-            //Adds new offer in offer table
-            db.Offers.Add(offer);
+            db.Entry(offer).State = System.Data.Entity.EntityState.Added;
             db.SaveChanges();
 
-            //Adds the offer to offersList in User
+            if (offer == null)
+                Debug.WriteLine("NULL OFERTY");
+
+            List<OfferPicture> pictures = new List<OfferPicture>();
+
+            if (files != null && files.Count > 0)
+            {
+                try
+                {
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        var workFile = files[i];
+                        string folderLoadPath = @"../../App_Files/Images/OfferPictures/";
+                        string folderSavePath = @"~/App_Files/Images/OfferPictures/";
+                        string fileExtension = workFile.FileName.Substring(workFile.FileName.IndexOf('.') + 1);
+                        string fileName = "Offer_" + offer.OfferID + "_PictureNo_" + i + "." + fileExtension;
+
+                        if (validExtensions.Contains(fileExtension))
+                        {
+                            string path = Path.Combine(Server.MapPath(folderSavePath), Path.GetFileName(fileName));
+
+                            workFile.SaveAs(path);
+
+                            OfferPicture offerPicture = new OfferPicture() { PathToFile = folderLoadPath + fileName, Offer = offer };
+                            //AvatarImage newAvatar = new AvatarImage() { PathToFile = folderLoadPath + fileName, User = editUser };
+                            pictures.Add(offerPicture);
+
+                            //offer.listazdjec.add(offerImage);
+                            //db.Entry(offer).State = System.Data.Entity.EntityState.Modified;
+
+                            ViewBag.Message = "File uploaded successfully";
+                        }
+                        else
+                        {
+                            throw new Exception("The file extension is invalid!");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.Message = "ERROR:" + ex.Message.ToString();
+                }
+            }
+            else
+            {
+                ViewBag.Message = "You have not specified a file.";
+            }
+
+            offer.OfferPictures = pictures;
+            db.Entry(offer).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+
             editUser.Offers.Add(offer);
+            db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
+
+            for (int i = 0; i < offer.OfferPictures.Count; i++)
+            {
+                Debug.WriteLine(offer.OfferPictures.ToList()[i].PathToFile);
+            }
+
+            ////Adds new offer in offer table
+            //db.Offers.Add(offer);
+            //db.SaveChanges();
+
+            ////Adds the offer to offersList in User
+            //editUser.Offers.Add(offer);
+            //db.SaveChanges();
 
             return RedirectToAction("Index", "Home");
         }

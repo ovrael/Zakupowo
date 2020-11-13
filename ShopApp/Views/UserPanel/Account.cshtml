@@ -6,8 +6,23 @@
 @Styles.Render("~/bundles/UserPanel")
 <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 
+@{
+    string avatarUrl = string.Empty;
+    string defaultAvatarUrl = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg";
 
-@Html.Partial("_SideBar", Request.RawUrl)
+
+    if (Model.AvatarImage != null)
+    {
+        avatarUrl = Model.AvatarImage.PathToFile;
+        System.Diagnostics.Debug.WriteLine(avatarUrl);
+    }
+    else
+    {
+        avatarUrl = defaultAvatarUrl;
+    }
+}
+
+@Html.Partial("_SideBar")
 
 <div class="container">
     <div class="row">
@@ -19,11 +34,16 @@
                             <div class="image-container">
 
                                 @* ŚCIEŻKA DO PLIKU PROFILOWEGO UŻYTKOWNIKA *@
-                                <img src="~/Images/user2.jpg" id="imgProfile" style="width: 100px; height: 100px" class="img-thumbnail" />
+                                <img src="@avatarUrl" id="imgProfile" style="width: 100px; height: 100px" class="img-thumbnail" />
 
                                 <div class="middle">
-                                    <input type="button" class="btn btn-secondary" id="btnChangePicture" value="Change" />
-                                    <input type="file" style="display: none;" id="profilePicture" name="file" />
+
+                                    @*<input type="button" class="btn btn-secondary" id="btnChangePicture" value="Change">*@
+                                    <a type="button" class="btn btn-secondary" id="btnChangePicture" href="@Url.Action("EditAvatar", "UserPanel")">
+                                        Change
+                                    </a>
+
+                                    @*<input type="file" style="display: none;" id="profilePicture" name="file" />*@
                                 </div>
                             </div>
                             <div class="userData ml-3">

@@ -179,11 +179,21 @@
     <Compile Include="Migrations\202011120029449_UserAndAdressChanged.designer.cs">
       <DependentUpon>202011120029449_UserAndAdressChanged.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011121620153_UserModelChanged_AddedAvatarImage.cs" />
+    <Compile Include="Migrations\202011121620153_UserModelChanged_AddedAvatarImage.designer.cs">
+      <DependentUpon>202011121620153_UserModelChanged_AddedAvatarImage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011130922220_OfferModelChanged_AddedOfferPicture.cs" />
+    <Compile Include="Migrations\202011130922220_OfferModelChanged_AddedOfferPicture.designer.cs">
+      <DependentUpon>202011130922220_OfferModelChanged_AddedOfferPicture.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
+    <Compile Include="Models\AvatarImage.cs" />
     <Compile Include="Models\Bucket.cs" />
     <Compile Include="Models\Bundle.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\OfferPicture.cs" />
     <Compile Include="Models\ShippingAdress.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Utility\Cryptographing.cs" />
@@ -196,8 +206,8 @@
     <Compile Include="ViewModels\User\ShippingAdressViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Files\Images\avatar.jpg" />
-    <Content Include="App_Files\Images\user2.jpg" />
+    <Content Include="App_Files\Images\UserAvatars\DefaultAvatar.jpg" />
+    <Content Include="App_Files\Images\UserAvatars\MojAvatar.jpg" />
     <Content Include="aspnet-mvc.gitignore" />
     <Content Include="Content\bootstrap-darkly.css" />
     <Content Include="Content\bootstrap-grid.css" />
@@ -376,12 +386,12 @@
     <Content Include="Views\UserPanel\_SideBar.cshtml" />
     <Content Include="Views\UserPanel\AddShippingAdress.cshtml" />
     <Content Include="Views\UserPanel\_SettingsSideBar.cshtml" />
+    <Content Include="Views\UserPanel\EditAvatar.cshtml" />
     <Content Include="Views\Home\Offer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="App_Files\Images\OfferPictures\" />
-    <Folder Include="App_Files\Images\UserAvatars\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -428,6 +438,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011120029449_UserAndAdressChanged.resx">
       <DependentUpon>202011120029449_UserAndAdressChanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011121620153_UserModelChanged_AddedAvatarImage.resx">
+      <DependentUpon>202011121620153_UserModelChanged_AddedAvatarImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011130922220_OfferModelChanged_AddedOfferPicture.resx">
+      <DependentUpon>202011130922220_OfferModelChanged_AddedOfferPicture.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
