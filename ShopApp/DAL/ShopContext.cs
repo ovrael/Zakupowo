@@ -20,6 +20,7 @@ namespace ShopApp.DAL
         public virtual DbSet<Bundle> Bundles { get; set; }
         public virtual DbSet<Bucket> Buckets { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<FavouriteOffer> FavouriteOffers { get; set; }
         public virtual DbSet<ShippingAdress> ShippingAdresses { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

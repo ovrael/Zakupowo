@@ -17,7 +17,7 @@ namespace ShopApp.Controllers
 {
     public static class DataBase
     {
-        private static ShopContext db = new ShopContext();
+        public static ShopContext db = new ShopContext();
         public static void AddToDatabase(User user)
         {
             db.Users.Add(user);

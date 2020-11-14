@@ -63,7 +63,31 @@
         <div class="col-12 col-lg-4 offer-info p-2 p-lg-0 m-lg-4 d-block">
             <div class="row justify-content-between align-items-center m-0">
                 <h3 class="product-name">@Model.Title</h3>
-                <i class="fas fa-heart fa-fw d-inline-block product-fav"></i>
+
+                @{
+                    bool IsFav = false;
+                    ShopApp.Models.User User;
+                    using (ShopApp.DAL.ShopContext db = new ShopApp.DAL.ShopContext())
+                    {
+                        User = db.Users.Where(i => i.Login == HttpContext.Current.User.Identity.Name).First();
+                        foreach (var item in User.FavouriteOffer)
+                        {
+                            if (item.FavouriteOfferID == Model.OfferID)
+                            {
+                                IsFav = true;
+                            }
+                        }
+                    }
+                    if (IsFav)
+                    {
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav" onclick="UnFav(@Model.OfferID)"></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav" onclick="Fav(@Model.OfferID)"></i>
+                    }
+                }
+
             </div>
             <p class="product-condition m-0 p-0">stan: nowy</p>
             <p class="seller d-block m-0 p-0"> sprzedawca: <a class="seller-name" href="#">@Model.User.Login</a></p>
@@ -90,5 +114,50 @@
             <p> @Model.Description </p>
         </div>
     </div>
+
+    <script type="text/javascript">
+
+    function Fav(id) {
+        var url = '@Url.Action("Fav", "Home")';
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+                id: id
+            },
+            success: function (data) {
+                if(data.length == 0) // No errors
+                    alert("Fave success!");
+            },
+            error: function (jqXHR) { // Http Status is not 200
+            },
+            complete: function (jqXHR, status) { // Whether success or error it enters here
+            }
+        });
+    };
+
+    function UnFav(id) {
+        var url = '@Url.Action("UnFav", "Home")';
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+                id: id
+            },
+            success: function (data) {
+                if(data.length == 0) // No errors
+                    alert("Unfave success!");
+            },
+            error: function (jqXHR) { // Http Status is not 200
+            },
+            complete: function (jqXHR, status) { // Whether success or error it enters here
+            }
+        });
+    };
+
+    </script>
+
     @Scripts.Render("~/bundles/Offerjs")
 }

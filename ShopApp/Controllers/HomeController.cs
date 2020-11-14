@@ -31,12 +31,8 @@ namespace ShopApp.Controllers
 
             return View(viewData);
         }
-
         public ActionResult Kat(int KatID)//We come here from index 
         {
-            
-
-
             return View();
         }
         
@@ -50,18 +46,52 @@ namespace ShopApp.Controllers
             else
                 return RedirectToAction("Index");
         }
-        public ActionResult About()
+        [HttpPost]
+        public ActionResult Fav(int id)//We come here from index 
         {
-            ViewBag.Message = "Your application description page.";
+            List<string> errors = new List<string>(); // You might want to return an error if something wrong happened
 
-            return View();
+            User User = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+
+            FavouriteOffer FvOff = new FavouriteOffer
+            {
+                Offer = db.Offers.Where(i => i.OfferID == id).First(),
+                User = User
+            };
+
+            db.FavouriteOffers.Add(FvOff);
+            db.SaveChanges();
+
+            var offer = db.Offers.Where(i => i.OfferID == id).First();
+            offer.FavouriteOffer.Add(FvOff);
+            db.SaveChanges();
+
+            User.FavouriteOffer.Add(FvOff);
+            db.SaveChanges();
+
+            return Json(errors, JsonRequestBehavior.AllowGet);
         }
-
-        public ActionResult Contact()
+        [HttpPost]
+        public ActionResult UnFav(int id)//We come here from index 
         {
-            ViewBag.Message = "Your contact page.";
+            User User = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
-            return View();
+            List<string> errors = new List<string>(); // You might want to return an error if something wrong happened
+            var FvOff = db.FavouriteOffers.Where(i => i.Offer.OfferID == id).First();
+            if (User.FavouriteOffer.Contains(FvOff))
+            {
+                User.FavouriteOffer.Remove(FvOff);
+                db.SaveChanges();
+
+                var offer = db.Offers.Where(i => i.OfferID == id).First();
+                offer.FavouriteOffer.Remove(FvOff);
+                db.SaveChanges();
+
+                db.FavouriteOffers.Remove(FvOff);
+                db.SaveChanges();
+            }
+
+            return Json(errors, JsonRequestBehavior.AllowGet);
         }
 
 

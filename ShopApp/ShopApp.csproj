@@ -199,6 +199,10 @@
     <Compile Include="Migrations\202011141920337_ModifiedModelsV2.designer.cs">
       <DependentUpon>202011141920337_ModifiedModelsV2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011142023157_AddFavouriteOfferDbSet.cs" />
+    <Compile Include="Migrations\202011142023157_AddFavouriteOfferDbSet.designer.cs">
+      <DependentUpon>202011142023157_AddFavouriteOfferDbSet.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
@@ -466,6 +470,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011141920337_ModifiedModelsV2.resx">
       <DependentUpon>202011141920337_ModifiedModelsV2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011142023157_AddFavouriteOfferDbSet.resx">
+      <DependentUpon>202011142023157_AddFavouriteOfferDbSet.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
