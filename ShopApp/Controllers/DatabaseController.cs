@@ -30,7 +30,7 @@ namespace ShopApp.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UserCreate([Bind(Include = "Email,Login,EncryptedPassword,FirstName,LastName,Phone,Country,City,BirthDate,CreationTime")] Models.User Usr)
+        public ActionResult UserCreate([Bind(Include = "Email,Login,EncryptedPassword,FirstName,LastName,Phone,Country,City,BirthDate,CreationTime")] User Usr)
         {
             if (ModelState.IsValid)
             {
@@ -144,7 +144,7 @@ namespace ShopApp.Controllers
                 //TU SIE PSUJE STRASZNIE FEST
                 (db.Categories.Where(i => i.CategoryID == ID).First())
                     .Offers.Add(db.Offers.Where(x => x.OfferID == id).First());
-                offr.Categories.Add(db.Categories.Where(i => i.CategoryID == ID).First());
+                offr.Category = db.Categories.Where(i => i.CategoryID == ID).First();
             }
             db.SaveChanges();
             //If(ModelState.IsValid)

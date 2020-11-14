@@ -23,11 +23,11 @@ namespace ShopApp.Migrations
         {
             var users = new List<User>
             {
-                new User{ Email="Mail@SeedUsr.com",
-                    Login="LoginSeedUsr",
-                    EncryptedPassword="PasswwordSeedUsr",
-                    FirstName ="Imie",
-                    LastName="Nazwisko",
+                new User{ Email="Seed@mail.com",
+                    Login="SeedLogin",
+                    EncryptedPassword="SeedPassword",
+                    FirstName ="SeedFirstName",
+                    LastName="SeedLastName",
                     Phone ="123456789"
                 }
             };
@@ -52,7 +52,7 @@ namespace ShopApp.Migrations
             {
                 new ShippingAdress()
                 {
-                    Country = "Czechy",
+                    Country = "Polska",
                     City = "Katowice",
                     Street = "Mariacka",
                     PremisesNumber = "33",
