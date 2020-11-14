@@ -187,12 +187,25 @@
     <Compile Include="Migrations\202011130922220_OfferModelChanged_AddedOfferPicture.designer.cs">
       <DependentUpon>202011130922220_OfferModelChanged_AddedOfferPicture.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011141904537_AddFavouriteOffer.cs" />
+    <Compile Include="Migrations\202011141904537_AddFavouriteOffer.designer.cs">
+      <DependentUpon>202011141904537_AddFavouriteOffer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011141914094_ModifiedModelsV1.cs" />
+    <Compile Include="Migrations\202011141914094_ModifiedModelsV1.designer.cs">
+      <DependentUpon>202011141914094_ModifiedModelsV1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011141920337_ModifiedModelsV2.cs" />
+    <Compile Include="Migrations\202011141920337_ModifiedModelsV2.designer.cs">
+      <DependentUpon>202011141920337_ModifiedModelsV2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
     <Compile Include="Models\Bucket.cs" />
     <Compile Include="Models\Bundle.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\FavouriteOffer.cs" />
     <Compile Include="Models\OfferPicture.cs" />
     <Compile Include="Models\ShippingAdress.cs" />
     <Compile Include="Models\Transaction.cs" />
@@ -444,6 +457,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011130922220_OfferModelChanged_AddedOfferPicture.resx">
       <DependentUpon>202011130922220_OfferModelChanged_AddedOfferPicture.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011141904537_AddFavouriteOffer.resx">
+      <DependentUpon>202011141904537_AddFavouriteOffer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011141914094_ModifiedModelsV1.resx">
+      <DependentUpon>202011141914094_ModifiedModelsV1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011141920337_ModifiedModelsV2.resx">
+      <DependentUpon>202011141920337_ModifiedModelsV2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

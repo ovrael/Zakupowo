@@ -16,6 +16,9 @@ namespace ShopApp.Models
         [Required]
         public string Description { get; set; }
         //Stocking should be an ENUM
+        [Required]
+        public bool IsActive { get; set; }
+
         public string Stocking { get; set; }
         [Required]
         public double InStock { get; set; }
@@ -23,9 +26,12 @@ namespace ShopApp.Models
         public double Price { get; set; }
         [Required]
         public virtual User User { get; set; }
+
+        public virtual Category Category { get; set; }
+
         public virtual Bundle Bundle { get; set; }
         public virtual Bucket Bucket { get; set; }
-        public virtual ICollection<Category> Categories { get; set; }
+        public virtual ICollection<FavouriteOffer> FavouriteOffer { get; set; }
         public virtual ICollection<OfferPicture> OfferPictures { get; set; }
     }
 }

@@ -60,10 +60,11 @@ namespace ShopApp.Models
         public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<Auction> Auction { get; set; }
         public virtual ICollection<Offer> Offers { get; set; }
+        public virtual ICollection<FavouriteOffer> FavouriteOffer { get; set; }
         public virtual ICollection<Bundle> Bundles { get; set; }
         public virtual ICollection<ShippingAdress> ShippingAdresses { get; set; }
 
-        public string showBasicInformation()
+        public string ShowBasicInformation()
         {
             string name = "Full name: " + FirstName + " " + LastName;
             string email = "E-mail: " + Email;
