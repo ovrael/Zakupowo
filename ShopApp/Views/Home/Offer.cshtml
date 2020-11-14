@@ -72,7 +72,7 @@
                         User = db.Users.Where(i => i.Login == HttpContext.Current.User.Identity.Name).First();
                         foreach (var item in User.FavouriteOffer)
                         {
-                            if (item.FavouriteOfferID == Model.OfferID)
+                            if (item.Offer.OfferID == Model.OfferID)
                             {
                                 IsFav = true;
                             }
@@ -80,7 +80,7 @@
                     }
                     if (IsFav)
                     {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav" onclick="UnFav(@Model.OfferID)"></i>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" onclick="UnFav(@Model.OfferID)"></i>
                     }
                     else
                     {
