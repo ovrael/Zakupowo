@@ -24,21 +24,25 @@
 
 @{
     bool isLogged = true;
-    int userID = 0;
     string userName = string.Empty;
     string avatarUrl = string.Empty;
     //ShopApp.DAL.ShopContext db = new ShopApp.DAL.ShopContext();
 
-    if (Session["userId"] == null)
+    HttpContext httpContext = HttpContext.Current;
+    string login = httpContext.User.Identity.Name;
+
+    System.Diagnostics.Debug.WriteLine(login);
+    System.Diagnostics.Debug.WriteLine(httpContext);
+
+    if (login == null || login == string.Empty)
     {
         isLogged = false;
     }
     else
     {
-        userID = (int)Session["userID"];
         using (var db = new ShopApp.DAL.ShopContext())
         {
-            ShopApp.Models.User user = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+            ShopApp.Models.User user = db.Users.Where(i => i.Login == login).FirstOrDefault();
             userName = user.FirstName.Trim();
             if (user.AvatarImage != null)
             {
