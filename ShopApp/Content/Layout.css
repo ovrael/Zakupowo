@@ -43,7 +43,7 @@ body {
     color: #FFB24A !important;
 }
 
-.navbar-main > navbar-brand > .fa-shopping-bag {
+.navbar-main > .navbar-brand > .fa-shopping-bag {
     color: white;
 }
 
@@ -55,24 +55,24 @@ body {
     background-color: #6684A1;
 }
 
-li .main-nav-item {
+.main-nav-link {
     font-size: 14px;
     cursor: pointer;
     color: white !important;
     font-weight: 700;
 }
 
-.main-nav-item:hover > i {
-    color: #FFB24A !important;
-    transition: 0.3s;
+.main-nav-link:hover > i {
+        color: #FFB24A !important;
+        transition: 0.3s;
 }
 
-.main-nav-item:hover > .fa-heart {
-    color: rgb(211, 2, 2) !important;
-    transition: 0.3s;
+.main-nav-link:hover > .fa-heart {
+        color: rgb(211, 2, 2) !important;
+        transition: 0.3s;
 }
 
-.main-nav-item > i {
+.main-nav-link > i {
     font-size: 14px;
 }
 

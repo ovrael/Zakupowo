@@ -23,26 +23,13 @@
 </head>
 
 @{
-    bool isLogged = true;
-    string userName = string.Empty;
-    string avatarUrl = string.Empty;
-    //ShopApp.DAL.ShopContext db = new ShopApp.DAL.ShopContext();
 
-    HttpContext httpContext = HttpContext.Current;
-    string login = httpContext.User.Identity.Name;
-
-    System.Diagnostics.Debug.WriteLine(login);
-    System.Diagnostics.Debug.WriteLine(httpContext);
-
-    if (login == null || login == string.Empty)
-    {
-        isLogged = false;
-    }
-    else
+    string userName, avatarUrl = string.Empty;
+    if(User.Identity.IsAuthenticated)
     {
         using (var db = new ShopApp.DAL.ShopContext())
         {
-            ShopApp.Models.User user = db.Users.Where(i => i.Login == login).FirstOrDefault();
+            ShopApp.Models.User user = db.Users.Where(i => i.Login == HttpContext.Current.User.Identity.Name).Single();
             userName = user.FirstName.Trim();
             if (user.AvatarImage != null)
             {
@@ -67,26 +54,26 @@
         </button>
         <div class="collapse navbar-collapse col-lg-4 order-lg-8" id="navbarSupportedContent">
             <ul class="navbar-nav w-100 justify-content-end">
-                <li class="nav-item main-nav-item">
-                    <a class="nav-link mx-4" id="chatLink" href="@Url.Action("Communicator", "UserPanel")"><i class="fas fa-envelope fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Wiadomości</p></a>
+                <li class="nav-item">
+                    <a class="nav-link main-nav-link mx-4" id="chatLink" href="@Url.Action("Communicator", "UserPanel")"><i class="fas fa-envelope fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Wiadomości</p></a>
                 </li>
-                <li class="nav-item main-nav-item">
-                    <a class="nav-link mx-4" id="favouriteLink"><i class="fas fa-heart fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Ulubione</p></a>
+                <li class="nav-item">
+                    <a class="nav-link main-nav-link mx-4" id="favouriteLink"><i class="fas fa-heart fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Ulubione</p></a>
                 </li>
-                <li class="nav-item main-nav-item">
-                    <a class="nav-link mx-4" id="cartLink"><i class="fas fa-shopping-cart fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Koszyk</p></a>
+                <li class="nav-item">
+                    <a class="nav-link main-nav-link mx-4" id="cartLink"><i class="fas fa-shopping-cart fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Koszyk</p></a>
                 </li>
-                <li class="nav-item main-nav-item dropdown">
-                    <a class="nav-link mx-4 dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <li class="nav-item dropdown">
+                    <a class="nav-link main-nav-link mx-4 dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-user fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Konto</p><i class="fas fa-sort-down ml-1 ml-lg-0"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right mt-lg-2 text-center animate slideIn" aria-labelledby="navbarDropdownMenuLink">
                         @{
-                            if (isLogged)
+                            if (User.Identity.IsAuthenticated)
                             {
                                 <img src="@avatarUrl" id="imgProfile" style="width: 100px; height: 100px" class="img-thumbnail" />
                                 <p class="p-2 d-none d-lg-block">
-                                    Witaj @userName! Przejrzyj najciekawsze oferty i ciesz się zakupami!
+                                    Witaj @HttpContext.Current.User.Identity.Name! Przejrzyj najciekawsze oferty i ciesz się zakupami!
                                 </p>
                                 <a class="dropdown-item" href="@Url.Action("Account", "UserPanel")">Panel użytkownika</a>
                                 <div class="dropdown-divider"></div>

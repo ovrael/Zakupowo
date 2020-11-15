@@ -60,14 +60,15 @@ namespace ShopApp.Controllers
 
         [HttpPost]
         public ActionResult Login(FormCollection collection)
-        {          
+        {
+            
             var email = collection["Email"];
             var password = Cryptographing.Encrypt(collection["EncryptedPassword"]);
-            var user = db.Users.Where(x => x.Email == email && x.EncryptedPassword == password).First();
-            if (user != null)
-            {
-                FormsAuthentication.SetAuthCookie(user.Login, collection["rememberMeInput"] == "rememberMe"? true : false); //TODO ISCHECKED
 
+            var user = db.Users.Where(x => x.Email == email && x.EncryptedPassword == password).SingleOrDefault();
+            if (user != null)
+            { 
+                FormsAuthentication.SetAuthCookie(user.Login, (collection["rememberMeInput"] == "rememberMe"? true : false)); //TODO ISCHECKED
                 return RedirectToAction("Index", "Home");
             }
             return RedirectToAction("Login");
