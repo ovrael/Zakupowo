@@ -1,0 +1,24 @@
+.error-info {
+    font-size: 18px;
+}
+
+h1 {
+    color: grey;
+    font-size: 64px;
+}
+
+h2 {
+    font-size: 25px;
+}
+
+.error-info > .btn {
+    background-color: #FFB24A;
+    border: none;
+    font-size: 16px;
+    padding: 8px;
+    margin: 6px;
+}
+
+button:focus, button:active {
+    background-color: #FFB24A !important;
+}

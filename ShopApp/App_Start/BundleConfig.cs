@@ -49,7 +49,10 @@ namespace ShopApp
 
             bundles.Add(new StyleBundle("~/bundles/Offer").Include(
                       "~/Content/offer.css"));
-
+            
+            bundles.Add(new StyleBundle("~/bundles/Error").Include(
+                      "~/Content/error.css"));
+            
         }
     }
 }
