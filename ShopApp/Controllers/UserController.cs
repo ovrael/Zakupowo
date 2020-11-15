@@ -64,9 +64,10 @@ namespace ShopApp.Controllers
             
             var email = collection["Email"];
             var password = Cryptographing.Encrypt(collection["EncryptedPassword"]);
-            var user = db.Users.Where(x => x.Email == email && x.EncryptedPassword == password).First();
+
+            var user = db.Users.Where(x => x.Email == email && x.EncryptedPassword == password).SingleOrDefault();
             if (user != null)
-            {
+            { 
                 FormsAuthentication.SetAuthCookie(user.Login, (collection["rememberMeInput"] == "rememberMe"? true : false)); //TODO ISCHECKED
                 return RedirectToAction("Index", "Home");
             }
