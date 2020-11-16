@@ -35,11 +35,54 @@ $( document ).ready(function() {
     });
 
     // Add-to-favourites button
-    $(".product-fav").on("click", function(){
-        if($(".product-fav").hasClass("fav-active")) {
-            $(".product-fav").removeClass("fav-active");
+    $(".product-fav").on("click", function () {
+
+        var id = jQuery(this).attr('id');
+        var url = jQuery(this).attr('url');
+        console.log(id);
+        if ($(".product-fav").hasClass("fav-active")) {
+          
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    if (data.length == 0) // No errors
+                        $(".product-fav").removeClass("fav-active");
+                  
+                },
+            });
+           
         } else {
-            $(".product-fav").addClass("fav-active");
+
+    
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    if (data.length == 0) // No errors
+                        $(".product-fav").addClass("fav-active");
+                 
+                },
+
+            });
+           
         }
     })
 });
+
+
+
+function Fav(id) {
+   
+};
+
+function UnFav(id) {
+   
+};
