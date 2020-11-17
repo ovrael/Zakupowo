@@ -63,7 +63,7 @@ namespace ShopApp.Controllers
         public ActionResult Account()
         {
             User showUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-            FileManager.Configure();
+            //FileManager.Configure();
             return View(showUser);
         }
 
