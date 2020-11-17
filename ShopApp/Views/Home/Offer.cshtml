@@ -83,7 +83,7 @@
                     }
                     if (IsFav && HttpContext.Current.User.Identity.IsAuthenticated)
                     {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" onclick="UnFav(@Model.OfferID)"></i>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" url="@Url.Action("UnFav", "Home")" id="@Model.OfferID"></i>
                     }
                     else if (HttpContext.Current.User.Identity.IsAuthenticated)
                     {
@@ -91,7 +91,7 @@
                     }
                     else
                     {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav "></i>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav" url="@Url.Action("Fav", "Home")" id="@Model.OfferID"></i>
                     }
                 }
 
@@ -123,47 +123,7 @@
     </div>
 
     <script type="text/javascript">
-
-    function Fav(id) {
-        var url = '@Url.Action("Fav", "Home")';
-
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: {
-                id: id
-            },
-            success: function (data) {
-                if (data.length == 0) {
-                    alert("Fave success!");
-                }// No errors
-            },
-            error: function (jqXHR) { // Http Status is not 200
-            },
-            complete: function (jqXHR, status) { // Whether success or error it enters here
-            }
-        });
-    };
-
-    function UnFav(id) {
-        var url = '@Url.Action("UnFav", "Home")';
-
-        $.ajax({
-            url: url,
-            type: 'POST',
-            data: {
-                id: id
-            },
-            success: function (data) {
-                if(data.length == 0) // No errors
-                    alert("Unfave success!");
-            },
-            error: function (jqXHR) { // Http Status is not 200
-            },
-            complete: function (jqXHR, status) { // Whether success or error it enters here
-            }
-        });
-    };
+    
 
     </script>
 
