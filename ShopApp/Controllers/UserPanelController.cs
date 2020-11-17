@@ -392,13 +392,7 @@ namespace ShopApp.Controllers
         [HttpPost]
         public ActionResult AddOffer(FormCollection collection)
         {
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
-
-            int userID = (int)Session["userId"];
-            User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+            User editUser = db.Users.Where(u => u.Login == HttpContext.User.Identity.Name).FirstOrDefault();
             var files = Request.Files;
 
             string[] validExtensions = new string[] { "jpg", "png", "jpeg" };

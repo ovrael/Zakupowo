@@ -69,7 +69,9 @@
                     ShopApp.Models.User User;
                     using (ShopApp.DAL.ShopContext db = new ShopApp.DAL.ShopContext())
                     {
-                        User = db.Users.Where(i => i.Login == HttpContext.Current.User.Identity.Name).First();
+                        User = db.Users.Where(i => i.Login == HttpContext.Current.User.Identity.Name).SingleOrDefault();
+                        if (User != null)
+                        { 
                         foreach (var item in User.FavouriteOffer)
                         {
                             if (item.Offer.OfferID == Model.OfferID)
@@ -77,14 +79,19 @@
                                 IsFav = true;
                             }
                         }
+                        }
                     }
-                    if (IsFav)
+                    if (IsFav && HttpContext.Current.User.Identity.IsAuthenticated)
                     {
                         <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" onclick="UnFav(@Model.OfferID)"></i>
                     }
-                    else
+                    else if (HttpContext.Current.User.Identity.IsAuthenticated)
                     {
                         <i class="fas fa-heart fa-fw d-inline-block product-fav" onclick="Fav(@Model.OfferID)"></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav "></i>
                     }
                 }
 
@@ -127,8 +134,9 @@
                 id: id
             },
             success: function (data) {
-                if(data.length == 0) // No errors
+                if (data.length == 0) {
                     alert("Fave success!");
+                }// No errors
             },
             error: function (jqXHR) { // Http Status is not 200
             },

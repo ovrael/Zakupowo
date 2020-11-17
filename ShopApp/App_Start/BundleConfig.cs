@@ -52,7 +52,10 @@ namespace ShopApp
             
             bundles.Add(new StyleBundle("~/bundles/Error").Include(
                       "~/Content/error.css"));
-            
+
+            bundles.Add(new StyleBundle("~/bundles/Categories").Include(
+                       "~/Content/categories.css"));
+
         }
     }
 }

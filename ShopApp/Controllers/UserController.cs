@@ -61,7 +61,6 @@ namespace ShopApp.Controllers
         [HttpPost]
         public ActionResult Login(FormCollection collection)
         {
-            
             var email = collection["Email"];
             var password = Cryptographing.Encrypt(collection["EncryptedPassword"]);
 
@@ -71,7 +70,8 @@ namespace ShopApp.Controllers
                 FormsAuthentication.SetAuthCookie(user.Login, (collection["rememberMeInput"] == "rememberMe"? true : false)); //TODO ISCHECKED
                 return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("Login");
+            ViewBag.ErrorMessage = "Nieprawidłowe dane logowania";
+            return View();
         }
         //Logout method 
 
