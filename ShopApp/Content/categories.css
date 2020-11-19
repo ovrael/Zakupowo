@@ -22,7 +22,7 @@
     color: black;
     padding: 15px;
     border-radius: 50%;
-    min-width: 64px;
+    width: 72px;
 } 
 
 
@@ -37,7 +37,13 @@
 } 
 .horizontal-scrollable > .col:nth-child(4n) > a > i{ 
     background-color: #ff9100;
-} 
+}
+
+@media (min-width: 576px) {
+    .horizontal-scrollable > .col > a > i {
+        width: 68px;
+    }
+}
 
 @media (min-width: 1200px) {
     .horizontal-scrollable { 
@@ -47,13 +53,12 @@
     h1 {
         font-size: 42px;
     }
-    .horizontal-scrollable > .col > a > p{ 
+    .horizontal-scrollable > .col > a > p {
         font-size: 24px;
     } 
     .horizontal-scrollable > .col > a > i{ 
         font-size: 36px;
-        color: black;
         padding: 32px;
-        border-radius: 50%;
+        width: 112px;
     }
 }
