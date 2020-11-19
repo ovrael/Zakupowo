@@ -1,10 +1,5 @@
 ﻿@model ShopApp.Models.User
-@{
-    if (Session["userId"] != null)
-    {
-        Response.Redirect("~/Home/Index");
-    }
-}
+
 @Styles.Render("~/bundles/User")
 
 
@@ -33,9 +28,9 @@
             <p>Nie masz konta? <a href="@Url.Action("Register", "User")">Zarejestruj się</a></p>
 
             <div class="messages-box h5">
-                @if (ViewBag.Error != null)
+                @if (ViewBag.ErrorMessage != null)
                 {
-                    <div class="alert alert-danger">@ViewBag.Error</div>
+                    <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
                 }
 
 

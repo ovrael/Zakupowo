@@ -1,69 +1,146 @@
 ﻿@model ShopApp.ViewModels.HomeIndexView
 
-<div style="height: 30px;">
-    <div style="width:100%;   padding-bottom:40px;">
-        <select name="cars" id="cars" value="Kategorie">
-            @for (int i = 0; i < Model.CategoryList.Count; i++)
-            {
-                <option value="@(i+1)">@Model.CategoryList[i].CategoryName</option>
-            }
-        </select>
+@Styles.Render("~/bundles/Categories")
+<div class="categories">
+    <div class="row text-center categories-header m-0 py-2">
+        <div class="col-12">
+            <h1>Kategorie</h1>
+        </div>
+    </div>
+    <div class="row horizontal-scrollable text-center m-0">
+        <div class="col col-3 col-lg-2 p-0">
+            <a href="~/Home/Kat/?KatID=1">
+                <i class="fas fa-laptop"></i>
+                <p>Elektronika</p>
+            </a>
+        </div>
+        <div class="col col-3 col-lg-2 p-0">
+            <a href="~/Home/Kat/?KatID=2">
+                <i class="fas fa-car"></i>
+                <p>Motoryzacja</p>
+            </a>
+        </div>
+        <div class="col col-3 col-lg-2 p-0">
+            <a href="~/Home/Kat/?KatID=3">
+                <i class="fas fa-tshirt"></i>
+                <p>Ubrania</p>
+            </a>
+        </div>
+        <div class="col col-3 col-lg-2 p-0">
+            <a href="#">
+                <i class="fas fa-home"></i>
+                <p>Nieruchomości</p>
+            </a>
+        </div>
+        <div class="col col-3 col-lg-2 p-0">
+            <a href="#">
+                <i class="fas fa-utensils"></i>
+                <p>Jedzenie</p>
+            </a>
+        </div>
+        <div class="col col-3 col-lg-2 p-0">
+            <a href="#">
+                <i class="fas fa-car"></i>
+                <p>Motoryzacja</p>
+            </a>
+        </div>
+        <div class="col col-3 col-lg-2 p-0">
+            <a href="#">
+                <i class="fas fa-laptop"></i>
+                <p>Elektronika</p>
+            </a>
+        </div>
+        <div class="col col-3 col-lg-2 p-0">
+            <a href="#">
+                <i class="fas fa-tshirt"></i>
+                <p>Ubrania</p>
+            </a>
+        </div>
+        <div class="col col-3 col-lg-2 p-0">
+            <a href="#">
+                <i class="fas fa-home"></i>
+                <p>Nieruchomości</p>
+            </a>
+        </div>
+        <div class="col col-3 col-lg-2 p-0">
+            <a href="#">
+                <i class="fas fa-utensils"></i>
+                <p>Jedzenie</p>
+            </a>
+        </div>
     </div>
 </div>
 
 
-@* PARTIAL VIEW DLA OFERT*@
-<div class="d-flex justify-content-center flex-wrap">
-    @{
-        List<ShopApp.Models.Offer> offers = Model.OfferList.ToList();
-
-        for (int i = 0; i < offers.Count; i++)
-        {
-            ShopApp.Models.Offer show = offers[i];
-            string pictureUrl = string.Empty;
-            if (show.OfferPictures != null && show.OfferPictures.Count > 0)
-            {
-                System.Diagnostics.Debug.WriteLine("Oferta nr: " + (i + 1) + "\tZdjęć: " + show.OfferPictures.Count);
-                pictureUrl = show.OfferPictures.ToList()[0].PathToFile;
-            }
-            else
-            {
-                pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
-            }
-
-            System.Diagnostics.Debug.WriteLine(pictureUrl);
-
-        <a href="Offer/?OfferId=@show.OfferID">
-            <div class="offer-box">
-                <img class="img-fluid rounded" style="height:50%;" src="@pictureUrl" />
-                <h2>@show.Title</h2>
-                <p>@show.Description</p>
+    @*
+        <div style="height: 30px;">
+            <div style="width:100%;   padding-bottom:40px;">
+                <select name="cars" id="cars" value="Kategorie">
+                    @for (int i = 0; i < Model.CategoryList.Count; i++)
+                    {
+                        <option value="@(i+1)">@Model.CategoryList[i].CategoryName</option>
+                    }
+                </select>
             </div>
-        </a>
-        }
-    }
+        </div>
+    *@
+
+
+
+
+    @* PARTIAL VIEW DLA OFERT
+        <div class="d-flex justify-content-center flex-wrap">
+            @{
+                List<ShopApp.Models.Offer> offers = Model.OfferList.ToList();
+
+                for (int i = 0; i < offers.Count; i++)
+                {
+                    ShopApp.Models.Offer show = offers[i];
+                    string pictureUrl = string.Empty;
+                    if (show.OfferPictures != null && show.OfferPictures.Count > 0)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Oferta nr: " + (i + 1) + "\tZdjęć: " + show.OfferPictures.Count);
+                        pictureUrl = show.OfferPictures.ToList()[0].PathToFile;
+                    }
+                    else
+                    {
+                        pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
+                    }
+
+                    System.Diagnostics.Debug.WriteLine(pictureUrl);
+
+                    <a href="Offer/?OfferId=@show.OfferID">
+                        <div class="offer-box">
+                            <img class="img-fluid rounded" style="height:50%;" src="@pictureUrl" />
+                            <h2>@show.Title</h2>
+                            <p>@show.Description</p>
+                        </div>
+                    </a>
+                }
+            }*@
 
 
     @*@foreach (var item in Model.OfferList)
-        {
-            System.Diagnostics.Debug.WriteLine(Model.OfferList.Count);
-            string pictureUrl = string.Empty;
-            if (item.OfferPictures != null || item.OfferPictures.Count > 0)
             {
-                pictureUrl = item.OfferPictures.ToList()[0].PathToFile;
-            }
-            else
-            {
-                pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
-            }
+                System.Diagnostics.Debug.WriteLine(Model.OfferList.Count);
+                string pictureUrl = string.Empty;
+                if (item.OfferPictures != null || item.OfferPictures.Count > 0)
+                {
+                    pictureUrl = item.OfferPictures.ToList()[0].PathToFile;
+                }
+                else
+                {
+                    pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
+                }
 
 
-            <div class="offer-box">
-                <img class="img-fluid rounded" style="height:50%;" src="@pictureUrl" />
-                <h2>@item.Title</h2>
-                <p>@item.Description</p>
-            </div>
-        }*@
-</div>
+                <div class="offer-box">
+                    <img class="img-fluid rounded" style="height:50%;" src="@pictureUrl" />
+                    <h2>@item.Title</h2>
+                    <p>@item.Description</p>
+                </div>
+            }
+        </div>
+    *@
 
 
