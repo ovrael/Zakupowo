@@ -70,13 +70,7 @@ namespace ShopApp.Controllers
         // VIEW WHERE USER CAN EDIT *BASIC* INFORMATION
         public ActionResult EditBasicInfo()
         {
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
-
-            int userID = (int)Session["userId"];
-            User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+            User showUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
             return View(showUser);
         }
@@ -84,20 +78,13 @@ namespace ShopApp.Controllers
         [HttpPost]
         public ActionResult EditBasicInfo(FormCollection collection)
         {
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
-
-            int userID = (int)Session["userId"];
-            User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
             if (editUser != null)
             {
                 string changedFirstName = collection["FirstName"].Trim();
                 string changedLastName = collection["LastName"].Trim();
                 string changedEmail = collection["Email"].Trim();
-                string changedLogin = collection["Login"].Trim();
                 string changedPhoneNumber = collection["Phone"].Trim();
 
 
@@ -123,13 +110,7 @@ namespace ShopApp.Controllers
         // VIEW WHERE USER CAN EDIT SHIPPING ADRESSES
         public ActionResult ShippingAdresses()
         {
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
-
-            int userID = (int)Session["userId"];
-            User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+            User showUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
             return View(showUser);
         }
@@ -137,13 +118,7 @@ namespace ShopApp.Controllers
         [HttpPost]
         public ActionResult ShippingAdresses(FormCollection collection)
         {
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
-
-            int userID = (int)Session["userId"];
-            User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
             ShippingAdress shippingAdress;
 
             if (editUser != null)
@@ -189,13 +164,7 @@ namespace ShopApp.Controllers
         [HttpPost]
         public ActionResult AddShippingAdress(FormCollection collection)
         {
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
-
-            int userID = (int)Session["userId"];
-            User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
             string country = collection["Country"];
             string city = collection["city"];
@@ -213,20 +182,6 @@ namespace ShopApp.Controllers
                 User = editUser
             };
 
-            //using (var dataBase = new ShopContext())
-            //{
-
-            //    dataBase.Entry(adress).State = System.Data.Entity.EntityState.Modified;
-            //    dataBase.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
-
-            //    editUser.ShippingAdresses.Add(adress);
-            //    dataBase.SaveChanges();
-
-
-            //    dataBase.ShippingAdresses.Add(adress);
-            //    dataBase.SaveChanges();
-            //}
-
             db.ShippingAdresses.Add(adress);
             db.SaveChanges();
 
@@ -238,17 +193,11 @@ namespace ShopApp.Controllers
 
         public ActionResult DeleteShippingAdress(int? adressNumber)
         {
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
-
             if (adressNumber == null)
                 return RedirectToAction("ShippingAdresses", "UserPanel");
 
-
-            int userID = (int)Session["userId"];
-            User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            int userID = editUser.UserID;
 
             List<ShippingAdress> lista = db.ShippingAdresses.Where(u => u.User.UserID == userID).ToList();
 
@@ -265,13 +214,7 @@ namespace ShopApp.Controllers
         // VIEW WHERE USER CAN EDIT PASSWORD
         public ActionResult EditPassword()
         {
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
-
-            int userID = (int)Session["userId"];
-            User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+            User showUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
             return View(showUser);
         }
@@ -279,13 +222,7 @@ namespace ShopApp.Controllers
         [HttpPost]
         public ActionResult EditPassword(FormCollection collection)
         {
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
-
-            int userID = (int)Session["userId"];
-            User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
             if (editUser != null)
             {
@@ -311,13 +248,7 @@ namespace ShopApp.Controllers
         // VIEW WHERE USER CAN EDIT PASSWORD
         public ActionResult EditAvatar()
         {
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
-
-            int userID = (int)Session["userId"];
-            User showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+            User showUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
             return View(showUser);
         }
@@ -325,13 +256,7 @@ namespace ShopApp.Controllers
         [HttpPost]
         public ActionResult EditAvatar(HttpPostedFileBase file)
         {
-            if (Session["userId"] == null)
-            {
-                return RedirectToAction("Login", "User");
-            }
-
-            int userID = (int)Session["userId"];
-            User editUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
             string[] validExtensions = new string[] { "jpg", "png", "jpeg" };
 
