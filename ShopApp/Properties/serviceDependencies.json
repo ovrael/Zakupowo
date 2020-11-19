@@ -6,6 +6,10 @@
     "storage1": {
       "type": "storage",
       "connectionId": "ZakupowoStorage"
+    },
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "Zakupowo"
     }
   }
 }

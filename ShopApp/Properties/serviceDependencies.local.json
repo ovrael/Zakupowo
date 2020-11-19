@@ -8,6 +8,11 @@
       "type": "storage.azure",
       "connectionId": "ZakupowoStorage",
       "secretStore": "LocalSecretsFile"
+    },
+    "mssql1": {
+      "type": "mssql.azure",
+      "connectionId": "Zakupowo",
+      "secretStore": null
     }
   }
 }
