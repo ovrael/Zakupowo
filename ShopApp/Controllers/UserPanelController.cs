@@ -24,7 +24,7 @@ namespace ShopApp.Controllers
     {
         private ShopContext db = new ShopContext();
 
-       
+
         public ActionResult AccountAddProduct()
         {
             return View();
@@ -63,6 +63,7 @@ namespace ShopApp.Controllers
         public ActionResult Account()
         {
             User showUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            //FileManager.Configure();
             return View(showUser);
         }
 
