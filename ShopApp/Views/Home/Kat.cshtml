@@ -4,7 +4,7 @@
 @foreach (var item in Model)
         {
             string pictureUrl = string.Empty;
-            if (item.OfferPictures != null || item.OfferPictures.Count > 0)
+            if (item.OfferPictures.Count > 0)
             {
                 pictureUrl = item.OfferPictures.ToList()[0].PathToFile;
             }

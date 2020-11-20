@@ -32,11 +32,10 @@ namespace ShopApp.Controllers
             return View(viewData);
         }
         public ActionResult Kat(int KatID)//We come here from
-        { 
-            
+        {
             return View(db.Offers.Where(i => i.Category.CategoryID == KatID));
         }
-        
+
         public ActionResult Offer(int OfferID)//We come here from index 
         {
             if (OfferID > 0)

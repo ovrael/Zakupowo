@@ -208,6 +208,14 @@
     <Compile Include="Migrations\202011201022497_CategoryChanges.designer.cs">
       <DependentUpon>202011201022497_CategoryChanges.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011201059283_TruncateCategories.cs" />
+    <Compile Include="Migrations\202011201059283_TruncateCategories.designer.cs">
+      <DependentUpon>202011201059283_TruncateCategories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011201101217_ReTruncateCategories.cs" />
+    <Compile Include="Migrations\202011201101217_ReTruncateCategories.designer.cs">
+      <DependentUpon>202011201101217_ReTruncateCategories.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
@@ -487,6 +495,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011201022497_CategoryChanges.resx">
       <DependentUpon>202011201022497_CategoryChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011201059283_TruncateCategories.resx">
+      <DependentUpon>202011201059283_TruncateCategories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011201101217_ReTruncateCategories.resx">
+      <DependentUpon>202011201101217_ReTruncateCategories.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
