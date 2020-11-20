@@ -155,8 +155,8 @@ namespace ShopApp.Controllers
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
             string country = collection["Country"];
-            string city = collection["city"];
-            string street = collection["street"];
+            string city = collection["City"];
+            string street = collection["Street"];
             string premisesNumber = collection["PremisesNumber"];
             string postalCode = collection["PostalCode"];
 
