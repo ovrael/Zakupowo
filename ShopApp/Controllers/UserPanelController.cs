@@ -39,19 +39,7 @@ namespace ShopApp.Controllers
                 Description = collection["product_name_fr"],
                 InStock = Convert.ToDouble(collection["available_quantity"]),
                 Price = Convert.ToDouble(collection["product_price"]),
-
-
-                /*
-            int ID;
-            foreach (var item in collection["product_categorie"])
-            {
-                ID = Convert.ToInt32(item);
-                //TU SIE PSUJE STRASZNIE FEST
-                (db.Categories.Where(i => i.CategoryID == ID).First())
-                    .Offers.Add(db.Offers.Where(x => x.OfferID == Oferta.OfferID).First());
-                Oferta.Categories.Add(db.Categories.Where(i => i.CategoryID == ID).First());
-            }
-            */
+                Category = db.Categories.Where(i => i.CategoryName == collection["product_categorie"]).FirstOrDefault()
             };
             DataBase.AddToDatabase(Oferta, user);
             return RedirectToAction("Index", "Home");

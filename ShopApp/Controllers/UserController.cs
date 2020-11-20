@@ -45,7 +45,8 @@ namespace ShopApp.Controllers
                 CreationDate = DateTime.Now
                 //AvatarImage = new AvatarImage { PathToFile = "~/App_Files/Images/UserAvatars/DefaultAvatar.jpg" }
             };
-            DataBase.AddToDatabase(user);
+                db.Users.Add(user);
+                db.SaveChanges();
             return RedirectToAction("Account","userpanel");
             }
             return RedirectToAction("Register");
