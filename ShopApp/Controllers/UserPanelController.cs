@@ -39,19 +39,6 @@ namespace ShopApp.Controllers
                 Description = collection["product_name_fr"],
                 InStock = Convert.ToDouble(collection["available_quantity"]),
                 Price = Convert.ToDouble(collection["product_price"]),
-
-
-                /*
-            int ID;
-            foreach (var item in collection["product_categorie"])
-            {
-                ID = Convert.ToInt32(item);
-                //TU SIE PSUJE STRASZNIE FEST
-                (db.Categories.Where(i => i.CategoryID == ID).First())
-                    .Offers.Add(db.Offers.Where(x => x.OfferID == Oferta.OfferID).First());
-                Oferta.Categories.Add(db.Categories.Where(i => i.CategoryID == ID).First());
-            }
-            */
             };
             DataBase.AddToDatabase(Oferta, user);
             return RedirectToAction("Index", "Home");
@@ -167,8 +154,8 @@ namespace ShopApp.Controllers
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
             string country = collection["Country"];
-            string city = collection["city"];
-            string street = collection["street"];
+            string city = collection["City"];
+            string street = collection["Street"];
             string premisesNumber = collection["PremisesNumber"];
             string postalCode = collection["PostalCode"];
 
