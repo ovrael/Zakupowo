@@ -39,6 +39,7 @@ namespace ShopApp.Controllers
                 Description = collection["product_name_fr"],
                 InStock = Convert.ToDouble(collection["available_quantity"]),
                 Price = Convert.ToDouble(collection["product_price"]),
+                Category = db.Categories.Where(i => i.CategoryName == collection["product_categorie"]).FirstOrDefault()
             };
             DataBase.AddToDatabase(Oferta, user);
             return RedirectToAction("Index", "Home");
@@ -310,15 +311,16 @@ namespace ShopApp.Controllers
 
             string[] validExtensions = new string[] { "jpg", "png", "jpeg" };
 
-            //Debug.WriteLine(collection["Category"]);
+            int kat = int.Parse(collection["Category"]);
 
+            //Debug.WriteLine(collection["Category"]);
             Offer offer = new Offer
             {
                 Title = collection["Name"],
                 Description = collection["Description"],
                 InStock = Convert.ToDouble(collection["Quantity"]),
-                Price = Convert.ToDouble(collection["Price"]),
-                //Category = new Category { CategoryName = (CategoryEnum)int.Parse(collection["Category"]) },
+                Price = Convert.ToDouble(collection["Price"]),  
+                Category = db.Categories.Where(i => i.CategoryID == kat).FirstOrDefault(),
                 User = editUser
             };
 
@@ -366,6 +368,9 @@ namespace ShopApp.Controllers
 
             offer.OfferPictures = pictures;
             db.Entry(offer).State = System.Data.Entity.EntityState.Added;
+            db.SaveChanges();
+
+            offer.Category.Offers.Add(offer);
             db.SaveChanges();
 
             editUser.Offers.Add(offer);

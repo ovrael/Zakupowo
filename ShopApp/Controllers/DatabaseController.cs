@@ -132,25 +132,25 @@ namespace ShopApp.Controllers
             return View(db.Categories);
         }
 
-        [HttpPost]
-        public ActionResult AddCategory(FormCollection collection, int id)//Param is most likely a Offer's ID
-        {
-            var offr = db.Offers.Where(i => i.OfferID == id).First();//Lookinf for the exact offer
-            var Checked = collection["CategoryID"].Split(',');//List of checked categories
-            int ID;// Foreach helper
-            foreach (var item in Checked)
-            {
-                ID = int.Parse(item);
-                //TU SIE PSUJE STRASZNIE FEST
-                (db.Categories.Where(i => i.CategoryID == ID).First())
-                    .Offers.Add(db.Offers.Where(x => x.OfferID == id).First());
-                offr.Category = db.Categories.Where(i => i.CategoryID == ID).First();
-            }
-            db.SaveChanges();
-            //If(ModelState.IsValid)
-            int Id = db.Users.Where(i => i.UserID == offr.User.UserID).Select(i => i.UserID).First();
-            return RedirectToAction("OffersIndex", "Database", new { id = Id });
-        }
+        //[HttpPost]
+        //public ActionResult AddCategory(FormCollection collection, int id)//Param is most likely a Offer's ID
+        //{
+        //    var offr = db.Offers.Where(i => i.OfferID == id).First();//Lookinf for the exact offer
+        //    var Checked = collection["CategoryID"].Split(',');//List of checked categories
+        //    int ID;// Foreach helper
+        //    foreach (var item in Checked)
+        //    {
+        //        ID = int.Parse(item);
+        //        //TU SIE PSUJE STRASZNIE FEST
+        //        (db.Categories.Where(i => i.CategoryID == ID).First())
+        //            .Offers.Add(db.Offers.Where(x => x.OfferID == id).First());
+        //        offr.Category = db.Categories.Where(i => i.CategoryID == ID).First();
+        //    }
+        //    db.SaveChanges();
+        //    //If(ModelState.IsValid)
+        //    int Id = db.Users.Where(i => i.UserID == offr.User.UserID).Select(i => i.UserID).First();
+        //    return RedirectToAction("OffersIndex", "Database", new { id = Id });
+        //}
 
         #endregion
         #region Bucket Database Manipultion

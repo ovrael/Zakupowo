@@ -1,0 +1,24 @@
+﻿@model IEnumerable<ShopApp.Models.Offer>
+
+
+@foreach (var item in Model)
+        {
+            string pictureUrl = string.Empty;
+            if (item.OfferPictures.Count > 0)
+            {
+                pictureUrl = item.OfferPictures.ToList()[0].PathToFile;
+            }
+            else
+            {
+                pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
+            }
+
+
+            <div class="offer-box">
+                <img class="img-fluid rounded" style="height:50%;" src="@pictureUrl" />
+                <h2>@item.Title</h2>
+                <p>@item.Description</p>
+            </div>
+        }
+
+
