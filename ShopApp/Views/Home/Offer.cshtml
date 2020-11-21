@@ -87,7 +87,7 @@
                     }
                     else if (HttpContext.Current.User.Identity.IsAuthenticated)
                     {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav" onclick="Fav(@Model.OfferID)"></i>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav" onclick="Fav(@Model.OfferID)" url="@Url.Action("Fav", "Home")" id="@Model.OfferID"></i>
                     }
                     else
                     {

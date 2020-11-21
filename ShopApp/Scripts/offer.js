@@ -39,7 +39,7 @@ $( document ).ready(function() {
 
         var id = jQuery(this).attr('id');
         var url = jQuery(this).attr('url');
-        console.log(id);
+      
         if ($(".product-fav").hasClass("fav-active")) {
           
 
