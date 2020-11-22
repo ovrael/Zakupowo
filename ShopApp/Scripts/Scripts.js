@@ -112,6 +112,16 @@ $(function () {
             reader.onloadend = function () { // set image data as background of div
                 //alert(uploadFile.closest(".upimage").find('.imagePreview').length);
                 uploadFile.closest(".imgUp").find('.imagePreview').css("background-image", "url(" + this.result + ")");
+
+                const imageGroup = $("#imageGroupTemplate").clone();
+                imageGroup.removeAttr('id');
+                console.log(imageGroup);
+                $("#imageGroupTemplate").before(imageGroup);
+                imageGroup.show();
+
+                $('.uploadFile').each(function (i) {
+                    $(this).attr('name', `ProductImage${i+1}`);
+                });
             }
         }
 

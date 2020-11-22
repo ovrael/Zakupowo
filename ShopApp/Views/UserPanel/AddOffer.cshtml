@@ -16,201 +16,213 @@
 
                 @using (Html.BeginForm("AddOffer", "UserPanel", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
-                <fieldset class="add-produt">
+                    <fieldset class="add-produt">
 
 
-                    <br>
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs m-4 list-inline">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#menu1">Dodaj produkt</a>
+                        <br>
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs m-4 list-inline">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#menu1">Dodaj produkt</a>
 
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#menu2">Dodaj zestaw</a>
-                        </li>
-                    </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#menu2">Dodaj zestaw</a>
+                            </li>
+                        </ul>
 
-                    <div class="tab-content">
-                        <div id="menu1" class="container tab-pane active">
+                        <div class="tab-content">
+                            <div id="menu1" class="container tab-pane active">
 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="Name">Nazwa oferty</label>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="Name">Nazwa oferty</label>
 
-                                <div class="col-md-4">
-                                    <input id="product_name" name="Name" placeholder="Offer name" class="form-control input-md" required="" type="text">
-                                </div>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="Description">Opis</label>
-                                <div class="col-md-4">
-                                    <textarea id="product_name_fr" name="Description" placeholder="Description" class="form-control input-md" required=""> </textarea>
-                                </div>
-                            </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label" for="Category">Kategoria</label>
-                            <div class="col-md-4">
-                                <select id="product_categorie" name="Category" class="form-control">
-                                    <option selected>Wybierz kategorie</option>
-                                    @{
-                                        for (int i = 0; i < Model.Count(); i++)
-                                        {
-                                            <option value="@Model.ElementAt(i).CategoryID">@Model.ElementAt(i).CategoryName</option>
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="Quantity">Ilość produktu</label>
-                                <div class="col-md-4">
-                                    <input id="available_quantity" name="Quantity" placeholder="Product quantity" class="form-control input-md" required="" type="number">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="Price">Cena</label>
-                                <div class="col-md-4">
-                                    <input id="product_weight" name="Price" placeholder="Price" class="form-control input-md" required="" type="text">
-                                </div>
-                            </div>
-
-                            @*<div class="form-group">
-                <label class="col-md-4 control-label" for="Images">Zdjęcia</label>
-                <div class="col-md-4">
-                    <input id="filebutton" name="Images" class="file btn btn-lg btn-primary" type="file" multiple>
-                </div>
-            </div>*@
-                            @*<div class="form-group">
-                                <label class="col-md-4 control-label" for="Images"></label>
-                                <div class="col-md-4">
-                                    <label class="btn btn-warning">Dodaj zdjęcie <input type="file" hidden></label>
-                                </div>
-                            </div>*@
-                            <div class="form-group">
-                                <div class="col-sm-4 imgUp mt-4">
-                                    <div class="imagePreview"></div>
-                                    <label class="btn btn-outline-warning btn-lg btn-block btn-circle">
-                                        <i class="fa fa-plus imgAdd"></i>
-                                       <input type="file" class="uploadFile img" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;">
-                                   </label>
-                            </div>
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label"></label>
-                            <div class="col-md-4">
-                                <input type="submit" value="Dodaj oferte!" class="btn btn-outline-warning mb-3" />
-                            </div>
-                        </div>
-                    </div>
-                        <div id="menu2" class="container tab-pane fade">
-                            <div class="row">
-                                <div class="col-10">
-                                    <h4>Stwórz swój zestaw</h4>
-                                </div>
-                                <div class="col-2">
-                                    <button type="button" class="btn btn-warning">Dodaj ofertę</button>
-                                </div>
-                            </div>
-                            <div class="row pt-2">
-                                <div class="col-4 col-md-2">Zdjęcie</div>
-                                <div class="col-4 col-md-2">NAZWA PRODUKTU</div>
-                                <div class="col-4 col-md-2">Liczba produktu</div>
-                                <div class="col-4 col-md-2">CENA</div>
-                                <div class="col-4 col-md-2">
-                                    USUŃ
+                                    <div class="col-md-4">
+                                        <input id="product_name" name="Name" placeholder="Offer name" class="form-control input-md" required="" type="text">
+                                    </div>
                                 </div>
 
 
-                            </div>
-
-                            <div class="row pt-2">
-                                <div class="col-4 col-md-2">Zdjęcie</div>
-                                <div class="col-4 col-md-2">NAZWA PRODUKTU</div>
-                                <div class="col-4 col-md-2">Liczba produktu</div>
-                                <div class="col-4 col-md-2">CENA</div>
-                                <div class="col-4 col-md-2">
-                                    USUŃ
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="Description">Opis</label>
+                                    <div class="col-md-4">
+                                        <textarea id="product_name_fr" name="Description" placeholder="Description" class="form-control input-md" required=""> </textarea>
+                                    </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="Category">Kategoria</label>
+                                    <div class="col-md-4">
+                                        <select id="product_categorie" name="Category" class="form-control">
+                                            <option selected>Wybierz kategorie</option>
+                                            @{
+                                                for (int i = 0; i < Model.Count(); i++)
+                                                {
+                                                    <option value="@Model.ElementAt(i).CategoryID">@Model.ElementAt(i).CategoryName</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="Quantity">Ilość produktu</label>
+                                    <div class="col-md-4">
+                                        <input id="available_quantity" name="Quantity" placeholder="Product quantity" class="form-control input-md" required="" type="number">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="Price">Cena</label>
+                                    <div class="col-md-4">
+                                        <input id="product_weight" name="Price" placeholder="Price" class="form-control input-md" required="" type="text">
+                                    </div>
+                                </div>
+
+                                @*<div class="form-group">
+                                        <label class="col-md-4 control-label" for="Images">Zdjęcia</label>
+                                        <div class="col-md-4">
+                                            <input id="filebutton" name="Images" class="file btn btn-lg btn-primary" type="file" multiple>
+                                        </div>
+                                    </div>*@
+                                @*<div class="form-group">
+                                        <label class="col-md-4 control-label" for="Images"></label>
+                                        <div class="col-md-4">
+                                            <label class="btn btn-warning">Dodaj zdjęcie <input type="file" hidden></label>
+                                        </div>
+                                    </div>*@
+                            <div id="images-container">
+                                <div class="form-group">
+                                    <div class="col-sm-4 imgUp mt-4">
+                                        <div class="imagePreview"></div>
+                                        <label class="btn btn-outline-warning btn-lg btn-block btn-circle">
+                                            <i class="fa fa-plus imgAdd"></i>
+                                            <input type="file" class="uploadFile img" value="Upload Photo" name="ProductImage1" style="width: 0px;height: 0px;overflow: hidden;">
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="imageGroupTemplate" style="display: none">
+                                    <div class="col-sm-4 imgUp mt-4">
+                                        <div class="imagePreview"></div>
+                                        <label class="btn btn-outline-warning btn-lg btn-block btn-circle">
+                                            <i class="fa fa-plus imgAdd"></i>
+                                            <input type="file" class="uploadFile img" value="Upload Photo" name="ProductImage2" style="width: 0px;height: 0px;overflow: hidden;">
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-
-                            @*<div class="form-group">
-            <label class="col-md-4 control-label" for="Name">Nazwa oferty</label>
-            <div class="col-md-4">
-                <input id="product_name" name="Name" placeholder="Offer name" class="form-control input-md" required="" type="text">
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="Description">Opis</label>
-            <div class="col-md-4">
-                <textarea id="product_name_fr" name="Description" placeholder="Description" class="form-control input-md" required=""> </textarea>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="Category">Kategoria</label>
-            <div class="col-md-4">
-                <select id="product_categorie" name="Category" class="form-control">
-                    <option selected>Wybierz kategorie</option>
-                    @{
-                        for (int i = 0; i < Model.Count(); i++)
-                        {
-                            <option value="@(i+1)">@Model.ElementAt(i).CategoryName</option>
-                        }
-                    }
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="Quantity">Ilość produktu</label>
-            <div class="col-md-4">
-                <input id="available_quantity" name="Quantity" placeholder="Product quantity" class="form-control input-md" required="" type="number">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="Price">Cena</label>
-            <div class="col-md-4">
-                <input id="product_weight" name="Price" placeholder="Price" class="form-control input-md" required="" type="text">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="Images">Zdjęcia</label>
-            <div class="col-md-4">
-                <input id="filebutton" name="Images" class="form-control-file input-file" type="file" multiple>
-            </div>
-        </div>*@
-
-                            @*<div class="form-group">
-            <label class="col-md-4 control-label" for="filebutton">Główny obraz</label>
-            <div class="col-md-4">
-                <input id="filebutton" name="filebutton" class="form-control-file input-file" type="file">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="filebutton">Obrazy poboczne</label>
-            <div class="col-md-4">
-                <input id="filebutton" name="filebutton" class="form-control-file input-file" type="file">
-            </div>
-        </div>*@
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"></label>
+                                    <div class="col-md-4">
+                                        <input type="submit" value="Dodaj oferte!" class="btn btn-outline-warning mb-3" />
+                                    </div>
+                                </div>
+                                <div id="menu2" class="container tab-pane fade">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <h4>Stwórz swój zestaw</h4>
+                                        </div>
+                                        <div class="col-2">
+                                            <button type="button" class="btn btn-warning">Dodaj ofertę</button>
+                                        </div>
+                                    </div>
+                                    <div class="row pt-2">
+                                        <div class="col-4 col-md-2">Zdjęcie</div>
+                                        <div class="col-4 col-md-2">NAZWA PRODUKTU</div>
+                                        <div class="col-4 col-md-2">Liczba produktu</div>
+                                        <div class="col-4 col-md-2">CENA</div>
+                                        <div class="col-4 col-md-2">
+                                            USUŃ
+                                        </div>
 
 
+                                    </div>
+
+                                    <div class="row pt-2">
+                                        <div class="col-4 col-md-2">Zdjęcie</div>
+                                        <div class="col-4 col-md-2">NAZWA PRODUKTU</div>
+                                        <div class="col-4 col-md-2">Liczba produktu</div>
+                                        <div class="col-4 col-md-2">CENA</div>
+                                        <div class="col-4 col-md-2">
+                                            USUŃ
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                @*<div class="form-group">
+                                        <label class="col-md-4 control-label" for="Name">Nazwa oferty</label>
+                                        <div class="col-md-4">
+                                            <input id="product_name" name="Name" placeholder="Offer name" class="form-control input-md" required="" type="text">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="Description">Opis</label>
+                                        <div class="col-md-4">
+                                            <textarea id="product_name_fr" name="Description" placeholder="Description" class="form-control input-md" required=""> </textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="Category">Kategoria</label>
+                                        <div class="col-md-4">
+                                            <select id="product_categorie" name="Category" class="form-control">
+                                                <option selected>Wybierz kategorie</option>
+                                                @{
+                                                    for (int i = 0; i < Model.Count(); i++)
+                                                    {
+                                                        <option value="@(i+1)">@Model.ElementAt(i).CategoryName</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="Quantity">Ilość produktu</label>
+                                        <div class="col-md-4">
+                                            <input id="available_quantity" name="Quantity" placeholder="Product quantity" class="form-control input-md" required="" type="number">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="Price">Cena</label>
+                                        <div class="col-md-4">
+                                            <input id="product_weight" name="Price" placeholder="Price" class="form-control input-md" required="" type="text">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="Images">Zdjęcia</label>
+                                        <div class="col-md-4">
+                                            <input id="filebutton" name="Images" class="form-control-file input-file" type="file" multiple>
+                                        </div>
+                                    </div>*@
+
+                                @*<div class="form-group">
+                                        <label class="col-md-4 control-label" for="filebutton">Główny obraz</label>
+                                        <div class="col-md-4">
+                                            <input id="filebutton" name="filebutton" class="form-control-file input-file" type="file">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="filebutton">Obrazy poboczne</label>
+                                        <div class="col-md-4">
+                                            <input id="filebutton" name="filebutton" class="form-control-file input-file" type="file">
+                                        </div>
+                                    </div>*@
 
 
 
-</fieldset>
+
+
+                    </fieldset>
                 }
-                    
+
                 @*<form class="form-horizontal" method="post">
 
                         <fieldset class="add-produt">
