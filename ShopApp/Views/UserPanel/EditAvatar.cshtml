@@ -1,12 +1,6 @@
 ﻿@model ShopApp.Models.User
 @{
-    ViewBag.Title = "";
-
-
-    if (Session["userId"] == null)
-    {
-        Response.Redirect("~/User/Login");
-    }
+    ViewBag.Title = "Edycja Avatara";
 
     string avatarUrl = string.Empty;
     string defaultAvatarUrl = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg";

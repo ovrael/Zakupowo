@@ -36,13 +36,33 @@ namespace ShopApp.Migrations
 
             var categories = new List<Category>
             {
-                new Category{ CategoryName=CategoryEnum.Elektronika,
+                new Category{ CategoryID = 1, CategoryName="Elektronika",
                     CategoryDescription="Wszystkie te takie z prądem"},
-                new Category{ CategoryName=CategoryEnum.ModaIUroda,
+                new Category{ CategoryID = 2,CategoryName="Moda",
                     CategoryDescription="Koszulka z napisem konstytucja"},
-                new Category{ CategoryName=CategoryEnum.Meble,
+                new Category{ CategoryID = 3,CategoryName="Ogród",
                     CategoryDescription="Szafka prawie wisząca"},
-                new Category{ CategoryName=CategoryEnum.SlawekPo2Piwach,
+                new Category{ CategoryID = 4,CategoryName="Dom",
+                    CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"},
+                new Category{ CategoryID = 5,CategoryName="Supermarket",
+                    CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"},
+                new Category{ CategoryID = 6,CategoryName="Motoryzacja",
+                    CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"},
+                new Category{ CategoryID = 7, CategoryName="Sport i turystyka",
+                    CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"},
+                new Category{ CategoryID = 8,CategoryName="Zwierzęta",
+                    CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"},
+                new Category{ CategoryID = 9,CategoryName="Dla dziecka",
+                    CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"},
+                new Category{ CategoryID = 10,CategoryName="Sztuka",
+                    CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"},
+                new Category{ CategoryID = 11,CategoryName="Nieruchomości",
+                    CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"},
+                new Category{ CategoryID = 12,CategoryName="Zdrowie",
+                    CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"},
+                new Category{ CategoryID = 13,CategoryName="RTV i AGD",
+                    CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"},
+                new Category{ CategoryID = 14,CategoryName="Inne",
                     CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"}
             };
             categories.ForEach(u => context.Categories.Add(u));

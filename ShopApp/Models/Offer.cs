@@ -26,9 +26,7 @@ namespace ShopApp.Models
         public double Price { get; set; }
         [Required]
         public virtual User User { get; set; }
-
         public virtual Category Category { get; set; }
-
         public virtual Bundle Bundle { get; set; }
         public virtual Bucket Bucket { get; set; }
         public virtual ICollection<FavouriteOffer> FavouriteOffer { get; set; }

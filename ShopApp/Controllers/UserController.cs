@@ -45,7 +45,8 @@ namespace ShopApp.Controllers
                 CreationDate = DateTime.Now
                 //AvatarImage = new AvatarImage { PathToFile = "~/App_Files/Images/UserAvatars/DefaultAvatar.jpg" }
             };
-            DataBase.AddToDatabase(user);
+                db.Users.Add(user);
+                db.SaveChanges();
             return RedirectToAction("Account","userpanel");
             }
             return RedirectToAction("Register");
@@ -61,7 +62,6 @@ namespace ShopApp.Controllers
         [HttpPost]
         public ActionResult Login(FormCollection collection)
         {
-            
             var email = collection["Email"];
             var password = Cryptographing.Encrypt(collection["EncryptedPassword"]);
 
@@ -71,7 +71,8 @@ namespace ShopApp.Controllers
                 FormsAuthentication.SetAuthCookie(user.Login, (collection["rememberMeInput"] == "rememberMe"? true : false)); //TODO ISCHECKED
                 return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("Login");
+            ViewBag.ErrorMessage = "Nieprawidłowe dane logowania";
+            return View();
         }
         //Logout method 
 
