@@ -23,22 +23,13 @@
 </head>
 
 @{
-    bool isLogged = true;
-    int userID = 0;
-    string userName = string.Empty;
-    string avatarUrl = string.Empty;
-    //ShopApp.DAL.ShopContext db = new ShopApp.DAL.ShopContext();
 
-    if (Session["userId"] == null)
+    string userName, avatarUrl = string.Empty;
+    if(User.Identity.IsAuthenticated)
     {
-        isLogged = false;
-    }
-    else
-    {
-        userID = (int)Session["userID"];
         using (var db = new ShopApp.DAL.ShopContext())
         {
-            ShopApp.Models.User user = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+            ShopApp.Models.User user = db.Users.Where(i => i.Login == HttpContext.Current.User.Identity.Name).Single();
             userName = user.FirstName.Trim();
             if (user.AvatarImage != null)
             {
@@ -78,11 +69,11 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right mt-lg-2 text-center animate slideIn" aria-labelledby="navbarDropdownMenuLink">
                         @{
-                            if (isLogged)
+                            if (User.Identity.IsAuthenticated)
                             {
                                 <img src="@avatarUrl" id="imgProfile" style="width: 100px; height: 100px" class="img-thumbnail" />
                                 <p class="p-2 d-none d-lg-block">
-                                    Witaj @userName! Przejrzyj najciekawsze oferty i ciesz się zakupami!
+                                    Witaj @HttpContext.Current.User.Identity.Name! Przejrzyj najciekawsze oferty i ciesz się zakupami!
                                 </p>
                                 <a class="dropdown-item" href="@Url.Action("Account", "UserPanel")">Panel użytkownika</a>
                                 <div class="dropdown-divider"></div>
