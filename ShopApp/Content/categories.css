@@ -1,5 +1,6 @@
 .categories {
     background-color: white !important;
+    width: 100%;
 }
 
 .categories-row > .col > a {
@@ -27,18 +28,33 @@
     .categories-row > .col > a > i {
         width: 68px;
     }
+    .categories-row > .col-lg-1 {
+        width: 13%;
+        *width: 13%;
+        max-width: 13% !important;
+        flex: none !important;
+    }
 }
 
 @media (min-width: 1200px) {
     h1 {
         font-size: 42px;
     }
-    .categories-row > .col > a > p {
-        font-size: 18px;
-    }
-    .categories-row > .col > a > i {
-        font-size: 36px;
-        padding: 32px;
-        width: 108px;
+
+        .categories-row > .col > a > p {
+            font-size: 18px;
+        }
+
+        .categories-row > .col > a > i {
+            font-size: 36px;
+            padding: 32px;
+            width: 108px;
+        }
+
+    .categories-row > .col-lg-1 {
+        width: 12%;
+        *width: 12%;
+        max-width: 12% !important;
+        flex: none !important;
     }
 }
