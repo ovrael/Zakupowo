@@ -1,3 +1,7 @@
+.categories {
+    background-color: white !important;
+}
+
 .categories-row > .col > a {
     color: black;
 }
@@ -16,7 +20,7 @@
     }
 
     .categories-row > .col > a > i {
-        background-color: #ffc880;
+        background-color: #FFB24A;
     }
 
 @media (min-width: 576px) {
