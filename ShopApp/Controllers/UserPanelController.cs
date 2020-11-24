@@ -327,7 +327,7 @@ namespace ShopApp.Controllers
             db.Offers.Add(newOffer);
             db.SaveChanges();
 
-            Offer offer = db.Offers.ToList().Last();
+            Offer offer = db.Offers.ToList().Last(); //TODO: OPTIMALIZATION
 
             List<OfferPicture> pictures = new List<OfferPicture>();
 
@@ -372,7 +372,7 @@ namespace ShopApp.Controllers
             }
 
             offer.OfferPictures = pictures;
-            db.Entry(offer).State = System.Data.Entity.EntityState.Added;
+            db.Entry(offer).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
 
             offer.Category.Offers.Add(offer);
