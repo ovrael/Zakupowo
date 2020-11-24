@@ -22,10 +22,9 @@ namespace ShopApp.Controllers
             return View(db.Offers.Where(i => i.Category.CategoryID == KatID));
         }
 
-        //If it craashes here change int OfferID to int? OfferID
-        public ActionResult Offer(int OfferID)//We come here from index 
+        public ActionResult Offer(int? OfferID)//We come here from index 
         {
-            Offer oferta = DataBase.SearchForOffer(OfferID);
+            Offer oferta = DataBase.SearchForOffer((int)OfferID);
             return View(oferta);
         }
 
