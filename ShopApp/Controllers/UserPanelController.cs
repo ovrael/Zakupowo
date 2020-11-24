@@ -314,7 +314,7 @@ namespace ShopApp.Controllers
             int kat = int.Parse(collection["Category"]);
 
             //Debug.WriteLine(collection["Category"]);
-            Offer offer = new Offer
+            Offer newOffer = new Offer
             {
                 Title = collection["Name"],
                 Description = collection["Description"],
@@ -323,6 +323,11 @@ namespace ShopApp.Controllers
                 Category = db.Categories.Where(i => i.CategoryID == kat).FirstOrDefault(),
                 User = editUser
             };
+
+            db.Offers.Add(newOffer);
+            db.SaveChanges();
+
+            Offer offer = db.Offers.ToList().Last();
 
             List<OfferPicture> pictures = new List<OfferPicture>();
 
