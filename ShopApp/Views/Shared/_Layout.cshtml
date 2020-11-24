@@ -24,8 +24,8 @@
 
 @{
 
-    string userName, avatarUrl = string.Empty;
-    if(User.Identity.IsAuthenticated)
+    string userName = "Brak", avatarUrl = string.Empty;
+    if (User.Identity.IsAuthenticated)
     {
         using (var db = new ShopApp.DAL.ShopContext())
         {
@@ -73,7 +73,7 @@
                             {
                                 <img src="@avatarUrl" id="imgProfile" style="width: 100px; height: 100px" class="img-thumbnail" />
                                 <p class="p-2 d-none d-lg-block">
-                                    Witaj @HttpContext.Current.User.Identity.Name! Przejrzyj najciekawsze oferty i ciesz się zakupami!
+                                    Witaj @userName! Przejrzyj najciekawsze oferty i ciesz się zakupami!
                                 </p>
                                 <a class="dropdown-item" href="@Url.Action("Account", "UserPanel")">Panel użytkownika</a>
                                 <div class="dropdown-divider"></div>

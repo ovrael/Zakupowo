@@ -16,6 +16,7 @@ using System.Web.Configuration;
 using System.Net;
 using System.Web.Security;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace ShopApp.Controllers
 {
@@ -24,26 +25,6 @@ namespace ShopApp.Controllers
     {
         private ShopContext db = new ShopContext();
 
-
-        public ActionResult AccountAddProduct()
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult AccountAddProduct(FormCollection collection)
-        {
-            User user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-            Offer Oferta = new Offer
-            {
-                Title = collection["product_name"],
-                Description = collection["product_name_fr"],
-                InStock = Convert.ToDouble(collection["available_quantity"]),
-                Price = Convert.ToDouble(collection["product_price"]),
-                Category = db.Categories.Where(i => i.CategoryName == collection["product_categorie"]).FirstOrDefault()
-            };
-            DataBase.AddToDatabase(Oferta, user);
-            return RedirectToAction("Index", "Home");
-        }
         [Authorize]
         #region UserData 
 
@@ -242,54 +223,31 @@ namespace ShopApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditAvatar(HttpPostedFileBase file)
+        public async Task<ActionResult> EditAvatar(HttpPostedFileBase file)
         {
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
-            string[] validExtensions = new string[] { "jpg", "png", "jpeg" };
+            var imageUrl = await FileManager.UploadAvatar(file, editUser.UserID);
 
-            if (file != null && file.ContentLength > 0)
+            if (imageUrl != null)
             {
-                try
+                if (editUser.AvatarImage.PathToFile == null)
                 {
-                    string folderLoadPath = @"../../App_Files/Images/UserAvatars/";
-                    string folderSavePath = @"~/App_Files/Images/UserAvatars/";
-                    string fileExtenstion = file.FileName.Substring(file.FileName.LastIndexOf('.') + 1);
-                    string fileName = "Avatar_" + editUser.UserID + "." + fileExtenstion;
-
-                    if (validExtensions.Contains(fileExtenstion))
-                    {
-                        string path = Path.Combine(Server.MapPath(folderSavePath), Path.GetFileName(fileName));
-
-                        file.SaveAs(path);
-
-                        AvatarImage newAvatar = new AvatarImage() { PathToFile = folderLoadPath + fileName, User = editUser };
-
-                        db.Entry(newAvatar).State = System.Data.Entity.EntityState.Added;
-                        db.SaveChanges();
-
-                        editUser.AvatarImage = newAvatar;
-                        db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
-                        db.SaveChanges();
-
-                        ViewBag.Message = "File uploaded successfully";
-                    }
-                    else
-                    {
-                        throw new Exception("The file extension is invalid!");
-                    }
-
+                    AvatarImage newAvatar = new AvatarImage() { PathToFile = imageUrl, User = editUser };
+                    db.Entry(newAvatar).State = System.Data.Entity.EntityState.Added;
                 }
-                catch (Exception ex)
+                else
                 {
-                    ViewBag.Message = "ERROR:" + ex.Message.ToString();
+                    editUser.AvatarImage.PathToFile = imageUrl;
+                    db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
                 }
+                db.SaveChanges();
+                ViewBag.Message = "File uploaded successfully";
             }
             else
             {
-                ViewBag.Message = "You have not specified a file.";
+                Debug.WriteLine("NIE UDAŁO SIĘ ZUPLOADOWAĆ PLIKU");
             }
-
 
             return RedirectToAction("EditAvatar", "UserPanel");
         }
@@ -304,27 +262,28 @@ namespace ShopApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddOffer(FormCollection collection)
+        public async Task<ActionResult> AddOffer(FormCollection collection)
         {
             User editUser = db.Users.Where(u => u.Login == HttpContext.User.Identity.Name).FirstOrDefault();
             var files = Request.Files;
 
-            string[] validExtensions = new string[] { "jpg", "png", "jpeg" };
+            int category = int.Parse(collection["Category"]);
 
-            int kat = int.Parse(collection["Category"]);
-
-            //Debug.WriteLine(collection["Category"]);
             Offer offer = new Offer
             {
                 Title = collection["Name"],
                 Description = collection["Description"],
                 InStock = Convert.ToDouble(collection["Quantity"]),
-                Price = Convert.ToDouble(collection["Price"]),  
-                Category = db.Categories.Where(i => i.CategoryID == kat).FirstOrDefault(),
+                Price = Convert.ToDouble(collection["Price"]),
+                Category = db.Categories.Where(i => i.CategoryID == category).FirstOrDefault(),
                 User = editUser
             };
 
             List<OfferPicture> pictures = new List<OfferPicture>();
+
+            db.Offers.Add(offer);
+            db.SaveChanges();
+            offer = db.Offers.ToList().Last(); // DO POPRAWY
 
             if (files != null && files.Count > 0)
             {
@@ -334,25 +293,14 @@ namespace ShopApp.Controllers
                     {
                         var workFile = files[i];
 
-                        string folderLoadPath = @"../../App_Files/Images/OfferPictures/";
-                        string folderSavePath = @"~/App_Files/Images/OfferPictures/";
-                        string fileExtension = workFile.FileName.Substring(workFile.FileName.LastIndexOf('.') + 1);
-                        string fileName = "Offer_" + offer.OfferID + "_PictureNo_" + i + "." + fileExtension;
+                        var fileUrl = await FileManager.UploadOfferImage(workFile, offer.OfferID, i);
 
-                        if (validExtensions.Contains(fileExtension))
+                        if (fileUrl != null)
                         {
-                            string path = Path.Combine(Server.MapPath(folderSavePath), Path.GetFileName(fileName));
-
-                            workFile.SaveAs(path);
-
-                            OfferPicture offerPicture = new OfferPicture() { PathToFile = folderLoadPath + fileName, Offer = offer };
+                            OfferPicture offerPicture = new OfferPicture() { PathToFile = fileUrl, Offer = offer };
                             pictures.Add(offerPicture);
 
                             ViewBag.Message = "File uploaded successfully";
-                        }
-                        else
-                        {
-                            throw new Exception("The file extension is invalid!");
                         }
                     }
                 }
@@ -367,7 +315,7 @@ namespace ShopApp.Controllers
             }
 
             offer.OfferPictures = pictures;
-            db.Entry(offer).State = System.Data.Entity.EntityState.Added;
+            db.Entry(offer).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
 
             offer.Category.Offers.Add(offer);
