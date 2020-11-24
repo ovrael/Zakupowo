@@ -1,64 +1,60 @@
-.horizontal-scrollable { 
-    overflow-x: auto; 
-    white-space: nowrap; 
-    display: block;
-} 
-  
-.horizontal-scrollable > .col{ 
-    display: inline-block; 
-    float: none;
-} 
+.categories {
+    background-color: white !important;
+    width: 100%;
+}
 
-.horizontal-scrollable > .col > a {
+.categories-row > .col > a {
     color: black;
 }
 
-.horizontal-scrollable > .col > a > p{ 
-    font-size: 12px;
-} 
+    .categories-row > .col > a > p {
+        font-size: 12px;
+    }
 
-.horizontal-scrollable > .col > a > i{ 
-    font-size: 32px;
-    color: black;
-    padding: 15px;
-    border-radius: 50%;
-    width: 72px;
-} 
+    .categories-row > .col > a > i {
+        font-size: 28px;
+        color: black;
+        padding: 15px;
+        border-radius: 50%;
+        width: 68px;
+        border: solid 1px black;
+    }
 
-
-.horizontal-scrollable > .col:nth-child(n) > a > i{ 
-    background-color: #ffe3bf;
-} 
-.horizontal-scrollable > .col:nth-child(2n) > a > i{ 
-    background-color: #ffc880;
-} 
-.horizontal-scrollable > .col:nth-child(3n) > a > i{ 
-    background-color: #ffac3e;
-} 
-.horizontal-scrollable > .col:nth-child(4n) > a > i{ 
-    background-color: #ff9100;
-}
+    .categories-row > .col > a > i {
+        background-color: #FFB24A;
+    }
 
 @media (min-width: 576px) {
-    .horizontal-scrollable > .col > a > i {
+    .categories-row > .col > a > i {
         width: 68px;
+    }
+    .categories-row > .col-lg-1 {
+        width: 13%;
+        *width: 13%;
+        max-width: 13% !important;
+        flex: none !important;
     }
 }
 
 @media (min-width: 1200px) {
-    .horizontal-scrollable { 
-        overflow-x: none; 
-        white-space: normal;
-    }
     h1 {
         font-size: 42px;
     }
-    .horizontal-scrollable > .col > a > p {
-        font-size: 24px;
-    } 
-    .horizontal-scrollable > .col > a > i{ 
-        font-size: 36px;
-        padding: 32px;
-        width: 112px;
+
+        .categories-row > .col > a > p {
+            font-size: 18px;
+        }
+
+        .categories-row > .col > a > i {
+            font-size: 36px;
+            padding: 32px;
+            width: 108px;
+        }
+
+    .categories-row > .col-lg-1 {
+        width: 12%;
+        *width: 12%;
+        max-width: 12% !important;
+        flex: none !important;
     }
 }

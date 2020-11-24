@@ -87,7 +87,7 @@
                     }
                     else if (HttpContext.Current.User.Identity.IsAuthenticated)
                     {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav" onclick="Fav(@Model.OfferID)"></i>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav" onclick="Fav(@Model.OfferID)" url="@Url.Action("Fav", "Home")" id="@Model.OfferID"></i>
                     }
                     else
                     {
@@ -103,7 +103,7 @@
             <p class="product-price-wdeliver">z dostawą: 115 zł ?cena + cena wybranego dostawcy? </p>
             <hr class="mb-2" />
             <form>
-                <p class="buyer-counter mb-1">200 osób kupiło 243 sztuk ? xDDDD tu to sie możesz pierdolnąć ?</p>
+                <p class="buyer-counter mb-1">200 osób kupiło 243 sztuk </p>
                 <label for="quantity-input">Pozostało: @Model.InStock</label>
                 <div name="quantity-input" class="input-group">
                     <input type="button" value="-" data-field="quantity" class="button input-group-prepend quantity-button button-minus">

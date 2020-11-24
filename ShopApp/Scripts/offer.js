@@ -34,12 +34,12 @@ $( document ).ready(function() {
         decrementValue(e);
     });
 
-    // Add-to-favourites button
+    // Add-to-favourites button handler
     $(".product-fav").on("click", function () {
 
         var id = jQuery(this).attr('id');
         var url = jQuery(this).attr('url');
-        console.log(id);
+        
         if ($(".product-fav").hasClass("fav-active")) {
           
 
@@ -57,8 +57,6 @@ $( document ).ready(function() {
             });
            
         } else {
-
-    
             $.ajax({
                 url: url,
                 type: 'POST',
@@ -68,7 +66,7 @@ $( document ).ready(function() {
                 success: function (data) {
                     if (data.length == 0) // No errors
                         $(".product-fav").addClass("fav-active");
-                 
+            
                 },
 
             });
@@ -78,11 +76,3 @@ $( document ).ready(function() {
 });
 
 
-
-function Fav(id) {
-   
-};
-
-function UnFav(id) {
-   
-};
