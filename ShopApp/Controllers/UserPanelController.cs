@@ -276,7 +276,8 @@ namespace ShopApp.Controllers
                 InStock = Convert.ToDouble(collection["Quantity"]),
                 Price = Convert.ToDouble(collection["Price"]),
                 Category = db.Categories.Where(i => i.CategoryID == category).FirstOrDefault(),
-                User = editUser
+                User = editUser,
+                IsActive = true
             };
 
             List<OfferPicture> pictures = new List<OfferPicture>();

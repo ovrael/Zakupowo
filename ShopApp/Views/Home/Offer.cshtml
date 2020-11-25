@@ -2,26 +2,6 @@
 
 @Styles.Render("~/bundles/Offer")
 
-@* List<ShopApp.Models.Offer>
-    offers = Model.OfferList.ToList();
-
-    for (int i = 0; i < offers.Count; i++)
-    {
-    ShopApp.Models.Offer show = offers[i];
-    string pictureUrl = string.Empty;
-    if (show.OfferPictures != null && show.OfferPictures.Count > 0)
-    {
-    System.Diagnostics.Debug.WriteLine("Oferta nr: " + (i + 1) + "\tZdjęć: " + show.OfferPictures.Count);
-    pictureUrl = show.OfferPictures.ToList()[0].PathToFile;
-    }
-    else
-    {
-    pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
-    }
-
-    System.Diagnostics.Debug.WriteLine(pictureUrl);
-
-*@
 @{
     <div class="row offer m-0 mx-lg-auto mb-4 justify-content-center">
         <div class="offer-carousel col-12 col-lg-6 p-0 m-0">
