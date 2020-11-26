@@ -1,22 +1,22 @@
-﻿using ShopApp.Models;
+﻿using System;
+using System.IO;
+using System.Net;
+using System.Web;
+using System.Linq;
+using System.Web.Mvc;
+using System.Security;
+using System.Diagnostics;
+using System.Web.Security;
+using System.Threading.Tasks;
+using System.Web.Configuration;
+using System.Collections.Generic;
+using ShopApp.DAL;
+using ShopApp.Models;
+using ShopApp.Utility;
 using ShopApp.ViewModels;
 using ShopApp.ViewModels.User;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using ShopApp.DAL;
-using Microsoft.Ajax.Utilities;
 using Antlr.Runtime.Tree;
-using ShopApp.Utility;
-using System.Diagnostics;
-using System.Security;
-using System.Web.Configuration;
-using System.Net;
-using System.Web.Security;
-using System.IO;
-using System.Threading.Tasks;
+using Microsoft.Ajax.Utilities;
 
 namespace ShopApp.Controllers
 {
@@ -119,7 +119,7 @@ namespace ShopApp.Controllers
 
                 editUser.ShippingAdresses.ToList()[adressNumber] = shippingAdress;
 
-                db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
+                //db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
             }
             return RedirectToAction("ShippingAdresses", "UserPanel");
@@ -193,6 +193,7 @@ namespace ShopApp.Controllers
         {
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
+            // SEND EMAIL TO USER ABOUT CHANGING PASSWORD
             if (editUser != null)
             {
                 string encryptedOldPassword = Cryptographing.Encrypt(collection["OldPassword"].Trim());
@@ -265,9 +266,9 @@ namespace ShopApp.Controllers
         public async Task<ActionResult> AddOffer(FormCollection collection)
         {
             User editUser = db.Users.Where(u => u.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-            var files = Request.Files;
 
-            int category = int.Parse(collection["Category"]);
+            int categoryID = int.Parse(collection["Category"]);
+            Category offerCategory = db.Categories.Where(o => o.CategoryID == categoryID).FirstOrDefault();
 
             Offer offer = new Offer
             {
@@ -275,16 +276,18 @@ namespace ShopApp.Controllers
                 Description = collection["Description"],
                 InStock = Convert.ToDouble(collection["Quantity"]),
                 Price = Convert.ToDouble(collection["Price"]),
-                Category = db.Categories.Where(i => i.CategoryID == category).FirstOrDefault(),
+                Category = offerCategory,
                 User = editUser
             };
 
-            List<OfferPicture> pictures = new List<OfferPicture>();
-
             db.Offers.Add(offer);
             db.SaveChanges();
+
             offer = db.Offers.ToList().Last(); // DO POPRAWY
 
+            List<OfferPicture> pictures = new List<OfferPicture>();
+
+            var files = Request.Files;
             if (files != null && files.Count > 0)
             {
                 try
@@ -315,14 +318,14 @@ namespace ShopApp.Controllers
             }
 
             offer.OfferPictures = pictures;
-            db.Entry(offer).State = System.Data.Entity.EntityState.Modified;
+            //db.Entry(offer).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
 
             offer.Category.Offers.Add(offer);
             db.SaveChanges();
 
             editUser.Offers.Add(offer);
-            db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
+            //db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
 
             return RedirectToAction("Index", "Home");
