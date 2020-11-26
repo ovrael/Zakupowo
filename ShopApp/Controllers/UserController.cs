@@ -24,7 +24,6 @@ namespace ShopApp.Controllers
         //USER REGISTRATION
         public ActionResult Register()
         {
-
             return View();
         }
 
@@ -50,7 +49,6 @@ namespace ShopApp.Controllers
             }
             return RedirectToAction("Register");
         }
-
 
         //Login methods
         public ActionResult Login()

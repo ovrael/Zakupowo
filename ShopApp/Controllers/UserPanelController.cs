@@ -76,6 +76,7 @@ namespace ShopApp.Controllers
             return RedirectToAction("EditBasicInfo", "UserPanel");
         }
 
+        #region ShippingAdresses
         // VIEW WHERE USER CAN EDIT SHIPPING ADRESSES
         public ActionResult ShippingAdresses()
         {
@@ -168,17 +169,16 @@ namespace ShopApp.Controllers
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
             int userID = editUser.UserID;
 
-            List<ShippingAdress> lista = db.ShippingAdresses.Where(u => u.User.UserID == userID).ToList();
-
             ShippingAdress adressToRemove = db.ShippingAdresses.Where(u => u.User.UserID == userID).ToList()[(int)adressNumber];
 
+            editUser.ShippingAdresses.Remove(adressToRemove);
             db.ShippingAdresses.Remove(adressToRemove);
             db.SaveChanges();
 
 
             return RedirectToAction("ShippingAdresses", "UserPanel");
         }
-
+        #endregion
 
         // VIEW WHERE USER CAN EDIT PASSWORD
         public ActionResult EditPassword()
@@ -277,7 +277,8 @@ namespace ShopApp.Controllers
                 InStock = Convert.ToDouble(collection["Quantity"]),
                 Price = Convert.ToDouble(collection["Price"]),
                 Category = offerCategory,
-                User = editUser
+                User = editUser,
+                IsActive = true
             };
 
             db.Offers.Add(offer);

@@ -4,9 +4,9 @@
     // Wyświetl komunikat o braku ofert w danej kategorii
     if (Model.Count() == 0)
     {
-        <h1>
-            BRAK OFERT W DANEJ KATEGORII
-        </h1>
+            <div class="messages-box h5">
+                    <div class="alert alert-danger">BRAK PRODUKTÓW W TEJ KATEGORII</div>
+            </div>
     }
 
     //Wyświetla ofert z danej kategorii (jedna pod drugą)
