@@ -24,6 +24,7 @@ namespace ShopApp.Controllers
         //USER REGISTRATION
         public ActionResult Register()
         {
+
             return View();
         }
 
@@ -42,6 +43,7 @@ namespace ShopApp.Controllers
                 Email = collection["Email"].Trim(),
                 BirthDate = DateTime.Parse(collection["BirthDate"]),
                 CreationDate = DateTime.Now
+                //AvatarImage = new AvatarImage { PathToFile = "~/App_Files/Images/UserAvatars/DefaultAvatar.jpg" }
             };
                 db.Users.Add(user);
                 db.SaveChanges();
@@ -49,6 +51,7 @@ namespace ShopApp.Controllers
             }
             return RedirectToAction("Register");
         }
+
 
         //Login methods
         public ActionResult Login()

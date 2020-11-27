@@ -13,28 +13,39 @@ namespace ShopApp.Controllers
     public class HomeController : Controller
     {
         private ShopContext db = new ShopContext();
-        // CATEGORIES VIEW
         public ActionResult Index()
         {
-            return View();
+            HomeIndexView viewData;
+            List<Category> categories;
+            List<Offer> offers;
+
+
+            categories = db.Categories.ToList();
+            offers = db.Offers.ToList();
+
+            viewData = new HomeIndexView
+            {
+                CategoryList = categories,
+                OfferList = offers
+            };
+
+            return View(viewData);
         }
-        public ActionResult Kat(int KatID = 1)
+        public ActionResult Kat(int KatID)//We come here from
         {
             return View(db.Offers.Where(i => i.Category.CategoryID == KatID));
         }
-        // OFFER VIEW
-        public ActionResult Offer(int OfferID=1)
-        {
-            //TODO MESSAGE WHY IT THREW ME AWAY FROM OFFER
-            if (db.Offers.Where(i => i.OfferID == OfferID).FirstOrDefault().IsActive)
-            { 
-            Offer oferta = DataBase.SearchForOffer((int)OfferID);
-            return View(oferta);
-            }
-            return RedirectToAction("Index");
-        }
 
-        #region FavouriteOfferManagement
+        public ActionResult Offer(int OfferID)//We come here from index 
+        {
+            if (OfferID > 0)
+            {
+                Offer oferta = DataBase.SearchForOffer(OfferID);
+                return View(oferta);
+            }
+            else
+                return RedirectToAction("Index");
+        }
         [HttpPost]
         public ActionResult Fav(int id)//We come here from index 
         {
@@ -82,7 +93,7 @@ namespace ShopApp.Controllers
 
             return Json(errors, JsonRequestBehavior.AllowGet);
         }
-        #endregion
+
 
     }
 }
