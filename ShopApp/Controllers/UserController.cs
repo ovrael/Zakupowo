@@ -66,6 +66,7 @@ namespace ShopApp.Controllers
             var password = Cryptographing.Encrypt(collection["EncryptedPassword"]);
 
             var user = db.Users.Where(x => x.Email == email && x.EncryptedPassword == password).SingleOrDefault();
+
             if (user != null)
             { 
                 FormsAuthentication.SetAuthCookie(user.Login, (collection["rememberMeInput"] == "rememberMe"? true : false)); //TODO ISCHECKED
