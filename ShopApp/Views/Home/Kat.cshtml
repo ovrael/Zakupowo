@@ -22,7 +22,7 @@
             pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
         }
 
-        <a href="@Url.Action("Offer",new { OfferID = item.OfferID})">
+        <a href="@Url.Action("Index","Offer",new { OfferID = item.OfferID})">
             <div class="offer-box">
                 <img class="img-fluid rounded" style="height:50%;" src="@pictureUrl" />
                 <h2>@item.Title</h2>

@@ -21,10 +21,14 @@ namespace ShopApp.Controllers
        
         private ShopContext db = new ShopContext();
 
+
         //USER REGISTRATION
         public ActionResult Register()
         {
-            return View();
+            if(HttpContext.User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+            else
+                return View();
         }
 
         //POST: Register/Create
@@ -53,7 +57,10 @@ namespace ShopApp.Controllers
         //Login methods
         public ActionResult Login()
         {
-            return View();
+            if (HttpContext.User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+            else
+                return View();
         }
 
         [HttpPost]
@@ -72,7 +79,7 @@ namespace ShopApp.Controllers
             return View();
         }
         //Logout method 
-
+        [Authorize]
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();

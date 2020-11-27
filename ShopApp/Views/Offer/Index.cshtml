@@ -93,18 +93,19 @@
             <h3 class="product-price">@Model.Price</h3>
             <p class="product-price-wdeliver">z dostawą: 115 zł ?cena + cena wybranego dostawcy? </p>
             <hr class="mb-2" />
-            <form>
-                <p class="buyer-counter mb-1">200 osób kupiło 243 sztuk </p>
-                <label for="quantity-input">Pozostało: @Model.InStock</label>
-                <div name="quantity-input" class="input-group">
-                    <input type="button" value="-" data-field="quantity" class="button input-group-prepend quantity-button button-minus">
-                    <input type="number" step="1" max="" value="1" name="quantity" class="quantity-field w-25">
-                    <input type="button" value="+" data-field="quantity" class="button input-group-append quantity-button button-plus">
-                    <p class="p-0 mx-2 my-auto">z 15 sztuk</p>
-                </div>
-                <input type="button" value="DODAJ DO KOSZYKA" class="offer-button w-100 p-3 mt-2">
-                <input type="button" value="KUP TERAZ" class="offer-button p-3 w-100 my-1">
-            </form>
+        <form method="post">
+            <p class="buyer-counter mb-1">200 osób kupiło 243 sztuk </p>
+            <label for="quantity-input">Pozostało: nie wiadomo po implementacji transakcji bedzie wiecej info naura</label>
+            <div name="quantity-input" class="input-group">
+                <input type="button" value="-" data-field="quantity" class="button input-group-prepend quantity-button button-minus">
+                <input type="number" step="1" max="@Model.InStock" min="1" value="1" name="quantity" class="quantity-field w-25">
+                <input type="button" value="+" data-field="quantity" class="button input-group-append quantity-button button-plus">
+                <p class="p-0 mx-2 my-auto">@Model.InStock</p>
+            </div>
+            <input type="hidden" name="prodId" value=@Model.OfferID>
+            <input type="submit" name="choice" value="DODAJ DO KOSZYKA" class="offer-button w-100 p-3 mt-2">
+            <input type="submit" name="choice" value="KUP TERAZ" class="offer-button p-3 w-100 my-1">
+        </form>
         </div>
         <div class="col-12 col-lg-10 offer-desc w-100 m-0 p-0">
             <hr />

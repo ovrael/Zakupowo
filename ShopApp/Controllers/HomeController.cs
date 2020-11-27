@@ -20,19 +20,9 @@ namespace ShopApp.Controllers
         }
         public ActionResult Kat(int KatID = 1)
         {
-            return View(db.Offers.Where(i => i.Category.CategoryID == KatID));
+            return View(db.Offers.Where(i => i.Category.CategoryID == KatID && i.IsActive));
         }
         // OFFER VIEW
-        public ActionResult Offer(int OfferID=1)
-        {
-            //TODO MESSAGE WHY IT THREW ME AWAY FROM OFFER
-            if (db.Offers.Where(i => i.OfferID == OfferID).FirstOrDefault().IsActive)
-            { 
-            Offer oferta = DataBase.SearchForOffer((int)OfferID);
-            return View(oferta);
-            }
-            return RedirectToAction("Index");
-        }
 
         #region FavouriteOfferManagement
         [HttpPost]

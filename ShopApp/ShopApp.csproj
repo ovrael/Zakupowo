@@ -134,6 +134,7 @@
     <Compile Include="Controllers\DatabaseController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OfferController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserPanelController.cs" />
     <Compile Include="Controllers\UserPanelJonakController.cs" />
@@ -218,6 +219,10 @@
     <Compile Include="Migrations\202011201101217_ReTruncateCategories.cs" />
     <Compile Include="Migrations\202011201101217_ReTruncateCategories.designer.cs">
       <DependentUpon>202011201101217_ReTruncateCategories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011262051102_OfferManyToManyBucketChange.cs" />
+    <Compile Include="Migrations\202011262051102_OfferManyToManyBucketChange.designer.cs">
+      <DependentUpon>202011262051102_OfferManyToManyBucketChange.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
@@ -425,7 +430,7 @@
     <Content Include="Views\UserPanel\AddShippingAdress.cshtml" />
     <Content Include="Views\UserPanel\_SettingsSideBar.cshtml" />
     <Content Include="Views\UserPanel\EditAvatar.cshtml" />
-    <Content Include="Views\Home\Offer.cshtml" />
+    <Content Include="Views\Offer\Index.cshtml" />
     <Content Include="Views\Home\Kat.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -505,6 +510,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011201101217_ReTruncateCategories.resx">
       <DependentUpon>202011201101217_ReTruncateCategories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011262051102_OfferManyToManyBucketChange.resx">
+      <DependentUpon>202011262051102_OfferManyToManyBucketChange.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
