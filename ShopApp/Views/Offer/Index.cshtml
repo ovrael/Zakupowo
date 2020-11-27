@@ -2,43 +2,52 @@
 
 @Styles.Render("~/bundles/Offer")
 
+@* List<ShopApp.Models.Offer>
+    offers = Model.OfferList.ToList();
+
+    for (int i = 0; i < offers.Count; i++)
+    {
+    ShopApp.Models.Offer show = offers[i];
+    string pictureUrl = string.Empty;
+    if (show.OfferPictures != null && show.OfferPictures.Count > 0)
+    {
+    System.Diagnostics.Debug.WriteLine("Oferta nr: " + (i + 1) + "\tZdjęć: " + show.OfferPictures.Count);
+    pictureUrl = show.OfferPictures.ToList()[0].PathToFile;
+    }
+    else
+    {
+    pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
+    }
+
+    System.Diagnostics.Debug.WriteLine(pictureUrl);
+
+*@
 @{
     <div class="row offer m-0 mx-lg-auto mb-4 justify-content-center">
         <div class="offer-carousel col-12 col-lg-6 p-0 m-0">
             <div id="carousel-offer" class="carousel slide" data-ride="carousel" data-interval="false">
 
                 <ol class="carousel-indicators">
-                    <li data-target="#carousel-offer" data-slide-to="0" class="active"></li>
-                    @for (int i = 1; i < Model.OfferPictures.Count; i++)
+                    @for (int x = 0; x < Model.OfferPictures.Count; x++)
                     {
-                        <li data-target="#carousel-offer" data-slide-to="@i"></li>
+                        <li data-target="#carousel-offer" data-slide-to="@x" class="active"></li>
                     }
                 </ol>
 
                 <div class="carousel-inner">
-                    @{
-                        if (Model.OfferPictures.Count > 0)
+                    @for (int x = 0; x < Model.OfferPictures.Count; x++)
+                    {
+                        string pictureUrl = string.Empty;
+                        if (Model.OfferPictures != null && Model.OfferPictures.Count > 0)
                         {
-                            List<ShopApp.Models.OfferPicture> pictures = Model.OfferPictures.ToList();
-
                             <div class="carousel-item active">
-                                <img src="@pictures[0].PathToFile" alt="1. offer picture" class="d-block w-100">
+                                <img src="@Model.OfferPictures.ToList()[x].PathToFile" class="d-block w-100">
                             </div>
-
-                            for (int i = 1; i < pictures.Count; i++)
-                            {
-                                <div class="carousel-item">
-                                    <img src="@pictures[i].PathToFile" alt="@(i+1).offer picture" class="d-block w-100">
-                                </div>
-                            }
                         }
                         else
                         {
-                            <div class="carousel-item active">
-                                <img src="..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg" alt="Default offer picture" class="d-block w-100">
-                            </div>
+                            pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
                         }
-
                     }
                 </div>
                 <a class="carousel-control-prev" href="#carousel-offer" role="button" data-slide="prev">
@@ -62,14 +71,14 @@
                     {
                         User = db.Users.Where(i => i.Login == HttpContext.Current.User.Identity.Name).SingleOrDefault();
                         if (User != null)
+                        { 
+                        foreach (var item in User.FavouriteOffer)
                         {
-                            foreach (var item in User.FavouriteOffer)
+                            if (item.Offer.OfferID == Model.OfferID)
                             {
-                                if (item.Offer.OfferID == Model.OfferID)
-                                {
-                                    IsFav = true;
-                                }
+                                IsFav = true;
                             }
+                        }
                         }
                     }
                     if (IsFav && HttpContext.Current.User.Identity.IsAuthenticated)
@@ -115,7 +124,7 @@
     </div>
 
     <script type="text/javascript">
-
+    
 
     </script>
 

@@ -13,12 +13,11 @@ namespace ShopApp.Controllers
     public class HomeController : Controller
     {
         private ShopContext db = new ShopContext();
-        // CATEGORIES VIEW
         public ActionResult Index()
         {
             return View();
         }
-        public ActionResult Kat(int KatID = 1)
+        public ActionResult Kat(int KatID)//We come here from
         {
             return View(db.Offers.Where(i => i.Category.CategoryID == KatID && i.IsActive));
         }
@@ -72,7 +71,7 @@ namespace ShopApp.Controllers
 
             return Json(errors, JsonRequestBehavior.AllowGet);
         }
-        #endregion
+
 
     }
 }
