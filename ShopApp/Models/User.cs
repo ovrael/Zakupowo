@@ -35,7 +35,7 @@ namespace ShopApp.Models
         [Column("EncryptedPassword", TypeName = "nvarchar")]
         [MaxLength(200)]
         public string EncryptedPassword { get; set; }
-
+        
         [Required]
         [Column("FirstName", TypeName = "nvarchar")]
         [MaxLength(50)]

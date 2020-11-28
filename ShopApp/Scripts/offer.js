@@ -1,4 +1,4 @@
-$( document ).ready(function() {
+$(document).ready(function () {
     // Quantity input
     function incrementValue(e) {
         e.preventDefault();
@@ -25,7 +25,7 @@ $( document ).ready(function() {
             parent.find('input[name=' + fieldName + ']').val(0);
         }
     }
-
+    
     $('.input-group').on('click', '.button-plus', function(e) {
         incrementValue(e);
     });
@@ -38,39 +38,49 @@ $( document ).ready(function() {
     $(".product-fav").on("click", function () {
 
         var id = jQuery(this).attr('id');
-        var url = jQuery(this).attr('url');
         
         if ($(".product-fav").hasClass("fav-active")) {
           
 
             $.ajax({
-                url: url,
+                url: '/Home/UnFav',
                 type: 'POST',
                 data: {
                     id: id
                 },
                 success: function (data) {
-                    if (data.length == 0) // No errors
+                    if (data.length == 0)// No errors
+                    {
+                        $(".product-fav").addClass("fav-unActive");
                         $(".product-fav").removeClass("fav-active");
+                    }
                   
                 },
             });
            
-        } else {
+        }
+        if ($(".product-fav").hasClass("fav-unActive")) {
             $.ajax({
-                url: url,
+                url: '/Home/Fav',
                 type: 'POST',
                 data: {
                     id: id
                 },
                 success: function (data) {
-                    if (data.length == 0) // No errors
+                    if (data.length == 0)
+                    {
                         $(".product-fav").addClass("fav-active");
+                        $(".product-fav").removeClass("fav-unActive");
+
+                    }// No errors
             
                 },
 
             });
            
+        }
+        if ($(".product-fav").hasClass("not-logged")) {
+            alert("You have to be logged in to add an offer to favourites!");
         }
     })
 });

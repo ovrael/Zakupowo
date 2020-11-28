@@ -264,6 +264,10 @@
     <Compile Include="Migrations\202011281238302_AddingIsChosenBoolOnBucketItem.Designer.cs">
       <DependentUpon>202011281238302_AddingIsChosenBoolOnBucketItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011282041574_AddingDbSetForBucketItems.cs" />
+    <Compile Include="Migrations\202011282041574_AddingDbSetForBucketItems.Designer.cs">
+      <DependentUpon>202011282041574_AddingDbSetForBucketItems.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
@@ -299,6 +303,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bucket.css" />
     <Content Include="Content\categories.css" />
     <Content Include="Content\error.css" />
     <Content Include="Content\Layout.css" />
@@ -316,6 +321,7 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\bucket.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -475,6 +481,7 @@
     <Content Include="Views\UserPanel\EditAvatar.cshtml" />
     <Content Include="Views\Offer\Index.cshtml" />
     <Content Include="Views\Home\Kat.cshtml" />
+    <Content Include="Views\Offer\Bucket.cshtml" />
     <Content Include="Views\User\ConfirmRegistration.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -569,6 +576,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011281238302_AddingIsChosenBoolOnBucketItem.resx">
       <DependentUpon>202011281238302_AddingIsChosenBoolOnBucketItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011282041574_AddingDbSetForBucketItems.resx">
+      <DependentUpon>202011282041574_AddingDbSetForBucketItems.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

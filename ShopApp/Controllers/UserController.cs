@@ -65,12 +65,10 @@ namespace ShopApp.Controllers
                     IsActivated = false
                 };
 
-                await EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email);
-
                 db.Users.Add(user);
                 db.SaveChanges();
-
-                return RedirectToAction("Account", "UserPanel");
+                Task.Run(() => EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email));
+                return RedirectToAction("Login");
             }
             return View();
         }

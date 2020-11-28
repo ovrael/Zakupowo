@@ -1,0 +1,108 @@
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.bucket-items-span {
+  background-color: white;
+  border: 1px solid black;
+}
+
+.quantity-button {
+  padding: 8px 13px 8px 13px;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.quantity-field {
+  padding: 0 5px 0 5px;
+  border: 1px solid black;
+  width: 100%;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 34px;
+}
+
+h2 {
+  font-size: 16px;
+}
+
+.bucket-item-name > a {
+  font-weight: 700;
+  font-size: 18px;
+  color: black;
+}
+
+.bucket-items-seller {
+  font-size: 16px;
+}
+
+.seller-name {
+  color: #ffb24a;
+  font-weight: 700;
+}
+
+.seller-name:hover,
+.seller-name:visited {
+  color: #ffb24a;
+}
+
+.bucket-item-totalprice {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.bucket-item-itemprice {
+  font-size: 12px;
+}
+
+.cashout-button,
+.continue-button {
+  background-color: #ffb24a;
+  box-shadow: none;
+  font-weight: 700;
+  letter-spacing: 3px;
+  border-radius: 2px;
+  color: white;
+  border: 1px solid black;
+}
+
+.continue-button {
+  color: rgb(77, 76, 76);
+  background-color: white;
+  border: 1px solid black;
+}
+
+.bucket-buttons {
+  background-color: white;
+  border: 1px solid black;
+}
+
+.bucket-summary {
+  font-size: 14px;
+}
+
+.bucket-price {
+  font-size: 24px;
+  font-weight: 700;
+  color: green;
+}
+
+@media (min-width: 992px) {
+  .bucket {
+    width: 50%;
+  }
+  .cashout-button,
+  .continue-button {
+    width: 70% !important;
+  }
+}
