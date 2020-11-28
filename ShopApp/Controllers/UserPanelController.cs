@@ -319,9 +319,10 @@ namespace ShopApp.Controllers
                 Title = collection["Name"],
                 Description = collection["Description"],
                 InStock = Convert.ToDouble(collection["Quantity"]),
-                Price = Convert.ToDouble(collection["Price"]),  
+                Price = Convert.ToDouble(collection["Price"]),
                 Category = db.Categories.Where(i => i.CategoryID == kat).FirstOrDefault(),
-                User = editUser
+                User = editUser,
+                IsActive = true
             };
 
             List<OfferPicture> pictures = new List<OfferPicture>();

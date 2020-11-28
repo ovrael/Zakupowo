@@ -15,12 +15,13 @@ namespace ShopApp.Controllers
         // GET: Offer
         public ActionResult Index(int OfferID = 1)
         {
-            //TODO MESSAGE WHY IT THREW ME AWAY FROM OFFER
-            if (db.Offers.Where(i => i.OfferID == OfferID).FirstOrDefault().IsActive)
+            var offer = db.Offers.Where(i => i.OfferID == OfferID).Single();
+            if (offer.IsActive)
             {
                 Offer oferta = DataBase.SearchForOffer((int)OfferID);
                 return View(oferta);
             }
+            //TODO MESSAGE WHY IT THREW ME AWAY FROM OFFER
             return RedirectToAction("Index", "Home");
         }
         [HttpPost]

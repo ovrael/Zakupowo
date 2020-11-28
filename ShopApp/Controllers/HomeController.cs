@@ -17,7 +17,7 @@ namespace ShopApp.Controllers
         {
             return View();
         }
-        public ActionResult Kat(int KatID)//We come here from
+        public ActionResult Kat(int KatID = 1)//We come here from
         {
             return View(db.Offers.Where(i => i.Category.CategoryID == KatID && i.IsActive));
         }
@@ -72,6 +72,6 @@ namespace ShopApp.Controllers
             return Json(errors, JsonRequestBehavior.AllowGet);
         }
 
-
+        #endregion
     }
 }
