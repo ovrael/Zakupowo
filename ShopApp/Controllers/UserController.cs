@@ -22,10 +22,14 @@ namespace ShopApp.Controllers
 
         private ShopContext db = new ShopContext();
 
+
         //USER REGISTRATION
         public ActionResult Register()
         {
-            return View();
+            if(HttpContext.User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+            else
+                return View();
         }
 
         //POST: Register/Create
@@ -52,10 +56,14 @@ namespace ShopApp.Controllers
             return RedirectToAction("Register");
         }
 
+
         //Login methods
         public ActionResult Login()
         {
-            return View();
+            if (HttpContext.User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+            else
+                return View();
         }
 
         [HttpPost]
@@ -65,6 +73,7 @@ namespace ShopApp.Controllers
             var password = Cryptographing.Encrypt(collection["EncryptedPassword"]);
 
             var user = db.Users.Where(x => x.Email == email && x.EncryptedPassword == password).SingleOrDefault();
+
             if (user != null)
             {
                 FormsAuthentication.SetAuthCookie(user.Login, (collection["rememberMeInput"] == "rememberMe" ? true : false)); //TODO ISCHECKED
@@ -74,7 +83,7 @@ namespace ShopApp.Controllers
             return View();
         }
         //Logout method 
-
+        [Authorize]
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
