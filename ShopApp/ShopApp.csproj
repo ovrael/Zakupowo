@@ -250,10 +250,23 @@
     <Compile Include="Migrations\202011281117239_ChangedUserIsActivated.Designer.cs">
       <DependentUpon>202011281117239_ChangedUserIsActivated.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011281223585_AddingBucketItem.cs" />
+    <Compile Include="Migrations\202011281223585_AddingBucketItem.Designer.cs">
+      <DependentUpon>202011281223585_AddingBucketItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011281226106_RemoveICollectionFromBucketItemToBucket.cs" />
+    <Compile Include="Migrations\202011281226106_RemoveICollectionFromBucketItemToBucket.Designer.cs">
+      <DependentUpon>202011281226106_RemoveICollectionFromBucketItemToBucket.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011281238302_AddingIsChosenBoolOnBucketItem.cs" />
+    <Compile Include="Migrations\202011281238302_AddingIsChosenBoolOnBucketItem.Designer.cs">
+      <DependentUpon>202011281238302_AddingIsChosenBoolOnBucketItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
     <Compile Include="Models\Bucket.cs" />
+    <Compile Include="Models\BucketItem.cs" />
     <Compile Include="Models\Bundle.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\FavouriteOffer.cs" />
@@ -543,6 +556,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011281117239_ChangedUserIsActivated.resx">
       <DependentUpon>202011281117239_ChangedUserIsActivated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011281223585_AddingBucketItem.resx">
+      <DependentUpon>202011281223585_AddingBucketItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011281226106_RemoveICollectionFromBucketItemToBucket.resx">
+      <DependentUpon>202011281226106_RemoveICollectionFromBucketItemToBucket.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011281238302_AddingIsChosenBoolOnBucketItem.resx">
+      <DependentUpon>202011281238302_AddingIsChosenBoolOnBucketItem.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -276,12 +276,13 @@ namespace ShopApp.Controllers
             {
                 Title = collection["Name"],
                 Description = collection["Description"],
-                InStock = Convert.ToDouble(collection["Quantity"]),
+                InStockOriginaly = Convert.ToDouble(collection["Quantity"]),
                 Price = Convert.ToDouble(collection["Price"]),
                 Category = offerCategory,
                 User = editUser,
                 IsActive = true
             };
+            offer.InStockNow = offer.InStockOriginaly;
 
             db.Offers.Add(offer);
             db.SaveChanges();

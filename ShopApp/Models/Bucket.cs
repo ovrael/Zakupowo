@@ -11,8 +11,9 @@ namespace ShopApp.Models
     {
         [ForeignKey("User")]
         public int BucketID { get; set; }
+        public double TotalBucketPrice {get; set;}
         public virtual User User { get; set; }
+        public virtual ICollection<BucketItem> BucketItems { get; set; }
         public virtual ICollection<Bundle> Bundles { get; set; }
-        public virtual ICollection<Offer> Offers { get; set; }
     }
 }

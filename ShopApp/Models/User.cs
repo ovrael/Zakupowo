@@ -11,7 +11,6 @@ namespace ShopApp.Models
 {
     public class User
     {
-
         public static string ErrorMessage { get; set; }
 
         //PO 1 SPRINCIE TESTUJEMY "varchar(200)"/ "text"
@@ -57,7 +56,6 @@ namespace ShopApp.Models
 
         [Column("CreationDate", TypeName = "DateTime2")]
         public DateTime CreationDate { get; set; }
-
         public virtual Bucket Bucket { get; set; }
         public virtual AvatarImage AvatarImage { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }

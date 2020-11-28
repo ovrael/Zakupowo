@@ -32,14 +32,14 @@ namespace ShopApp.Controllers
             {
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).Single();
             var offer = db.Offers.Where(i => i.OfferID == result).Single();
-            if (collection["choice"] == "DODAJ DO KOSZYKA")
-            {
+            //if (collection["choice"] == "DODAJ DO KOSZYKA")
+            //{
                     
-                    user.Bucket.Offers.Add(offer);
-                    offer.Bucket.Add(user.Bucket);
-                    db.SaveChanges();
+            //        user.Bucket.Offers.Add(offer);
+            //        offer.Bucket.Add(user.Bucket);
+            //        db.SaveChanges();
 
-            }
+            //}
             }
             //elseTODO KUP TERAZ error message
             return RedirectToAction("Index", "Offer", new { OfferID = collection["prodId"] });
