@@ -23,13 +23,13 @@ namespace ShopApp.Controllers
             return View(db.Offers.Where(i => i.Category.CategoryID == KatID));
         }
         // OFFER VIEW
-        public ActionResult Offer(int OfferID=1)
+        public ActionResult Offer(int? OfferID)
         {
             //TODO MESSAGE WHY IT THREW ME AWAY FROM OFFER
             if (db.Offers.Where(i => i.OfferID == OfferID).FirstOrDefault().IsActive)
             { 
-            Offer oferta = DataBase.SearchForOffer((int)OfferID);
-            return View(oferta);
+                Offer oferta = DataBase.SearchForOffer((int)OfferID);
+                return View(oferta);
             }
             return RedirectToAction("Index");
         }

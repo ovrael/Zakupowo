@@ -189,25 +189,27 @@ namespace ShopApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditPassword(FormCollection collection)
+        public async Task<ActionResult> EditPassword(FormCollection collection)
         {
-            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
 
-            // SEND EMAIL TO USER ABOUT CHANGING PASSWORD
             if (editUser != null)
             {
                 string encryptedOldPassword = Cryptographing.Encrypt(collection["OldPassword"].Trim());
                 string encryptedNewPassword = Cryptographing.Encrypt(collection["NewPassword"].Trim());
                 string encryptedNewPasswordValidation = Cryptographing.Encrypt(collection["NewPasswordValidation"].Trim());
 
-                if (encryptedOldPassword != editUser.EncryptedPassword && encryptedOldPassword != null)
+                // If written current password is the same as current password AND written current and new passwords are not NULLs
+                if (encryptedOldPassword.Equals(editUser.EncryptedPassword) && encryptedOldPassword != null && encryptedNewPassword != null)
                 {
-                    if (encryptedNewPassword.Equals(encryptedNewPasswordValidation))
+                    // If new password validates and is different from old one => CHANGE PASSWORD
+                    if (encryptedNewPassword.Equals(encryptedNewPasswordValidation) && !encryptedNewPassword.Equals(encryptedOldPassword))
                     {
+                        // WYŚLIJ EMAIL Z POTWIERDZENIEM
                         editUser.EncryptedPassword = encryptedNewPassword;
-
-                        db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
+
+                        await EmailManager.SendEmailAsync(EmailManager.EmailType.ChangePassword, editUser.FirstName, editUser.LastName, editUser.Email);
                     }
                 }
             }
@@ -215,7 +217,7 @@ namespace ShopApp.Controllers
             return RedirectToAction("Account", "UserPanel");
         }
 
-        // VIEW WHERE USER CAN EDIT PASSWORD
+        // VIEW WHERE USER CAN EDIT AVATAR
         public ActionResult EditAvatar()
         {
             User showUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
