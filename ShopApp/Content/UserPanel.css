@@ -40,7 +40,7 @@ body {
     padding-left:5rem !important;
 }
 
-/*Images*/
+/*Images addOffer*/
 
 .imagePreview {
     width: 100%;
@@ -67,31 +67,9 @@ body {
 }
 
 .del {
-    position: absolute;
-    top: 0px;
-    right: 15px;
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    line-height: 30px;
-    background-color: rgba(255,255,255,0.6);
     cursor: pointer;
 }
-
-/*.imgAdd {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: #002447;
-    color: #fff;
-    box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.2);
-    text-align: center;
-    line-height: 30px !important;
-    margin-top: 0px;
-    cursor: pointer;
-    font-size: 15px;
-}*/
-/*user profil edit*/
+/*USER_SETTING*/
 .view-account {
     background-color: #FFFFFF;
 }
@@ -102,14 +80,6 @@ body {
         top: -5px;
         margin-left: 10px;
         display: inline-block;
-        background-color:pink;
-
-    }
-
-    .view-account .side-bar {
-        padding-bottom: 10px;
-        padding-top:0px;
-       
     }
 
         .view-account .side-bar .user-info {
@@ -120,7 +90,6 @@ body {
             border-bottom: 1px solid #f3f3f3;
         }
 
-
         .view-account .side-bar .side-menu {
             text-align: center
         }
@@ -129,13 +98,11 @@ body {
                 display: inline-block;
                 margin: 0 auto
             }
-
                 .view-account .side-bar .side-menu .nav > li {
                     font-size: 14px;
                     margin-bottom: 0;
                     border-bottom: none;
                     display: inline-block;
-                    float: left;
                     margin-right: 15px;
                     margin-bottom: 15px
                 }
@@ -148,36 +115,15 @@ body {
                         display: inline-block;
                         color: #002447;
                         padding: 5px;
-                        
                     }
-
-
-
                     .view-account .side-bar .side-menu .nav > li.active a {
                         color: #002447;
-                        
                         background: none;
-                        border-right: none
                     }
-
-
-
-.view-account .side-bar .side-menu .nav > li .icon {
-    display: block;
-    font-size: 24px;
-    margin-bottom: 5px
-}
 
 .view-account .content-panel {
     padding: 30px
 }
-
-    .view-account .content-panel .title {
-        margin-bottom: 15px;
-        margin-top: 0;
-        font-size: 18px
-    }
-
     .view-account .content-panel .fieldset-title {
         padding-bottom: 15px;
         border-bottom: 1px solid #eaeaf1;
@@ -186,143 +132,35 @@ body {
         font-size: 16px
     }
 
-
-    .view-account .content-panel .content-header-wrapper {
-        position: relative;
-        margin-bottom: 30px
-    }
-
-        .view-account .content-panel .content-header-wrapper .actions {
-            position: absolute;
-            right: 0;
-            top: 0
-        }
-
-    .view-account .content-panel .content-utilities {
-        position: relative;
-        margin-bottom: 30px
-    }
-
-        .view-account .content-panel .content-utilities .btn-group {
-            margin-right: 5px;
-            margin-bottom: 15px
-        }
-
-        .view-account .content-panel .content-utilities .fa {
-            font-size: 16px;
-            margin-right: 0
-        }
-
-        .view-account .content-panel .content-utilities .page-nav {
-            position: absolute;
-            right: 0;
-            top: 0
-        }
-
-            .view-account .content-panel .content-utilities .page-nav .btn-group {
-                margin-bottom: 0
-            }
-
-            .view-account .content-panel .content-utilities .page-nav .indicator {
-                color: #a2a6af;
-                margin-right: 5px;
-                display: inline-block
-            }
-
-    .view-account .content-panel .mails-wrapper .mail-item {
-        position: relative;
-        padding: 10px;
-        border-bottom: 1px solid #f3f3f3;
-        color: #616670;
-        overflow: hidden
-    }
-
-
-
-
-
-@media (max-width:414px) {
-   
-
+@media (min-width: 576px)
+{
     .view-account .content-panel {
         max-height: 568px;
-        margin-bottom:2.5rem;
+        margin-bottom: 2.5rem;
     }
-    .view-account .side-bar .user-info {
-        padding: 0;
-        padding-bottom: 5px;
-        
-    }
-
-    .view-account .mail-subject .subject {
-        
-        max-width: 30px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis
-    }
+  
 }
-
-@media (min-width:607px) {
-    .view-account .side-bar .user-info {
-        padding: 0;
-        padding-bottom: 15px
-    }
-
-    .view-account .mail-subject .subject {
-        max-width: 100px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis
-    }
-}
-
-
+/*SETTING_SIDE_BAR*/
 @media (min-width:768px) {
-    .view-account .side-bar .user-info {
-        padding: 0;
-        padding-bottom: 15px
-    }
-
-    .view-account .mail-subject .subject {
-        max-width: 200px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis
-    }
-}
-
-@media (min-width:811px) {
     .view-account .content-panel {
         min-height: 800px;
         border-left: 1px solid #FFB24A;
         margin-left: 200px
     }
-
-    .view-account .mail-subject .subject {
-        max-width: 280px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis
-    }
-
+   
     .view-account .side-bar {
         position: absolute;
         width: 200px;
         min-height: 600px
     }
-
         .view-account .side-bar .user-info {
             margin-bottom: 0;
             border-bottom: none;
             padding: 30px
         }
-
-
         .view-account .side-bar .side-menu {
             text-align: left
         }
-
             .view-account .side-bar .side-menu .nav {
                 display: block
             }
@@ -335,35 +173,20 @@ body {
                     margin-right: 0;
                     margin-bottom: 0
                 }
-
                     .view-account .side-bar .side-menu .nav > li > a {
                         display: block;
-                        color: #FFB24A;
+                        color: #002447;
                         padding: 10px 15px;
                         padding-left: 30px
                     }
-
-                        .view-account .side-bar .side-menu .nav > li > a:hover {
-                            background: #FFB24A;
-                        }
-
                     .view-account .side-bar .side-menu .nav > li.active a {
-                        background: #f9f9fb;
+                        background: #FFB24A;
                         border-right: 4px solid #FFB24A;
                         border-bottom: none
                     }
-
-
-                    .view-account .side-bar .side-menu .nav > li .icon {
-                        font-size: 24px;
-                        vertical-align: middle;
-                        text-align: center;
-                        width: 40px;
-                        display: inline-block
-                    }
+               
 }
-
-/*Add product*/
+/*ADD_OFFER*/
 .form-horizontal .add-produt {
     background: #FFFFFF;
     margin-top:25px;
@@ -401,7 +224,9 @@ body {
             max-width: 550px;
             padding-left: 0px;
         }
+
     }
+        
 
     @media (max-width: 576px) {
         .form-horizontal .add-produt {
@@ -413,7 +238,8 @@ body {
             padding-left: 35px;
         }
     }
-    /*/ side menu */
+
+/*   SIDE_BAR*/
     .bg-dark {
     background-color: #DCDCDC !important;
 }
@@ -466,14 +292,13 @@ ul.navbar-nav {
     min-height: calc(100vh - 98px);
     padding-top: 16px;
 }
-a:active {
-    color: yellow;
-}
+
+
 @media screen and (min-width:1200px) {
     ul .side-nav {
         width: 10rem;
     }
-
+   
     .side-nav {
         font-size: 33px;
     }
@@ -497,7 +322,7 @@ a:active {
     }
 
     body {
-        background-color: #74EBD;
+        
         min-height: 100vh;
     }
 
@@ -531,6 +356,28 @@ a:active {
         border-radius: 0.5rem;
     }
 
+/*ORDER_HISTORY*/
+.row-offer {
+    background-color: #fff;
+}
+.fa-caret-down
+{
+    font-size:20px;
+}
+.row-offer {
+        margin-left:40px;
+    }
    
-
+@media screen and (min-width:1200px) 
+{
     
+    .row-offer {
+        margin-left: 100px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .row-offer {
+        margin-left: 60px;
+    }
+}

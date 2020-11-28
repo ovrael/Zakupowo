@@ -1,6 +1,4 @@
-﻿@{
-    ViewBag.Title = "Twoje zamówieia";
-}
+﻿@model ShopApp.Models.User
 
 @Styles.Render("~/bundles/UserPanel")
 
@@ -8,78 +6,132 @@
 
 @Html.Partial("_SideBar")
 
-<div class="container">
-    <div class="row">
-        <div class="col-xl-12">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="header-title pb-3 mt-0">Zamówienia</h5>
-                    <div class="table-responsive">
-                        <table class="table table-hover mb-0">
-                            <thead>
-                                <tr class="align-self-center">
-                                    <th>Nazwa produktu</th>
-                                    <th>Nazwa klienta</th>
-                                    <th>Adres wysłki</th>
-                                    <th>Forma zapłaty</th>
-                                    <th>Data zamównia</th>
-                                    <th>Kwota</th>
-                                    <th>Transakcja</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Komputer</td>
-                                    <td>Jan Kowalski</td>
-                                    <td>Katowice, ul Andrzeja 5/23a 40-080</td>
-                                    <td>Paypal</td>
-                                    <td>15/10/2020</td>
-                                    <td>7.000 zł</td>
-                                    <td><span class="badge badge-boxed badge-soft-warning">W oczekiwaniu</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Telefon</td>
-                                    <td>Karol Nowak</td>
-                                    <td></td>
-                                    <td>Paypal</td>
-                                    <td>15/10/2020</td>
-                                    <td>2.500 zł</td>
-                                    <td><span class="badge badge-boxed badge-soft-primary">Zapłacono</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Klawiatura</td>
-                                    <td>Anna Kowalczyk</td>
-                                    <td></td>
-                                    <td>Za pobraniem</td>
-                                    <td>15/10/2020</td>
-                                    <td>350 zł</td>
-                                    <td><span class="badge badge-boxed badge-soft-warning">W oczekwianiu</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Laptop</td>
-                                    <td>Andrzej Wiśniewski</td>
-                                    <td></td>
-                                    <td>Karta Visa</td>
-                                    <td>1/11/2020</td>
-                                    <td>5.000 zł</td>
-                                    <td><span class="badge badge-boxed badge-soft-primary">Zapłacono</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Słuchawki bezprzewodowe</td>
-                                    <td>Zofia Nowak</td>
-                                    <td></td>
-                                    <td>Blik</td>
-                                    <td>25/10/2020</td>
-                                    <td>250 zł</td>
-                                    <td><span class="badge badge-boxed badge-soft-warning">W oczekiwaniu</span></td>
-                                </tr>
 
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="pt-3 border-top text-right"><a href="#" class="text-primary">View all <i class="mdi mdi-arrow-right"></i></a></div>
-                </div>
-            </div>
+<div class="container pl-1">
+    <div class=" row justify-content-center">
+        <div class="btn-group btn-group-toggle pb-3 pl-4 ml-5" data-toggle="buttons">
+            <label class="btn btn-outline-warning active">
+                <input type="radio" name="options" id="option1" autocomplete="off" checked> Zakup
+            </label>
+            <label class="btn btn-outline-warning">
+                <input type="radio" name="options" id="option2" autocomplete="off"> Sprzedaż
+            </label>
         </div>
     </div>
+    <div class="row row-offer mb-4 mr-1">
+        <div class="col p-0">
+            <img src="https://www.mediaexpert.pl/media/cache/gallery/product/2/278/156/958/wycbkrkn/images/19/1975157/Laptop-ASUS-A509FA-prawy-skos.jpg" class="rounded float-left max-auto" style="width: 70px" alt="...">
+        </div>
+        <div class="col">
+            Laptop ASUS
+        </div>
+        <div class="col p-0">Ilość x Cena</div>
+        <div class="col">Suma</div>
+        <div>
+            <a class="btn" data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapseExample"><i class="fas fa-caret-down"></i></a>
+        </div>
+        <div class="collapse" id="collapse">
+
+            <div class="row pl-2">
+                <div class="col-6 col-sm-3 ">
+                    <h5>Dane odbiorcy</h5>
+                </div>
+
+                <div class="col-6 col-sm-3">
+                    <h5>Adres wysyłki</h5>
+                </div>
+                <div class="w-100"></div>
+                <div class="col-6 col-sm-3">Jan</div>
+                <div class="col-6 col-sm-3">Kurier DHL</div>
+                <div class="w-100"></div>
+                <div class="col-6 col-sm-3">Kowalski</div>
+                <div class="col-6 col-sm-3">3 maja 3/17a</div>
+                <div class="w-100"></div>
+                <div class="col-6 col-sm-3">3 maja 3/17a</div>
+                <div class="col-6 col-sm-3">Kraków 11-123</div>
+                <div class="w-100"></div>
+                <div class="col-6 col-sm-3">Kraków 11-123</div>
+                <div class="w-100"></div>
+                <div class="col-6 col-sm-3">111222333</div>
+
+            </div>
+
+            <div class="row pl-2 pt-2 pb-3">
+                <div class="col-6 col-sm-3 ">
+                    <h5>Data</h5>
+                </div>
+                <div class="col-6 col-sm-3 ">
+                    <h5>Rodzaj transakcji</h5>
+                </div>
+                <div class="w-100"></div>
+                <div class="col-6 col-sm-3 ">
+                    12-11-2020
+                </div>
+                <div class="col-6 col-sm-3 ">
+                    Zakup
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+   
+    <div class="row row-offer mb-4 mr-1">
+        <div class="col p-0">
+            <img src="https://www.mediaexpert.pl/media/cache/gallery/product/2/278/156/958/wycbkrkn/images/19/1975157/Laptop-ASUS-A509FA-prawy-skos.jpg" class="rounded float-left max-auto" style="width: 70px" alt="...">
+        </div>
+        <div class="col">
+            Laptop ASUS
+        </div>
+        <div class="col p-0">Ilość x Cena</div>
+        <div class="col">Suma</div>
+        <div>
+            <a class="btn" data-toggle="collapse" href="#collapse1" aria-expanded="false" aria-controls="collapseExample"><i class="fas fa-caret-down"></i></a>
+        </div>
+        <div class="collapse" id="collapse1">
+
+            <div class="row pl-2">
+                <div class="col-6 col-sm-3 ">
+                    <h5>Dane odbiorcy</h5>
+                </div>
+
+                <div class="col-6 col-sm-3">
+                    <h5>Adres wysyłki</h5>
+                </div>
+                <div class="w-100"></div>
+                <div class="col-6 col-sm-3">Karol</div>
+                <div class="col-6 col-sm-3">Kurier DHL</div>
+                <div class="w-100"></div>
+                <div class="col-6 col-sm-3">Nowak</div>
+                <div class="col-6 col-sm-3">7 Mickiewicza 8/21b</div>
+                <div class="w-100"></div>
+                <div class="col-6 col-sm-3">7 Mickiewicza 8/21b</div>
+                <div class="col-6 col-sm-3">Wrocław 10-293</div>
+                <div class="w-100"></div>
+                <div class="col-6 col-sm-3">Wrocław 10-293</div>
+                <div class="w-100"></div>
+                <div class="col-6 col-sm-3">444555666</div>
+
+            </div>
+
+            <div class="row pl-2 pt-2 pb-3">
+                <div class="col-6 col-sm-3 ">
+                    <h5>Data</h5>
+                </div>
+                <div class="col-6 col-sm-3 ">
+                    <h5>Rodzaj transakcji</h5>
+                </div>
+                <div class="w-100"></div>
+                <div class="col-6 col-sm-3 ">
+                    22-11-2020
+                </div>
+                <div class="col-6 col-sm-3 ">
+                    Sprzedaż
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 </div>
+

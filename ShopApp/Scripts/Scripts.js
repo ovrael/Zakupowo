@@ -93,8 +93,12 @@ $(document).ready(function () {
     });
 });
 
+
+//IMAGE ADD OFFER
 $(".imgAdd").click(function () {
+
     $(this).closest(".row").find('.imgAdd').before('<div class="form-group"> <div class= "col-sm-4 imgUp mt-4" ><div class="imagePreview"></div> <label class="btn btn-outline-warning btn-lg btn-block btn-circle"> <i class="fa fa-plus imgAdd"></i> <input type="file" class="uploadFile img" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;"> </label></div>');
+    
 });
 $(document).on("click", "i.del", function () {
     $(this).parent().remove();
@@ -103,32 +107,31 @@ $(function () {
     $(document).on("change", ".uploadFile", function () {
         var uploadFile = $(this);
         var files = !!this.files ? this.files : [];
-        if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+        if (!files.length || !window.FileReader) return; 
+        
+        if (/^image/.test(files[0].type)) { 
+            var reader = new FileReader(); 
+            reader.readAsDataURL(files[0]); 
 
-        if (/^image/.test(files[0].type)) { // only image file
-            var reader = new FileReader(); // instance of the FileReader
-            reader.readAsDataURL(files[0]); // read the local file
-
-            reader.onloadend = function () { // set image data as background of div
-                //alert(uploadFile.closest(".upimage").find('.imagePreview').length);
+            reader.onloadend = function () { 
                 uploadFile.closest(".imgUp").find('.imagePreview').css("background-image", "url(" + this.result + ")");
-
+                
                 const imageGroup = $("#imageGroupTemplate").clone();
                 imageGroup.removeAttr('id');
-                console.log(imageGroup);
+                uploadFile.closest(".form-group").find(".del").show();
+                uploadFile.closest(".form-group").find(".btn-circle").hide();
                 $("#imageGroupTemplate").before(imageGroup);
                 imageGroup.show();
 
                 $('.uploadFile').each(function (i) {
                     $(this).attr('name', `ProductImage${i+1}`);
                 });
+                
             }
         }
 
     });
 });
-
-
 
 
 
