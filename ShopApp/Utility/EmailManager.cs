@@ -26,7 +26,6 @@ namespace ShopApp.Utility
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("Zakupowo Team", "zakupowo2020@gmail.com"));
             message.To.Add(new MailboxAddress(receiverFirstName + " " + receiverLastName, receiverEmail));
-
             message.Subject = string.Empty;
             string messageBody = string.Empty;
 

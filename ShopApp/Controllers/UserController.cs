@@ -64,12 +64,9 @@ namespace ShopApp.Controllers
                     CreationDate = DateTime.Now,
                     IsActivated = false
                 };
-
                 db.Users.Add(user);
                 db.SaveChanges();
-
-                EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email);
-
+                Task.Run(() => EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email));
                 return RedirectToAction("Login");
             }
             return View();
