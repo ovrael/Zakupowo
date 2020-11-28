@@ -36,6 +36,9 @@ namespace ShopApp.Controllers
         [HttpPost]
         public async Task<ActionResult> Register(FormCollection collection)
         {
+            if (db.Users.Where(u => u.Email == collection["Email"].Trim()).FirstOrDefault() != null)
+                return RedirectToAction("Register");
+
             if (ModelState.IsValid && DateTime.TryParse(collection["BirthDate"], out DateTime DataUrodzenia))
             {
                 User user = new User()

@@ -29,7 +29,7 @@ namespace ShopApp.Utility
                 string fileName = string.Empty;
                 string fileExtenstion = file.FileName.Substring(file.FileName.LastIndexOf('.') + 1);
 
-                if (!imageValidExtensions.Contains(fileExtenstion))
+                if (!imageValidExtensions.Contains(fileExtenstion.ToLower()))
                     throw new Exception("The file extension is invalid!");
 
 
@@ -85,7 +85,7 @@ namespace ShopApp.Utility
                 string fileName = string.Empty;
                 string fileExtenstion = file.FileName.Substring(file.FileName.LastIndexOf('.') + 1);
 
-                if (!imageValidExtensions.Contains(fileExtenstion))
+                if (!imageValidExtensions.Contains(fileExtenstion.ToLower()))
                     throw new Exception("The file extension is invalid!");
 
 
