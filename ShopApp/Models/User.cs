@@ -19,6 +19,9 @@ namespace ShopApp.Models
         [Key]
         public int UserID { get; set; }
 
+        [Column("IsActive")]
+        public bool IsActivated { get; set; }
+
         [Required(ErrorMessage = "To pole jest wymagane")]
         [MaxLength(50)]
         [Column("Email", TypeName = "nvarchar")]

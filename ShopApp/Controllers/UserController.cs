@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Principal;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -17,15 +18,15 @@ using System.Web.Security;
 namespace ShopApp.Controllers
 {
     public class UserController : Controller
-    { 
-       
+    {
+
         private ShopContext db = new ShopContext();
 
 
         //USER REGISTRATION
         public ActionResult Register()
         {
-            if(HttpContext.User.Identity.IsAuthenticated)
+            if (HttpContext.User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
             else
                 return View();
@@ -33,23 +34,28 @@ namespace ShopApp.Controllers
 
         //POST: Register/Create
         [HttpPost]
-        public ActionResult Register(FormCollection collection)
+        public async Task<ActionResult> Register(FormCollection collection)
         {
             if (ModelState.IsValid && DateTime.TryParse(collection["BirthDate"], out DateTime DataUrodzenia))
-            { 
-            User user = new User()
             {
-                FirstName = collection["FirstName"].Trim(),
-                LastName = collection["LastName"].Trim(),
-                Login = collection["Login"].Trim(),
-                EncryptedPassword = Cryptographing.Encrypt(collection["Password"]),
-                Email = collection["Email"].Trim(),
-                BirthDate = DateTime.Parse(collection["BirthDate"]),
-                CreationDate = DateTime.Now
-            };
+                User user = new User()
+                {
+                    FirstName = collection["FirstName"].Trim(),
+                    LastName = collection["LastName"].Trim(),
+                    Login = collection["Login"].Trim(),
+                    EncryptedPassword = Cryptographing.Encrypt(collection["Password"]),
+                    Email = collection["Email"].Trim(),
+                    BirthDate = DataUrodzenia,
+                    CreationDate = DateTime.Now,
+                    IsActivated = false
+                };
+
                 db.Users.Add(user);
                 db.SaveChanges();
-            return RedirectToAction("Account","userpanel");
+
+                EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email);
+
+                return RedirectToAction("Account", "userpanel");
             }
             return RedirectToAction("Register");
         }
@@ -73,8 +79,8 @@ namespace ShopApp.Controllers
             var user = db.Users.Where(x => x.Email == email && x.EncryptedPassword == password).SingleOrDefault();
 
             if (user != null)
-            { 
-                FormsAuthentication.SetAuthCookie(user.Login, (collection["rememberMeInput"] == "rememberMe"? true : false)); //TODO ISCHECKED
+            {
+                FormsAuthentication.SetAuthCookie(user.Login, (collection["rememberMeInput"] == "rememberMe" ? true : false)); //TODO ISCHECKED
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.ErrorMessage = "Nieprawidłowe dane logowania";

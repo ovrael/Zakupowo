@@ -71,7 +71,7 @@ namespace ShopApp.Controllers
 
             return Json(errors, JsonRequestBehavior.AllowGet);
         }
-
         #endregion
+
     }
 }
