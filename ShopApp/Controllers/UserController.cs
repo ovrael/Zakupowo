@@ -70,7 +70,7 @@ namespace ShopApp.Controllers
 
                 EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email);
 
-                return RedirectToAction("Account", "UserPanel");
+                return RedirectToAction("Login");
             }
             return View();
         }
