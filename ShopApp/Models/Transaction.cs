@@ -13,5 +13,7 @@ namespace ShopApp.Models
         public int TransactionID { get; set; }
         public virtual User Buyer { get; set; }
         public virtual User Seller { get; set; }
+        public virtual ICollection<BucketItem> BucketItems { get; set; }
+ 
     }
 }

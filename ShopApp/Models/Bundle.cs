@@ -16,7 +16,9 @@ namespace ShopApp.Models
         [Column("Title", TypeName = "char")]
         [MaxLength(400)]
         public string Title { get; set; }
-        public virtual ICollection<Offer> Offers { get; set; }
         public virtual User User { get; set; }
+        public virtual ICollection<Offer> Offers { get; set; }
+        public virtual ICollection<Bucket> Bucket { get; set; }
+
     }
 }

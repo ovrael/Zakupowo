@@ -3,10 +3,11 @@
     "",
     "\\ShopApp",
     "\\ShopApp\\Controllers",
+    "\\ShopApp\\Migrations",
     "\\ShopApp\\Models",
     "\\ShopApp\\Views",
-    "\\ShopApp\\Views\\Home",
-    "\\ShopApp\\Views\\Shared"
+    "\\ShopApp\\Views\\Offer"
   ],
+  "SelectedNode": "\\ShopApp\\Models\\Transaction.cs",
   "PreviewInSolutionExplorer": false
 }

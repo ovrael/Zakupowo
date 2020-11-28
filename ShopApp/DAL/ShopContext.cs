@@ -26,5 +26,7 @@ namespace ShopApp.DAL
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
+
+        public System.Data.Entity.DbSet<ShopApp.Models.AvatarImage> AvatarImages { get; set; }
     }
 }

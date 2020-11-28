@@ -21,6 +21,7 @@ namespace ShopApp.Migrations
 
         protected override void Seed(ShopContext context)
         {
+            /*
             var users = new List<User>
             {
                 new User{ Email="Seed@mail.com",
@@ -82,6 +83,7 @@ namespace ShopApp.Migrations
             };
             adresses.ForEach(a => context.ShippingAdresses.Add(a));
             context.SaveChanges();
+            */
         }
     }
 }

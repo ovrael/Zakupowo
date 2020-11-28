@@ -1,0 +1,132 @@
+﻿@model ShopApp.Models.Offer
+
+@Styles.Render("~/bundles/Offer")
+
+@* List<ShopApp.Models.Offer>
+    offers = Model.OfferList.ToList();
+
+    for (int i = 0; i < offers.Count; i++)
+    {
+    ShopApp.Models.Offer show = offers[i];
+    string pictureUrl = string.Empty;
+    if (show.OfferPictures != null && show.OfferPictures.Count > 0)
+    {
+    System.Diagnostics.Debug.WriteLine("Oferta nr: " + (i + 1) + "\tZdjęć: " + show.OfferPictures.Count);
+    pictureUrl = show.OfferPictures.ToList()[0].PathToFile;
+    }
+    else
+    {
+    pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
+    }
+
+    System.Diagnostics.Debug.WriteLine(pictureUrl);
+
+*@
+@{
+    <div class="row offer m-0 mx-lg-auto mb-4 justify-content-center">
+        <div class="offer-carousel col-12 col-lg-6 p-0 m-0">
+            <div id="carousel-offer" class="carousel slide" data-ride="carousel" data-interval="false">
+
+                <ol class="carousel-indicators">
+                    @for (int x = 0; x < Model.OfferPictures.Count; x++)
+                    {
+                        <li data-target="#carousel-offer" data-slide-to="@x" class="active"></li>
+                    }
+                </ol>
+
+                <div class="carousel-inner">
+                    @for (int x = 0; x < Model.OfferPictures.Count; x++)
+                    {
+                        string pictureUrl = string.Empty;
+                        if (Model.OfferPictures != null && Model.OfferPictures.Count > 0)
+                        {
+                            <div class="carousel-item active">
+                                <img src="@Model.OfferPictures.ToList()[x].PathToFile" class="d-block w-100">
+                            </div>
+                        }
+                        else
+                        {
+                            pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
+                        }
+                    }
+                </div>
+                <a class="carousel-control-prev" href="#carousel-offer" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carousel-offer" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4 offer-info p-2 p-lg-0 m-lg-4 d-block">
+            <div class="row justify-content-between align-items-center m-0">
+                <h3 class="product-name">@Model.Title</h3>
+
+                @{
+                    bool IsFav = false;
+                    ShopApp.Models.User User;
+                    using (ShopApp.DAL.ShopContext db = new ShopApp.DAL.ShopContext())
+                    {
+                        User = db.Users.Where(i => i.Login == HttpContext.Current.User.Identity.Name).SingleOrDefault();
+                        if (User != null)
+                        { 
+                        foreach (var item in User.FavouriteOffer)
+                        {
+                            if (item.Offer.OfferID == Model.OfferID)
+                            {
+                                IsFav = true;
+                            }
+                        }
+                        }
+                    }
+                    if (IsFav && HttpContext.Current.User.Identity.IsAuthenticated)
+                    {
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" url="@Url.Action("UnFav", "Home")" id="@Model.OfferID"></i>
+                    }
+                    else if (HttpContext.Current.User.Identity.IsAuthenticated)
+                    {
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav" onclick="Fav(@Model.OfferID)" url="@Url.Action("Fav", "Home")" id="@Model.OfferID"></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav" url="@Url.Action("Fav", "Home")" id="@Model.OfferID"></i>
+                    }
+                }
+
+            </div>
+            <p class="product-condition m-0 p-0">stan: nowy</p>
+            <p class="seller d-block m-0 p-0"> sprzedawca: <a class="seller-name" href="#">@Model.User.Login</a></p>
+            <hr class="mb-2" />
+            <h3 class="product-price">@Model.Price</h3>
+            <p class="product-price-wdeliver">z dostawą: 115 zł ?cena + cena wybranego dostawcy? </p>
+            <hr class="mb-2" />
+        <form method="post">
+            <p class="buyer-counter mb-1">200 osób kupiło 243 sztuk </p>
+            <label for="quantity-input">Pozostało: nie wiadomo po implementacji transakcji bedzie wiecej info naura</label>
+            <div name="quantity-input" class="input-group">
+                <input type="button" value="-" data-field="quantity" class="button input-group-prepend quantity-button button-minus">
+                <input type="number" step="1" max="@Model.InStockNow" min="1" value="1" name="quantity" class="quantity-field w-25">
+                <input type="button" value="+" data-field="quantity" class="button input-group-append quantity-button button-plus">
+                <p class="p-0 mx-2 my-auto">@Model.InStockNow</p>
+            </div>
+            <input type="hidden" name="prodId" value=@Model.OfferID>
+            <input type="submit" name="choice" value="DODAJ DO KOSZYKA" class="offer-button w-100 p-3 mt-2">
+            <input type="submit" name="choice" value="KUP TERAZ" class="offer-button p-3 w-100 my-1">
+        </form>
+        </div>
+        <div class="col-12 col-lg-10 offer-desc w-100 m-0 p-0">
+            <hr />
+            <h3>Opis produktu</h3>
+            <p> @Model.Description </p>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+    
+
+    </script>
+
+    @Scripts.Render("~/bundles/Offerjs")
+}

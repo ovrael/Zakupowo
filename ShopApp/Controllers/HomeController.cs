@@ -15,37 +15,15 @@ namespace ShopApp.Controllers
         private ShopContext db = new ShopContext();
         public ActionResult Index()
         {
-            HomeIndexView viewData;
-            List<Category> categories;
-            List<Offer> offers;
-
-
-            categories = db.Categories.ToList();
-            offers = db.Offers.ToList();
-
-            viewData = new HomeIndexView
-            {
-                CategoryList = categories,
-                OfferList = offers
-            };
-
-            return View(viewData);
+            return View();
         }
-        public ActionResult Kat(int KatID)//We come here from
+        public ActionResult Kat(int KatID = 1)//We come here from
         {
-            return View(db.Offers.Where(i => i.Category.CategoryID == KatID));
+            return View(db.Offers.Where(i => i.Category.CategoryID == KatID && i.IsActive));
         }
+        // OFFER VIEW
 
-        public ActionResult Offer(int OfferID)//We come here from index 
-        {
-            if (OfferID > 0)
-            {
-                Offer oferta = DataBase.SearchForOffer(OfferID);
-                return View(oferta);
-            }
-            else
-                return RedirectToAction("Index");
-        }
+        #region FavouriteOfferManagement
         [HttpPost]
         public ActionResult Fav(int id)//We come here from index 
         {
@@ -93,7 +71,7 @@ namespace ShopApp.Controllers
 
             return Json(errors, JsonRequestBehavior.AllowGet);
         }
-
+        #endregion
 
     }
 }

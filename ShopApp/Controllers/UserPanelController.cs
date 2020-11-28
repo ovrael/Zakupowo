@@ -1,21 +1,22 @@
-﻿using ShopApp.Models;
+﻿using System;
+using System.IO;
+using System.Net;
+using System.Web;
+using System.Linq;
+using System.Web.Mvc;
+using System.Security;
+using System.Diagnostics;
+using System.Web.Security;
+using System.Threading.Tasks;
+using System.Web.Configuration;
+using System.Collections.Generic;
+using ShopApp.DAL;
+using ShopApp.Models;
+using ShopApp.Utility;
 using ShopApp.ViewModels;
 using ShopApp.ViewModels.User;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using ShopApp.DAL;
-using Microsoft.Ajax.Utilities;
 using Antlr.Runtime.Tree;
-using ShopApp.Utility;
-using System.Diagnostics;
-using System.Security;
-using System.Web.Configuration;
-using System.Net;
-using System.Web.Security;
-using System.IO;
+using Microsoft.Ajax.Utilities;
 
 namespace ShopApp.Controllers
 {
@@ -24,26 +25,6 @@ namespace ShopApp.Controllers
     {
         private ShopContext db = new ShopContext();
 
-
-        public ActionResult AccountAddProduct()
-        {
-            return View();
-        }
-        [HttpPost]
-        public ActionResult AccountAddProduct(FormCollection collection)
-        {
-            User user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-            Offer Oferta = new Offer
-            {
-                Title = collection["product_name"],
-                Description = collection["product_name_fr"],
-                InStock = Convert.ToDouble(collection["available_quantity"]),
-                Price = Convert.ToDouble(collection["product_price"]),
-                Category = db.Categories.Where(i => i.CategoryName == collection["product_categorie"]).FirstOrDefault()
-            };
-            DataBase.AddToDatabase(Oferta, user);
-            return RedirectToAction("Index", "Home");
-        }
         [Authorize]
         #region UserData 
 
@@ -95,6 +76,7 @@ namespace ShopApp.Controllers
             return RedirectToAction("EditBasicInfo", "UserPanel");
         }
 
+        #region ShippingAdresses
         // VIEW WHERE USER CAN EDIT SHIPPING ADRESSES
         public ActionResult ShippingAdresses()
         {
@@ -138,7 +120,7 @@ namespace ShopApp.Controllers
 
                 editUser.ShippingAdresses.ToList()[adressNumber] = shippingAdress;
 
-                db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
+                //db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
             }
             return RedirectToAction("ShippingAdresses", "UserPanel");
@@ -187,17 +169,16 @@ namespace ShopApp.Controllers
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
             int userID = editUser.UserID;
 
-            List<ShippingAdress> lista = db.ShippingAdresses.Where(u => u.User.UserID == userID).ToList();
-
             ShippingAdress adressToRemove = db.ShippingAdresses.Where(u => u.User.UserID == userID).ToList()[(int)adressNumber];
 
+            editUser.ShippingAdresses.Remove(adressToRemove);
             db.ShippingAdresses.Remove(adressToRemove);
             db.SaveChanges();
 
 
             return RedirectToAction("ShippingAdresses", "UserPanel");
         }
-
+        #endregion
 
         // VIEW WHERE USER CAN EDIT PASSWORD
         public ActionResult EditPassword()
@@ -208,9 +189,9 @@ namespace ShopApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditPassword(FormCollection collection)
+        public async Task<ActionResult> EditPassword(FormCollection collection)
         {
-            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
 
             if (editUser != null)
             {
@@ -218,14 +199,17 @@ namespace ShopApp.Controllers
                 string encryptedNewPassword = Cryptographing.Encrypt(collection["NewPassword"].Trim());
                 string encryptedNewPasswordValidation = Cryptographing.Encrypt(collection["NewPasswordValidation"].Trim());
 
-                if (encryptedOldPassword != editUser.EncryptedPassword && encryptedOldPassword != null)
+                // If written current password is the same as current password AND written current and new passwords are not NULLs
+                if (encryptedOldPassword.Equals(editUser.EncryptedPassword) && encryptedOldPassword != null && encryptedNewPassword != null)
                 {
-                    if (encryptedNewPassword.Equals(encryptedNewPasswordValidation))
+                    // If new password validates and is different from old one => CHANGE PASSWORD
+                    if (encryptedNewPassword.Equals(encryptedNewPasswordValidation) && !encryptedNewPassword.Equals(encryptedOldPassword))
                     {
+                        // WYŚLIJ EMAIL Z POTWIERDZENIEM
                         editUser.EncryptedPassword = encryptedNewPassword;
-
-                        db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
                         db.SaveChanges();
+
+                        await EmailManager.SendEmailAsync(EmailManager.EmailType.ChangePassword, editUser.FirstName, editUser.LastName, editUser.Email);
                     }
                 }
             }
@@ -233,7 +217,7 @@ namespace ShopApp.Controllers
             return RedirectToAction("Account", "UserPanel");
         }
 
-        // VIEW WHERE USER CAN EDIT PASSWORD
+        // VIEW WHERE USER CAN EDIT AVATAR
         public ActionResult EditAvatar()
         {
             User showUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
@@ -242,54 +226,31 @@ namespace ShopApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditAvatar(HttpPostedFileBase file)
+        public async Task<ActionResult> EditAvatar(HttpPostedFileBase file)
         {
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
-            string[] validExtensions = new string[] { "jpg", "png", "jpeg" };
+            var imageUrl = await FileManager.UploadAvatar(file, editUser.UserID);
 
-            if (file != null && file.ContentLength > 0)
+            if (imageUrl != null)
             {
-                try
+                if (editUser.AvatarImage.PathToFile == null)
                 {
-                    string folderLoadPath = @"../../App_Files/Images/UserAvatars/";
-                    string folderSavePath = @"~/App_Files/Images/UserAvatars/";
-                    string fileExtenstion = file.FileName.Substring(file.FileName.LastIndexOf('.') + 1);
-                    string fileName = "Avatar_" + editUser.UserID + "." + fileExtenstion;
-
-                    if (validExtensions.Contains(fileExtenstion))
-                    {
-                        string path = Path.Combine(Server.MapPath(folderSavePath), Path.GetFileName(fileName));
-
-                        file.SaveAs(path);
-
-                        AvatarImage newAvatar = new AvatarImage() { PathToFile = folderLoadPath + fileName, User = editUser };
-
-                        db.Entry(newAvatar).State = System.Data.Entity.EntityState.Added;
-                        db.SaveChanges();
-
-                        editUser.AvatarImage = newAvatar;
-                        db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
-                        db.SaveChanges();
-
-                        ViewBag.Message = "File uploaded successfully";
-                    }
-                    else
-                    {
-                        throw new Exception("The file extension is invalid!");
-                    }
-
+                    AvatarImage newAvatar = new AvatarImage() { PathToFile = imageUrl, User = editUser };
+                    db.Entry(newAvatar).State = System.Data.Entity.EntityState.Added;
                 }
-                catch (Exception ex)
+                else
                 {
-                    ViewBag.Message = "ERROR:" + ex.Message.ToString();
+                    editUser.AvatarImage.PathToFile = imageUrl;
+                    db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
                 }
+                db.SaveChanges();
+                ViewBag.Message = "File uploaded successfully";
             }
             else
             {
-                ViewBag.Message = "You have not specified a file.";
+                Debug.WriteLine("NIE UDAŁO SIĘ ZUPLOADOWAĆ PLIKU");
             }
-
 
             return RedirectToAction("EditAvatar", "UserPanel");
         }
@@ -304,28 +265,33 @@ namespace ShopApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddOffer(FormCollection collection)
+        public async Task<ActionResult> AddOffer(FormCollection collection)
         {
             User editUser = db.Users.Where(u => u.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-            var files = Request.Files;
 
-            string[] validExtensions = new string[] { "jpg", "png", "jpeg" };
+            int categoryID = int.Parse(collection["Category"]);
+            Category offerCategory = db.Categories.Where(o => o.CategoryID == categoryID).FirstOrDefault();
 
-            int kat = int.Parse(collection["Category"]);
-
-            //Debug.WriteLine(collection["Category"]);
             Offer offer = new Offer
             {
                 Title = collection["Name"],
                 Description = collection["Description"],
-                InStock = Convert.ToDouble(collection["Quantity"]),
-                Price = Convert.ToDouble(collection["Price"]),  
-                Category = db.Categories.Where(i => i.CategoryID == kat).FirstOrDefault(),
-                User = editUser
+                InStockOriginaly = Convert.ToDouble(collection["Quantity"]),
+                Price = Convert.ToDouble(collection["Price"]),
+                Category = offerCategory,
+                User = editUser,
+                IsActive = true
             };
+            offer.InStockNow = offer.InStockOriginaly;
+
+            db.Offers.Add(offer);
+            db.SaveChanges();
+
+            offer = db.Offers.ToList().Last(); // DO POPRAWY
 
             List<OfferPicture> pictures = new List<OfferPicture>();
 
+            var files = Request.Files;
             if (files != null && files.Count > 0)
             {
                 try
@@ -334,25 +300,14 @@ namespace ShopApp.Controllers
                     {
                         var workFile = files[i];
 
-                        string folderLoadPath = @"../../App_Files/Images/OfferPictures/";
-                        string folderSavePath = @"~/App_Files/Images/OfferPictures/";
-                        string fileExtension = workFile.FileName.Substring(workFile.FileName.LastIndexOf('.') + 1);
-                        string fileName = "Offer_" + offer.OfferID + "_PictureNo_" + i + "." + fileExtension;
+                        var fileUrl = await FileManager.UploadOfferImage(workFile, offer.OfferID, i);
 
-                        if (validExtensions.Contains(fileExtension))
+                        if (fileUrl != null)
                         {
-                            string path = Path.Combine(Server.MapPath(folderSavePath), Path.GetFileName(fileName));
-
-                            workFile.SaveAs(path);
-
-                            OfferPicture offerPicture = new OfferPicture() { PathToFile = folderLoadPath + fileName, Offer = offer };
+                            OfferPicture offerPicture = new OfferPicture() { PathToFile = fileUrl, Offer = offer };
                             pictures.Add(offerPicture);
 
                             ViewBag.Message = "File uploaded successfully";
-                        }
-                        else
-                        {
-                            throw new Exception("The file extension is invalid!");
                         }
                     }
                 }
@@ -367,14 +322,12 @@ namespace ShopApp.Controllers
             }
 
             offer.OfferPictures = pictures;
-            db.Entry(offer).State = System.Data.Entity.EntityState.Added;
             db.SaveChanges();
 
             offer.Category.Offers.Add(offer);
             db.SaveChanges();
 
             editUser.Offers.Add(offer);
-            db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
 
             return RedirectToAction("Index", "Home");
