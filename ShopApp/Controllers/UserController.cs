@@ -36,19 +36,31 @@ namespace ShopApp.Controllers
         [HttpPost]
         public async Task<ActionResult> Register(FormCollection collection)
         {
-            if (db.Users.Where(u => u.Email == collection["Email"].Trim()).FirstOrDefault() != null)
-                return RedirectToAction("Register");
+            string email = collection["Email"].Trim();
+            string login = collection["Login"].Trim();
+            User tmpEmailUser = db.Users.Where(u => u.Email == email).FirstOrDefault();
+            User tmpLoginUser = db.Users.Where(u => u.Login == login).FirstOrDefault();
 
-            if (ModelState.IsValid && DateTime.TryParse(collection["BirthDate"], out DateTime DataUrodzenia))
+            bool properDate = DateTime.TryParse(collection["BirthDate"], out DateTime dataUrodzenia);
+            bool properAge = Utilities.CheckRegistrationAge(dataUrodzenia);
+            bool uniqueEmail = tmpEmailUser is null; // If user with given EMAIL doesn't exist returns true that allows to register
+            bool uniqueLogin = tmpLoginUser is null; // If user with given LOGIN doesn't exist returns true that allows to register
+
+            if (!properDate) ViewBag.DateMessage = "Invalid date.";
+            if (!properAge) ViewBag.AgeMessage = "You must be at least 13 years old.";
+            if (!uniqueEmail) ViewBag.EmailMessage = "Account with that email already exists!";
+            if (!uniqueLogin) ViewBag.LoginMessage = "Account with that login already exists!";
+
+            if (ModelState.IsValid && properDate && properAge && uniqueEmail && uniqueLogin)
             {
                 User user = new User()
                 {
                     FirstName = collection["FirstName"].Trim(),
                     LastName = collection["LastName"].Trim(),
-                    Login = collection["Login"].Trim(),
+                    Login = login,
                     EncryptedPassword = Cryptographing.Encrypt(collection["Password"]),
-                    Email = collection["Email"].Trim(),
-                    BirthDate = DataUrodzenia,
+                    Email = email,
+                    BirthDate = dataUrodzenia,
                     CreationDate = DateTime.Now,
                     IsActivated = false
                 };
@@ -58,9 +70,9 @@ namespace ShopApp.Controllers
 
                 EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email);
 
-                return RedirectToAction("Account", "userpanel");
+                return RedirectToAction("Account", "UserPanel");
             }
-            return RedirectToAction("Register");
+            return View();
         }
 
 
