@@ -9,8 +9,6 @@ using System.Diagnostics;
 
 namespace ShopApp.Utility
 {
-
-
     public class EmailManager
     {
         private static readonly string enter = Environment.NewLine;
@@ -62,6 +60,59 @@ namespace ShopApp.Utility
                     await client.AuthenticateAsync("zakupowo2020", "Zakupowo2020$$$");
 
                     await client.SendAsync(message);
+                    client.Disconnect(true);
+                    result = true;
+                    Debug.WriteLine("EMAIL SENT!");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+
+            return result;
+        }
+
+        public static bool SendEmail(EmailType emailType, string receiverFirstName, string receiverLastName, string receiverEmail)
+        {
+            bool result = false;
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Zakupowo Team", "zakupowo2020@gmail.com"));
+            message.To.Add(new MailboxAddress(receiverFirstName + " " + receiverLastName, receiverEmail));
+
+            message.Subject = string.Empty;
+            string messageBody = string.Empty;
+
+            switch (emailType)
+            {
+                case EmailType.Registration:
+                    messageBody = RegistrationText();
+                    message.Subject = @"Successful registration!";
+                    break;
+
+                case EmailType.ChangePassword:
+                    messageBody = ChangePasswordText();
+                    message.Subject = @"Your password has been changed.";
+                    break;
+            }
+            messageBody += EndOfEmail();
+
+            message.Body = new TextPart("plain")
+            {
+                Text = messageBody
+            };
+
+            using (var client = new SmtpClient())
+            {
+                try
+                {
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+
+                    client.Connect("smtp.gmail.com", 587, SecureSocketOptions.Auto);
+
+                    client.Authenticate("zakupowo2020", "Zakupowo2020$$$");
+
+                    client.Send(message);
                     client.Disconnect(true);
                     result = true;
                     Debug.WriteLine("EMAIL SENT!");

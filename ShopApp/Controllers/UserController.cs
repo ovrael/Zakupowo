@@ -26,7 +26,7 @@ namespace ShopApp.Controllers
         //USER REGISTRATION
         public ActionResult Register()
         {
-            if(HttpContext.User.Identity.IsAuthenticated)
+            if (HttpContext.User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
             else
                 return View();
@@ -45,12 +45,16 @@ namespace ShopApp.Controllers
                     Login = collection["Login"].Trim(),
                     EncryptedPassword = Cryptographing.Encrypt(collection["Password"]),
                     Email = collection["Email"].Trim(),
-                    BirthDate = DateTime.Parse(collection["BirthDate"]),
-                    CreationDate = DateTime.Now
+                    BirthDate = DataUrodzenia,
+                    CreationDate = DateTime.Now,
+                    IsActivated = false
                 };
+
                 db.Users.Add(user);
                 db.SaveChanges();
-                await EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email);
+
+                EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email);
+
                 return RedirectToAction("Account", "userpanel");
             }
             return RedirectToAction("Register");
