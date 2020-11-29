@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using MailKit;
 using MailKit.Security;
 using System.Diagnostics;
+using System.Text;
+using System.Web.Mvc;
 
 namespace ShopApp.Utility
 {
     public class EmailManager
     {
-        private static readonly string enter = Environment.NewLine;
-
         public enum EmailType
         {
             Registration,
@@ -27,26 +27,25 @@ namespace ShopApp.Utility
             message.From.Add(new MailboxAddress("Zakupowo Team", "zakupowo2020@gmail.com"));
             message.To.Add(new MailboxAddress(receiverFirstName + " " + receiverLastName, receiverEmail));
             message.Subject = string.Empty;
+            var builder = new BodyBuilder();
             string messageBody = string.Empty;
 
             switch (emailType)
             {
                 case EmailType.Registration:
-                    messageBody = RegistrationText();
+                    builder.HtmlBody = RegistrationText(receiverEmail);
                     message.Subject = @"Successful registration!";
                     break;
 
                 case EmailType.ChangePassword:
-                    messageBody = ChangePasswordText();
+                    builder.HtmlBody = ChangePasswordText(receiverEmail);
                     message.Subject = @"Your password has been changed.";
                     break;
             }
-            messageBody += EndOfEmail();
+            builder.HtmlBody += EndOfEmail();
 
-            message.Body = new TextPart("plain")
-            {
-                Text = messageBody
-            };
+            message.Body = builder.ToMessageBody();
+
 
             using (var client = new SmtpClient())
             {
@@ -61,7 +60,6 @@ namespace ShopApp.Utility
                     await client.SendAsync(message);
                     client.Disconnect(true);
                     result = true;
-                    Debug.WriteLine("EMAIL SENT!");
                 }
                 catch (Exception ex)
                 {
@@ -80,26 +78,24 @@ namespace ShopApp.Utility
             message.To.Add(new MailboxAddress(receiverFirstName + " " + receiverLastName, receiverEmail));
 
             message.Subject = string.Empty;
+            var builder = new BodyBuilder();
             string messageBody = string.Empty;
 
             switch (emailType)
             {
                 case EmailType.Registration:
-                    messageBody = RegistrationText();
+                    builder.HtmlBody = RegistrationText(receiverEmail);
                     message.Subject = @"Successful registration!";
                     break;
 
                 case EmailType.ChangePassword:
-                    messageBody = ChangePasswordText();
+                    builder.HtmlBody = ChangePasswordText(receiverEmail);
                     message.Subject = @"Your password has been changed.";
                     break;
             }
-            messageBody += EndOfEmail();
+            builder.HtmlBody += EndOfEmail();
 
-            message.Body = new TextPart("plain")
-            {
-                Text = messageBody
-            };
+            message.Body = builder.ToMessageBody();
 
             using (var client = new SmtpClient())
             {
@@ -126,48 +122,48 @@ namespace ShopApp.Utility
         }
 
         // A message sent to new registered accounts.
-        private static string RegistrationText()
+        private static string RegistrationText(string receiverEmail)
         {
-            string message =
-            "Thank you for registration!"
-            + enter
-            + enter
-            + "Now you can:"
-            + enter
-            + "\t-Browse offers"
-            + enter
-            + "\t-Add your offer"
-            + enter
-            + "\t-Change your data";
+            StringBuilder message = new StringBuilder();
+            message.AppendLine("<pre>Thank you for registration!");
+            message.AppendLine();
+            message.AppendLine("Now you can:");
+            message.AppendLine("    -Browse offers");
+            message.AppendLine("    -Change your data");
+            message.AppendLine();
+            message.AppendLine("If you want more functionality:");
+            message.AppendLine("    -Buy offers");
+            message.AppendLine("    -Make offers");
+            message.AppendLine();
+            message.AppendLine("<a href=\"http://localhost:44000/User/ConfirmRegistration?email=" + receiverEmail + "\">Click here</a> to fully register your account!<pre>");
 
-            return message;
+            return message.ToString();
         }
 
         // A message sent when a password was changed.
-        private static string ChangePasswordText()
+        private static string ChangePasswordText(string receiverEmail)
         {
-            string message =
-            "Have you just changed your password?"
-            + enter
-            + enter
-            + "If you don't recognize this activity, please contact us.";
+            StringBuilder message = new StringBuilder();
+            message.AppendLine("<pre>Have you just tried to change your password?");
+            message.AppendLine("<a href=\"http://localhost:44000/UserPanel/ConfirmPasswordChange?=" + receiverEmail + "\">Click here</a> to confirm the change.");
+            message.AppendLine();
+            message.AppendLine();
+            message.AppendLine("If you don't recognize this activity, please <a href=\"http://localhost:44000/Home/Contact\">contact us</a>.<pre>");
 
-            return message;
+            return message.ToString();
         }
 
         // The end of every message (can be made in gmail options too).
         private static string EndOfEmail()
         {
-            string message =
-            enter
-            + enter
-            + "-------------------------------------------"
-            + enter
-            + "Best regards,"
-            + enter
-            + "Zakupowo Team";
+            StringBuilder message = new StringBuilder();
+            message.AppendLine("<pre>");
+            message.AppendLine("-----------------------------------------------");
+            message.AppendLine("");
+            message.AppendLine("Best regards,");
+            message.AppendLine("Zakupowo Team<pre>");
 
-            return message;
+            return message.ToString();
         }
     }
 }

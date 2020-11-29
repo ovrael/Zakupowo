@@ -43,8 +43,8 @@ namespace ShopApp.Controllers
 
             bool properDate = DateTime.TryParse(collection["BirthDate"], out DateTime dataUrodzenia);
             bool properAge = Utilities.CheckRegistrationAge(dataUrodzenia);
-            bool uniqueEmail = tmpEmailUser is null; // If user with given EMAIL doesn't exist returns true that allows to register
-            bool uniqueLogin = tmpLoginUser is null; // If user with given LOGIN doesn't exist returns true that allows to register
+            bool uniqueEmail = tmpEmailUser is null; // If user with given EMAIL doesn't exist returns true that allows to register, works like "tmpEmailUser is null ? true : null"
+            bool uniqueLogin = tmpLoginUser is null; // If user with given LOGIN doesn't exist returns true that allows to register, works like "tmpLoginUser is null ? true : null"
 
             if (!properDate) ViewBag.DateMessage = "Invalid date.";
             if (!properAge) ViewBag.AgeMessage = "You must be at least 13 years old.";
@@ -64,6 +64,7 @@ namespace ShopApp.Controllers
                     CreationDate = DateTime.Now,
                     IsActivated = false
                 };
+
                 db.Users.Add(user);
                 db.SaveChanges();
                 var bucket = new Bucket
@@ -79,6 +80,18 @@ namespace ShopApp.Controllers
             return View();
         }
 
+        public string ConfirmRegistration()
+        {
+            string url = HttpContext.Request.Url.Query;
+            //Request.QueryString.Clear();
+            return url;
+        }
+
+        public ActionResult ConfirmRegistration(string email)
+        {
+            string url = HttpContext.Request.Url.Query;
+            return View(email);
+        }
 
         //Login methods
         public ActionResult Login()

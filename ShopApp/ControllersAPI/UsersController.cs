@@ -27,11 +27,20 @@ namespace ShopApp.Controllers
         [Route("Register")]
         public IHttpActionResult Register(RegisterBindingModel model)
         {
+            DateTime birthdate = DateTime.Parse(model.BirthDate);
             User user = new User()
             {
-              
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Login = model.Login,
+                EncryptedPassword = Cryptographing.Encrypt(model.Password),
+                Email = model.Email,
+                BirthDate = birthdate,
+                CreationDate = DateTime.Now,
+                IsActivated = false
 
             };
+
             db.Users.Add(user);
             db.SaveChanges();
             return Ok();
@@ -58,7 +67,42 @@ namespace ShopApp.Controllers
 
     public class RegisterBindingModel
     {
-
+        [Required]
+        public string Email
+        {
+            get; set;
+        }
+        [Required]
+        public string Password
+        {
+            get; set;
+        }
+        [Required]
+        public string Login
+        {
+            get; set;
+        }
+     
+        [Required]
+        public string FirstName
+        {
+            get; set;
+        }
+        [Required]
+        public string LastName
+        {
+            get; set;
+        }
+        [Required]
+        public string BirthDate
+        {
+            get; set;
+        }
+        [Required]
+        public string Phone
+        {
+            get; set;
+        }
     }
 
     public class LoginBindingModel
