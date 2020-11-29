@@ -24,7 +24,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 pl-5">
             <div class="container-accout-edit">
                 <div class="view-account">
                     <section class="module">
@@ -32,20 +32,26 @@
 
                             @Html.Partial("_SettingsSideBar", Model)
 
-                            <div class="content-panel">
-
-                                <img src="@avatarUrl" class="img-fluid" alt="example placeholder">
+                            <div class="content-panel mb-3">
+                                <h3 class="fieldset-title">Zmiana avatara</h3>
+                                <img src="@avatarUrl" class="img-fluid pb-3 pt-3" alt="example placeholder" style="width:250px;border:solid; border-width:2px; border-color:lightgray">
                                 <br><br>
 
                                 @using (Html.BeginForm("EditAvatar", "UserPanel", FormMethod.Post, new { enctype = "multipart/form-data" }))
                                 {
-                                    <label for="file">Choose new avatar:</label>
-                                    <input type="file" name="file" id="file" /><br><br>
-                                    <input type="submit" value="Change avatar" class="btn btn-outline-success" />
+
+                                    <label for="file">Wybierz nowy avatar:</label>
+                                    <label class="btn btn-outline-dark mr-3 ml-3 ">
+                                        <i class="fas fa-upload pl-1"></i>
+                                        <input type="file" name="file" id="file" style="width: 0px;height: 0px;overflow: hidden;">
+                                    </label>
+                                    @*<input type="file" name="file" id="file" /><br><br>*@
+                                    <hr>
+                                    <input type="submit" value="Zmień avatar" class="btn btn-dark" />
                                     <br><br>
                                 }
                             </div>
-                        </div>
+                                </div>
                     </section>
                 </div>
             </div>

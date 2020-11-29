@@ -80,18 +80,18 @@
                                         </div>
                                     </div>
 
-                                    @*<div class="form-group">
-                <label class="col-md-4 control-label" for="Images">Zdjęcia</label>
-                <div class="col-md-4">
-                    <input id="filebutton" name="Images" class="file btn btn-lg btn-primary" type="file" multiple>
-                </div>
-            </div>*@
-                                    @*<div class="form-group">
-                <label class="col-md-4 control-label" for="Images"></label>
-                <div class="col-md-4">
-                    <label class="btn btn-warning">Dodaj zdjęcie <input type="file" hidden></label>
-                </div>
-            </div>*@
+                                                        @*<div class="form-group">
+                                    <label class="col-md-4 control-label" for="Images">Zdjęcia</label>
+                                    <div class="col-md-4">
+                                        <input id="filebutton" name="Images" class="file btn btn-lg btn-primary" type="file" multiple>
+                                    </div>
+                                </div>*@
+                                                        @*<div class="form-group">
+                                    <label class="col-md-4 control-label" for="Images"></label>
+                                    <div class="col-md-4">
+                                        <label class="btn btn-warning">Dodaj zdjęcie <input type="file" hidden></label>
+                                    </div>
+                                </div>*@
                                     <div id="images-container">
                                         <div class="form-group">
                                             <i class="fa fa-times del " style="display: none"></i>
@@ -191,91 +191,13 @@
 
 
 
+                       </div>
+                     </div>
 
-
-</fieldset>
+                    </fieldset>
                 }
 
-                @*<form class="form-horizontal" method="post">
-
-                        <fieldset class="add-produt">
-
-                            <h2>Dodaj ofertę</h2>
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="Name">Nazwa oferty</label>
-                                <div class="col-md-4">
-                                    <input id="product_name" name="Name" placeholder="Offer name" class="form-control input-md" required="" type="text">
-                                </div>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="Description">Opis</label>
-                                <div class="col-md-4">
-                                    <textarea id="product_name_fr" name="Description" placeholder="Description" class="form-control input-md" required=""> </textarea>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="Category">Kategoria</label>
-                                <div class="col-md-4">
-                                    <select id="product_categorie" name="Category" class="form-control">
-                                        <option selected>Wybierz kategorie</option>
-                                        @{
-                                            for (int i = 0; i < Model.Count(); i++)
-                                            {
-                                                <option value="@(i+1)">@Model.ElementAt(i).CategoryName</option>
-                                            }
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="Quantity">Ilość produktu</label>
-                                <div class="col-md-4">
-                                    <input id="available_quantity" name="Quantity" placeholder="Product quantity" class="form-control input-md" required="" type="number">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="Weigth">Waga</label>
-                                <div class="col-md-4">
-                                    <input id="product_weight" name="Weigth" placeholder="Weight" class="form-control input-md" required="" type="text">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="Price">Cena</label>
-                                <div class="col-md-4">
-                                    <input id="product_weight" name="Price" placeholder="Price" class="form-control input-md" required="" type="text">
-                                </div>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="filebutton">Główny obraz</label>
-                                <div class="col-md-4">
-                                    <input id="filebutton" name="filebutton" class="form-control-file input-file" type="file">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="filebutton">Obrazy poboczne</label>
-                                <div class="col-md-4">
-                                    <input id="filebutton" name="filebutton" class="form-control-file input-file" type="file">
-                                </div>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label class="col-md-4 control-label" for="singlebutton"></label>
-                                <div class="col-md-4">
-                                    <input type="submit" value="Create" class="btn btn-default" />
-                                </div>
-                            </div>
-                        </fieldset>
-                    </form>*@
+             
             </div>
         </div>
     </div>
