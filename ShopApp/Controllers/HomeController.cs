@@ -55,7 +55,7 @@ namespace ShopApp.Controllers
             User User = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
             List<string> errors = new List<string>(); // You might want to return an error if something wrong happened
-            var FvOff = db.FavouriteOffers.Where(i => i.Offer.OfferID == id).FirstOrDefault();
+            var FvOff = db.FavouriteOffers.Where(i => i.Offer.OfferID == id && i.User.UserID == User.UserID).FirstOrDefault();
             if (User.FavouriteOffer.Contains(FvOff))
             {
                 User.FavouriteOffer.Remove(FvOff);
