@@ -239,8 +239,10 @@ body {
     }
 
 /*   SIDE_BAR*/
-    .bg-dark {
-    background-color: #DCDCDC !important;
+
+.bg-dark {
+     background-color: #c1c1c1 !important;
+   
 }
 
 .navbar-vertical {
