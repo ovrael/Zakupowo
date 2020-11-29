@@ -1,0 +1,14 @@
+﻿@model ShopApp.Models.User
+
+@{
+    string status = "nieaktywowany";
+
+    if (Model.IsActivated)
+    {
+        status = "aktywowany";
+    }
+}
+
+<div class="messages-box h5">
+    <div class="alert alert-success">Status użytkownika @Model.Login: @status!</div>
+</div>

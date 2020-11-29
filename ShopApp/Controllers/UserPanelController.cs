@@ -205,17 +205,48 @@ namespace ShopApp.Controllers
                     // If new password validates and is different from old one => CHANGE PASSWORD
                     if (encryptedNewPassword.Equals(encryptedNewPasswordValidation) && !encryptedNewPassword.Equals(encryptedOldPassword))
                     {
-                        // WYŚLIJ EMAIL Z POTWIERDZENIEM
-                        editUser.EncryptedPassword = encryptedNewPassword;
-                        db.SaveChanges();
+                        ViewBag.ConfirmChanges = "Potwierdź link w wysłanym mail'u by zastosować zmianę hasła.";
 
-                        await EmailManager.SendEmailAsync(EmailManager.EmailType.ChangePassword, editUser.FirstName, editUser.LastName, editUser.Email);
+                        await EmailManager.SendEmailAsync(EmailManager.EmailType.ChangePassword, editUser.FirstName, editUser.LastName, editUser.Email, encryptedNewPassword);
                     }
                 }
             }
 
-            return RedirectToAction("Account", "UserPanel");
+            return View(editUser);
         }
+
+        public ActionResult PasswordChange()
+        {
+            string userEmail = TempData["email"].ToString();
+
+            User editUser = db.Users.Where(u => u.Email.Equals(userEmail)).FirstOrDefault();
+
+            if (editUser != null)
+            {
+                string newPassword = TempData["encryptedNewPassword"].ToString();
+                editUser.EncryptedPassword = newPassword;
+                db.SaveChanges();
+
+                return View(editUser);
+            }
+            else
+                return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult ConfirmPasswordChange(string email, string psw)
+        {
+            string userEmail = EmailManager.DecryptEmail(email);
+            TempData["email"] = userEmail;
+            TempData["encryptedNewPassword"] = psw;
+
+            User editUser = db.Users.Where(u => u.Email.Equals(userEmail)).FirstOrDefault();
+
+            if (editUser != null)
+                return RedirectToAction("PasswordChange", "UserPanel");
+            else
+                return RedirectToAction("Index", "Home");
+        }
+
 
         // VIEW WHERE USER CAN EDIT AVATAR
         public ActionResult EditAvatar()

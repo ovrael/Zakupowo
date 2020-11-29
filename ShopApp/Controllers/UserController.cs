@@ -73,17 +73,34 @@ namespace ShopApp.Controllers
             return View();
         }
 
-        public string ConfirmRegistration()
+
+        public ActionResult ActivateAccount()
         {
-            string url = HttpContext.Request.Url.Query;
-            //Request.QueryString.Clear();
-            return url;
+            string userEmail = TempData["email"].ToString();
+            User editUser = db.Users.Where(u => u.Email.Equals(userEmail)).FirstOrDefault();
+
+            if (editUser != null)
+            {
+                editUser.IsActivated = true;
+                db.SaveChanges();
+
+                return View(editUser);
+            }
+            else
+                return RedirectToAction("Index", "Home");
         }
 
         public ActionResult ConfirmRegistration(string email)
         {
-            string url = HttpContext.Request.Url.Query;
-            return View(email);
+            string userEmail = EmailManager.DecryptEmail(email);
+            TempData["email"] = userEmail;
+
+            User editUser = db.Users.Where(u => u.Email.Equals(userEmail)).FirstOrDefault();
+
+            if (editUser != null)
+                return RedirectToAction("ActivateAccount", "User");
+            else
+                return RedirectToAction("Index", "Home");
         }
 
         //Login methods
