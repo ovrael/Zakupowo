@@ -12,7 +12,6 @@ input[type="number"] {
 
 .bucket-items-span {
   background-color: white;
-  border: 1px solid black;
 }
 
 .quantity-button {
@@ -37,9 +36,9 @@ h2 {
 }
 
 .bucket-item-name > a {
-  font-weight: 700;
-  font-size: 18px;
-  color: black;
+    font-weight: 700;
+    font-size: 18px;
+    color: black;
 }
 
 .bucket-items-seller {
@@ -84,7 +83,6 @@ h2 {
 
 .bucket-buttons {
   background-color: white;
-  border: 1px solid black;
 }
 
 .bucket-summary {

@@ -1,8 +1,6 @@
 .categories {
     background-color: white !important;
     width: 90%;
-    border: 1px solid black;
-    border-radius: 8px;
 }
 
 .categories-row > .col > a {
@@ -63,7 +61,5 @@
     .categories {
         background-color: white !important;
         width: 80%;
-        border: 2px solid black;
-        border-radius: 8px;
     }
 }

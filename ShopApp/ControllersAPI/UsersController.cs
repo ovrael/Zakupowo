@@ -43,7 +43,12 @@ namespace ShopApp.Controllers
 
             db.Users.Add(user);
             db.SaveChanges();
-            return Ok();
+            if (user != null)
+            {
+                return Ok();
+            }
+            else return BadRequest("Cannot register user");
+
         }
 
         [AllowAnonymous]
@@ -98,7 +103,7 @@ namespace ShopApp.Controllers
         {
             get; set;
         }
-        [Required]
+       
         public string Phone
         {
             get; set;
