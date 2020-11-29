@@ -83,15 +83,15 @@
                     }
                     if (IsFav && HttpContext.Current.User.Identity.IsAuthenticated)
                     {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" url="@Url.Action("UnFav", "Home")" id="@Model.OfferID"></i>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" id="@Model.OfferID"></i>
                     }
                     else if (HttpContext.Current.User.Identity.IsAuthenticated)
                     {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav" onclick="Fav(@Model.OfferID)" url="@Url.Action("Fav", "Home")" id="@Model.OfferID"></i>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-unActive" id="@Model.OfferID"></i>
                     }
                     else
                     {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav" url="@Url.Action("Fav", "Home")" id="@Model.OfferID"></i>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav not-logged"></i>
                     }
                 }
 
@@ -103,7 +103,7 @@
             <p class="product-price-wdeliver">z dostawą: 115 zł ?cena + cena wybranego dostawcy? </p>
             <hr class="mb-2" />
         <form method="post">
-            <p class="buyer-counter mb-1">200 osób kupiło 243 sztuk </p>
+            <p class="buyer-counter mb-1">@Url.Action("UnFav", "Home")</p>
             <label for="quantity-input">Pozostało: nie wiadomo po implementacji transakcji bedzie wiecej info naura</label>
             <div name="quantity-input" class="input-group">
                 <input type="button" value="-" data-field="quantity" class="button input-group-prepend quantity-button button-minus">
@@ -122,11 +122,6 @@
             <p> @Model.Description </p>
         </div>
     </div>
-
-    <script type="text/javascript">
-    
-
-    </script>
 
     @Scripts.Render("~/bundles/Offerjs")
 }
