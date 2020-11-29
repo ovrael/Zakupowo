@@ -67,6 +67,13 @@ namespace ShopApp.Controllers
 
                 db.Users.Add(user);
                 db.SaveChanges();
+                var bucket = new Bucket
+                {
+                    User = db.Users.Where(i => i.Login == user.Login).First()
+                };
+                db.Buckets.Add(bucket);
+                db.SaveChanges();
+                
                 Task.Run(() => EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email));
                 return RedirectToAction("Login");
             }

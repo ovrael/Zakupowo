@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ShopApp.ViewModels.User;
 
 namespace ShopApp.Controllers
 {
@@ -40,16 +41,23 @@ namespace ShopApp.Controllers
 
                 if (collection["choice"] == "DODAJ DO KOSZYKA")
                 {
+                    db.BucketItems.Add(BucketItem);
+                    db.SaveChanges();
+                    offer.BucketItems.Add(BucketItem);
+                    db.SaveChanges();
+                    user.Bucket.BucketItems.Add(BucketItem);
+                    db.SaveChanges();
                 }
             }
-            //elseTODO KUP TERAZ error message
             return RedirectToAction("Index", "Offer", new { OfferID = collection["prodId"] });
         }
 
         [Authorize]
         public ActionResult Bucket()
-        {
-            return View(db.Users.Where(i=>i.Login == HttpContext.User.Identity.Name));
+        {   
+            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer.User);
+            return View(BucketItems);
         }
     }
 }
