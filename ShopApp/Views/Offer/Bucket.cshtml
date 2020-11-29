@@ -24,7 +24,7 @@
                     @foreach (var item in Seller)
                     {
                         <div class="row bucket-item m-0 mb-4 p-2 w-100">
-                            <div class="row align-items-center w-100 m-0 justify-content-center">
+                            <div class="row align-items-center m-0 justify-content-center">
                                 <div class="col-2 col-lg-1 bucket-item-delete">
                                     <i class="fas fa-times"></i>
                                 </div>
@@ -57,11 +57,9 @@
                                                class="button input-group-append quantity-button button-plus" />
                                     </div>
                                 </div>
-                                <div class="col-5 col-lg-2">
-                                    <div class="bucket-item-price">
+                                <div class="col-5 col-lg-2 bucket-item-price">
                                         <p class="bucket-item-totalprice p-0 m-0">@item.TotalPrice</p>
                                         <p class="bucket-item-itemprice p-0 m-0">@item.Offer.Price za sztukę</p>
-                                    </div>
                                 </div>
                             </div>
                         </div>
