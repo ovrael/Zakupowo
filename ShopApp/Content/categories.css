@@ -1,6 +1,8 @@
 .categories {
     background-color: white !important;
-    width: 100%;
+    width: 90%;
+    border: 1px solid black;
+    border-radius: 8px;
 }
 
 .categories-row > .col > a {
@@ -26,12 +28,12 @@
 
 @media (min-width: 576px) {
     .categories-row > .col > a > i {
-        width: 68px;
+        width: 64px;
     }
     .categories-row > .col-lg-1 {
-        width: 13%;
-        *width: 13%;
-        max-width: 13% !important;
+        width: 12.6%;
+        *width: 12.6%;
+        max-width: 13.5% !important;
         flex: none !important;
     }
 }
@@ -56,5 +58,12 @@
         *width: 12%;
         max-width: 12% !important;
         flex: none !important;
+    }
+
+    .categories {
+        background-color: white !important;
+        width: 80%;
+        border: 2px solid black;
+        border-radius: 8px;
     }
 }
