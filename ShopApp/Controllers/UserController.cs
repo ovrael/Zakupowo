@@ -73,24 +73,41 @@ namespace ShopApp.Controllers
                 };
                 db.Buckets.Add(bucket);
                 db.SaveChanges();
-                
+
                 Task.Run(() => EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email));
                 return RedirectToAction("Login");
             }
             return View();
         }
 
-        public string ConfirmRegistration()
+
+        public ActionResult ActivateAccount()
         {
-            string url = HttpContext.Request.Url.Query;
-            //Request.QueryString.Clear();
-            return url;
+            string userEmail = TempData["email"].ToString();
+            User editUser = db.Users.Where(u => u.Email.Equals(userEmail)).FirstOrDefault();
+
+            if (editUser != null)
+            {
+                editUser.IsActivated = true;
+                db.SaveChanges();
+
+                return View(editUser);
+            }
+            else
+                return RedirectToAction("Index", "Home");
         }
 
         public ActionResult ConfirmRegistration(string email)
         {
-            string url = HttpContext.Request.Url.Query;
-            return View(email);
+            string userEmail = EmailManager.DecryptEmail(email);
+            TempData["email"] = userEmail;
+
+            User editUser = db.Users.Where(u => u.Email.Equals(userEmail)).FirstOrDefault();
+
+            if (editUser != null)
+                return RedirectToAction("ActivateAccount", "User");
+            else
+                return RedirectToAction("Index", "Home");
         }
 
         //Login methods
@@ -105,10 +122,15 @@ namespace ShopApp.Controllers
         [HttpPost]
         public ActionResult Login(FormCollection collection)
         {
-            var email = collection["Email"];
+            var userIdenticator = collection["UserIdenticator"];
             var password = Cryptographing.Encrypt(collection["EncryptedPassword"]);
 
-            var user = db.Users.Where(x => x.Email == email && x.EncryptedPassword == password).SingleOrDefault();
+            User user = null;
+
+            if (userIdenticator != null && userIdenticator.Contains("@"))
+                user = db.Users.Where(x => x.Email == userIdenticator && x.EncryptedPassword == password).SingleOrDefault();
+            else
+                user = db.Users.Where(x => x.Login == userIdenticator && x.EncryptedPassword == password).SingleOrDefault();
 
             if (user != null)
             {

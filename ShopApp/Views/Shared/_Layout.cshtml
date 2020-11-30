@@ -25,20 +25,26 @@
 @{
 
     string userName, avatarUrl = string.Empty;
-    if(User.Identity.IsAuthenticated)
+    if (User.Identity.IsAuthenticated)
     {
         using (var db = new ShopApp.DAL.ShopContext())
         {
-            ShopApp.Models.User user = db.Users.Where(i => i.Login == HttpContext.Current.User.Identity.Name).Single();
-            userName = user.FirstName.Trim();
-            if (user.AvatarImage != null)
+            ShopApp.Models.User user = db.Users.Where(i => i.Login == HttpContext.Current.User.Identity.Name).FirstOrDefault();
+
+            if (user != null)
             {
-                avatarUrl = user.AvatarImage.PathToFile;
+                userName = user.FirstName.Trim();
+                if (user.AvatarImage != null)
+                {
+                    avatarUrl = user.AvatarImage.PathToFile;
+                }
+                else
+                {
+                    avatarUrl = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg";
+                }
+
             }
-            else
-            {
-                avatarUrl = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg";
-            }
+
         }
     }
 }
@@ -105,7 +111,7 @@
         </form>
     </nav>
 
-    <div class="container-fluid px-0">
+    <div class="container-fluid">
         @RenderBody()
     </div>
 

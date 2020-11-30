@@ -24,9 +24,9 @@ body {
 }
 
 .container-fluid {
+    padding-top: 90px;
     position: relative;
     min-height: 100vh;
-    padding: 90px 0 2.5rem 0;
 }
 
 /* NAVBAR */

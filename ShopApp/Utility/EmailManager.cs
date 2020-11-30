@@ -20,7 +20,7 @@ namespace ShopApp.Utility
         }
 
         // Return true if email was successfuly sent to receiver
-        public static async Task<bool> SendEmailAsync(EmailType emailType, string receiverFirstName, string receiverLastName, string receiverEmail)
+        public static async Task<bool> SendEmailAsync(EmailType emailType, string receiverFirstName, string receiverLastName, string receiverEmail, string optionalPassword = "password")
         {
             bool result = false;
             var message = new MimeMessage();
@@ -33,12 +33,12 @@ namespace ShopApp.Utility
             switch (emailType)
             {
                 case EmailType.Registration:
-                    builder.HtmlBody = RegistrationText(receiverEmail);
+                    builder.HtmlBody = RegistrationText(EncryptEmail(receiverEmail));
                     message.Subject = @"Successful registration!";
                     break;
 
                 case EmailType.ChangePassword:
-                    builder.HtmlBody = ChangePasswordText(receiverEmail);
+                    builder.HtmlBody = ChangePasswordText(EncryptEmail(receiverEmail), optionalPassword);
                     message.Subject = @"Your password has been changed.";
                     break;
             }
@@ -70,7 +70,7 @@ namespace ShopApp.Utility
             return result;
         }
 
-        public static bool SendEmail(EmailType emailType, string receiverFirstName, string receiverLastName, string receiverEmail)
+        public static bool SendEmail(EmailType emailType, string receiverFirstName, string receiverLastName, string receiverEmail, string optionalPassword = "password")
         {
             bool result = false;
             var message = new MimeMessage();
@@ -84,12 +84,12 @@ namespace ShopApp.Utility
             switch (emailType)
             {
                 case EmailType.Registration:
-                    builder.HtmlBody = RegistrationText(receiverEmail);
+                    builder.HtmlBody = RegistrationText(EncryptEmail(receiverEmail));
                     message.Subject = @"Successful registration!";
                     break;
 
                 case EmailType.ChangePassword:
-                    builder.HtmlBody = ChangePasswordText(receiverEmail);
+                    builder.HtmlBody = ChangePasswordText(EncryptEmail(receiverEmail), optionalPassword);
                     message.Subject = @"Your password has been changed.";
                     break;
             }
@@ -122,7 +122,7 @@ namespace ShopApp.Utility
         }
 
         // A message sent to new registered accounts.
-        private static string RegistrationText(string receiverEmail)
+        private static string RegistrationText(string encryptedEmail)
         {
             StringBuilder message = new StringBuilder();
             message.AppendLine("<pre>Thank you for registration!");
@@ -135,17 +135,17 @@ namespace ShopApp.Utility
             message.AppendLine("    -Buy offers");
             message.AppendLine("    -Make offers");
             message.AppendLine();
-            message.AppendLine("<a href=\"http://localhost:44000/User/ConfirmRegistration?email=" + receiverEmail + "\">Click here</a> to fully register your account!<pre>");
+            message.AppendLine("<a href=\"http://localhost:44000/User/ConfirmRegistration?email=" + encryptedEmail + "\">Click here</a> to fully register your account!<pre>");
 
             return message.ToString();
         }
 
         // A message sent when a password was changed.
-        private static string ChangePasswordText(string receiverEmail)
+        private static string ChangePasswordText(string encryptedEmail, string encryptedNewPassword)
         {
             StringBuilder message = new StringBuilder();
             message.AppendLine("<pre>Have you just tried to change your password?");
-            message.AppendLine("<a href=\"http://localhost:44000/UserPanel/ConfirmPasswordChange?=" + receiverEmail + "\">Click here</a> to confirm the change.");
+            message.AppendLine("<a href=\"http://localhost:44000/UserPanel/ConfirmPasswordChange?email=" + encryptedEmail + "&psw=" + encryptedNewPassword + "\">Click here</a> to confirm the change.");
             message.AppendLine();
             message.AppendLine();
             message.AppendLine("If you don't recognize this activity, please <a href=\"http://localhost:44000/Home/Contact\">contact us</a>.<pre>");
@@ -164,6 +164,70 @@ namespace ShopApp.Utility
             message.AppendLine("Zakupowo Team<pre>");
 
             return message.ToString();
+        }
+
+        private static string EncryptEmail(string email)
+        {
+            StringBuilder result = new StringBuilder();
+
+            int atIndex = email.IndexOf('@');
+
+            string beforeAt = email.Substring(0, atIndex);
+            string afterAt = email.Substring(atIndex + 1);
+
+            string[] partsBeforeAt = beforeAt.Split('.');
+            string[] partsAfterAt = afterAt.Split('.');
+
+            for (int i = 0; i < partsBeforeAt.Length; i++)
+            {
+                result.Append(Cryptographing.Encrypt(partsBeforeAt[i]));
+                if (i < partsBeforeAt.Length - 1)
+                    result.Append('.');
+            }
+
+            result.Append('@');
+
+            for (int i = 0; i < partsAfterAt.Length; i++)
+            {
+                result.Append(Cryptographing.Encrypt(partsAfterAt[i]));
+                if (i < partsAfterAt.Length - 1)
+                    result.Append('.');
+            }
+
+            return result.ToString();
+        }
+
+        public static string DecryptEmail(string decryptedEmail)
+        {
+            StringBuilder result = new StringBuilder();
+
+            int atIndex = decryptedEmail.IndexOf('@');
+
+            string beforeAt = decryptedEmail.Substring(0, atIndex);
+            string afterAt = decryptedEmail.Substring(atIndex + 1);
+
+            string[] partsBeforeAt = beforeAt.Split('.');
+            string[] partsAfterAt = afterAt.Split('.');
+
+            for (int i = 0; i < partsBeforeAt.Length; i++)
+            {
+                partsBeforeAt[i] = partsBeforeAt[i].Replace(' ', '+');
+                result.Append(Cryptographing.Decrypt(partsBeforeAt[i]));
+                if (i < partsBeforeAt.Length - 1)
+                    result.Append('.');
+            }
+
+            result.Append('@');
+
+            for (int i = 0; i < partsAfterAt.Length; i++)
+            {
+                partsAfterAt[i] = partsAfterAt[i].Replace(' ', '+');
+                result.Append(Cryptographing.Decrypt(partsAfterAt[i]));
+                if (i < partsAfterAt.Length - 1)
+                    result.Append('.');
+            }
+
+            return result.ToString();
         }
     }
 }

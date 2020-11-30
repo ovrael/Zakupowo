@@ -11,7 +11,7 @@
                 Logowanie
             </h2>
             <label for="emailAddressInput" class="sr-only">Adres email</label>
-            <input type="email" id="emailAddressInput" name="Email" class="form-control mb-2" placeholder="Adres email" required autofocus>
+            <input type="email" id="emailAddressInput" name="UserIdenticator" class="form-control mb-2" placeholder="Adres email" required autofocus>
             <div id="emailAddressInput_validation" class="invalid-feedback d-block text-left"></div>
             @*<div> @Html.ValidationMessageFor(Model => Model.Email)</div>*@
             <label for="password" class="sr-only">Hasło</label>
@@ -32,8 +32,6 @@
                 {
                     <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
                 }
-
-
             </div>
         </form>
     </div>
