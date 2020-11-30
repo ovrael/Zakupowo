@@ -43,6 +43,15 @@ namespace ShopApp.Controllers
 
             db.Users.Add(user);
             db.SaveChanges();
+            var bucket = new Bucket
+            {
+                User = db.Users.Where(i => i.Login == user.Login).First()
+            };
+
+            db.Buckets.Add(bucket);
+            db.SaveChanges();
+
+            Task.Run(() => EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email));
             if (user != null)
             {
                 return Ok();
@@ -55,14 +64,14 @@ namespace ShopApp.Controllers
         [Route("Login")]
         public IHttpActionResult Login(LoginBindingModel model)
         {
-            var email = model.Email;
-            var password = Cryptographing.Encrypt(model.EncryptedPassword);
+            var login = model.Login;
+            var password = Cryptographing.Encrypt(model.Password);
 
-            var user = db.Users.Where(x => x.Email == email && x.EncryptedPassword == password).SingleOrDefault();
+            var user = db.Users.Where(x => x.Login == login && x.EncryptedPassword == password).SingleOrDefault();
 
             if (user != null)
             {
-                return Ok(model);
+                return Ok(user.UserID);
             }
             return BadRequest("User not found");
 
@@ -113,9 +122,9 @@ namespace ShopApp.Controllers
     public class LoginBindingModel
     {
         [Required]
-        public string Email { get; set; }
+        public string Login { get; set; }
         [Required]
-        public string EncryptedPassword { get; set; }
+        public string Password { get; set; }
 
     }
 
