@@ -134,7 +134,7 @@ namespace ShopApp.Controllers
 
             if (user != null)
             {
-                FormsAuthentication.SetAuthCookie(user.Login, (collection["rememberMeInput"] == "rememberMe" ? true : false)); //TODO ISCHECKED
+                FormsAuthentication.SetAuthCookie(user.Login, (collection["rememberMeInput"] == "rememberMe" ? true : false));
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.ErrorMessage = "Nieprawidłowe dane logowania";

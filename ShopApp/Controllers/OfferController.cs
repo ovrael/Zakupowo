@@ -38,15 +38,22 @@ namespace ShopApp.Controllers
                     Quantity = Convert.ToInt32(collection["quantity"])
                 };
                     BucketItem.TotalPrice = offer.Price * BucketItem.Quantity;
-
                 if (collection["choice"] == "DODAJ DO KOSZYKA")
                 {
+                    if (user.Bucket.BucketItems.Where(i => i.Offer.OfferID == offer.OfferID).Any())
+                    {
+                        ViewBag.BucketItem = "Już masz tę ofrtę w koszyku!";
+                        return View(offer);
+                    }
+                    else
+                    {
                     db.BucketItems.Add(BucketItem);
                     db.SaveChanges();
                     offer.BucketItems.Add(BucketItem);
                     db.SaveChanges();
                     user.Bucket.BucketItems.Add(BucketItem);
                     db.SaveChanges();
+                    }
                 }
             }
             return RedirectToAction("Index", "Offer", new { OfferID = collection["prodId"] });
@@ -69,7 +76,7 @@ namespace ShopApp.Controllers
         //    //foreach(var Seller in BucketItems)
         //    //    if(collection["SelectedSeller_"+ Seller.Key.Login])
 
-        //    return RedirectToAction("Account","UserPanel");
+        //    return View("SuccesfulShopping");
         //}
     }
 }

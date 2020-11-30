@@ -486,6 +486,7 @@
     <Content Include="Views\Offer\Bucket.cshtml" />
     <Content Include="Views\User\ActivateAccount.cshtml" />
     <Content Include="Views\UserPanel\PasswordChange.cshtml" />
+    <Content Include="Views\Offer\SuccesfulShopping.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
