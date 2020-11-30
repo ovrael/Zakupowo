@@ -265,7 +265,7 @@ namespace ShopApp.Controllers
 
             if (imageUrl != null)
             {
-                if (editUser.AvatarImage.PathToFile == null)
+                if (editUser.AvatarImage == null)
                 {
                     AvatarImage newAvatar = new AvatarImage() { PathToFile = imageUrl, User = editUser };
                     db.Entry(newAvatar).State = System.Data.Entity.EntityState.Added;
