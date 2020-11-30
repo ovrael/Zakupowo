@@ -7,26 +7,12 @@ using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Configuration;
 using ShopApp.DAL;
+using ShopApp.Migrations;
 
 namespace ShopApp.DAL
 {
-    public class ShopInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<ShopContext>
+    public class ShopInitializer : System.Data.Entity.MigrateDatabaseToLatestVersion<ShopContext, ShopApp.Migrations.Configuration>
     {
-        protected override void Seed(ShopContext context)
-        {
-            var usrs = new List<User>
-            {
-                new User{ Email="Mail@SeedUsr.com",
-                    Login="LoginSeedUsr",
-                    EncryptedPassword="PasswwordSeedUsr",
-                    FirstName ="Imie",
-                    LastName="Nazwisko",
-                    Phone ="123456789"
-                }
-            };
-            usrs.ForEach(u => context.Users.Add(u));
-            context.SaveChanges();
-        }
 
     }
 }
