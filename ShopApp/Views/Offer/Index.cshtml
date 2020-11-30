@@ -103,8 +103,8 @@
             <p class="product-price-wdeliver">z dostawą: 115 zł ?cena + cena wybranego dostawcy? </p>
             <hr class="mb-2" />
         <form method="post">
-            <p class="buyer-counter mb-1">@Url.Action("UnFav", "Home")</p>
-            <label for="quantity-input">Pozostało: nie wiadomo po implementacji transakcji bedzie wiecej info naura</label>
+            <p class="buyer-counter mb-1"></p>
+            <label for="quantity-input">Pozostało: @Model.InStockNow</label>
             <div name="quantity-input" class="input-group">
                 <input type="button" value="-" data-field="quantity" class="button input-group-prepend quantity-button button-minus">
                 <input type="number" step="1" max="@Model.InStockNow" min="1" value="1" name="quantity" class="quantity-field w-25">

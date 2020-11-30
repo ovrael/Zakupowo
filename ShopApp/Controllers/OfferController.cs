@@ -59,5 +59,17 @@ namespace ShopApp.Controllers
             var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer.User);
             return View(BucketItems);
         }
+        //[HttpPost]
+        //[Authorize]
+        //public ActionResult Bucket(FormCollection collection)
+        //{
+        //    var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+        //    var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer.User);
+        //    //Dodawania transakcji dla każdego bucketItema którego sellerem jest collection["SelectedSeller_]""
+        //    //foreach(var Seller in BucketItems)
+        //    //    if(collection["SelectedSeller_"+ Seller.Key.Login])
+
+        //    return RedirectToAction("Account","UserPanel");
+        //}
     }
 }
