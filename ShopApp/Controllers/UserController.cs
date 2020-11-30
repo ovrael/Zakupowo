@@ -73,7 +73,7 @@ namespace ShopApp.Controllers
                 };
                 db.Buckets.Add(bucket);
                 db.SaveChanges();
-                
+
                 Task.Run(() => EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email));
                 return RedirectToAction("Login");
             }
@@ -122,10 +122,15 @@ namespace ShopApp.Controllers
         [HttpPost]
         public ActionResult Login(FormCollection collection)
         {
-            var email = collection["Email"];
+            var userIdenticator = collection["UserIdenticator"];
             var password = Cryptographing.Encrypt(collection["EncryptedPassword"]);
 
-            var user = db.Users.Where(x => x.Email == email && x.EncryptedPassword == password).SingleOrDefault();
+            User user = null;
+
+            if (userIdenticator != null && userIdenticator.Contains("@"))
+                user = db.Users.Where(x => x.Email == userIdenticator && x.EncryptedPassword == password).SingleOrDefault();
+            else
+                user = db.Users.Where(x => x.Login == userIdenticator && x.EncryptedPassword == password).SingleOrDefault();
 
             if (user != null)
             {

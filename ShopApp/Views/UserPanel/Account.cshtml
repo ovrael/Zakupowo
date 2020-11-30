@@ -9,12 +9,11 @@
 @{
     string avatarUrl = string.Empty;
     string defaultAvatarUrl = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg";
-
+    string accountStatus = Model.IsActivated ? "Aktywowane" : "Nieaktywowane";
 
     if (Model.AvatarImage != null)
     {
         avatarUrl = Model.AvatarImage.PathToFile;
-        System.Diagnostics.Debug.WriteLine(avatarUrl);
     }
     else
     {
@@ -116,13 +115,23 @@
 
                                     <div class="row">
                                         <div class="col-sm-3 col-md-2 col-5">
-                                            <label style="font-weight:bold;">Data utworzenia konta</label>
+                                            <label style="font-weight:bold;">Data utworzenia</label>
                                         </div>
                                         <div class="col-md-8 col-6">
                                             @(((DateTime)Model.CreationDate).ToShortDateString())
                                         </div>
                                     </div>
                                     <hr />
+
+                                    <div class="row">
+                                        <div class="col-sm-3 col-md-2 col-5">
+                                            <label style="font-weight:bold;">Status konta</label>
+                                        </div>
+                                        <div class="col-md-8 col-6">
+                                            @accountStatus
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
