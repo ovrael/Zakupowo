@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.EnterpriseServices.Internal;
@@ -15,6 +16,8 @@ namespace ShopApp.Models
         public string CategoryName { get; set; }
         [Required]
         public string CategoryDescription { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<Offer> Offers { get; set; }
     }
 }
