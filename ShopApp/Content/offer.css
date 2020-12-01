@@ -4,18 +4,6 @@
   padding: 10px;
 }
 
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
-
 .seller-name:hover, .seller-name:visited {
   color: #FFB24A;
 }
@@ -57,17 +45,6 @@ input[type=number] {
 
 .fav-active {
   color: red !important;
-}
-
-.quantity-button {
-  padding: 8px 13px 8px 13px;
-  background-color: white;
-  border: 1px solid black;
-}
-
-.quantity-field {
-  padding: 0 5px 0 5px;
-  border: 1px solid black;
 }
 
 .offer-button {
