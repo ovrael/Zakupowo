@@ -347,6 +347,11 @@ namespace ShopApp.Controllers
                     ViewBag.Message = "ERROR:" + ex.Message.ToString();
                 }
             }
+            else if (files.Count == 0)
+            {
+                OfferPicture offerPicture = new OfferPicture() { PathToFile = "../../Images/product.jpg", Offer = offer };
+                pictures.Add(offerPicture);
+            }
             else
             {
                 ViewBag.Message = "You have not specified a file.";
