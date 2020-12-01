@@ -10,10 +10,10 @@
     color: black;
 }
 
-    .btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
         background-color: #ffaa3a !important;
         color: black !important;
-    }
+}
 
 a {
     color: #6684A1;
@@ -22,7 +22,6 @@ a {
     a:hover {
         color: #517aa1;
     }
-
 @media (min-width: 1200px) {
     h1 {
         font-size: 38px;
