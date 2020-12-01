@@ -16,7 +16,8 @@ namespace ShopApp
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrapjs").Include(
                          "~/Scripts/bootstrap.js",
-                         "~/Scripts/umd/popper.js"));
+                         "~/Scripts/umd/popper.js",
+                         "~/Scripts/bootstrap-input-spinner.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Userjs").Include(
                        "~/Scripts/register.js",
