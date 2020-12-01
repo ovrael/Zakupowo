@@ -24,10 +24,10 @@ This is our academic project which is made using agile working. Our purpose is t
 
 ## Screenshots
 
-<img src="./ShopApp/Images/ReadMeImages/RegistrationView.png" width="700" />
-<img src="./ShopApp/Images/ReadMeImages/MainView.png" width="700" />
-<img src="./ShopApp/Images/ReadMeImages/SettingsView.png" width="700" />
-<img src="./ShopApp/Images/ReadMeImages/AdressesView.png" width="700" />
+<img src="./ShopApp/Images/ReadMeImages/RegistrationView.png"/>
+<img src="./ShopApp/Images/ReadMeImages/MainView.png"/>
+<img src="./ShopApp/Images/ReadMeImages/SettingsView.png"/>
+<img src="./ShopApp/Images/ReadMeImages/AdressesView.png"/>
 
 <!-- ![Registration](./img/RegistrationView.png)
 ![Main](./img/MainView.png)
