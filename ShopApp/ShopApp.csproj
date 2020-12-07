@@ -316,6 +316,10 @@
     <Content Include="Global.asax" />
     <Content Include="Images\product.jpg" />
     <Content Include="Images\404ErrorImage.svg" />
+    <Content Include="Images\ReadMeImages\AdressesView.png" />
+    <Content Include="Images\ReadMeImages\MainView.png" />
+    <Content Include="Images\ReadMeImages\RegistrationView.png" />
+    <Content Include="Images\ReadMeImages\SettingsView.png" />
     <Content Include="Images\user.jpg" />
     <Content Include="Images\user2.jpg" />
     <Content Include="libman.json" />
