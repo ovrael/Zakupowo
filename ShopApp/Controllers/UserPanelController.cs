@@ -391,5 +391,13 @@ namespace ShopApp.Controllers
         {
             return View();
         }
+        public ActionResult AddProductSet()
+        {
+            return View();
+        }
+        public ActionResult ProductSet()
+        {
+            return View();
+        }
     }
 }
