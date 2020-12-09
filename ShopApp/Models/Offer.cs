@@ -16,6 +16,10 @@ namespace ShopApp.Models
         [Required]
         public string Description { get; set; }
         //Stocking should be an ENUM
+
+        [Column("CreationDate", TypeName = "DateTime2")]
+        public DateTime CreationDate { get; set; }
+
         [Required]
         public bool IsActive { get; set; }
 

@@ -25,7 +25,6 @@ namespace ShopApp.Controllers
     {
         private ShopContext db = new ShopContext();
 
-        [Authorize]
         #region UserData 
 
         // VIEW WITH BASIC INFORMATION ABOUT USER
@@ -288,6 +287,18 @@ namespace ShopApp.Controllers
 
         #endregion
 
+
+        #region OffersAndBundles   
+
+        public ActionResult Offers()
+        {
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+
+            List<Offer> offers = editUser.Offers.ToList();
+
+            return View(offers);
+        }
+
         public ActionResult AddOffer()
         {
             List<Category> categoryList = db.Categories.ToList();
@@ -368,6 +379,8 @@ namespace ShopApp.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
+        #endregion
 
         public ActionResult OrderHistory()
         {

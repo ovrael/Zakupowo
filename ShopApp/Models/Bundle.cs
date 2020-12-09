@@ -10,12 +10,24 @@ namespace ShopApp.Models
     {
         [Key]
         public int BundleID { get; set; }
+
         [Required]
-        public double BundlePriceSum { get; set; }
+        public double OffersPriceSum { get; set; }
+
         [Required]
-        [Column("Title", TypeName = "char")]
+        public double BundlePrice { get; set; }
+
+        [Required]
+        [Column("Title", TypeName = "nvarchar")]
         [MaxLength(400)]
         public string Title { get; set; }
+
+        [Column("CreationDate", TypeName = "DateTime2")]
+        public DateTime CreationDate { get; set; }
+
+        [Required]
+        public bool IsActive { get; set; }
+
         public virtual User User { get; set; }
         public virtual ICollection<Offer> Offers { get; set; }
         public virtual ICollection<Bucket> Bucket { get; set; }
