@@ -497,8 +497,8 @@
     <Content Include="Views\UserPanel\PasswordChange.cshtml" />
     <Content Include="Views\Offer\SuccesfulShopping.cshtml" />
     <Content Include="Views\UserPanel\Offers.cshtml" />
-    <Content Include="Views\UserPanel\AddProductSet.cshtml" />
-    <Content Include="Views\UserPanel\ProductSet.cshtml" />
+    <Content Include="Views\UserPanel\Bundles.cshtml" />
+    <Content Include="Views\UserPanel\AddBundle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
