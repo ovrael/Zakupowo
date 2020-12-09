@@ -13,6 +13,7 @@
 
     activeView.Add("Account", string.Empty);
     activeView.Add("AddOffer", string.Empty);
+    activeView.Add("AddProductSet", string.Empty);
     activeView.Add("OrderHistory", string.Empty);
     activeView.Add("Communicator", string.Empty);
     activeView.Add("Settings", string.Empty);
@@ -24,7 +25,7 @@
 
     <ul class="side-nav">
         <li class="links">
-            <a href="@Url.Action("Account", "UserPanel")" class="@activeView["Account"]" >
+            <a href="@Url.Action("Account", "UserPanel")" class="@activeView["Account"]">
                 <div class="icon"><i class="fa fa-user amber-text "></i></div>
                 <div class="title">Profil</div>
             </a>
@@ -32,7 +33,13 @@
         <li class="links">
             <a href="@Url.Action("AddOffer", "UserPanel")" class="@activeView["AddOffer"]">
                 <div class="icon"><i class="fa fa-plus"></i></div>
-                <div class="title">Dodaj produkt</div>
+                <div class="title">Oferta</div>
+            </a>
+        </li>
+        <li class="links">
+            <a href="@Url.Action("AddProductSet", "UserPanel")" class="@activeView["AddProductSet"]">
+                <div class="icon"><i class="fa fa-plus"></i></div>
+                <div class="title">Zestaw</div>
             </a>
         </li>
         <li class="links">

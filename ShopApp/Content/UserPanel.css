@@ -335,11 +335,6 @@ a.active .title {
 }
 
     /*AccountMessage*/
-
-    .container py-5 px-4 {
-        background-image: linear-gradient(90deg, #002447 0%, #FFB24A 100%);
-    }
-
     body {
         
         min-height: 100vh;
@@ -399,4 +394,12 @@ a.active .title {
     .row-offer {
         margin-left: 60px;
     }
+}
+
+/*ADD_PRODUCT_SET*/
+
+.add-product-set
+{
+    width: 500px;
+    background-color:#fff;
 }

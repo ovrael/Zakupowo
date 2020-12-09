@@ -290,7 +290,6 @@
     <Compile Include="ViewModels\HomeIndexView.cs" />
     <Compile Include="ViewModels\User\AccountViewModel.cs" />
     <Compile Include="ViewModels\UserCache.cs" />
-    <Compile Include="ViewModels\User\BucketViewModel.cs" />
     <Compile Include="ViewModels\User\ShippingAdressViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -485,6 +484,8 @@
     <Content Include="Views\Offer\Bucket.cshtml" />
     <Content Include="Views\User\ActivateAccount.cshtml" />
     <Content Include="Views\UserPanel\PasswordChange.cshtml" />
+    <Content Include="Views\UserPanel\AddProductSet.cshtml" />
+    <Content Include="Views\UserPanel\ProductSet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
