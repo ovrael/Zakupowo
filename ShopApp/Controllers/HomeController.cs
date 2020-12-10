@@ -74,10 +74,9 @@ namespace ShopApp.Controllers
             User User = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
             if (type == "Offer" || type == "Bundle")
             {
-                Favourite Fv = new Favourite();
+                Favourite Fv = db.Favourites.Where(i => (i.Offer.OfferID == id || i.Bundle.BundleID == id) && i.User.UserID == User.UserID).FirstOrDefault();
                 if (type == "Offer")
                 {
-                    Fv.Offer = db.Favourites.Where(i => i.Offer.OfferID == id && i.User.UserID == User.UserID).Select(i => i.Offer).FirstOrDefault();
                     if(Fv.Offer != null)
                     {
                         User.FavouriteOffer.Remove(Fv);
@@ -93,7 +92,6 @@ namespace ShopApp.Controllers
                 }
                 else
                 {
-                    Fv.Bundle = db.Favourites.Where(i => i.Bundle.BundleID == id && i.User.UserID == User.UserID).Select(i => i.Bundle).FirstOrDefault();
                     if (Fv.Bundle != null)
                     {
                         User.FavouriteOffer.Remove(Fv);
