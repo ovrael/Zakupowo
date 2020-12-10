@@ -25,7 +25,7 @@ namespace ShopApp.Controllers
 
         #region FavouriteOfferManagement
         [HttpPost]
-        public ActionResult Fav(int id)//We come here from index 
+        public ActionResult Fav(string type, int id)//We come here from index 
         {
             List<string> errors = new List<string>(); // You might want to return an error if something wrong happened
 
@@ -50,7 +50,7 @@ namespace ShopApp.Controllers
             return Json(errors, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public ActionResult UnFav(int id)//We come here from index 
+        public ActionResult UnFav(string type, int id)//We come here from index 
         {
             User User = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 

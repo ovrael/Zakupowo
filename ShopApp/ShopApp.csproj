@@ -293,7 +293,7 @@
     <Compile Include="Utility\EmailManager.cs" />
     <Compile Include="Utility\FileManager.cs" />
     <Compile Include="Utility\Utilities.cs" />
-    <Compile Include="ViewModels\HomeIndexView.cs" />
+    <Compile Include="ViewModels\OffersAndBundles.cs" />
     <Compile Include="ViewModels\User\AccountViewModel.cs" />
     <Compile Include="ViewModels\UserCache.cs" />
     <Compile Include="ViewModels\User\ShippingAdressViewModel.cs" />
@@ -501,6 +501,7 @@
     <Content Include="Views\UserPanel\Offers.cshtml" />
     <Content Include="Views\UserPanel\Bundles.cshtml" />
     <Content Include="Views\UserPanel\AddBundle.cshtml" />
+    <Content Include="Views\Offer\Favourites.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

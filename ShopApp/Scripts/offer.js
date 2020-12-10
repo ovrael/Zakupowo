@@ -3,7 +3,8 @@ $(document).ready(function () {
     $(".product-fav").on("click", function () {
 
         var id = jQuery(this).attr('id');
-        
+        var type = jQuery(this).attr('data-type');
+
         if ($(".product-fav").hasClass("fav-active")) {
           
 
@@ -11,6 +12,7 @@ $(document).ready(function () {
                 url: '/Home/UnFav',
                 type: 'POST',
                 data: {
+                    type: type,
                     id: id
                 },
                 success: function (data) {
@@ -29,6 +31,7 @@ $(document).ready(function () {
                 url: '/Home/Fav',
                 type: 'POST',
                 data: {
+                    type: type,
                     id: id
                 },
                 success: function (data) {
