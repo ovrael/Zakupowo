@@ -282,6 +282,10 @@
     <Compile Include="Migrations\202011282041574_AddingDbSetForBucketItems.Designer.cs">
       <DependentUpon>202011282041574_AddingDbSetForBucketItems.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012091210584_OfferAndBundleChanges.cs" />
+    <Compile Include="Migrations\202012091210584_OfferAndBundleChanges.Designer.cs">
+      <DependentUpon>202012091210584_OfferAndBundleChanges.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
@@ -504,6 +508,9 @@
     <Content Include="Views\User\ActivateAccount.cshtml" />
     <Content Include="Views\UserPanel\PasswordChange.cshtml" />
     <Content Include="Views\Offer\SuccesfulShopping.cshtml" />
+    <Content Include="Views\UserPanel\Offers.cshtml" />
+    <Content Include="Views\UserPanel\Bundles.cshtml" />
+    <Content Include="Views\UserPanel\AddBundle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -600,6 +607,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011282041574_AddingDbSetForBucketItems.resx">
       <DependentUpon>202011282041574_AddingDbSetForBucketItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012091210584_OfferAndBundleChanges.resx">
+      <DependentUpon>202012091210584_OfferAndBundleChanges.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

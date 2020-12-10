@@ -1,0 +1,74 @@
+﻿@model IEnumerable<ShopApp.Models.Offer>
+@{
+    ViewBag.Title = "Oferty";
+}
+
+
+@Styles.Render("~/bundles/UserPanel")
+<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+@Html.Partial("_SideBar")
+
+
+<div class="container pl-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="use-add-product">
+
+                <a href="@Url.Action("AddOffer", "UserPanel")" class="btn btn-outline-warning" role="button">Dodaj ofertę!</a>
+
+                @{
+                    if (Model.Count() > 0)
+                    {
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nazwa</th>
+                                    <th scope="col">Aktywna</th>
+                                    @*<th scope="col">Dodano</th>*@
+                                    <th scope="col">Cena</th>
+                                    <th scope="col">Pozostało</th>
+                                    <th scope="col">Sprzedano</th>
+                                    <th scope="colgroup" colspan="2">Ustawienia</th>
+                                    @*<th scope="col">Usuń</th>*@
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int n = 0;
+                                    foreach (var offer in Model)
+                                    {
+                                        n++;
+
+                                        string aktywna = offer.IsActive ? "Aktywna" : "Nieaktywna";
+
+                                        <tr>
+                                            <th scope="row">@n</th>
+                                            <td>@offer.Title</td>
+                                            <td>@aktywna</td>
+                                            <td>@offer.Price</td>
+                                            <td>@offer.InStockNow</td>
+                                            <td>@(offer.InStockOriginaly-offer.InStockNow)</td>
+                                            <td>Edytuj</td>
+                                            <td>Usuń</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p>
+                            Nie utworzyłeś jeszcze żadnych ofert!
+                        </p>
+                    }
+                }
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

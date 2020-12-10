@@ -119,30 +119,34 @@ body {
                     margin-right: 0
                 }
 
-                .view-account .side-bar .side-menu .nav > li > a {
-                    display: inline-block;
-                    color: #002447;
-                    padding: 5px;
+                    .view-account .side-bar .side-menu .nav > li > a {
+                        display: inline-block;
+                        color: #002447;
+                        padding: 5px;
+                    }
+                    .view-account .side-bar .side-menu .nav > li.active a {
+                        color: #FFB24A;
+                        background: none;
+                        
+                    }
+                .view-account .side-bar .side-menu .nav :hover {
+                    color: #FFB24A;
                 }
 
-                .view-account .side-bar .side-menu .nav > li.active a {
-                    color: #002447;
-                    background: none;
+                .view-account .content-panel {
+                    padding: 30px
                 }
-
-    .view-account .content-panel {
-        padding: 30px
+    .view-account .content-panel .fieldset-title {
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eaeaf1;
+        margin-bottom: 30px;
+        color: #616670;
+        font-size: 16px
     }
 
-        .view-account .content-panel .fieldset-title {
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eaeaf1;
-            margin-bottom: 30px;
-            color: #616670;
-            font-size: 16px
-        }
 
-@media (min-width: 576px) {
+@media (min-width: 576px)
+{
     .view-account .content-panel {
         max-height: 568px;
         margin-bottom: 2.5rem;
@@ -151,7 +155,7 @@ body {
 /*SETTING_SIDE_BAR*/
 @media (min-width:768px) {
     .view-account .content-panel {
-        min-height: 800px;
+        min-height: 530px;
         border-left: 1px solid #FFB24A;
         margin-left: 200px
     }
@@ -195,7 +199,8 @@ body {
                     .view-account .side-bar .side-menu .nav > li.active a {
                         background: #FFB24A;
                         border-right: 4px solid #FFB24A;
-                        border-bottom: none
+                        border-bottom: none;
+                        color:#002447;
                     }
 }
 /*ADD_OFFER*/
@@ -215,28 +220,23 @@ body {
     color: #ffc107;
 }
 
-@media (max-width: 1200px) {
-    .form-horizontal .add-produt {
-        text-align: center;
+    @media (max-width: 1200px) {
+       
+        .container, .container-sm, .container-md {
+            padding-left: 20px;
+            max-width: 800px
+        }
     }
 
-    .container, .container-sm, .container-md {
-        padding-left: 20px;
-        max-width: 800px
-    }
-}
+    @media (max-width: 767px) {
+      
+        .container, .container-sm, .container-md {
+            max-width: 550px;
+            padding-left: 0px;
+        }
 
-@media (max-width: 767px) {
-    .form-horizontal .add-produt {
-        text-align: center;
     }
-
-    .container, .container-sm, .container-md {
-        max-width: 550px;
-        padding-left: 0px;
-    }
-}
-
+        
 
 @media (max-width: 576px) {
     .form-horizontal .add-produt {
@@ -250,8 +250,10 @@ body {
 }
 
 /*   SIDE_BAR*/
+
 .bg-dark {
-    background-color: #DCDCDC !important;
+     background-color: #c1c1c1 !important;
+   
 }
 
 .sidebar-active-element {
@@ -313,6 +315,24 @@ ul.navbar-nav {
     padding-top: 16px;
 }
 
+.links i {
+    color: white;
+}
+.links .icon :hover {
+    color: #002447;
+}
+.links .title :hover {
+    
+    text-decoration-color: #002447;
+}
+
+a.active i {
+    color: #002447;
+   
+}
+a.active .title {
+    color: #002447;
+}
 
 @media screen and (min-width:1200px) {
     ul .side-nav {
@@ -334,15 +354,11 @@ ul.navbar-nav {
     }
 }
 
-/*AccountMessage*/
-
-.container py-5 px-4 {
-    background-image: linear-gradient(90deg, #002447 0%, #FFB24A 100%);
-}
-
-body {
-    min-height: 100vh;
-}
+    /*AccountMessage*/
+    body {
+        
+        min-height: 100vh;
+    }
 
 ::-webkit-scrollbar {
     width: 5px;
@@ -398,4 +414,12 @@ body {
     .row-offer {
         margin-left: 60px;
     }
+}
+
+/*ADD_PRODUCT_SET*/
+
+.add-product-set
+{
+    width: 500px;
+    background-color:#fff;
 }

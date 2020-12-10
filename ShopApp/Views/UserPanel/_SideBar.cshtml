@@ -12,17 +12,18 @@
     Dictionary<string, string> activeView = new Dictionary<string, string>();
 
     activeView.Add("Account", string.Empty);
-    activeView.Add("AddOffer", string.Empty);
+    activeView.Add("Offers", string.Empty);
+    activeView.Add("Bundles", string.Empty);
     activeView.Add("OrderHistory", string.Empty);
     activeView.Add("Communicator", string.Empty);
     activeView.Add("Settings", string.Empty);
 
     activeView[viewName] = "sidebar-active-element";
 
-    System.Diagnostics.Debug.WriteLine("ViewPath: " + viewPath);
-    System.Diagnostics.Debug.WriteLine("ViewName: " + viewName);
-    System.Diagnostics.Debug.WriteLine("ActiveView: " + activeView[viewName]);
-    System.Diagnostics.Debug.WriteLine("AddOfer: " + activeView["AddOffer"]);
+    //System.Diagnostics.Debug.WriteLine("ViewPath: " + viewPath);
+    //System.Diagnostics.Debug.WriteLine("ViewName: " + viewName);
+    //System.Diagnostics.Debug.WriteLine("ActiveView: " + activeView[viewName]);
+    //System.Diagnostics.Debug.WriteLine("AddOfer: " + activeView["AddOffer"]);
 }
 
 <nav class="navbar-dark bg-dark navbar-vertical show">
@@ -33,10 +34,16 @@
                 <div class="title">Profil</div>
             </a>
         </li>
-        <li class="links @activeView["AddOffer"]">
-            <a href="@Url.Action("AddOffer", "UserPanel")">
+        <li class="links @activeView["Offers"]">
+            <a href="@Url.Action("Offers", "UserPanel")">
                 <div class="icon"><i class="fa fa-plus" style="color: white;"></i></div>
-                <div class="title">Dodaj produkt</div>
+                <div class="title">Moje oferty</div>
+            </a>
+        </li>
+        <li class="links @activeView["Bundles"]">
+            <a href="@Url.Action("Bundles", "UserPanel")">
+                <div class="icon"><i class="fa fa-plus" style="color: white;"></i></div>
+                <div class="title">Moje zestawy</div>
             </a>
         </li>
         <li class="links @activeView["OrderHistory"]">
@@ -59,7 +66,7 @@
         </li>
         <li class="links">
             <a href="@Url.Action("Logout", "User")">
-                <div class="icon"><i class="fa fa-reply" style="color: white;"></i></div>
+                <div class="icon"><i class="fa fa-reply"></i></div>
                 <div class="title">Wyloguj</div>
             </a>
         </li>
