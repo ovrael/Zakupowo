@@ -1,14 +1,17 @@
-﻿@Html.Partial("_SideBar")
+﻿@model IEnumerable<ShopApp.Models.Bundle>
+@{
+    ViewBag.Title = "Zestawy";
+}
 
+@Html.Partial("_SideBar")
 
 @Styles.Render("~/bundles/UserPanel")
 
+<div class="container pl-5">
 
-
-<div class="container">
     <div class="row">
-        <div class="col-12 pl-5">
-            <div class="add-product-set">
+        <div class="col-12">
+            <div class="use-add-product">
                 <div class=" row justify-content-center">
                     <div class="row mb-4 mr-1">
                         <div class="col p-0 pt-3 font-weight-bold"> <h3> Stwórz zestaw</h3> </div>
@@ -16,65 +19,126 @@
                 </div>
                 <div class="col-md " style="display: inline-block;">
                     <a class="btn btn-dark" href="@Url.Action("AddBundle", "UserPanel")">Stwórz nowy zestaw!</a>
+
+                    @if (ViewBag.NoOffers != null)
+                    {
+                        <hr />
+                        <div class="h5 col-6">
+                            <div class="alert alert-danger">@ViewBag.NoOffers</div>
+                        </div>
+                    }
+
                 </div>
                 <hr>
                 <div class="row justify-content-center">
                     <h6>Co to jest zestaw</h6>
                 </div>
+
+
                 <hr>
-                <div class="row pl-4 pb-3">
-                    <h6>Twoje zestawy: </h6>
-                </div>
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Nazwa</th>
-                            <th scope="col">Cena</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Ilość</th>
-                            <th scope="col">Ustawienia</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Telewizor</td>
-                            <td>1200 zł</td>
-                            <td>25 sztuk</td>
-                            <td>Atualne</td>
-                            <td>
-                                <button type="button" class="btn btn-light">Edytuj</button>
-                                <button type="button" class="btn btn-light">Usuń</button>
-                            </td>
+                @{
+                    if (Model.Count() > 0)
+                    {
+                        <div class="row pl-4 pb-3">
+                            <h6>Twoje zestawy: </h6>
+                        </div>
+                        <table class="table table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nazwa</th>
+                                    <th scope="col">Cena</th>
+                                    @*<th scope="col">Obniżka</th>*@
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Dodano</th>
+                                    <th scope="colgroup" colspan="2">Ustawienia</th>
+                                </tr>
+                            </thead>
+                                    <tbody>
+                            @{
+                                int n = 0;
+                                foreach (var bundle in Model)
+                                {
+                                    n++;
+                                    string status = bundle.IsActive ? "Aktywny" : "Nieaktywny";
+                                    string bundleWarning = "#warningBeforeDeactivate_" + bundle.BundleID;
 
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Laptop</td>
-                            <td>3000 zł</td>
-                            <td>- sztuk</td>
-                            <td>Nieaktualne</td>
-                            <td>
-                                <button type="button" class="btn btn-light">Edytuj</button>
-                                <button type="button" class="btn btn-light">Usuń</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Aparat</td>
-                            <td>2000 zł </td>
-                            <td>50 sztuk</td>
-                            <td>Aktualne</td>
-                            <td>
-                                <button type="button" class="btn btn-light">Edytuj</button>
-                                <button type="button" class="btn btn-light">Usuń</button>
-                            </td>
+                                        <tr>
+                                            <th scope="row">@n</th>
+                                            <td>@bundle.Title</td>
+                                            <td>@bundle.BundlePrice</td>
+                                            <td>@status</td>
+                                            <td>@bundle.CreationDate</td>
 
-                        </tr>
-                    </tbody>
-                </table>
+                                            @if (bundle.IsActive)
+                                            {
+                                                <td>
+                                                    <button type="button" class="btn btn-light">Edytuj</button>
+                                                </td>
+                                                <td>
+                                                    <div class="col-md-2 ">
+                                                        <button data-toggle="modal" data-target="@bundleWarning" class="btn btn-outline-danger">Dezaktywuj</button>
+                                                    </div>
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td colspan="2">
+                                                    <button class="btn btn-outline-info" href="#"> Zobacz zestaw </button>
+                                                </td>
+                                            }
+
+                                        </tr>
+                                }
+                            }
+                                    </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="row justify-content-center">
+                            <h6>Nie masz jeszcze żadnych zestawów!</h6>
+                        </div>
+                    }
+                }
+
             </div>
         </div>
     </div>
 </div>
+
+
+@{
+    foreach (var bundle in Model)
+    {
+        string bundleWarning = "warningBeforeDeactivate_" + bundle.BundleID;
+
+        <div class="modal fade" id="@bundleWarning" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">
+                            Czy na pewno chcesz dezaktywować zestaw:
+                            <br />
+                            "@bundle.Title"?
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Pamiętaj, że dezaktywowany zestaw nie zniknie z serwisu.<br />
+                            Jego status zostanie zaktualizawny do nieaktywnego.<br />
+                            Nie będzie można go kupić, ale nadal będzie można go przeglądać.
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Nie usuwaj</button>
+                        <a href="@Url.Action("DeactivateBundle", "UserPanel", new { bundleID = bundle.BundleID })" class="btn-outline-danger btn" title="DeactivateButton">Dezaktywuj</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

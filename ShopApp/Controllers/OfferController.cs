@@ -14,30 +14,29 @@ namespace ShopApp.Controllers
     {
         private ShopContext db = new ShopContext();
         // GET: Offer
-        public ActionResult Index(int OfferID = 1)
+        public ActionResult Index(int? OfferID)
         {
             var offer = db.Offers.Where(i => i.OfferID == OfferID).Single();
-            if (offer.IsActive)
-            {
-                Offer oferta = DataBase.SearchForOffer((int)OfferID);
-                return View(oferta);
-            }
+
+            Offer oferta = DataBase.SearchForOffer((int)OfferID);
+            return View(oferta);
+
             //TODO MESSAGE WHY IT THREW ME AWAY FROM OFFER
-            return RedirectToAction("Index", "Home");
+            //return RedirectToAction("Index", "Home");
         }
         [HttpPost]
         [Authorize]
         public ActionResult Index(FormCollection collection)
         {
-            if(int.TryParse(collection["prodId"],out int result))
+            if (int.TryParse(collection["prodId"], out int result))
             {
-            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).Single();
-            var offer = db.Offers.Where(i => i.OfferID == result).Single();
+                var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).Single();
+                var offer = db.Offers.Where(i => i.OfferID == result).Single();
                 var BucketItem = new BucketItem
                 {
                     Quantity = Convert.ToInt32(collection["quantity"])
                 };
-                    BucketItem.TotalPrice = offer.Price * BucketItem.Quantity;
+                BucketItem.TotalPrice = offer.Price * BucketItem.Quantity;
                 if (collection["choice"] == "DODAJ DO KOSZYKA")
                 {
                     if (user.Bucket.BucketItems.Where(i => i.Offer.OfferID == offer.OfferID).Any())
@@ -47,12 +46,12 @@ namespace ShopApp.Controllers
                     }
                     else
                     {
-                    db.BucketItems.Add(BucketItem);
-                    db.SaveChanges();
-                    offer.BucketItems.Add(BucketItem);
-                    db.SaveChanges();
-                    user.Bucket.BucketItems.Add(BucketItem);
-                    db.SaveChanges();
+                        db.BucketItems.Add(BucketItem);
+                        db.SaveChanges();
+                        offer.BucketItems.Add(BucketItem);
+                        db.SaveChanges();
+                        user.Bucket.BucketItems.Add(BucketItem);
+                        db.SaveChanges();
                     }
                 }
             }
@@ -61,7 +60,7 @@ namespace ShopApp.Controllers
 
         [Authorize]
         public ActionResult Bucket()
-        {   
+        {
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
             var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer.User);
             return View(BucketItems);

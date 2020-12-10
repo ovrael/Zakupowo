@@ -322,7 +322,8 @@ namespace ShopApp.Controllers
                 Price = Convert.ToDouble(collection["Price"]),
                 Category = offerCategory,
                 User = editUser,
-                IsActive = true
+                IsActive = true,
+                CreationDate = DateTime.Now
             };
             offer.InStockNow = offer.InStockOriginaly;
 
@@ -378,6 +379,172 @@ namespace ShopApp.Controllers
             db.SaveChanges();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult DeactivateOffer(int? offerID)
+        {
+            if (offerID == null)
+            {
+                ViewBag.Error = "offerID == null";
+                return RedirectToAction("Offers", "UserPanel");
+            }
+
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+
+            db.Offers.Where(o => o.OfferID == offerID).FirstOrDefault().IsActive = false;
+            db.SaveChanges();
+
+
+            //foreach (var offer in bundleToRemove.Offers)
+            //{
+            //    offer.Bundle = null;
+            //}
+            //db.SaveChanges();
+
+            //editUser.Offers.Remove(offerToDeactivate);
+            //db.SaveChanges();
+            //db.Offers.Remove(offerToDeactivate);
+            //db.SaveChanges();
+
+            return RedirectToAction("Offers", "UserPanel");
+        }
+
+        public ActionResult Bundles(bool? availableOffers)
+        {
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+
+            List<Bundle> userBundles = editUser.Bundles.ToList();
+
+            if (availableOffers != null && availableOffers == false)
+            {
+                ViewBag.NoOffers = "Brak dostępnych ofert do stworzenia zestawu!";
+            }
+
+            return View(userBundles);
+        }
+
+        public ActionResult AddBundle()
+        {
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            List<Offer> userOffers = editUser.Offers.Where(o => o.IsActive == true && o.InStockNow > 0 && o.Bundle == null).ToList();
+
+            if (userOffers.Count > 0)
+                return View(userOffers);
+            else
+            {
+                return RedirectToAction("Bundles", "UserPanel", new { availableOffers = false });
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddBundle(FormCollection collection)
+        {
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+
+            Bundle newBundle = new Bundle();
+
+            double offersPriceSum = 0.0;
+            double bundlePrice = 0.0;
+            List<Offer> bundleOffers = new List<Offer>();
+
+            if(collection["OffersInBundle"] == null)
+            {
+                ViewBag.NoPickedOffers = "Brak przydzielonych ofert do zestawu!";
+                return View();
+            }
+
+
+            string[] offerIDs = collection["OffersInBundle"].Split(',');
+            foreach (var offerID in offerIDs)
+            {
+                if (int.TryParse(offerID, out int ID))
+                {
+                    Offer offer = db.Offers.Where(o => o.OfferID == ID).FirstOrDefault();
+                    bundleOffers.Add(offer);
+
+                    string offerQuantity = "OffersQuantity_" + offerID;
+                    offersPriceSum += offer.Price * int.Parse(collection[offerQuantity]);
+                }
+            }
+
+            if (collection["RadioDiscount"] == "CurrencyDiscount")
+            {
+                if (double.TryParse(collection["CurrencyDiscountValue"], out double discount))
+                {
+                    bundlePrice = offersPriceSum - discount;
+                }
+                else
+                {
+                    ViewBag.Error = "Cant parse discount to double";
+                }
+            }
+            else if (collection["RadioDiscount"] == "PercentDiscount")
+            {
+                if (int.TryParse(collection["PercentDiscountValue"], out int discount))
+                {
+                    bundlePrice = offersPriceSum - offersPriceSum * discount / 100;
+                }
+                else
+                {
+                    ViewBag.Error = "Cant parse discount to int";
+                }
+            }
+            else
+            {
+                bundlePrice = offersPriceSum;
+            }
+
+            newBundle.Title = collection["BundleTitle"];
+            newBundle.Offers = bundleOffers;
+            newBundle.OffersPriceSum = offersPriceSum;
+            newBundle.BundlePrice = bundlePrice;
+            newBundle.CreationDate = DateTime.Now;
+            newBundle.IsActive = true;
+            newBundle.User = editUser;
+
+            try
+            {
+                db.Bundles.Add(newBundle);
+                db.SaveChanges();
+
+                editUser.Bundles.Add(newBundle);
+                db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+            }
+
+
+            return RedirectToAction("Bundles", "UserPanel");
+        }
+
+        public ActionResult DeactivateBundle(int? bundleID)
+        {
+            if (bundleID == null)
+            {
+                ViewBag.Error = "BundleID == null";
+                return RedirectToAction("Bundles", "UserPanel");
+            }
+
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+
+            db.Bundles.Where(b => b.BundleID == bundleID).FirstOrDefault().IsActive = false;
+            db.SaveChanges();
+
+            //foreach (var offer in bundleToDeactivate.Offers)
+            //{
+            //    offer.Bundle = null;
+            //}
+            //db.SaveChanges();
+
+
+            //editUser.Bundles.Remove(bundleToDeactivate);
+            //db.SaveChanges();
+            //db.Bundles.Remove(bundleToDeactivate);
+            //db.SaveChanges();
+
+            return RedirectToAction("Bundles", "UserPanel");
         }
 
         #endregion
