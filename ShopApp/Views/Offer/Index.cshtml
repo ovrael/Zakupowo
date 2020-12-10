@@ -2,6 +2,10 @@
 
 @Styles.Render("~/bundles/Offer")
 
+@{ 
+    string czyAktywna = Model.IsActive ? "Aktywna" : "Nieaktywna";
+} 
+
 @if (ViewBag.BucketItem != null)
 {
     <div class="messages-box h5">
@@ -132,8 +136,9 @@
                 }
 
             </div>
-            <p class="product-condition m-0 p-0">stan: nowy</p>
-            <p class="seller d-block m-0 p-0"> sprzedawca: <a class="seller-name" href="#">@Model.User.Login</a></p>
+            <p class="seller d-block m-0 p-0"> Sprzedawca: <a class="seller-name" href="#">@Model.User.Login</a></p>
+            <p class="product-condition d-block m-0 p-0"> Czy aktywna:@czyAktywna</p>
+            <p class="product-condition m-0 p-0">Stan: nowy</p>
             <hr class="mb-2" />
             <h3 class="product-price">@Model.Price</h3>
             <p class="product-price-wdeliver">z dostawą: 115 zł ?cena + cena wybranego dostawcy? </p>
