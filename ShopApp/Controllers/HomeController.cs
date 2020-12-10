@@ -24,53 +24,53 @@ namespace ShopApp.Controllers
         // OFFER VIEW
 
         #region FavouriteOfferManagement
-        [HttpPost]
-        public ActionResult Fav(int id)//We come here from index 
-        {
-            List<string> errors = new List<string>(); // You might want to return an error if something wrong happened
+        //[HttpPost]
+        ////public ActionResult Fav(string type, int id)//We come here from index 
+        ////{
+        ////    List<string> errors = new List<string>(); // You might want to return an error if something wrong happened
 
-            User User = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+        ////    User User = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
 
-            FavouriteOffer FvOff = new FavouriteOffer
-            {
-                Offer = db.Offers.Where(i => i.OfferID == id).First(),
-                User = User
-            };
+        ////    FavouriteOffer FvOff = new FavouriteOffer
+        ////    {
+        ////        Offer = db.Offers.Where(i => i.OfferID == id).First(),
+        ////        User = User
+        ////    };
 
-            db.FavouriteOffers.Add(FvOff);
-            db.SaveChanges();
+        ////    db.FavouriteOffers.Add(FvOff);
+        ////    db.SaveChanges();
 
-            var offer = db.Offers.Where(i => i.OfferID == id).First();
-            offer.FavouriteOffer.Add(FvOff);
-            db.SaveChanges();
+        ////    var offer = db.Offers.Where(i => i.OfferID == id).First();
+        ////    offer.FavouriteOffer.Add(FvOff);
+        ////    db.SaveChanges();
 
-            User.FavouriteOffer.Add(FvOff);
-            db.SaveChanges();
+        ////    User.FavouriteOffer.Add(FvOff);
+        ////    db.SaveChanges();
 
-            return Json(errors, JsonRequestBehavior.AllowGet);
-        }
-        [HttpPost]
-        public ActionResult UnFav(int id)//We come here from index 
-        {
-            User User = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+        ////    return Json(errors, JsonRequestBehavior.AllowGet);
+        ////}
+        //[HttpPost]
+        //public ActionResult UnFav(string type, int id)//We come here from index 
+        //{
+        //    User User = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
-            List<string> errors = new List<string>(); // You might want to return an error if something wrong happened
-            var FvOff = db.FavouriteOffers.Where(i => i.Offer.OfferID == id && i.User.UserID == User.UserID).FirstOrDefault();
-            if (User.FavouriteOffer.Contains(FvOff))
-            {
-                User.FavouriteOffer.Remove(FvOff);
-                db.SaveChanges();
+        //    List<string> errors = new List<string>(); // You might want to return an error if something wrong happened
+        //    var FvOff = db.FavouriteOffers.Where(i => i.Offer.OfferID == id && i.User.UserID == User.UserID).FirstOrDefault();
+        //    if (User.FavouriteOffer.Contains(FvOff))
+        //    {
+        //        User.FavouriteOffer.Remove(FvOff);
+        //        db.SaveChanges();
 
-                var offer = db.Offers.Where(i => i.OfferID == id).First();
-                offer.FavouriteOffer.Remove(FvOff);
-                db.SaveChanges();
+        //        var offer = db.Offers.Where(i => i.OfferID == id).First();
+        //        offer.FavouriteOffer.Remove(FvOff);
+        //        db.SaveChanges();
 
-                db.FavouriteOffers.Remove(FvOff);
-                db.SaveChanges();
-            }
+        //        db.FavouriteOffers.Remove(FvOff);
+        //        db.SaveChanges();
+        //    }
 
-            return Json(errors, JsonRequestBehavior.AllowGet);
-        }
+        //    return Json(errors, JsonRequestBehavior.AllowGet);
+        //}
         #endregion
 
     }

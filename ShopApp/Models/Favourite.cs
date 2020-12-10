@@ -7,7 +7,7 @@ using System.Web;
 
 namespace ShopApp.Models
 {
-    public class FavouriteOffer
+    public class Favourite
     {
         [Key]
         public int FavouriteOfferID { get; set; }
@@ -17,5 +17,7 @@ namespace ShopApp.Models
 
         [Column("OfferID")]
         public virtual Offer Offer { get; set; }
+        [Column("BundleID")]
+        public virtual Bundle Bundle { get; set; }
     }
 }

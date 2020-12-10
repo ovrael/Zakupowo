@@ -61,7 +61,7 @@ namespace ShopApp.Models
         public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<Auction> Auction { get; set; }
         public virtual ICollection<Offer> Offers { get; set; }
-        public virtual ICollection<FavouriteOffer> FavouriteOffer { get; set; }
+        public virtual ICollection<Favourite> FavouriteOffer { get; set; }
         public virtual ICollection<Bundle> Bundles { get; set; }
         public virtual ICollection<ShippingAdress> ShippingAdresses { get; set; }
 
