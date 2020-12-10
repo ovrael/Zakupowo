@@ -1,96 +1,73 @@
-﻿@model IEnumerable<IGrouping<ShopApp.Models.User,ShopApp.Models.BucketItem>>
+﻿@model IEnumerable<IGrouping<ShopApp.Models.User, ShopApp.Models.BucketItem>>
 
 @Styles.Render("~/bundles/Bucket")
 
-<div class="row bucket m-0 p-0 mb-3 pb-3 justify-content-center mx-lg-auto">
-    <div class="row bucket-header m-0 my-2 p-2 pt-lg-4">
-        <div class="col-12">
-            <h1>Twój koszyk</h1>
+    <div class="bucket mb-2 mx-auto">
+        <div class="row bucket-header my-2 my-lg-1 text-center">
+            <div class="col-12"><h1 class="my-lg-3">Twój koszyk</h1></div>
         </div>
-    </div>
-    <form method="post">
-        @foreach (var Seller in Model)
-        {
-            <hr class="col-10 mx-auto" />
-            <div class="row bucket-items shadow m-0 p-0 w-100">
-                <div class="row bucket-items-span align-items-center text-center p-1 m-0 pb-4">
-                    <div class="col-2 col-lg-1 bucket-items-checkbox p-2 m-1">
-                        <input type="checkbox"
-                               name="SelectedSeller_@Seller.Key.Login"
-                               />
-                    </div>
-                    <div class="col-9 col-lg-2 bucket-items-seller p-2 m-1">
-                        <p class="m-0">od: <span class="seller-name">@Seller.Key.Login</span></p>
-                    </div>
-
-                    @foreach (var item in Seller)
-                    {
-                        <div class="row bucket-item m-0 mb-4 p-2 w-100">
-                            <div class="row align-items-center m-0 justify-content-center">
-                                <div class="col-2 col-lg-1 bucket-item-delete">
-                                    <i class="fas fa-times"></i>
-                                </div>
-                                <div class="col-4 col-lg-2 bucket-item-image">
-                                    <img class="img-fluid" src="@item.Offer.OfferPictures.First().PathToFile" />
-                                </div>
-                                <div class="col-6 col-lg-5 bucket-item-description">
-                                    <div class="bucket-item-name">
-                                        <a href="@Url.Action("Index", "Offer", new { OfferID = @item.Offer.OfferID })">@item.Offer.Title</a>
-                                    </div>
-                                </div>
+        <hr>
+        <div class="items shadow">
+            <form method="post">
+                @foreach (var Seller in Model)
+                {
+                    <div class="items-group mt-1">
+                        <div class="row items-header p-3">
+                            <div class="col-1 my-auto bucket-items-checkbox">
+                                <input type="checkbox"
+                                       name="SelectedSeller_@Seller.Key.Login" />
                             </div>
-                            <div class="row w-100 align-items-center text-center p-2 justify-content-center">
-                                <div class="col-7 col-lg-4">
-                                    <div name="quantity-input" class="input-group">
-                                        <input type="button"
-                                               value="-"
-                                               data-field="quantity"
-                                               class="button input-group-prepend quantity-button button-minus" />
-                                        <input type="number"
-                                               step="1"
-                                               max="@item.Offer.InStockNow"
-                                               min="1"
-                                               value="1"
-                                               name="quantity_@item.BucketItemID"
-                                               class="quantity-field w-50" />
-                                        <input type="button"
-                                               value="+"
-                                               data-field="quantity"
-                                               class="button input-group-append quantity-button button-plus" />
-                                    </div>
-                                </div>
-                                <div class="col-5 col-lg-2 bucket-item-price">
-                                        <p class="bucket-item-totalprice p-0 m-0">@item.TotalPrice</p>
-                                        <p class="bucket-item-itemprice p-0 m-0">@item.Offer.Price za sztukę</p>
-                                </div>
+                            <div class="col-10 items-seller">
+                                <p class="m-0">od: <a class="seller-name">@Seller.Key.Login</a></p>
                             </div>
                         </div>
-                        <hr class="w-100 mt-0" />
-                    }
+
+
+
+                        @foreach (var item in Seller)
+                        {
+                            <div class="row item justify-content-around align-items-center text-center p-3">
+                                <div class="col-1 item-delete">
+                                    <i class="fas fa-times"></i>
+                                </div>
+                                <div class="col-5 col-lg-3 item-image">
+                                    <img class="img-fluid" src="@item.Offer.OfferPictures.First().PathToFile">
+                                </div>
+                                <div class="col-6 col-lg-3 item-name">
+                                    <a href="@Url.Action("Index", "Offer", new { OfferID = @item.Offer.OfferID })">@item.Offer.Title</a>
+                                </div>
+                                <div class="col-1 d-lg-none"></div>
+                                <div class="col-5 col-lg-3 item-quantity pt-3 pt-lg-0">
+                                    <input name="quantity_@item.BucketItemID" type="number" min="1" max="@item.Offer.InStockNow">
+                                </div>
+                                <div class="col-6 col-lg-2 item-price pt-3 pt-lg-0">
+                                    <p class="total-price m-0">@item.TotalPrice zł</p>
+                                    <p class="price m-0 d-none">@item.Offer.Price zł za sztukę</p>
+                                </div>
+                            </div>
+                            <hr>
+                        }
+                    </div>
+                }
+                <div class="row bucket-summary justify-content-center text-center">
+                    <div class="col-12">
+                        <p class="bucket-price-header m-0">Razem do zapłaty:</p>
+                        <p class="bucket-price m-0"><span class="bucket-price-amount">1500 zł</span> + dostawa</p>
+                    </div>
+                    <div class="col-12 p-2">
+                        <input type="submit"
+                               value="DO KASY"
+                               class="cashout-button p-3" />
+                    </div>
+                    <div class="col-12 p-2">
+                        <a href="@Url.Action("Index","Home")">
+                            <input type="submit"
+                                   value="KONTYNUUJ ZAKUPY"
+                                   class="continue-button p-3" />
+                        </a>
+                    </div>
                 </div>
             </div>
-        }
-        <div class="row bucket-buttons justify-content-center text-center mx-0 mt-4 mt-lg-5 p-2 w-100">
-            <div class="col-12">
-                <p class="bucket-summary mb-0">Razem do zapłaty:</p>
-                <p class="bucket-price mb-0">1500 złCENKA JS MUSI BYC</p>
-                <p class="p-0">+ dostawa</p>
-            </div>
-            <div class="col-12">
-                <input type="submit"
-                       value="DO KASY"
-                       class="cashout-button p-3 w-100 my-1"/>
-            </div>
-            <div class="col-12">
-                <a href="@Url.Action("Index","Home")">
-                    <input type="submit"
-                           value="KONTYNUUJ ZAKUPY"
-                           class="continue-button p-3 w-100 my-1" />
-                </a>
-
-            </div>
-        </div>
-    </form>
-
-</div>
-@Scripts.Render("~/bundles/Bucketjs")
+        </form>
+    </div>
+        @Scripts.Render("~/bundles/Bucketjs")

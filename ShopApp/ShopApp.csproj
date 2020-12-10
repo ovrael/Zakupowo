@@ -270,6 +270,10 @@
     <Compile Include="Migrations\202011282041574_AddingDbSetForBucketItems.Designer.cs">
       <DependentUpon>202011282041574_AddingDbSetForBucketItems.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012091210584_OfferAndBundleChanges.cs" />
+    <Compile Include="Migrations\202012091210584_OfferAndBundleChanges.Designer.cs">
+      <DependentUpon>202012091210584_OfferAndBundleChanges.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
@@ -308,6 +312,7 @@
     <Content Include="Content\bucket.css" />
     <Content Include="Content\categories.css" />
     <Content Include="Content\error.css" />
+    <Content Include="Content\kat.css" />
     <Content Include="Content\Layout.css" />
     <Content Include="Content\loginregister.css" />
     <Content Include="Content\offer.css" />
@@ -316,9 +321,14 @@
     <Content Include="Global.asax" />
     <Content Include="Images\product.jpg" />
     <Content Include="Images\404ErrorImage.svg" />
+    <Content Include="Images\ReadMeImages\AdressesView.png" />
+    <Content Include="Images\ReadMeImages\MainView.png" />
+    <Content Include="Images\ReadMeImages\RegistrationView.png" />
+    <Content Include="Images\ReadMeImages\SettingsView.png" />
     <Content Include="Images\user.jpg" />
     <Content Include="Images\user2.jpg" />
     <Content Include="libman.json" />
+    <Content Include="Scripts\bootstrap-input-spinner.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -355,6 +365,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\kat.js" />
     <Content Include="Scripts\layout.js" />
     <Content Include="Scripts\login.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
@@ -487,6 +498,9 @@
     <Content Include="Views\User\ActivateAccount.cshtml" />
     <Content Include="Views\UserPanel\PasswordChange.cshtml" />
     <Content Include="Views\Offer\SuccesfulShopping.cshtml" />
+    <Content Include="Views\UserPanel\Offers.cshtml" />
+    <Content Include="Views\UserPanel\Bundles.cshtml" />
+    <Content Include="Views\UserPanel\AddBundle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -583,6 +597,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011282041574_AddingDbSetForBucketItems.resx">
       <DependentUpon>202011282041574_AddingDbSetForBucketItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012091210584_OfferAndBundleChanges.resx">
+      <DependentUpon>202012091210584_OfferAndBundleChanges.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

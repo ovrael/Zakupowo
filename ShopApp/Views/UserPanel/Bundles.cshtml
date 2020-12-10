@@ -1,0 +1,80 @@
+﻿@Html.Partial("_SideBar")
+
+
+@Styles.Render("~/bundles/UserPanel")
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 pl-5">
+            <div class="add-product-set">
+                <div class=" row justify-content-center">
+                    <div class="row mb-4 mr-1">
+                        <div class="col p-0 pt-3 font-weight-bold"> <h3> Stwórz zestaw</h3> </div>
+                    </div>
+                </div>
+                <div class="col-md " style="display: inline-block;">
+                    <a class="btn btn-dark" href="@Url.Action("AddBundle", "UserPanel")">Stwórz nowy zestaw!</a>
+                </div>
+                <hr>
+                <div class="row justify-content-center">
+                    <h6>Co to jest zestaw</h6>
+                </div>
+                <hr>
+                <div class="row pl-4 pb-3">
+                    <h6>Twoje zestawy: </h6>
+                </div>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nazwa</th>
+                            <th scope="col">Cena</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Ilość</th>
+                            <th scope="col">Ustawienia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Telewizor</td>
+                            <td>1200 zł</td>
+                            <td>25 sztuk</td>
+                            <td>Atualne</td>
+                            <td>
+                                <button type="button" class="btn btn-light">Edytuj</button>
+                                <button type="button" class="btn btn-light">Usuń</button>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Laptop</td>
+                            <td>3000 zł</td>
+                            <td>- sztuk</td>
+                            <td>Nieaktualne</td>
+                            <td>
+                                <button type="button" class="btn btn-light">Edytuj</button>
+                                <button type="button" class="btn btn-light">Usuń</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Aparat</td>
+                            <td>2000 zł </td>
+                            <td>50 sztuk</td>
+                            <td>Aktualne</td>
+                            <td>
+                                <button type="button" class="btn btn-light">Edytuj</button>
+                                <button type="button" class="btn btn-light">Usuń</button>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
