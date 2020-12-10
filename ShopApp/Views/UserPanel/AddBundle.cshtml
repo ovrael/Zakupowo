@@ -6,24 +6,20 @@
 @Styles.Render("~/bundles/UserPanel")
 @Html.Partial("_SideBar")
 
+
+
 <div class="container">
     <div class="row">
         <div class="col-12 pl-0">
             <div class="row  row-offer mr-1">
                 <div class="col  pt-3 font-weight-bold">
                     <h3> Stwórz zestaw</h3>
-                    @if (ViewBag.NoPickedOffers != null)
-                    {
-                        <hr />
-                        <div class="h5 col-6">
-                            <div class="alert alert-danger">@ViewBag.NoOffers</div>
-                        </div>
-                    }
+                   
+                    
                     <hr>
                 </div>
             </div>
-            @using (Html.BeginForm("AddBundle", "UserPanel", FormMethod.Post))
-            {
+           
                 <div class="row row-offer mr-1">
                     <div class="form-group">
                         <label class="col control-label" for="Name">Nazwa zestawu</label>
@@ -34,28 +30,23 @@
                     </div>
                 </div>
 
-                foreach (var offer in Model)
-                {
-
-                    string id = "Offer_" + offer.OfferID.ToString();
-                    string offerQuantity = "OffersQuantity_" + offer.OfferID.ToString();
 
                     <div class="row row-offer mr-1">
 
                         @*OFFER PICTURE*@
                         <div class="col-1 p-0">
-                            <img src="@offer.OfferPictures.ToList()[0].PathToFile" class="rounded" style="width: 70px" alt="offerPicture">
+                            <img src="offer.OfferPictures.ToList()[0].PathToFile" class="rounded" style="width: 70px" alt="offerPicture">
                         </div>
 
                         @*OFFER TITLE*@
                         <div class="col-4 pt-1">
-                            @offer.Title
+                            offer.Title
                         </div>
 
                         @*OFFER QUANTITY*@
                         <div class="col-2 p-0 pt-1">
                             <div class="form-group">
-                                <input id="available_quantity" name="@offerQuantity" value="1" min="1" max="@offer.InStockNow" placeholder="Offer quantity" class="form-control input-md" required type="number">
+                                <input id="available_quantity" name="offerQuantity" value="1" min="1" max="offer.InStockNow" placeholder="Offer quantity" class="form-control input-md" required type="number">
                             </div>
                         </div>
 
@@ -63,14 +54,14 @@
 
                         @*OFFER PRICE*@
                         <div class="col-2 p-0 pt-1">
-                            @offer.Price
+                            offer.Price
                         </div>
 
                         @*ADD TO BUNDLE CHECKBOX*@
                         <div class="col-2 p-0 pt-1">
                             <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="@id" name="OffersInBundle" value="@offer.OfferID">
-                                <label class="form-check-label" for="@id">Dodaj do zestawu</label>
+                                <input type="checkbox" class="form-check-input" id="id" name="OffersInBundle" value="offer.OfferID">
+                                <label class="form-check-label" for="id">Dodaj do zestawu</label>
                             </div>
                         </div>
                     </div>

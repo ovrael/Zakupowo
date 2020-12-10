@@ -8,23 +8,23 @@
 @Styles.Render("~/bundles/UserPanel")
 
 <div class="container pl-5">
-
     <div class="row">
         <div class="col-12">
-            <div class="use-add-product">
+            <div class="use-add-product pb-3">
                 <div class=" row justify-content-center">
                     <div class="row mb-4 mr-1">
                         <div class="col p-0 pt-3 font-weight-bold"> <h3> Stwórz zestaw</h3> </div>
                     </div>
                 </div>
                 <div class="col-md " style="display: inline-block;">
-                    <a class="btn btn-dark" href="@Url.Action("AddBundle", "UserPanel")">Stwórz nowy zestaw!</a>
+                    <a class="btn btn-outline-warning" href="@Url.Action("AddBundle", "UserPanel")">Stwórz nowy zestaw!</a>
 
                     @if (ViewBag.NoOffers != null)
                     {
-                        <hr />
-                        <div class="h5 col-6">
-                            <div class="alert alert-danger">@ViewBag.NoOffers</div>
+
+                        <div class="alert alert-danger alert-dismissible mt-3">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong><i class="fas fa-info-circle"></i></strong> @ViewBag.NoOffers
                         </div>
                     }
 
@@ -42,62 +42,65 @@
                         <div class="row pl-4 pb-3">
                             <h6>Twoje zestawy: </h6>
                         </div>
-                        <table class="table table-striped">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nazwa</th>
-                                    <th scope="col">Cena</th>
-                                    @*<th scope="col">Obniżka</th>*@
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Dodano</th>
-                                    <th scope="colgroup" colspan="2">Ustawienia</th>
-                                </tr>
-                            </thead>
-                                    <tbody>
-                            @{
-                                int n = 0;
-                                foreach (var bundle in Model)
-                                {
-                                    n++;
-                                    string status = bundle.IsActive ? "Aktywny" : "Nieaktywny";
-                                    string bundleWarning = "#warningBeforeDeactivate_" + bundle.BundleID;
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nazwa</th>
+                                        <th scope="col">Cena</th>
+                                        @*<th scope="col">Obniżka</th>*@
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Dodano</th>
+                                        <th scope="colgroup" colspan="3">Ustawienia</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int n = 0;
+                                        foreach (var bundle in Model)
+                                        {
+                                            n++;
+                                            string status = bundle.IsActive ? "Aktywny" : "Nieaktywny";
+                                            string bundleWarning = "#warningBeforeDeactivate_" + bundle.BundleID;
 
-                                        <tr>
-                                            <th scope="row">@n</th>
-                                            <td>@bundle.Title</td>
-                                            <td>@bundle.BundlePrice</td>
-                                            <td>@status</td>
-                                            <td>@bundle.CreationDate</td>
+                                            <tr>
+                                                <th scope="row">@n</th>
+                                                <td>@bundle.Title</td>
+                                                <td>@bundle.BundlePrice</td>
+                                                <td>@status</td>
+                                                <td>@bundle.CreationDate</td>
 
-                                            @if (bundle.IsActive)
-                                            {
-                                                <td>
-                                                    <button type="button" class="btn btn-light">Edytuj</button>
-                                                </td>
-                                                <td>
-                                                    <div class="col-md-2 ">
-                                                        <button data-toggle="modal" data-target="@bundleWarning" class="btn btn-outline-danger">Dezaktywuj</button>
-                                                    </div>
-                                                </td>
-                                            }
-                                            else
-                                            {
-                                                <td colspan="2">
-                                                    <button class="btn btn-outline-info" href="#"> Zobacz zestaw </button>
-                                                </td>
-                                            }
+                                                @if (bundle.IsActive)
+                                                {
+                                                    <td>
+                                                        <button type="button" class="btn btn-warning">Edytuj</button>
+                                                    </td>
+                                                    <td>
+                                                        <div class="col-md-2 ">
+                                                            <button data-toggle="modal" data-target="@bundleWarning" class="btn btn-outline-danger">Dezaktywuj</button>
+                                                        </div>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td colspan="2">
+                                                        <button class="btn btn-outline-dark" href="#"> Zobacz zestaw </button>
+                                                    </td>
+                                                }
 
-                                        </tr>
-                                }
-                            }
-                                    </tbody>
-                        </table>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     }
                     else
                     {
-                        <div class="row justify-content-center">
-                            <h6>Nie masz jeszcze żadnych zestawów!</h6>
+
+                        <div class="alert alert-light mb-4" role="alert">
+                            Nie utworzyłeś jeszcze żadnych zestawów!
                         </div>
                     }
                 }
@@ -142,3 +145,166 @@
         </div>
     }
 }
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 pl-0">
+            <div class="row  row-offer mr-1">
+                <div class="col  pt-3 font-weight-bold">
+                    <h3> Stwórz zestaw</h3>
+
+
+                    <hr>
+                </div>
+            </div>
+
+            <div class="row row-offer mr-1">
+                <div class="form-group">
+                    <label class="col control-label" for="Name">Nazwa zestawu</label>
+                    <div class="col">
+                        <input maxlength="60" id="bundle_name" name="BundleTitle" placeholder="Bundle name" class="form-control input-md" required type="text" />
+                        <small id="descriptionCodeHelp" class="form-text text-muted">Maksymalnie 60 znaków</small>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row row-offer mr-1">
+
+                @*OFFER PICTURE*@
+                <div class="col-1 p-0">
+                    <img src="offer.OfferPictures.ToList()[0].PathToFile" class="rounded" style="width: 70px" alt="offerPicture">
+                </div>
+
+                @*OFFER TITLE*@
+                <div class="col-4 pt-1">
+                    offer.Title
+                </div>
+
+                @*OFFER QUANTITY*@
+                <div class="col-2 p-0 pt-1">
+                    <div class="form-group">
+                        <input id="available_quantity" name="offerQuantity" value="1" min="1" max="offer.InStockNow" placeholder="Offer quantity" class="form-control input-md" required type="number">
+                    </div>
+                </div>
+
+                <div class="col-1 p-0 pt-1"></div>
+
+                @*OFFER PRICE*@
+                <div class="col-2 p-0 pt-1">
+                    offer.Price
+                </div>
+
+                @*ADD TO BUNDLE CHECKBOX*@
+                <div class="col-2 p-0 pt-1">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="id" name="OffersInBundle" value="offer.OfferID">
+                        <label class="form-check-label" for="id">Dodaj do zestawu</label>
+                    </div>
+                </div>
+            </div>
+
+            }
+
+
+            <div class="row row-offer mr-1">
+                <div class="col-3 p-0"></div>
+
+                <div class="col-3 pt-1">
+                    <h4> Rabat </h4>
+                </div>
+
+                <div class="col-2 p-0 pt-1">
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="RadioDiscount" id="radioPercent" value="PercentDiscount">
+                        <label class="form-check-label font-weight-bold" for="radioPercent">
+                            Tak, procentowo
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-2 p-0 pt-1">
+                    <div class="input-group mb-3 mr-4">
+                        @* WALIDACJA % OD 1 DO 100 *@
+                        <input type="text" class="form-control" aria-label="Amount" name="PercentDiscountValue" value="">
+                        <div class="input-group-append">
+                            <span class="input-group-text ">%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2 p-0 pt-1"></div>
+            </div>
+
+
+            <div class="row row-offer mr-1">
+
+                <div class="col-6 pt-1"></div>
+
+                <div class="col-2 p-0 pt-1">
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="RadioDiscount" id="radioCurrency" value="CurrencyDiscount">
+                        <label class="form-check-label font-weight-bold" for="radioCurrency">
+                            Tak, walutowo
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-2 p-0 pt-1">
+                    <div class="input-group mb-3 mr-4">
+                        @* WALIDACJA ZŁ OD 1 DO SUMY ZA ZESTAW *@
+                        <input type="text" class="form-control" aria-label="Amount" name="CurrencyDiscountValue" value="">
+                        <div class="input-group-append">
+                            <span class="input-group-text">zł</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-2 p-0 pt-1"></div>
+            </div>
+
+            <div class="row row-offer mr-1">
+
+                <div class="col-6 pt-1"></div>
+                <div class="col-2 p-0 pt-1">
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="RadioDiscount" id="radioLack" value="NoDiscount" checked>
+                        <label class="form-check-label font-weight-bold" for="radioLack">
+                            Brak
+                        </label>
+                    </div>
+                </div>
+                <div class="col-4 p-0 pt-1"></div>
+            </div>
+
+            <div class="row  justify-content-end row-offer mr-1 pt-3">
+                <div class="col-8"></div>
+                <div class="col-2 font-weight-bold" style="font-size:18px;">
+                    SUMA:
+                </div>
+                <div class="col-2 font-weight-bold" style="font-size:18px;">
+                    PODLICZYĆ
+                </div>
+            </div>
+
+            <div class="row  justify-content-end row-offer mr-1 pt-3">
+                <div class="form-group">
+                    <label class="col-3 control-label"></label>
+                    <div class="col-3">
+                        <input type="submit" value="Stwórz zestaw!" class="btn btn-outline-warning mb-3" />
+                    </div>
+                </div>
+            </div>
+
+            @*<div class="row  justify-content-end row-offer mr-1 pt-3 pb-5">
+                    <div class="col-3">
+                        <button type="button" class="btn btn-dark">Stwórz zestaw</button>
+                    </div>
+                </div>*@
+
+            }
+
+        </div>
+    </div>
+
+</div>
