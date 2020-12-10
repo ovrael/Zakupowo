@@ -90,7 +90,7 @@ namespace ShopApp.Controllers
                 };
                 //Dont forget about bundle logic
 
-                 return View(favouriteListItems);
+                 return View(List);
             }
             else
             {
