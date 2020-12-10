@@ -83,7 +83,7 @@ namespace ShopApp.Controllers
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).SingleOrDefault();
             if(user != null)
             {
-                var favouriteListItems = db.FavouriteOffers.Where(i => i.User.Login == user.Login && i.Offer.IsActive).Select(i => i.Offer);
+                var favouriteListItems = db.Favourites.Where(i => i.User.Login == user.Login && i.Offer.IsActive).Select(i => i.Offer);
                 OffersAndBundles List = new OffersAndBundles
                 {
                     Offers = favouriteListItems

@@ -274,6 +274,10 @@
     <Compile Include="Migrations\202012091210584_OfferAndBundleChanges.Designer.cs">
       <DependentUpon>202012091210584_OfferAndBundleChanges.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012102136450_AddingBundleToFavourite.cs" />
+    <Compile Include="Migrations\202012102136450_AddingBundleToFavourite.Designer.cs">
+      <DependentUpon>202012102136450_AddingBundleToFavourite.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
@@ -281,7 +285,7 @@
     <Compile Include="Models\BucketItem.cs" />
     <Compile Include="Models\Bundle.cs" />
     <Compile Include="Models\Category.cs" />
-    <Compile Include="Models\FavouriteOffer.cs" />
+    <Compile Include="Models\Favourite.cs" />
     <Compile Include="Models\OfferPicture.cs" />
     <Compile Include="Models\ShippingAdress.cs" />
     <Compile Include="Models\Transaction.cs" />
@@ -601,6 +605,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012091210584_OfferAndBundleChanges.resx">
       <DependentUpon>202012091210584_OfferAndBundleChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012102136450_AddingBundleToFavourite.resx">
+      <DependentUpon>202012102136450_AddingBundleToFavourite.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
