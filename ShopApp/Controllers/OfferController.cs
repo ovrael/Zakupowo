@@ -16,10 +16,19 @@ namespace ShopApp.Controllers
         // GET: Offer
         public ActionResult Index(int? OfferID)
         {
-            var offer = db.Offers.Where(i => i.OfferID == OfferID).Single();
 
-            Offer oferta = DataBase.SearchForOffer((int)OfferID);
-            return View(oferta);
+            var offer = db.Offers.Where(i => i.OfferID == OfferID).FirstOrDefault();
+
+            if (offer != null)
+            {
+                Offer viewOffer = DataBase.SearchForOffer((int)OfferID);
+                return View(viewOffer);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
 
             //TODO MESSAGE WHY IT THREW ME AWAY FROM OFFER
             //return RedirectToAction("Index", "Home");
