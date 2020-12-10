@@ -37,7 +37,7 @@
 
 
 
-            @foreach (var item in Model.Bundles)
+            @*@foreach (var item in Model.Bundles)
             {
                 <div class="row offer p-2 mt-1">
                     <div class="col-4 offer-img my-auto">
@@ -46,7 +46,7 @@
                     <div class="col-8 offer-desc">
                         <h3><a class="product-name" href="#">@item.Title</a></h3>
                         <p class="seller d-none d-lg-block">sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
-                        <h3 class="product-price mb-1">@item.OffersPriceSum</h3>@*PRZEKRESLONE*@
+                        <h3 class="product-price mb-1">@item.OffersPriceSum</h3>PRZEKRESLONE
                         <h3 class="product-price mb-1">@item.BundlePrice</h3>
                         <br>
                         <a class="addToBucket" href="#">DODAJ DO KOSZYKA</a>
@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <hr>
-            }
+            }*@
 
 
 
