@@ -1,0 +1,67 @@
+﻿@model ShopApp.ViewModels.OffersAndBundles
+
+    <div class="row offers-header text-center mx-auto">
+        <div class="col-12">
+            <h1 class="my-lg-4">
+                Ulubione
+            </h1>
+            <hr>
+        </div>
+    </div>
+    <div class="row offers p-2 mb-3 mx-lg-auto justify-content-center">
+        <div class="col-12 col-lg-6 offers-main m-lg-2 shadow p-3">
+
+
+
+
+            @foreach (var item in Model.Offers)
+            {
+                <div class="row offer p-2 mt-1">
+                    <div class="col-4 offer-img my-auto">
+                        <img class="img-fluid" src="@item.OfferPictures.First().PathToFile">
+                    </div>
+                    <div class="col-8 offer-desc">
+                        <h3><a class="product-name" href="#">@item.Title</a></h3>
+                        <p class="seller d-none d-lg-block">sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
+                        <h3 class="product-price mb-1">@item.Price</h3>
+                        <p class="buyer-counter mb-0 d-none d-lg-block">counter++</p>
+                        <p class="offer-count d-none d-lg-block pb-3">dostępne: @item.InStockNow z @item.InStockOriginaly</p>
+                        <br>
+                        <a class="addToBucket" href="#">DODAJ DO KOSZYKA</a>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" data-type="Offer" id="@item.OfferID"></i>
+                    </div>
+                </div>
+                <hr>
+            }
+
+
+
+
+            @*@foreach (var item in Model.Bundles)
+            {
+                <div class="row offer p-2 mt-1">
+                    <div class="col-4 offer-img my-auto">
+                        <img class="img-fluid" src="@item.Offers.First().OfferPictures.First().PathToFile">
+                    </div>
+                    <div class="col-8 offer-desc">
+                        <h3><a class="product-name" href="#">@item.Title</a></h3>
+                        <p class="seller d-none d-lg-block">sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
+                        <h3 class="product-price mb-1">@item.OffersPriceSum</h3>PRZEKRESLONE
+                        <h3 class="product-price mb-1">@item.BundlePrice</h3>
+                        <br>
+                        <a class="addToBucket" href="#">DODAJ DO KOSZYKA</a>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" data-type="Bundle" id="@item.BundleID"></i>
+                    </div>
+                </div>
+                <hr>
+            }*@
+
+
+
+
+
+
+
+
+        </div>
+    </div>

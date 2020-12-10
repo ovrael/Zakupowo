@@ -123,11 +123,11 @@
                     }
                     if (IsFav && HttpContext.Current.User.Identity.IsAuthenticated)
                     {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" id="@Model.OfferID"></i>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" data-type="Offer" id="@Model.OfferID"></i>
                     }
                     else if (HttpContext.Current.User.Identity.IsAuthenticated)
                     {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-unActive" id="@Model.OfferID"></i>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-unActive" data-type="Offer" id="@Model.OfferID"></i>
                     }
                     else
                     {

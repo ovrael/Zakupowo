@@ -86,5 +86,25 @@ namespace ShopApp.Controllers
 
         //    return View("SuccesfulShopping");
         //}
+        [HttpGet]
+        public ActionResult Favourites()
+        {
+            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).SingleOrDefault();
+            if(user != null)
+            {
+                var favouriteListItems = db.Favourites.Where(i => i.User.Login == user.Login && i.Offer.IsActive).Select(i => i.Offer);
+                OffersAndBundles List = new OffersAndBundles
+                {
+                    Offers = favouriteListItems
+                };
+                //Dont forget about bundle logic
+
+                 return View(List);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+        }
     }
 }

@@ -31,6 +31,7 @@ namespace ShopApp.Models
         public virtual User User { get; set; }
         public virtual ICollection<Offer> Offers { get; set; }
         public virtual ICollection<Bucket> Bucket { get; set; }
+        public virtual ICollection<Favourite> Favourites { get; set; }
 
     }
 }

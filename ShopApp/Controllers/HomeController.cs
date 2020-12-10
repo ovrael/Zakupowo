@@ -25,48 +25,86 @@ namespace ShopApp.Controllers
 
         #region FavouriteOfferManagement
         [HttpPost]
-        public ActionResult Fav(int id)//We come here from index 
+        public ActionResult Fav(string type, int id)//We come here from index 
         {
             List<string> errors = new List<string>(); // You might want to return an error if something wrong happened
 
             User User = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-
-            FavouriteOffer FvOff = new FavouriteOffer
+            if(type == "Offer" || type =="Bundle")
             {
-                Offer = db.Offers.Where(i => i.OfferID == id).First(),
-                User = User
-            };
+                Favourite Fv = new Favourite();
+            if (type == "Offer")
+            {
+                Fv.Offer = db.Offers.Where(i => i.OfferID == id).First();
+                Fv.User = User;
+                    db.Favourites.Add(Fv);
+                    db.SaveChanges();
 
-            db.FavouriteOffers.Add(FvOff);
-            db.SaveChanges();
+                    var offer = db.Offers.Where(i => i.OfferID == id).First();
+                    offer.FavouriteOffer.Add(Fv);
+                    db.SaveChanges();
 
-            var offer = db.Offers.Where(i => i.OfferID == id).First();
-            offer.FavouriteOffer.Add(FvOff);
-            db.SaveChanges();
+                    User.FavouriteOffer.Add(Fv);
+                    db.SaveChanges();
+                }
+            else
+            { 
+                Fv.Bundle = db.Bundles.Where(i => i.BundleID == id).First();
+                Fv.User = User;
+                    db.Favourites.Add(Fv);
+                    db.SaveChanges();
 
-            User.FavouriteOffer.Add(FvOff);
-            db.SaveChanges();
+                    var offer = db.Bundles.Where(i => i.BundleID == id).First();
+                    offer.Favourites.Add(Fv);
+                    db.SaveChanges();
+
+                    User.FavouriteOffer.Add(Fv);
+                    db.SaveChanges();
+                }
+            }
 
             return Json(errors, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public ActionResult UnFav(int id)//We come here from index 
+        public ActionResult UnFav(string type, int id)//We come here from index 
         {
-            User User = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
             List<string> errors = new List<string>(); // You might want to return an error if something wrong happened
-            var FvOff = db.FavouriteOffers.Where(i => i.Offer.OfferID == id && i.User.UserID == User.UserID).FirstOrDefault();
-            if (User.FavouriteOffer.Contains(FvOff))
+
+            User User = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+            if (type == "Offer" || type == "Bundle")
             {
-                User.FavouriteOffer.Remove(FvOff);
-                db.SaveChanges();
+                Favourite Fv = db.Favourites.Where(i => (i.Offer.OfferID == id || i.Bundle.BundleID == id) && i.User.UserID == User.UserID).FirstOrDefault();
+                if (type == "Offer")
+                {
+                    if(Fv.Offer != null)
+                    {
+                        User.FavouriteOffer.Remove(Fv);
+                        db.SaveChanges();
 
-                var offer = db.Offers.Where(i => i.OfferID == id).First();
-                offer.FavouriteOffer.Remove(FvOff);
-                db.SaveChanges();
+                        var offer = db.Offers.Where(i => i.OfferID == id).First();
+                        offer.FavouriteOffer.Remove(Fv);
+                        db.SaveChanges();
 
-                db.FavouriteOffers.Remove(FvOff);
-                db.SaveChanges();
+                        db.Favourites.Remove(Fv);
+                        db.SaveChanges();
+                    }
+                }
+                else
+                {
+                    if (Fv.Bundle != null)
+                    {
+                        User.FavouriteOffer.Remove(Fv);
+                        db.SaveChanges();
+
+                        var offer = db.Bundles.Where(i => i.BundleID == id).First();
+                        offer.Favourites.Remove(Fv);
+                        db.SaveChanges();
+
+                        db.Favourites.Remove(Fv);
+                        db.SaveChanges();
+                    }
+                }
             }
 
             return Json(errors, JsonRequestBehavior.AllowGet);
