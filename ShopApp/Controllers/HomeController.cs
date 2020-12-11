@@ -38,12 +38,8 @@ namespace ShopApp.Controllers
                 Fv.Offer = db.Offers.Where(i => i.OfferID == id).First();
                 Fv.User = User;
                     db.Favourites.Add(Fv);
-                    db.SaveChanges();
-
                     var offer = db.Offers.Where(i => i.OfferID == id).First();
                     offer.FavouriteOffer.Add(Fv);
-                    db.SaveChanges();
-
                     User.FavouriteOffer.Add(Fv);
                     db.SaveChanges();
                 }
@@ -52,12 +48,8 @@ namespace ShopApp.Controllers
                 Fv.Bundle = db.Bundles.Where(i => i.BundleID == id).First();
                 Fv.User = User;
                     db.Favourites.Add(Fv);
-                    db.SaveChanges();
-
                     var offer = db.Bundles.Where(i => i.BundleID == id).First();
                     offer.Favourites.Add(Fv);
-                    db.SaveChanges();
-
                     User.FavouriteOffer.Add(Fv);
                     db.SaveChanges();
                 }
@@ -80,12 +72,8 @@ namespace ShopApp.Controllers
                     if(Fv.Offer != null)
                     {
                         User.FavouriteOffer.Remove(Fv);
-                        db.SaveChanges();
-
                         var offer = db.Offers.Where(i => i.OfferID == id).First();
                         offer.FavouriteOffer.Remove(Fv);
-                        db.SaveChanges();
-
                         db.Favourites.Remove(Fv);
                         db.SaveChanges();
                     }
@@ -95,12 +83,8 @@ namespace ShopApp.Controllers
                     if (Fv.Bundle != null)
                     {
                         User.FavouriteOffer.Remove(Fv);
-                        db.SaveChanges();
-
                         var offer = db.Bundles.Where(i => i.BundleID == id).First();
                         offer.Favourites.Remove(Fv);
-                        db.SaveChanges();
-
                         db.Favourites.Remove(Fv);
                         db.SaveChanges();
                     }
