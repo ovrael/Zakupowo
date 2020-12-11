@@ -4,9 +4,8 @@ $(document).ready(function () {
 
         var id = jQuery(this).attr('id');
         var type = jQuery(this).attr('data-type');
-        console.log(id);
+
         if (jQuery(this).hasClass("fav-active")) {
-            console.log(id);
 
             $.ajax({
                 url: '/Home/UnFav',
