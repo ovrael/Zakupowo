@@ -2,9 +2,9 @@
 
 @Styles.Render("~/bundles/Offer")
 
-@{ 
+@{
     string czyAktywna = Model.IsActive ? "Aktywna" : "Nieaktywna";
-} 
+}
 
 @if (ViewBag.BucketItem != null)
 {
@@ -107,19 +107,26 @@
                 @{
                     bool IsFav = false;
                     ShopApp.Models.User User;
+
                     using (ShopApp.DAL.ShopContext db = new ShopApp.DAL.ShopContext())
                     {
                         User = db.Users.Where(i => i.Login == HttpContext.Current.User.Identity.Name).SingleOrDefault();
-                        if (User != null)
+
+                        if (User != null && User.FavouriteOffer.Where(f => f.Offer.OfferID == Model.OfferID).FirstOrDefault() != null)
                         {
-                            foreach (var item in User.FavouriteOffer)
-                            {
-                                if (item.Offer.OfferID == Model.OfferID)
-                                {
-                                    IsFav = true;
-                                }
-                            }
+                            IsFav = true;
                         }
+
+                        //if (User != null)
+                        //{
+                        //    foreach (var item in User.FavouriteOffer)
+                        //    {
+                        //        if (item.Offer.OfferID == Model.OfferID)
+                        //        {
+                        //            IsFav = true;
+                        //        }
+                        //    }
+                        //}
                     }
                     if (IsFav && HttpContext.Current.User.Identity.IsAuthenticated)
                     {

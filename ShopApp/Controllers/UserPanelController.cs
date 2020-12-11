@@ -390,10 +390,13 @@ namespace ShopApp.Controllers
             }
 
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            Offer offerToDeactivate = db.Offers.Where(o => o.OfferID == offerID).FirstOrDefault();
 
-            db.Offers.Where(o => o.OfferID == offerID).FirstOrDefault().IsActive = false;
+            offerToDeactivate.IsActive = false;
             db.SaveChanges();
 
+            offerToDeactivate.Bundle.IsActive = false;
+            db.SaveChanges();
 
             //foreach (var offer in bundleToRemove.Offers)
             //{
@@ -423,10 +426,16 @@ namespace ShopApp.Controllers
             return View(userBundles);
         }
 
-        public ActionResult AddBundle()
+        public ActionResult AddBundle(bool? noPickedOffers)
         {
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
             List<Offer> userOffers = editUser.Offers.Where(o => o.IsActive == true && o.InStockNow > 0 && o.Bundle == null).ToList();
+
+            if (noPickedOffers != null && noPickedOffers == true)
+            {
+                ViewBag.NoPickedOffers = "Musisz wybrać przynajmniej jedną ofertę by stworzyć zestaw!";
+            }
+
 
             if (userOffers.Count > 0)
                 return View(userOffers);
@@ -447,10 +456,9 @@ namespace ShopApp.Controllers
             double bundlePrice = 0.0;
             List<Offer> bundleOffers = new List<Offer>();
 
-            if(collection["OffersInBundle"] == null)
+            if (collection["OffersInBundle"] == null)
             {
-                ViewBag.NoPickedOffers = "Brak przydzielonych ofert do zestawu!";
-                return View();
+                return RedirectToAction("AddBundle", "UserPanel", new { noPickedOffers = true });
             }
 
 
@@ -482,7 +490,7 @@ namespace ShopApp.Controllers
             {
                 if (int.TryParse(collection["PercentDiscountValue"], out int discount))
                 {
-                    bundlePrice = offersPriceSum - offersPriceSum * discount / 100;
+                    bundlePrice = Math.Round(offersPriceSum - offersPriceSum * discount / 100, 2);
                 }
                 else
                 {
@@ -528,15 +536,16 @@ namespace ShopApp.Controllers
             }
 
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            Bundle bundleToDeactivate = db.Bundles.Where(b => b.BundleID == bundleID).FirstOrDefault();
 
-            db.Bundles.Where(b => b.BundleID == bundleID).FirstOrDefault().IsActive = false;
+            bundleToDeactivate.IsActive = false;
             db.SaveChanges();
 
-            //foreach (var offer in bundleToDeactivate.Offers)
-            //{
-            //    offer.Bundle = null;
-            //}
-            //db.SaveChanges();
+            foreach (var offer in bundleToDeactivate.Offers)
+            {
+                offer.Bundle = null;
+            }
+            db.SaveChanges();
 
 
             //editUser.Bundles.Remove(bundleToDeactivate);

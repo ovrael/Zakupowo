@@ -16,10 +16,19 @@ namespace ShopApp.Controllers
         // GET: Offer
         public ActionResult Index(int? OfferID)
         {
-            var offer = db.Offers.Where(i => i.OfferID == OfferID).Single();
 
-            Offer oferta = DataBase.SearchForOffer((int)OfferID);
-            return View(oferta);
+            var offer = db.Offers.Where(i => i.OfferID == OfferID).FirstOrDefault();
+
+            if (offer != null)
+            {
+                Offer viewOffer = DataBase.SearchForOffer((int)OfferID);
+                return View(viewOffer);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
 
             //TODO MESSAGE WHY IT THREW ME AWAY FROM OFFER
             //return RedirectToAction("Index", "Home");
@@ -81,16 +90,29 @@ namespace ShopApp.Controllers
         public ActionResult Favourites()
         {
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).SingleOrDefault();
-            if(user != null)
+            if (user != null)
             {
-                var favouriteListItems = db.Favourites.Where(i => i.User.Login == user.Login && i.Offer.IsActive).Select(i => i.Offer);
+                List<Offer> favUserOffers = new List<Offer>();
+                List<Bundle> favUserBundles = new List<Bundle>();
+
+                foreach (var favOffer in user.FavouriteOffer)
+                {
+                    if (favOffer.Offer != null)
+                        favUserOffers.Add(favOffer.Offer);
+                    if (favOffer.Bundle != null)
+                        favUserBundles.Add(favOffer.Bundle);
+                }
+
+                //var favouriteListItems = db.Favourites.Where(i => i.User.Login == user.Login && i.Offer.IsActive).Select(i => i.Offer);
+
                 OffersAndBundles List = new OffersAndBundles
                 {
-                    Offers = favouriteListItems
+                    Offers = favUserOffers,
+                    Bundles = favUserBundles
                 };
                 //Dont forget about bundle logic
 
-                 return View(List);
+                return View(List);
             }
             else
             {

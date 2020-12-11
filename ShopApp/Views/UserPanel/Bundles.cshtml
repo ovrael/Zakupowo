@@ -17,16 +17,23 @@
                         <div class="col p-0 pt-3 font-weight-bold"> <h3> Stwórz zestaw</h3> </div>
                     </div>
                 </div>
-                <div class="col-md " style="display: inline-block;">
-                    <a class="btn btn-dark" href="@Url.Action("AddBundle", "UserPanel")">Stwórz nowy zestaw!</a>
+                <div class="row">
 
-                    @if (ViewBag.NoOffers != null)
-                    {
-                        <hr />
-                        <div class="h5 col-6">
+                    <div class="col-3">
+                        <a class="btn btn-dark" href="@Url.Action("AddBundle", "UserPanel")">Stwórz nowy zestaw!</a>
+                    </div>
+
+
+                    <div class="col-1"></div>
+
+                    <div class="col-5">
+                        @if (ViewBag.NoOffers != null)
+                        {
                             <div class="alert alert-danger">@ViewBag.NoOffers</div>
-                        </div>
-                    }
+                        }
+                    </div>
+
+                    <div class="col-3"></div>
 
                 </div>
                 <hr>
@@ -54,20 +61,24 @@
                                     <th scope="colgroup" colspan="2">Ustawienia</th>
                                 </tr>
                             </thead>
-                                    <tbody>
-                            @{
-                                int n = 0;
-                                foreach (var bundle in Model)
-                                {
-                                    n++;
-                                    string status = bundle.IsActive ? "Aktywny" : "Nieaktywny";
-                                    string bundleWarning = "#warningBeforeDeactivate_" + bundle.BundleID;
+                            <tbody>
+                                @{
+                                    int n = 0;
+                                    foreach (var bundle in Model)
+                                    {
+                                        n++;
+                                        string status = bundle.IsActive ? "Aktywny" : "Nieaktywny";
+                                        string bundleWarning = "#warningBeforeDeactivate_" + bundle.BundleID;
 
                                         <tr>
                                             <th scope="row">@n</th>
                                             <td>@bundle.Title</td>
                                             <td>@bundle.BundlePrice</td>
-                                            <td>@status</td>
+                                            <td>
+                                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Status mówi o tym czy zestaw jest aktywny">
+                                                    <a style="pointer-events: none;">@status</a>
+                                                </span>
+                                            </td>
                                             <td>@bundle.CreationDate</td>
 
                                             @if (bundle.IsActive)
@@ -89,9 +100,9 @@
                                             }
 
                                         </tr>
+                                    }
                                 }
-                            }
-                                    </tbody>
+                            </tbody>
                         </table>
                     }
                     else
@@ -128,9 +139,13 @@
                     </div>
                     <div class="modal-body">
                         <p>
-                            Pamiętaj, że dezaktywowany zestaw nie zniknie z serwisu.<br />
-                            Jego status zostanie zaktualizawny do nieaktywnego.<br />
+                            Pamiętaj, że dezaktywowany zestaw nie zniknie z serwisu.
+                            <br />
+                            Jego status zostanie zaktualizawny do <i>nieaktywnego</i>.
+                            <br />
                             Nie będzie można go kupić, ale nadal będzie można go przeglądać.
+                            <br /><br />
+                            <i>Wszystkie oferty z zestawu będą dalej dostępne do kupienia oraz ponownie będą mogły wejść w skład (nowego) zestawu.</i>
                         </p>
                     </div>
                     <div class="modal-footer">
