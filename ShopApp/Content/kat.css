@@ -122,6 +122,21 @@
     cursor: pointer;
 }
 
+.switch {
+    background-color: #FFB24A !important;
+    border-color: black;
+    width: 100px;
+}
+
+.switch:hover, .switch:active, .switch:focus {
+        border-color: black !important;
+        background-color: #cc8018 !important;
+}
+
+.on {
+    border-color: black !important;
+    background-color: #cc8018 !important;
+}
 
 @media (min-width: 992px) {
     .offers-header {

@@ -81,6 +81,12 @@
             </div>
             <div class="col-12 col-lg-6 offers-main m-lg-2 shadow p-3">
                 <div class="row offers-filters justify-content-between">
+                    <div class="col-12 mb-2 mx-lg-2 text-center">
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn switch btn-primary">Oferty</button>
+                            <button type="button" class="btn switch btn-primary">Zestawy</button>
+                        </div>
+                    </div>
                     <div class="col-9 col-lg-12 mx-lg-2">
                         <select class="form-control">
                             <option>cena: od najniższej</option>
@@ -92,38 +98,38 @@
                     </div>
                 </div>
 
-                @foreach (var item in Model)
-                {
-                    string pictureUrl = string.Empty;
-                    if (item.OfferPictures.Count > 0)
-                    {
-                        pictureUrl = item.OfferPictures.ToList()[0].PathToFile;
-                    }
-                    else
-                    {
-                        pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
-                    }
+                        @foreach (var item in Model)
+                        {
+                            string pictureUrl = string.Empty;
+                            if (item.OfferPictures.Count > 0)
+                            {
+                                pictureUrl = item.OfferPictures.ToList()[0].PathToFile;
+                            }
+                            else
+                            {
+                                pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
+                            }
 
-                    <div class="row offer p-2 mt-1">
-                        <div class="col-4 offer-img my-auto">
-                            <img class="img-fluid" src="@pictureUrl">
-                        </div>
-                        <div class="col-8 offer-desc">
-                            <h3><a class="product-name" href="@Url.Action("Index","Offer",new { OfferID = item.OfferID})">@item.Title</a></h3>
-                            <p class="seller d-none d-lg-block mb-0">sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
-                            <p class="product-condition d-none d-lg-block">stan: nowy</p>
-                            <h3 class="product-price mb-1">@item.Price zł</h3>
-                            <p class="product-price-wdeliver">z dostawą: 115 zł</p>
-                            <p class="buyer-counter mb-0 d-none d-lg-block">200 osób kupiło 243 sztuk</p>
-                            <p class="offer-count d-none d-lg-block pb-3">dostępne: 300 sztuk</p>
-                            <br>
-                            <a class="addToBucket" href="#">DODAJ DO KOSZYKA</a>
-                            <i class="fas fa-heart fa-fw product-fav mt-1"></i>
-                        </div>
+                            <div class="row offer p-2 mt-1">
+                                <div class="col-4 offer-img my-auto">
+                                    <img class="img-fluid" src="@pictureUrl">
+                                </div>
+                                <div class="col-8 offer-desc">
+                                    <h3><a class="product-name" href="@Url.Action("Index","Offer",new { OfferID = item.OfferID})">@item.Title</a></h3>
+                                    <p class="seller d-none d-lg-block mb-0">sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
+                                    <p class="product-condition d-none d-lg-block">stan: nowy</p>
+                                    <h3 class="product-price mb-1">@item.Price zł</h3>
+                                    <p class="product-price-wdeliver">z dostawą: 115 zł</p>
+                                    <p class="buyer-counter mb-0 d-none d-lg-block">200 osób kupiło 243 sztuk</p>
+                                    <p class="offer-count d-none d-lg-block pb-3">dostępne: 300 sztuk</p>
+                                    <br>
+                                    <a class="addToBucket" href="#">DODAJ DO KOSZYKA</a>
+                                    <i class="fas fa-heart fa-fw product-fav mt-1"></i>
+                                </div>
+                            </div>
+                            <hr>
+                        }
                     </div>
-                    <hr>
-                }
-            </div>
         </div>
     }
 }
