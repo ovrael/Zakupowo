@@ -5,10 +5,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using ShopApp.DAL;
 
 namespace ShopApp.Models
 {
-    public class ShippingAdress
+    public class ShippingAdress : IConcurrencyAwareEntity
     {
         public static string ErrorMessage { get; set; }
 
@@ -41,5 +42,6 @@ namespace ShopApp.Models
         [Required]
         [Column("UserID")]
         public virtual User User { get; set; }
+        public byte[] RowVersion { get ; set ; }
     }
 }

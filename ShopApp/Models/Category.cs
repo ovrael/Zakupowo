@@ -5,10 +5,10 @@ using System.ComponentModel.DataAnnotations;
 using System.EnterpriseServices.Internal;
 using System.Linq;
 using System.Web;
-
+using ShopApp.DAL;
 namespace ShopApp.Models
 {
-    public class Category
+    public class Category : IConcurrencyAwareEntity
     {
         [Key]
         public int CategoryID { get; set; }
@@ -19,5 +19,6 @@ namespace ShopApp.Models
 
         [JsonIgnore]
         public virtual ICollection<Offer> Offers { get; set; }
+        public byte[] RowVersion { get ; set ; }
     }
 }
