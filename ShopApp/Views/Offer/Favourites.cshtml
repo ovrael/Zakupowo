@@ -1,11 +1,11 @@
 ﻿@model ShopApp.ViewModels.OffersAndBundles
 
-@Styles.Render("~/bundles/Offer")
+@Styles.Render("~/bundles/Kat")
 
 
 <div class="row offers-header text-center mx-auto">
     <div class="col-12">
-        <h1 class="my-lg-4">
+        <h1 class="my-lg-4 my-2">
             Ulubione
         </h1>
         <hr>
@@ -13,54 +13,55 @@
 </div>
 <div class="row offers p-2 mb-3 mx-lg-auto justify-content-center">
     <div class="col-12 col-lg-6 offers-main m-lg-2 shadow p-3">
+        <div class="col-12 mb-2 text-center">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn switch switch-offer btn-primary on">Oferty</button>
+                <button type="button" class="btn switch switch-bundle btn-secondary">Zestawy</button>
+            </div>
+        </div>
 
 
-        @{
-            if (Model.Offers.Count() > 0)
-            {
-                foreach (var item in Model.Offers)
-                {
-                    <div class="row offer p-2 mt-1">
-                        <div class="col-4 offer-img my-auto">
-                            <img class="img-fluid" src="@item.OfferPictures.First().PathToFile">
-                        </div>
-                        <div class="col-8 offer-desc">
-                            <h3><a class="product-name" href="@Url.Action("Index","Offer",new { OfferID = item.OfferID})">@item.Title</a></h3>
-                            <p class="seller d-none d-lg-block">sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
-                            <h3 class="product-price mb-1">@item.Price</h3>
-                            <p class="buyer-counter mb-0 d-none d-lg-block">counter++</p>
-                            <p class="offer-count d-none d-lg-block pb-3">dostępne: @item.InStockNow z @item.InStockOriginaly</p>
-                            <br>
-                            <a class="addToBucket" href="#">DODAJ DO KOSZYKA</a>
-                            <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" data-type="Offer" id="@item.OfferID"></i>
-                        </div>
-                    </div>
-                    <hr>
-                }
-            }
+
+        @foreach (var item in Model.Offers)
+        {
+            <div class="row offer item-row p-2 m-0">
+                <div class="col-12 col-lg-4 text-center offer-img my-auto">
+                    <img class="img-fluid" src="@item.OfferPictures.First().PathToFile">
+                </div>
+                <div class="col-12 col-lg-8 offer-desc">
+                    <h3><a class="product-name" href="@Url.Action("Index","Offer",new { OfferID = item.OfferID})">@item.Title</a></h3>
+                    <p class="seller d-none d-lg-block mb-2">sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
+                    <h3 class="product-price mb">@item.Price zł</h3>
+                    <p class="offer-count d-none d-lg-block pb-3">dostępne: @item.InStockNow z @item.InStockOriginaly</p>
+                    <br>
+                    <a class="addToBucket" href="#">DODAJ DO KOSZYKA</a>
+                    <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Offer" id="@item.OfferID"></i>
+                </div>
+                <hr class="w-100">
+            </div>
         }
 
 
 
 
         @*@foreach (var item in Model.Bundles)
-            {
-                <div class="row offer p-2 mt-1">
-                    <div class="col-4 offer-img my-auto">
-                        <img class="img-fluid" src="@item.Offers.First().OfferPictures.First().PathToFile">
-                    </div>
-                    <div class="col-8 offer-desc">
-                        <h3><a class="product-name" href="#">@item.Title</a></h3>
-                        <p class="seller d-none d-lg-block">sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
-                        <h3 class="product-price mb-1">@item.OffersPriceSum</h3>PRZEKRESLONE
-                        <h3 class="product-price mb-1">@item.BundlePrice</h3>
-                        <br>
-                        <a class="addToBucket" href="#">DODAJ DO KOSZYKA</a>
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" data-type="Bundle" id="@item.BundleID"></i>
-                    </div>
+        {
+            <div class="row bundle-row offer p-2 m-0">
+                <div class="col-4 offer-img my-auto">
+                    <img class="img-fluid" src="@item.Offers.First().OfferPictures.First().PathToFile">
                 </div>
-                <hr>
-            }*@
+                <div class="col-8 offer-desc">
+                    <h3><a class="product-name" href="#">@item.Title</a></h3>
+                    <p class="seller d-none d-lg-block">sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
+                    <h3 class="product-price mb-1">@item.OffersPriceSum</h3>PRZEKRESLONE
+                    <h3 class="product-price mb-1">@item.BundlePrice</h3>
+                    <br>
+                    <a class="addToBucket" href="#">DODAJ DO KOSZYKA</a>
+                    <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" data-type="Bundle" id="@item.BundleID"></i>
+                </div>
+            </div>
+            <hr>
+        }*@
 
 
 
@@ -70,5 +71,6 @@
 
 
         @Scripts.Render("~/bundles/Offerjs")
+        @Scripts.Render("~/bundles/Katjs")
     </div>
 </div>
