@@ -93,7 +93,8 @@ namespace ShopApp.Controllers
                 if (type == "Offer")
                 {
                     Fv.Offer = db.Offers.Where(i => i.OfferID == id).First();
-                    if(!User.FavouriteOffer.Contains(Fv))
+                    var OfferList = User.FavouriteOffer.Where(i => i.Offer != null).ToList();
+                    if(!OfferList.Contains(Fv))
                     {
                     Fv.User = User;
                     db.Favourites.Add(Fv);
@@ -105,7 +106,8 @@ namespace ShopApp.Controllers
                 else
                 {
                     Fv.Bundle = db.Bundles.Where(i => i.BundleID == id).First();
-                    if(!User.FavouriteOffer.Contains(Fv))
+                    var BundleList = User.FavouriteOffer.Where(i => i.Bundle != null).ToList();
+                    if(!BundleList.Contains(Fv))
                     {
                     Fv.User = User;
                     db.Favourites.Add(Fv);
@@ -127,10 +129,11 @@ namespace ShopApp.Controllers
 
             if ((type == "Offer" || type == "Bundle") && User != null)
             {
-                if (type == "Offer" && User.FavouriteOffer.Select(i => i.Offer).Count() > 0)
+                if (type == "Offer")
                 {
-                    Favourite Fv = User.FavouriteOffer.Where(i => i.Offer.OfferID == id && i.User.UserID == User.UserID).FirstOrDefault();
-                    if (Fv != null && Fv.Offer != null && User.FavouriteOffer.Contains(Fv))//odwołanie
+                    Favourite Fv = User.FavouriteOffer.Where(i => i.Offer != null && i.Offer.OfferID == id).FirstOrDefault();
+
+                    if (Fv != null)
                     {
                         User.FavouriteOffer.Remove(Fv);
                         var offer = db.Offers.Where(i => i.OfferID == id).First();
@@ -139,10 +142,10 @@ namespace ShopApp.Controllers
                         db.SaveChanges();
                     }
                 }
-                else if(User.FavouriteOffer.Select(i => i.Bundle).Count() > 0)
+                else
                 {
-                    Favourite Fv = User.FavouriteOffer.Where(i => i.Bundle.BundleID == id && i.User.UserID == User.UserID).FirstOrDefault();
-                    if (Fv != null && Fv.Bundle != null && User.FavouriteOffer.Contains(Fv))
+                    Favourite Fv = User.FavouriteOffer.Where(i => i.Bundle != null && i.Bundle.BundleID == id).FirstOrDefault();
+                    if (Fv != null)
                     {
                         User.FavouriteOffer.Remove(Fv);
                         var offer = db.Bundles.Where(i => i.BundleID == id).First();
