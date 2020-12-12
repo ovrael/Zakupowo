@@ -278,6 +278,10 @@
     <Compile Include="Migrations\202012102136450_AddingBundleToFavourite.Designer.cs">
       <DependentUpon>202012102136450_AddingBundleToFavourite.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012112357539_OptimisticConcurrencyExceptionHandling.cs" />
+    <Compile Include="Migrations\202012112357539_OptimisticConcurrencyExceptionHandling.Designer.cs">
+      <DependentUpon>202012112357539_OptimisticConcurrencyExceptionHandling.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
@@ -289,6 +293,7 @@
     <Compile Include="Models\OfferPicture.cs" />
     <Compile Include="Models\ShippingAdress.cs" />
     <Compile Include="Models\Transaction.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Utility\ConnectionString.cs" />
     <Compile Include="Utility\Cryptographing.cs" />
     <Compile Include="Models\Offer.cs" />
@@ -608,6 +613,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012102136450_AddingBundleToFavourite.resx">
       <DependentUpon>202012102136450_AddingBundleToFavourite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012112357539_OptimisticConcurrencyExceptionHandling.resx">
+      <DependentUpon>202012112357539_OptimisticConcurrencyExceptionHandling.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

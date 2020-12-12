@@ -10,5 +10,6 @@ namespace ShopApp.ViewModels
     {
         public IEnumerable<Offer> Offers { get; set; }
         public IEnumerable<Bundle> Bundles { get; set; }
+        public IEnumerable<int> FavouriteItemsIDs { get; set; }
     }
 }

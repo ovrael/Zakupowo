@@ -4,11 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using ShopApp.DAL;
 
 namespace ShopApp.Models
 {
-    public class AvatarImage
-    {
+    public class AvatarImage : IConcurrencyAwareEntity
+        {
         [ForeignKey("User")]
         public int AvatarImageID { get; set; }
 
@@ -17,5 +18,6 @@ namespace ShopApp.Models
 
         [Column("UserID")]
         public virtual User User { get; set; }
+        public byte[] RowVersion { get; set ; }
     }
 }

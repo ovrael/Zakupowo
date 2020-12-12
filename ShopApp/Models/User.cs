@@ -6,10 +6,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using ShopApp.DAL;
 
 namespace ShopApp.Models
 {
-    public class User
+    public class User : IConcurrencyAwareEntity
     {
         public static string ErrorMessage { get; set; }
 
@@ -64,6 +65,7 @@ namespace ShopApp.Models
         public virtual ICollection<Favourite> FavouriteOffer { get; set; }
         public virtual ICollection<Bundle> Bundles { get; set; }
         public virtual ICollection<ShippingAdress> ShippingAdresses { get; set; }
+        public byte[] RowVersion { get; set; }
 
         public string ShowBasicInformation()
         {

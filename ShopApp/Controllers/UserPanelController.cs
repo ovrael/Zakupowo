@@ -290,14 +290,104 @@ namespace ShopApp.Controllers
 
         #region OffersAndBundles   
 
-        public ActionResult Offers()
+        public ActionResult Offers(int? sortBy)
         {
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-
             List<Offer> offers = editUser.Offers.ToList();
+
+            if (sortBy != null)
+            {
+                switch (sortBy)
+                {
+                    // SORTY BY TITLE
+                    case 1:
+                        offers = offers.OrderBy(o => o.Title).ToList();
+                        ViewBag.TitleSort = 1;
+                        break;
+
+                    case 2:
+                        offers = offers.OrderByDescending(o => o.Title).ToList();
+                        ViewBag.TitleSort = 0;
+                        break;
+
+                    //SORT BY STATUS
+                    case 3:
+                        offers = offers.OrderBy(o => o.IsActive).ToList();
+                        ViewBag.StatusSort = 1;
+                        break;
+
+                    case 4:
+                        offers = offers.OrderByDescending(o => o.IsActive).ToList();
+                        ViewBag.StatusSort = 0;
+                        break;
+
+                    //SORT BY DATE
+                    case 5:
+                        offers = offers.OrderBy(o => o.CreationDate).ToList();
+                        ViewBag.CreationDateSort = 1;
+                        break;
+
+                    case 6:
+                        offers = offers.OrderByDescending(o => o.CreationDate).ToList();
+                        ViewBag.CreationDateSort = 0;
+                        break;
+
+                    // SORTY BY PRICE
+                    case 7:
+                        offers = offers.OrderBy(o => o.Price).ToList();
+                        ViewBag.PriceSort = 1;
+                        break;
+
+                    case 8:
+                        offers = offers.OrderByDescending(o => o.Price).ToList();
+                        ViewBag.PriceSort = 0;
+                        break;
+
+                    //SORT BY LEFT
+                    case 9:
+                        offers = offers.OrderBy(o => o.InStockNow).ToList();
+                        ViewBag.LeftSort = 1;
+                        break;
+
+                    case 10:
+                        offers = offers.OrderByDescending(o => o.InStockNow).ToList();
+                        ViewBag.LeftSort = 0;
+                        break;
+
+                    //SORT BY SOLD
+                    case 11:
+                        offers = offers.OrderBy(o => o.InStockOriginaly - o.InStockNow).ToList();
+                        ViewBag.SoldSort = 1;
+                        break;
+
+                    case 12:
+                        offers = offers.OrderByDescending(o => o.InStockOriginaly - o.InStockNow).ToList();
+                        ViewBag.SoldSort = 0;
+                        break;
+                }
+            }
+
+            ViewBag.TitleSort = 0;
+            ViewBag.StatusSort = 0;
+            ViewBag.CreationDateSort = 0;
+            ViewBag.PriceSort = 0;
+            ViewBag.LeftSort = 0;
+            ViewBag.SoldSort = 0;
 
             return View(offers);
         }
+
+        //public ActionResult Offers(int? sortBy)
+        //{
+        //    User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+        //    List<Offer> offers = editUser.Offers.ToList();
+
+
+
+
+
+        //    return View(offers);
+        //}
 
         public ActionResult AddOffer()
         {
@@ -390,10 +480,13 @@ namespace ShopApp.Controllers
             }
 
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            Offer offerToDeactivate = db.Offers.Where(o => o.OfferID == offerID).FirstOrDefault();
 
-            db.Offers.Where(o => o.OfferID == offerID).FirstOrDefault().IsActive = false;
+            offerToDeactivate.IsActive = false;
             db.SaveChanges();
 
+            offerToDeactivate.Bundle.IsActive = false;
+            db.SaveChanges();
 
             //foreach (var offer in bundleToRemove.Offers)
             //{
@@ -423,10 +516,16 @@ namespace ShopApp.Controllers
             return View(userBundles);
         }
 
-        public ActionResult AddBundle()
+        public ActionResult AddBundle(bool? noPickedOffers)
         {
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
             List<Offer> userOffers = editUser.Offers.Where(o => o.IsActive == true && o.InStockNow > 0 && o.Bundle == null).ToList();
+
+            if (noPickedOffers != null && noPickedOffers == true)
+            {
+                ViewBag.NoPickedOffers = "Musisz wybrać przynajmniej jedną ofertę by stworzyć zestaw!";
+            }
+
 
             if (userOffers.Count > 0)
                 return View(userOffers);
@@ -447,10 +546,9 @@ namespace ShopApp.Controllers
             double bundlePrice = 0.0;
             List<Offer> bundleOffers = new List<Offer>();
 
-            if(collection["OffersInBundle"] == null)
+            if (collection["OffersInBundle"] == null)
             {
-                ViewBag.NoPickedOffers = "Brak przydzielonych ofert do zestawu!";
-                return View();
+                return RedirectToAction("AddBundle", "UserPanel", new { noPickedOffers = true });
             }
 
 
@@ -482,7 +580,7 @@ namespace ShopApp.Controllers
             {
                 if (int.TryParse(collection["PercentDiscountValue"], out int discount))
                 {
-                    bundlePrice = offersPriceSum - offersPriceSum * discount / 100;
+                    bundlePrice = Math.Round(offersPriceSum - offersPriceSum * discount / 100, 2);
                 }
                 else
                 {
@@ -528,15 +626,16 @@ namespace ShopApp.Controllers
             }
 
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            Bundle bundleToDeactivate = db.Bundles.Where(b => b.BundleID == bundleID).FirstOrDefault();
 
-            db.Bundles.Where(b => b.BundleID == bundleID).FirstOrDefault().IsActive = false;
+            bundleToDeactivate.IsActive = false;
             db.SaveChanges();
 
-            //foreach (var offer in bundleToDeactivate.Offers)
-            //{
-            //    offer.Bundle = null;
-            //}
-            //db.SaveChanges();
+            foreach (var offer in bundleToDeactivate.Offers)
+            {
+                offer.Bundle = null;
+            }
+            db.SaveChanges();
 
 
             //editUser.Bundles.Remove(bundleToDeactivate);
