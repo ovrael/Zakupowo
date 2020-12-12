@@ -15,26 +15,29 @@
     <div class="col-12 col-lg-6 offers-main m-lg-2 shadow p-3">
 
 
-
-
-        @foreach (var item in Model.Offers)
-        {
-            <div class="row offer p-2 mt-1">
-                <div class="col-4 offer-img my-auto">
-                    <img class="img-fluid" src="@item.OfferPictures.First().PathToFile">
-                </div>
-                <div class="col-8 offer-desc">
-                    <h3><a class="product-name" href="@Url.Action("Index","Offer",new { OfferID = item.OfferID})">@item.Title</a></h3>
-                    <p class="seller d-none d-lg-block">sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
-                    <h3 class="product-price mb-1">@item.Price</h3>
-                    <p class="buyer-counter mb-0 d-none d-lg-block">counter++</p>
-                    <p class="offer-count d-none d-lg-block pb-3">dostępne: @item.InStockNow z @item.InStockOriginaly</p>
-                    <br>
-                    <a class="addToBucket" href="#">DODAJ DO KOSZYKA</a>
-                    <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" data-type="Offer" id="@item.OfferID"></i>
-                </div>
-            </div>
-            <hr>
+        @{
+            if (Model.Offers.Count() > 0)
+            {
+                foreach (var item in Model.Offers)
+                {
+                    <div class="row offer p-2 mt-1">
+                        <div class="col-4 offer-img my-auto">
+                            <img class="img-fluid" src="@item.OfferPictures.First().PathToFile">
+                        </div>
+                        <div class="col-8 offer-desc">
+                            <h3><a class="product-name" href="@Url.Action("Index","Offer",new { OfferID = item.OfferID})">@item.Title</a></h3>
+                            <p class="seller d-none d-lg-block">sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
+                            <h3 class="product-price mb-1">@item.Price</h3>
+                            <p class="buyer-counter mb-0 d-none d-lg-block">counter++</p>
+                            <p class="offer-count d-none d-lg-block pb-3">dostępne: @item.InStockNow z @item.InStockOriginaly</p>
+                            <br>
+                            <a class="addToBucket" href="#">DODAJ DO KOSZYKA</a>
+                            <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" data-type="Offer" id="@item.OfferID"></i>
+                        </div>
+                    </div>
+                    <hr>
+                }
+            }
         }
 
 
