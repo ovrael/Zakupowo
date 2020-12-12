@@ -290,14 +290,104 @@ namespace ShopApp.Controllers
 
         #region OffersAndBundles   
 
-        public ActionResult Offers()
+        public ActionResult Offers(int? sortBy)
         {
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-
             List<Offer> offers = editUser.Offers.ToList();
+
+            if (sortBy != null)
+            {
+                switch (sortBy)
+                {
+                    // SORTY BY TITLE
+                    case 1:
+                        offers = offers.OrderBy(o => o.Title).ToList();
+                        ViewBag.TitleSort = 1;
+                        break;
+
+                    case 2:
+                        offers = offers.OrderByDescending(o => o.Title).ToList();
+                        ViewBag.TitleSort = 0;
+                        break;
+
+                    //SORT BY STATUS
+                    case 3:
+                        offers = offers.OrderBy(o => o.IsActive).ToList();
+                        ViewBag.StatusSort = 1;
+                        break;
+
+                    case 4:
+                        offers = offers.OrderByDescending(o => o.IsActive).ToList();
+                        ViewBag.StatusSort = 0;
+                        break;
+
+                    //SORT BY DATE
+                    case 5:
+                        offers = offers.OrderBy(o => o.CreationDate).ToList();
+                        ViewBag.CreationDateSort = 1;
+                        break;
+
+                    case 6:
+                        offers = offers.OrderByDescending(o => o.CreationDate).ToList();
+                        ViewBag.CreationDateSort = 0;
+                        break;
+
+                    // SORTY BY PRICE
+                    case 7:
+                        offers = offers.OrderBy(o => o.Price).ToList();
+                        ViewBag.PriceSort = 1;
+                        break;
+
+                    case 8:
+                        offers = offers.OrderByDescending(o => o.Price).ToList();
+                        ViewBag.PriceSort = 0;
+                        break;
+
+                    //SORT BY LEFT
+                    case 9:
+                        offers = offers.OrderBy(o => o.InStockNow).ToList();
+                        ViewBag.LeftSort = 1;
+                        break;
+
+                    case 10:
+                        offers = offers.OrderByDescending(o => o.InStockNow).ToList();
+                        ViewBag.LeftSort = 0;
+                        break;
+
+                    //SORT BY SOLD
+                    case 11:
+                        offers = offers.OrderBy(o => o.InStockOriginaly - o.InStockNow).ToList();
+                        ViewBag.SoldSort = 1;
+                        break;
+
+                    case 12:
+                        offers = offers.OrderByDescending(o => o.InStockOriginaly - o.InStockNow).ToList();
+                        ViewBag.SoldSort = 0;
+                        break;
+                }
+            }
+
+            ViewBag.TitleSort = 0;
+            ViewBag.StatusSort = 0;
+            ViewBag.CreationDateSort = 0;
+            ViewBag.PriceSort = 0;
+            ViewBag.LeftSort = 0;
+            ViewBag.SoldSort = 0;
 
             return View(offers);
         }
+
+        //public ActionResult Offers(int? sortBy)
+        //{
+        //    User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+        //    List<Offer> offers = editUser.Offers.ToList();
+
+
+
+
+
+        //    return View(offers);
+        //}
 
         public ActionResult AddOffer()
         {
