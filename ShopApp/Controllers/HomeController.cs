@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Diagnostics;
 using ShopApp.ViewModels;
+using System.Threading.Tasks;
+using System.Data.Entity.Infrastructure;
 
 namespace ShopApp.Controllers
 {
@@ -81,7 +83,7 @@ namespace ShopApp.Controllers
 
         #region FavouriteOfferManagement
         [HttpPost]
-        public ActionResult Fav(string type, int id)
+        public async Task<ActionResult> Fav(string type, int id)
         {
             List<string> errors = new List<string>(); // You might want to return an error if something wrong happened
 
@@ -92,28 +94,28 @@ namespace ShopApp.Controllers
                 Favourite Fv = new Favourite();
                 if (type == "Offer")
                 {
-                    Fv.Offer = db.Offers.Where(i => i.OfferID == id).First();
+                    Fv.Offer = db.Offers.Where(i => i.OfferID == id).FirstOrDefault();
                     var OfferList = User.FavouriteOffer.Where(i => i.Offer != null).ToList();
-                    if(!OfferList.Contains(Fv))
+                    if(Fv.Offer != null && !OfferList.Where(i => i.Offer.OfferID == Fv.Offer.OfferID).Any())
                     {
-                    Fv.User = User;
-                    db.Favourites.Add(Fv);
-                    Fv.Offer.FavouriteOffer.Add(Fv);
-                    Fv.User.FavouriteOffer.Add(Fv);
-                    db.SaveChanges();
+                        Fv.User = User;
+                        db.Favourites.Add(Fv);
+                        Fv.Offer.FavouriteOffer.Add(Fv);
+                        Fv.User.FavouriteOffer.Add(Fv);
+                        ConcurencyHandling(db);
                     }
                 }
                 else
                 {
-                    Fv.Bundle = db.Bundles.Where(i => i.BundleID == id).First();
+                    Fv.Bundle = db.Bundles.Where(i => i.BundleID == id).FirstOrDefault();
                     var BundleList = User.FavouriteOffer.Where(i => i.Bundle != null).ToList();
-                    if(!BundleList.Contains(Fv))
+                    if(Fv.Bundle != null && !BundleList.Where(i => i.Bundle.BundleID == Fv.Bundle.BundleID).Any())
                     {
-                    Fv.User = User;
-                    db.Favourites.Add(Fv);
-                    Fv.Bundle.Favourites.Add(Fv);
-                    Fv.User.FavouriteOffer.Add(Fv);
-                    db.SaveChanges();
+                        Fv.User = User;
+                        db.Favourites.Add(Fv);
+                        Fv.Bundle.Favourites.Add(Fv);
+                        Fv.User.FavouriteOffer.Add(Fv);
+                        ConcurencyHandling(db);
                     }
                 }
             }
@@ -121,7 +123,7 @@ namespace ShopApp.Controllers
             return Json(errors, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public ActionResult UnFav(string type, int id) 
+        public async Task<ActionResult> UnFav(string type, int id) 
         {
             List<string> errors = new List<string>(); // You might want to return an error if something wrong happened
 
@@ -139,7 +141,7 @@ namespace ShopApp.Controllers
                         var offer = db.Offers.Where(i => i.OfferID == id).First();
                         offer.FavouriteOffer.Remove(Fv);
                         db.Favourites.Remove(Fv);
-                        db.SaveChanges();
+                        ConcurencyHandling(db);
                     }
                 }
                 else
@@ -151,7 +153,7 @@ namespace ShopApp.Controllers
                         var offer = db.Bundles.Where(i => i.BundleID == id).First();
                         offer.Favourites.Remove(Fv);
                         db.Favourites.Remove(Fv);
-                        db.SaveChanges();
+                        ConcurencyHandling(db);
                     }
                 }
             }
@@ -159,6 +161,37 @@ namespace ShopApp.Controllers
             return Json(errors, JsonRequestBehavior.AllowGet);
         }
         #endregion
+        [NonAction]
+        public static void ConcurencyHandling(ShopContext db)
+        {
+            bool saved = false;
+            while (!saved)
+            {
+                try
+                {
+                    db.SaveChanges();
+                    saved = true;
+                }
+                catch (DbUpdateException ex)
+                {
+                    foreach (var entry in ex.Entries)
+                    {
+                        var proposedValues = entry.CurrentValues;
+                        var databaseValues = entry.GetDatabaseValues();
 
+                        foreach (var property in proposedValues.PropertyNames)
+                        {
+                            var proposedValue = proposedValues[property];
+                            var databaseValue = databaseValues[property];
+
+                            proposedValues[property] = proposedValue;
+                        }
+
+                        // Refresh original values to bypass next concurrency check
+                        entry.OriginalValues.SetValues(databaseValues);
+                    }
+                }
+            }
+        }
     }
 }
