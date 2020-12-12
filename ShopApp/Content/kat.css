@@ -144,6 +144,11 @@
     color: black;
 }
 
+.btn-popout {
+    background-color: #FFB24A !important;
+    border: 1px solid black;
+}
+
 @media (min-width: 992px) {
     .offers-header {
         width: 60%;
