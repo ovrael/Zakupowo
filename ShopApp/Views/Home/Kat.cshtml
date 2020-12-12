@@ -1,7 +1,6 @@
 ﻿@model ShopApp.ViewModels.OffersAndBundles
 
 @Styles.Render("~/bundles/Kat")
-@Styles.Render("~/bundles/Offer")
 
 @{
     // Wyświetl komunikat o braku ofert w danej kategorii
@@ -129,16 +128,13 @@
                     }
 
         <div class="row offer item-row p-2 m-0 mt-1">
-            <div class="col-4 offer-img my-auto">
+            <div class="col-12 col-lg-4 text-center offer-img my-auto">
                 <img class="img-fluid" src="@pictureUrl">
             </div>
-            <div class="col-8 offer-desc p-0">
+            <div class="col-12 col-lg-8 offer-desc p-0">
                 <h3><a class="product-name" href="@Url.Action("Index","Offer",new { OfferID = item.OfferID})">@item.Title</a></h3>
                 <p class="seller d-none d-lg-block mb-0">Sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
-                <p class="product-condition d-none d-lg-block">Stan: nowy</p>
-                <h3 class="product-price mb-1">@item.Price zł</h3>
-                <p class="product-price-wdeliver">Z dostawą: 115 zł</p>
-                <p class="buyer-counter mb-0 d-none d-lg-block">200 osób kupiło 243 sztuk</p>
+                <h3 class="product-price mb-3">@item.Price zł</h3>
                 <p class="offer-count d-none d-lg-block pb-3">Dostępne: @item.InStockNow</p>
                 <br>
                 <a class="addToBucket" href="#">DODAJ DO KOSZYKA</a>
@@ -174,17 +170,14 @@
                     }
 
         <div class="row offer bundle-row d-none p-2 mt-1">
-            <div class="col-4 offer-img my-auto">
+            <div class="col-12 col-lg-4 text-center my-auto">
                 <img class="img-fluid" src="@pictureUrl">
             </div>
-            <div class="col-8 offer-desc p-0">
+            <div class="col-12 col-lg-8 offer-desc p-0">
                 <h3><a class="product-name" href="@Url.Action("Index","Offer",new { BundleID = item.BundleID})">@item.Title</a></h3>
                 <p class="seller d-none d-lg-block mb-0">Sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
-                <p class="product-condition d-none d-lg-block">Stan: nowy</p>
                 <h3 class="product-price mb-1">@item.BundlePrice zł</h3>
                 <h3 class="product-price mb-1" style="text-decoration: line-through;">@item.OffersPriceSum zł</h3>
-                <p class="product-price-wdeliver">Z dostawą: 115 zł</p>
-                <p class="buyer-counter mb-0 d-none d-lg-block">200 osób kupiło 243 sztuk</p>
                 <br>
                 @if (HttpContext.Current.User.Identity.IsAuthenticated)
                 {

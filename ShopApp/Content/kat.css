@@ -19,10 +19,12 @@
 
 .product-name {
     color: black;
+    font-size: 18px;
 }
 
 .product-price {
     font-weight: 700;
+    font-size: 16px;
 }
 
 .seller-name {
@@ -54,6 +56,7 @@
     color: #FFB24A;
     letter-spacing: 1px;
     font-weight: 700;
+    font-size: 12px;
 }
 
     .addToBucket:hover, .addToBucket:visited {
@@ -118,7 +121,7 @@
     position: absolute;
     bottom: 0;
     right: 5%;
-    font-size: 20px;
+    font-size: 16px;
     cursor: pointer;
 }
 
@@ -141,6 +144,11 @@
     color: black;
 }
 
+.btn-popout {
+    background-color: #FFB24A !important;
+    border: 1px solid black;
+}
+
 @media (min-width: 992px) {
     .offers-header {
         width: 60%;
@@ -151,6 +159,18 @@
 }
 
 @media (min-width: 1200px) {
+    .product-name {
+        font-size: 26px;
+    }
+    .product-price {
+        font-size: 22px;
+    }
+    .product-fav {
+        font-size: 22px;
+    }
+    .addToBucket {
+        font-size: 16px;
+    }
     .offers-header {
         width: 60%;
     }

@@ -31,6 +31,11 @@
                         {
                             <div class="alert alert-danger">@ViewBag.NoOffers</div>
                         }
+
+                        @if (ViewBag.Success != null)
+                        {
+                            <div class="alert alert-danger">@ViewBag.Success</div>
+                        }
                     </div>
 
                     <div class="col-3"></div>
@@ -44,6 +49,36 @@
 
                 <hr>
                 @{
+                    string titleSign = string.Empty;
+                    //string categorySign = string.Empty;
+                    string statusSign = string.Empty;
+                    string dateSign = string.Empty;
+                    string priceSign = string.Empty;
+
+                    if (ViewBag.SortBy != null)
+                    {
+                        string sortBy = ViewBag.SortBy;
+                        switch (sortBy)
+                        {
+                            case "Title":
+                                titleSign = ViewBag.TitleSort == 0 ? "↑" : "↓";
+                                break;
+                            //case "Category":
+                            //    categorySign = ViewBag.CategorySort == 0 ? "↑" : "↓";
+                            // break;
+                            case "Status":
+                                statusSign = ViewBag.StatusSort == 0 ? "↓" : "↑";
+                                break;
+                            case "Date":
+                                dateSign = ViewBag.CreationDateSort == 0 ? "↓" : "↑";
+                                break;
+                            case "Price":
+                                priceSign = ViewBag.PriceSort == 0 ? "↑" : "↓";
+                                break;
+                        }
+                    }
+
+
                     if (Model.Count() > 0)
                     {
                         <div class="row pl-4 pb-3">
@@ -52,13 +87,22 @@
                         <table class="table table-striped">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nazwa</th>
-                                    <th scope="col">Cena</th>
-                                    @*<th scope="col">Obniżka</th>*@
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Dodano</th>
-                                    <th scope="colgroup" colspan="2">Ustawienia</th>
+                                    <th scope="col">
+                                        <a class="text-warning" href="@Url.Action("Bundles","UserPanel",new { sortBy = 1 + ViewBag.TitleSort})">Nazwa @titleSign</a>
+                                    </th>
+                                    @*<th scope="col">
+                                            <a href="@Url.Action("Bundles","UserPanel",new { sortBy = 13 + ViewBag.CategorySort})">Kategoria @categorySign</a>
+                                        </th>*@
+                                    <th scope="col">
+                                        <a class="text-warning" href="@Url.Action("Bundles","UserPanel",new { sortBy = 3 + ViewBag.PriceSort})">Cena [ zł ] @priceSign</a>
+                                    </th>
+                                    <th scope="col">
+                                        <a class="text-warning" href="@Url.Action("Bundles","UserPanel",new { sortBy = 5 + ViewBag.StatusSort})">Status @statusSign</a>
+                                    </th>
+                                    <th scope="col">
+                                        <a class="text-warning" href="@Url.Action("Bundles","UserPanel",new { sortBy = 7 + ViewBag.CreationDateSort})">Dodano @dateSign</a>
+                                    </th>
+                                    <th class="text-warning" scope="colgroup" colspan="2">Ustawienia</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -68,15 +112,15 @@
                                     {
                                         n++;
                                         string status = bundle.IsActive ? "Aktywny" : "Nieaktywny";
+                                        string statusColorClass = bundle.IsActive ? "text-success" : "text-danger";
                                         string bundleWarning = "#warningBeforeDeactivate_" + bundle.BundleID;
 
                                         <tr>
-                                            <th scope="row">@n</th>
                                             <td>@bundle.Title</td>
                                             <td>@bundle.BundlePrice</td>
                                             <td>
                                                 <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Status mówi o tym czy zestaw jest aktywny">
-                                                    <a style="pointer-events: none;">@status</a>
+                                                    <a class="@statusColorClass" style="pointer-events: none;"><b>@status</b></a>
                                                 </span>
                                             </td>
                                             <td>@bundle.CreationDate</td>
