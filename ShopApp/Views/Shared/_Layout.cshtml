@@ -64,7 +64,7 @@
                     <a class="nav-link main-nav-link mx-4" id="chatLink" href="@Url.Action("Communicator", "UserPanel")"><i class="fas fa-envelope fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Wiadomości</p></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link main-nav-link mx-4" id="favouriteLink" href="@Url.Action("Favourites", "Offer")"><i class="fas fa-heart fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Ulubione</p></a>
+                    <a class="nav-link main-nav-link mx-4" id="favouriteLink"><i class="fas fa-heart fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Ulubione</p></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link main-nav-link mx-4" id="cartLink" href="@Url.Action("Bucket", "Offer")"><i class="fas fa-shopping-cart fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Koszyk</p></a>
@@ -113,13 +113,14 @@
 
     <div class="container-fluid">
         @RenderBody()
-        <footer>
-            <div class="footer text-center">
-                <div class="col-12 my-auto">
-                    ©2020 website created for educational purpose
-                </div>
-            </div>
-        </footer>
     </div>
+
+    <footer>
+        <div class="footer text-center">
+            <div class="col-12 my-auto">
+                ©2020 website created for educational purpose
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

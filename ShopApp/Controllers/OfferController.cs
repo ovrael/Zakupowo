@@ -16,19 +16,10 @@ namespace ShopApp.Controllers
         // GET: Offer
         public ActionResult Index(int? OfferID)
         {
+            var offer = db.Offers.Where(i => i.OfferID == OfferID).Single();
 
-            var offer = db.Offers.Where(i => i.OfferID == OfferID).FirstOrDefault();
-
-            if (offer != null)
-            {
-                Offer viewOffer = DataBase.SearchForOffer((int)OfferID);
-                return View(viewOffer);
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
-
+            Offer oferta = DataBase.SearchForOffer((int)OfferID);
+            return View(oferta);
 
             //TODO MESSAGE WHY IT THREW ME AWAY FROM OFFER
             //return RedirectToAction("Index", "Home");
@@ -74,53 +65,37 @@ namespace ShopApp.Controllers
             var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer.User);
             return View(BucketItems);
         }
-        [HttpPost]
-        [Authorize]
-        public ActionResult Bucket(FormCollection collection)
-        {
-            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-            var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer.User);
-            //Dodawania transakcji dla każdego bucketItema którego sellerem jest collection["SelectedSeller_]""
-            //foreach(var Seller in BucketItems)
-            //    if(collection["SelectedSeller_"+ Seller.Key.Login])
+        //[HttpPost]
+        //[Authorize]
+        //public ActionResult Bucket(FormCollection collection)
+        //{
+        //    var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+        //    var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer.User);
+        //    //Dodawania transakcji dla każdego bucketItema którego sellerem jest collection["SelectedSeller_]""
+        //    //foreach(var Seller in BucketItems)
+        //    //    if(collection["SelectedSeller_"+ Seller.Key.Login])
 
-            return View("SuccesfulShopping");
-        }
+        //    return View("SuccesfulShopping");
+        //}
         [HttpGet]
-        [Authorize]
         public ActionResult Favourites()
         {
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).SingleOrDefault();
-            if (user != null)
+            if(user != null)
             {
-                List<Offer> favUserOffers = new List<Offer>();
-                List<Bundle> favUserBundles = new List<Bundle>();
-
-                foreach (var favOffer in user.FavouriteOffer)
-                {
-                    if (favOffer.Offer != null)
-                    {
-                        favUserOffers.Add(favOffer.Offer);
-                        continue;
-                    }
-                    else if (favOffer.Bundle != null)
-                    {
-                        favUserBundles.Add(favOffer.Bundle);
-                    }
-                }
-
+                var favouriteListItems = db.Favourites.Where(i => i.User.Login == user.Login && i.Offer.IsActive).Select(i => i.Offer);
                 OffersAndBundles List = new OffersAndBundles
                 {
-                    Offers = favUserOffers,
-                    Bundles = favUserBundles
+                    Offers = favouriteListItems
                 };
+                //Dont forget about bundle logic
 
-                return View(List);
+                 return View(favouriteListItems);
             }
             else
             {
-                return  new HttpStatusCodeResult(404);
-            } 
+                return RedirectToAction("Index", "Home");
+            }
         }
     }
 }

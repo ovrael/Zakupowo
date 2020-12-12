@@ -1,34 +1,58 @@
-﻿@model ShopApp.ViewModels.OffersAndBundles
-
+﻿@model IEnumerable<ShopApp.Models.Offer>
 @Styles.Render("~/bundles/Kat")
-@Styles.Render("~/bundles/Offer")
-
+@Scripts.Render("~/bundles/Katjs")
 @{
     // Wyświetl komunikat o braku ofert w danej kategorii
-    if (ViewBag.Message != null)
+    if (Model.Count() == 0)
     {
         <div class="messages-box h5">
-            <div class="alert alert-danger">@ViewBag.Message</div>
+            <div class="alert alert-danger">BRAK PRODUKTÓW W TEJ KATEGORII</div>
         </div>
     }
     else
     {
-
-        //if (User != null)
-        //{
-        //    foreach (var item in User.FavouriteOffer)
-        //    {
-        //        if (item.Offer.OfferID == Model.OfferID)
-        //        {
-        //            IsFav = true;
-        //        }
-        //    }
-        //}
-    }
-    <div class="overlay d-none">
-        <div class="row">
+        <div class="overlay d-none">
+            <div class="row">
+                <div class="col-12">
+                    <i class="fas fa-times"></i>
+                    <form>
+                        <h2 class="my-1">Filtry</h2>
+                        <h5 class="my-3">Cena</h5>
+                        <input class="d-inline-block" type="radio" value="" name="price" id="price25">
+                        <label class="d-inline-block text-right" for="price25">poniżej 25 zł</label>
+                        <br>
+                        <input type="radio" value="" name="price" id="price25to75">
+                        <label for="price25to75">25 zł do 75 zł</label>
+                        <br>
+                        <input type="radio" value="" name="price" id="price75to125">
+                        <label for="price75to125">75 zł do 125 zł</label>
+                        <br>
+                        <input type="radio" value="" name="price" id="price125to175">
+                        <label for="price125to175">125 zł do 175 zł</label>
+                        <br>
+                        <input type="radio" value="" name="price" id="price175">
+                        <label for="price175">powyżej 175 zł</label>
+                        <h5 class="my-3">Stan</h5>
+                        <input type="checkbox" value="" name="state" id="statenew">
+                        <label for="statenew">Nowy</label>
+                        <br>
+                        <input type="checkbox" value="" name="stateold" id="stateold">
+                        <label for="stateold">Używany</label>
+                        <input class="btn btn-primary filterSubmit d-block p-3" type="submit" value="POKAŻ OFERTY">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row offers-header text-center mx-auto">
             <div class="col-12">
-                <i class="fas fa-times"></i>
+                <h1 class="my-lg-4 mt-lg-2 mt-2">
+                    Kategoria
+                </h1>
+                <hr>
+            </div>
+        </div>
+        <div class="row offers p-2 mb-3 mx-lg-auto justify-content-center">
+            <div class="col-2 d-none d-lg-block offers-menu-filters m-2 p-4 shadow">
                 <form>
                     <h2 class="my-1">Filtry</h2>
                     <h5 class="my-3">Cena</h5>
@@ -36,177 +60,73 @@
                     <label class="d-inline-block text-right" for="price25">poniżej 25 zł</label>
                     <br>
                     <input type="radio" value="" name="price" id="price25to75">
-                    <label for="price25to75">25 zł do 75 zł</label>
+                    <label for="price25">25 zł do 75 zł</label>
                     <br>
                     <input type="radio" value="" name="price" id="price75to125">
-                    <label for="price75to125">75 zł do 125 zł</label>
+                    <label for="price25">75 zł do 125 zł</label>
                     <br>
                     <input type="radio" value="" name="price" id="price125to175">
-                    <label for="price125to175">125 zł do 175 zł</label>
+                    <label for="price25">125 zł do 175 zł</label>
                     <br>
                     <input type="radio" value="" name="price" id="price175">
-                    <label for="price175">powyżej 175 zł</label>
+                    <label for="price25">powyżej 175 zł</label>
                     <h5 class="my-3">Stan</h5>
                     <input type="checkbox" value="" name="state" id="statenew">
                     <label for="statenew">Nowy</label>
                     <br>
                     <input type="checkbox" value="" name="stateold" id="stateold">
                     <label for="stateold">Używany</label>
-                    <input class="btn btn-primary filterSubmit d-block p-3" type="submit" value="POKAŻ OFERTY">
+                    <input class="btn btn-primary filterSubmit d-block p-3 mx-auto mt-2" type="submit" value="POKAŻ OFERTY">
                 </form>
             </div>
-        </div>
-    </div>
-    <div class="row offers-header text-center mx-auto">
-        <div class="col-12">
-            <h1 class="my-lg-4 mt-lg-2 mt-2">
-                Kategoria
-            </h1>
-            <hr>
-        </div>
-    </div>
-    <div class="row offers offer-row p-2 mb-3 mx-lg-auto justify-content-center">
-        <div class="col-2 d-none d-lg-block offers-menu-filters m-2 p-4 shadow">
-            <form>
-                <h2 class="my-1">Filtry</h2>
-                <h5 class="my-3">Cena</h5>
-                <input class="d-inline-block" type="radio" value="" name="price" id="price25">
-                <label class="d-inline-block text-right" for="price25">poniżej 25 zł</label>
-                <br>
-                <input type="radio" value="" name="price" id="price25to75">
-                <label for="price25">25 zł do 75 zł</label>
-                <br>
-                <input type="radio" value="" name="price" id="price75to125">
-                <label for="price25">75 zł do 125 zł</label>
-                <br>
-                <input type="radio" value="" name="price" id="price125to175">
-                <label for="price25">125 zł do 175 zł</label>
-                <br>
-                <input type="radio" value="" name="price" id="price175">
-                <label for="price25">powyżej 175 zł</label>
-                <h5 class="my-3">Stan</h5>
-                <input type="checkbox" value="" name="state" id="statenew">
-                <label for="statenew">Nowy</label>
-                <br>
-                <input type="checkbox" value="" name="stateold" id="stateold">
-                <label for="stateold">Używany</label>
-                <input class="btn btn-primary filterSubmit d-block p-3 mx-auto mt-2" type="submit" value="POKAŻ OFERTY">
-            </form>
-        </div>
-        <div class="col-12 col-lg-6 offers-main m-lg-2 shadow p-3">
-            <div class="row offers-filters justify-content-between">
-                <div class="col-12 mb-2 text-center">
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn switch switch-offer btn-primary on">Oferty</button>
-                        <button type="button" class="btn switch switch-bundle btn-secondary">Zestawy</button>
+            <div class="col-12 col-lg-6 offers-main m-lg-2 shadow p-3">
+                <div class="row offers-filters justify-content-between">
+                    <div class="col-9 col-lg-12 mx-lg-2">
+                        <select class="form-control">
+                            <option>cena: od najniższej</option>
+                            <option>cena: od najwyższej</option>
+                        </select>
+                    </div>
+                    <div class="col-3 d-lg-none text-center">
+                        <button class="btn btn-primary filter-button w-100">Filtry</button>
                     </div>
                 </div>
-                <div class="col-9 col-lg-12 mx-lg-2">
-                    <select class="form-control">
-                        <option>cena: od najniższej</option>
-                        <option>cena: od najwyższej</option>
-                    </select>
-                </div>
-                <div class="col-3 d-lg-none text-center">
-                    <button class="btn btn-primary filter-button w-100">Filtry</button>
-                </div>
-            </div>
-            @if (Model.Offers != null)
-            {
-                foreach (var item in Model.Offers)
+
+                @foreach (var item in Model)
                 {
                     string pictureUrl = string.Empty;
                     if (item.OfferPictures.Count > 0)
                     {
-                        pictureUrl = item.OfferPictures.First().PathToFile;
+                        pictureUrl = item.OfferPictures.ToList()[0].PathToFile;
                     }
                     else
                     {
                         pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
                     }
 
-        <div class="row offer item-row p-2 m-0 mt-1">
-            <div class="col-4 offer-img my-auto">
-                <img class="img-fluid" src="@pictureUrl">
-            </div>
-            <div class="col-8 offer-desc p-0">
-                <h3><a class="product-name" href="@Url.Action("Index","Offer",new { OfferID = item.OfferID})">@item.Title</a></h3>
-                <p class="seller d-none d-lg-block mb-0">Sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
-                <p class="product-condition d-none d-lg-block">Stan: nowy</p>
-                <h3 class="product-price mb-1">@item.Price zł</h3>
-                <p class="product-price-wdeliver">Z dostawą: 115 zł</p>
-                <p class="buyer-counter mb-0 d-none d-lg-block">200 osób kupiło 243 sztuk</p>
-                <p class="offer-count d-none d-lg-block pb-3">Dostępne: @item.InStockNow</p>
-                <br>
-                <a class="addToBucket" href="#">DODAJ DO KOSZYKA</a>
-                @if (Model.FavouriteItemsIDs != null && Model.FavouriteItemsIDs.Contains(item.OfferID) && HttpContext.Current.User.Identity.IsAuthenticated)
-                {
-                    <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Offer" id="@item.OfferID"></i>
-                }
-                else if (HttpContext.Current.User.Identity.IsAuthenticated)
-                {
-                    <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Offer" id="@item.OfferID"></i>
-                }
-                else
-                {
-                    <i class="fas fa-heart fa-fw product-fav not-logged"></i>
+                    <div class="row offer p-2 mt-1">
+                        <div class="col-4 offer-img my-auto">
+                            <img class="img-fluid" src="@pictureUrl">
+                        </div>
+                        <div class="col-8 offer-desc">
+                            <h3><a class="product-name" href="@Url.Action("Index","Offer",new { OfferID = item.OfferID})">@item.Title</a></h3>
+                            <p class="seller d-none d-lg-block mb-0">sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
+                            <p class="product-condition d-none d-lg-block">stan: nowy</p>
+                            <h3 class="product-price mb-1">@item.Price zł</h3>
+                            <p class="product-price-wdeliver">z dostawą: 115 zł</p>
+                            <p class="buyer-counter mb-0 d-none d-lg-block">200 osób kupiło 243 sztuk</p>
+                            <p class="offer-count d-none d-lg-block pb-3">dostępne: 300 sztuk</p>
+                            <br>
+                            <a class="addToBucket" href="#">DODAJ DO KOSZYKA</a>
+                            <i class="fas fa-heart fa-fw product-fav mt-1"></i>
+                        </div>
+                    </div>
+                    <hr>
                 }
             </div>
-            <hr class="w-100">
         </div>
-                }
-            }
-            else
-            {
-                foreach (var item in Model.Bundles)
-                {
-                    string pictureUrl = string.Empty;
-                    if (item.Offers.First().OfferPictures.Count > 0)
-                    {
-                        pictureUrl = item.Offers.First().OfferPictures.First().PathToFile;
-                    }
-                    else
-                    {
-                        pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
-                    }
-
-        <div class="row offer bundle-row d-none p-2 mt-1">
-            <div class="col-4 offer-img my-auto">
-                <img class="img-fluid" src="@pictureUrl">
-            </div>
-            <div class="col-8 offer-desc p-0">
-                <h3><a class="product-name" href="@Url.Action("Index","Offer",new { BundleID = item.BundleID})">@item.Title</a></h3>
-                <p class="seller d-none d-lg-block mb-0">Sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
-                <p class="product-condition d-none d-lg-block">Stan: nowy</p>
-                <h3 class="product-price mb-1">@item.BundlePrice zł</h3>
-                <h3 class="product-price mb-1" style="text-decoration: line-through;">@item.OffersPriceSum zł</h3>
-                <p class="product-price-wdeliver">Z dostawą: 115 zł</p>
-                <p class="buyer-counter mb-0 d-none d-lg-block">200 osób kupiło 243 sztuk</p>
-                <br>
-                <a class="addToBucket" href="#">DODAJ DO KOSZYKA</a>
-                @if (Model.FavouriteItemsIDs != null && Model.FavouriteItemsIDs.Contains(item.BundleID) && HttpContext.Current.User.Identity.IsAuthenticated)
-                {
-                    <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Bundle" id="@item.BundleID."></i>
-                }
-                else if (HttpContext.Current.User.Identity.IsAuthenticated)
-                {
-                    <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Bundle" id="@item.BundleID"></i>
-                }
-                else
-                {
-                    <i class="fas fa-heart fa-fw product-fav not-logged"></i>
-                }
-            </div>
-            <hr class="w-100">
-        </div>
-                }
-
-            }
-
-        </div>
-    </div>
+    }
 }
-@Scripts.Render("~/bundles/Offerjs")
-@Scripts.Render("~/bundles/Katjs")
+
 
 

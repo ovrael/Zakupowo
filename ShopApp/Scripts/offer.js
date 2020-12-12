@@ -5,7 +5,8 @@ $(document).ready(function () {
         var id = jQuery(this).attr('id');
         var type = jQuery(this).attr('data-type');
 
-        if (jQuery(this).hasClass("fav-active")) {
+        if ($(".product-fav").hasClass("fav-active")) {
+          
 
             $.ajax({
                 url: '/Home/UnFav',
@@ -17,15 +18,15 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.length == 0)// No errors
                     {
-                        $("#" + id).addClass("fav-unActive");
-                        $("#" + id).removeClass("fav-active");
+                        $(".product-fav").addClass("fav-unActive");
+                        $(".product-fav").removeClass("fav-active");
                     }
                   
                 },
             });
            
         }
-        if (jQuery(this).hasClass("fav-unActive")) {
+        if ($(".product-fav").hasClass("fav-unActive")) {
             $.ajax({
                 url: '/Home/Fav',
                 type: 'POST',
@@ -36,8 +37,8 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.length == 0)
                     {
-                        $("#" + id).addClass("fav-active");
-                        $("#" + id).removeClass("fav-unActive");
+                        $(".product-fav").addClass("fav-active");
+                        $(".product-fav").removeClass("fav-unActive");
 
                     }// No errors
             
@@ -46,7 +47,7 @@ $(document).ready(function () {
             });
            
         }
-        if (jQuery(this).hasClass("not-logged")) {
+        if ($(".product-fav").hasClass("not-logged")) {
             alert("You have to be logged in to add an offer to favourites!");
         }
     })

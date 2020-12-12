@@ -10,9 +10,6 @@
     string avatarUrl = string.Empty;
     string defaultAvatarUrl = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg";
     string accountStatus = Model.IsActivated ? "Aktywowane" : "Nieaktywowane";
-    string phoneNumber = Model.Phone != null ? Model.Phone : "Brak numeru telefonu";
-
-
 
     if (Model.AvatarImage != null)
     {
@@ -101,7 +98,7 @@
                                             <label style="font-weight:bold;">Telefon</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            @phoneNumber
+                                            @Model.Phone
                                         </div>
                                     </div>
                                     <hr />

@@ -42,61 +42,59 @@
                         <div class="row pl-4 pb-3">
                             <h6>Twoje zestawy: </h6>
                         </div>
-                        <table class="table table-striped">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nazwa</th>
-                                    <th scope="col">Cena</th>
-                                    @*<th scope="col">Obniżka</th>*@
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Dodano</th>
-                                    <th scope="colgroup" colspan="2">Ustawienia</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    int n = 0;
-                                    foreach (var bundle in Model)
-                                    {
-                                        n++;
-                                        string status = bundle.IsActive ? "Aktywny" : "Nieaktywny";
-                                        string bundleWarning = "#warningBeforeDeactivate_" + bundle.BundleID;
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nazwa</th>
+                                        <th scope="col">Cena</th>
+                                        @*<th scope="col">Obniżka</th>*@
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Dodano</th>
+                                        <th scope="colgroup" colspan="3">Ustawienia</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int n = 0;
+                                        foreach (var bundle in Model)
+                                        {
+                                            n++;
+                                            string status = bundle.IsActive ? "Aktywny" : "Nieaktywny";
+                                            string bundleWarning = "#warningBeforeDeactivate_" + bundle.BundleID;
 
-                                        <tr>
-                                            <th scope="row">@n</th>
-                                            <td>@bundle.Title</td>
-                                            <td>@bundle.BundlePrice</td>
-                                            <td>
-                                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Status mówi o tym czy zestaw jest aktywny">
-                                                    <a style="pointer-events: none;">@status</a>
-                                                </span>
-                                            </td>
-                                            <td>@bundle.CreationDate</td>
+                                            <tr>
+                                                <th scope="row">@n</th>
+                                                <td>@bundle.Title</td>
+                                                <td>@bundle.BundlePrice</td>
+                                                <td>@status</td>
+                                                <td>@bundle.CreationDate</td>
 
-                                            @if (bundle.IsActive)
-                                            {
-                                                <td>
-                                                    <button type="button" class="btn btn-light">Edytuj</button>
-                                                </td>
-                                                <td>
-                                                    <div class="col-md-2 ">
-                                                        <button data-toggle="modal" data-target="@bundleWarning" class="btn btn-outline-danger">Dezaktywuj</button>
-                                                    </div>
-                                                </td>
-                                            }
-                                            else
-                                            {
-                                                <td colspan="2">
-                                                    <button class="btn btn-outline-info" href="#"> Zobacz zestaw </button>
-                                                </td>
-                                            }
+                                                @if (bundle.IsActive)
+                                                {
+                                                    <td>
+                                                        <button type="button" class="btn btn-warning">Edytuj</button>
+                                                    </td>
+                                                    <td>
+                                                        <div class="col-md-2 ">
+                                                            <button data-toggle="modal" data-target="@bundleWarning" class="btn btn-outline-danger">Dezaktywuj</button>
+                                                        </div>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td colspan="2">
+                                                        <button class="btn btn-outline-dark" href="#"> Zobacz zestaw </button>
+                                                    </td>
+                                                }
 
-                                        </tr>
+                                            </tr>
+                                        }
                                     }
-                                }
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     }
                     else
                     {
@@ -133,13 +131,9 @@
                     </div>
                     <div class="modal-body">
                         <p>
-                            Pamiętaj, że dezaktywowany zestaw nie zniknie z serwisu.
-                            <br />
-                            Jego status zostanie zaktualizawny do <i>nieaktywnego</i>.
-                            <br />
+                            Pamiętaj, że dezaktywowany zestaw nie zniknie z serwisu.<br />
+                            Jego status zostanie zaktualizawny do nieaktywnego.<br />
                             Nie będzie można go kupić, ale nadal będzie można go przeglądać.
-                            <br /><br />
-                            <i>Wszystkie oferty z zestawu będą dalej dostępne do kupienia oraz ponownie będą mogły wejść w skład (nowego) zestawu.</i>
                         </p>
                     </div>
                     <div class="modal-footer">

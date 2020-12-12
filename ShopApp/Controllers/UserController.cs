@@ -85,12 +85,11 @@ namespace ShopApp.Controllers
         {
             string userEmail = TempData["email"].ToString();
             User editUser = db.Users.Where(u => u.Email.Equals(userEmail)).FirstOrDefault();
-            
+
             if (editUser != null)
             {
                 editUser.IsActivated = true;
                 db.SaveChanges();
-                
 
                 return View(editUser);
             }
