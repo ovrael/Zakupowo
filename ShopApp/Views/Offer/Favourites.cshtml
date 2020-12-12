@@ -1,5 +1,7 @@
 ﻿@model ShopApp.ViewModels.OffersAndBundles
-@Styles.Render("~/bundles/Kat")
+
+@Styles.Render("~/bundles/Offer")
+
 
 <div class="row offers-header text-center mx-auto">
     <div class="col-12">
@@ -22,7 +24,7 @@
                     <img class="img-fluid" src="@item.OfferPictures.First().PathToFile">
                 </div>
                 <div class="col-8 offer-desc">
-                    <h3><a class="product-name" href="#">@item.Title</a></h3>
+                    <h3><a class="product-name" href="@Url.Action("Index","Offer",new { OfferID = item.OfferID})">@item.Title</a></h3>
                     <p class="seller d-none d-lg-block">sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
                     <h3 class="product-price mb-1">@item.Price</h3>
                     <p class="buyer-counter mb-0 d-none d-lg-block">counter++</p>
@@ -64,5 +66,6 @@
 
 
 
+        @Scripts.Render("~/bundles/Offerjs")
     </div>
 </div>

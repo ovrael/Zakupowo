@@ -123,19 +123,22 @@
 }
 
 .switch {
-    background-color: #FFB24A !important;
+    background-color: white !important;
     border-color: black;
+    color: black;
     width: 100px;
 }
 
-.switch:hover, .switch:active, .switch:focus {
+    .switch:hover, .switch:active, .switch:focus {
         border-color: black !important;
-        background-color: #cc8018 !important;
-}
+        background-color: #FFB24A !important;
+        color: black;
+    }
 
 .on {
     border-color: black !important;
-    background-color: #cc8018 !important;
+    background-color: #FFB24A !important;
+    color: black;
 }
 
 @media (min-width: 992px) {
