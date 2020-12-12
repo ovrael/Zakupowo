@@ -4,10 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using ShopApp.DAL;
 
 namespace ShopApp.Models
 {
-    public class Auction
+    public class Auction : IConcurrencyAwareEntity
     {
         [Key]
         public int AuctionID {get; set;}
@@ -27,5 +28,6 @@ namespace ShopApp.Models
         public DateTime StartDate { get; set; }
         [Column("EndDate", TypeName = "datetime2")]
         public DateTime EndDate { get; set; }
+        public byte[] RowVersion { get; set; }
     }
 }

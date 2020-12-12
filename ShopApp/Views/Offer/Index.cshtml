@@ -2,9 +2,9 @@
 
 @Styles.Render("~/bundles/Offer")
 
-@{ 
+@{
     string czyAktywna = Model.IsActive ? "Aktywna" : "Nieaktywna";
-} 
+}
 
 @if (ViewBag.BucketItem != null)
 {
@@ -107,27 +107,34 @@
                 @{
                     bool IsFav = false;
                     ShopApp.Models.User User;
+
                     using (ShopApp.DAL.ShopContext db = new ShopApp.DAL.ShopContext())
                     {
                         User = db.Users.Where(i => i.Login == HttpContext.Current.User.Identity.Name).SingleOrDefault();
-                        if (User != null)
+
+                        if (User != null && User.FavouriteOffer.Where(f => f.Offer.OfferID == Model.OfferID).FirstOrDefault() != null)
                         {
-                            foreach (var item in User.FavouriteOffer)
-                            {
-                                if (item.Offer.OfferID == Model.OfferID)
-                                {
-                                    IsFav = true;
-                                }
-                            }
+                            IsFav = true;
                         }
+
+                        //if (User != null)
+                        //{
+                        //    foreach (var item in User.FavouriteOffer)
+                        //    {
+                        //        if (item.Offer.OfferID == Model.OfferID)
+                        //        {
+                        //            IsFav = true;
+                        //        }
+                        //    }
+                        //}
                     }
                     if (IsFav && HttpContext.Current.User.Identity.IsAuthenticated)
                     {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" id="@Model.OfferID"></i>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" data-type="Offer" id="@Model.OfferID"></i>
                     }
                     else if (HttpContext.Current.User.Identity.IsAuthenticated)
                     {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-unActive" id="@Model.OfferID"></i>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-unActive" data-type="Offer" id="@Model.OfferID"></i>
                     }
                     else
                     {
