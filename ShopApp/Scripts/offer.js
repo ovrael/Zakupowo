@@ -49,7 +49,39 @@ $(document).ready(function () {
         if (jQuery(this).hasClass("not-logged")) {
             alert("You have to be logged in to add an offer to favourites!");
         }
-    })
+    }),
+
+
+
+    $(".addToBucket").on("click", function () {
+
+        var id = jQuery(this).attr('id');
+        var type = jQuery(this).attr('data-type');
+        var quantity = jQuery(this).attr('data-quantity');
+
+        if (jQuery(this).hasClass("not-logged")) {
+            alert("You have to be logged in to add anything to bucket!");
+        }
+        else
+        $.ajax({
+                url: '/Offer/AddToBucket',
+                type: 'POST',
+                data: {
+                    type: type,
+                    quantity: quantity,
+                    id: id
+                },
+                success: function (data) {
+                    if (data.length == 0)// No errors
+                    {
+                        $("#" + id).addClass("in-bucket");
+                        $("#" + id).removeClass("addToBucket");
+                    }
+
+                },
+            });
+        }
+    )
 });
 
 

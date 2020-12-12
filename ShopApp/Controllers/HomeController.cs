@@ -10,6 +10,7 @@ using System.Diagnostics;
 using ShopApp.ViewModels;
 using System.Threading.Tasks;
 using System.Data.Entity.Infrastructure;
+using ShopApp.Utility;
 
 namespace ShopApp.Controllers
 {
@@ -22,64 +23,132 @@ namespace ShopApp.Controllers
             return View();
         }
         [HttpGet]
-        public ActionResult Kat(string type = "Offers", int KatID = 1, int page = 1)//We come here from
+        public ActionResult Kat(int KatID = 1)//We come here from
         {
+            //Filters logic
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
             OffersAndBundles offersAndBundles = new OffersAndBundles();
-            if (type == "Offers")
-            {
-                var Offers = db.Offers.Where(i => i.Category.CategoryID == KatID && i.IsActive)
-                    .OrderByDescending(i => i.CreationDate)
-                    .Skip(20 * (page - 1))
-                    .Take(20)
-                    .ToList();
+
+            var Offers = db.Offers.Where(i => i.Category.CategoryID == KatID && i.IsActive).ToList();
+            
                 if (Offers != null)
                 {
-                    offersAndBundles.Offers = Offers;
+                var OffersFiltered = Offers
+                    .OrderByDescending(i => i.CreationDate)
+                    .Take(20)
+                    .ToList();
+                offersAndBundles.Offers = OffersFiltered;
                     if (user != null)
-                        offersAndBundles.FavouriteItemsIDs = user.FavouriteOffer
-                            .Where(i => i.Offer.IsActive && Offers.Contains(i.Offer))
+                {
+                        offersAndBundles.FavouriteOffersIDs = user.FavouriteOffer
+                            .Where(i => i.Offer.IsActive && OffersFiltered.Contains(i.Offer))
                             .Select(i => i.Offer.OfferID);
+                    if(user.Bucket.BucketItems != null)
+                    {
+                        offersAndBundles.InBucketOffersIDs = user.Bucket.BucketItems.Where(i => i.Offer != null)
+                            .Select(i => i.Offer.OfferID).ToList();
+                    }
+                }
                 }
                 else
                     ViewBag.Message = "Brak ofert dla podanych filtrów";
-            }
-            if(type == "Bundles")
-            {
-            var Bundles = db.Bundles.Where(i => i.Offers.Where(x => x.Category.CategoryID == KatID).Any() && i.IsActive)
-                    .OrderByDescending(i => i.CreationDate)
-                    .Skip(20 * (page - 1))
-                    .Take(20)
-                    .ToList();
+            var Bundles = db.Bundles.Where(i => i.Offers.Where(x => x.Category.CategoryID == KatID).Any() && i.IsActive).ToList();
+            
                 if (Bundles != null)
                 {
-                    offersAndBundles.Bundles = Bundles;
+                var BundlesFiltered = Bundles.OrderByDescending(i => i.CreationDate)
+                                    .Take(20)
+                                    .ToList();
+                offersAndBundles.Bundles = BundlesFiltered;
                     if (user != null)
-                        offersAndBundles.FavouriteItemsIDs = user.FavouriteOffer
-                            .Where(i => i.Bundle.IsActive && Bundles.Contains(i.Bundle))
-                            .Select(i => i.Bundle.BundleID);
+                    {
+                            offersAndBundles.FavouriteBundlesIDs = user.FavouriteOffer
+                                .Where(i => i.Bundle.IsActive && BundlesFiltered.Contains(i.Bundle))
+                                .Select(i => i.Bundle.BundleID);
+                    if (user.Bucket.BucketItems != null)
+                        offersAndBundles.InBucketBundlesIDs = user.Bucket.BucketItems.Where(i => i.Bundle != null)
+                            .Select(i => i.Bundle.BundleID).ToList();
+                    } 
                 }
                 else
                     ViewBag.Message = "Brak zestawów dla podanych filtrów";
-
-            }
             return View(offersAndBundles);
         }
-        //[HttpPost]
-        //public ActionResult Kat(FormCollection collection)//We come here from
-        //{
+        [HttpPost]
+        public ActionResult Kat(FormCollection collection, int KatID = 1)//We come here from
+        {
+            //Filters logic
+            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+            OffersAndBundles offersAndBundles = new OffersAndBundles();
 
-        //    if (type == "Offers")
-        //        db.Offers.Where(i => i.Category.CategoryID == KatID).Skip(20 * (page - 1)).Take(20);
-        //    if (type == "Bundles")
-        //        db.Bundles.Where(i => i.Offers.Where(x => x.Category.CategoryID == KatID).Any()).Skip(20 * (page - 1)).Take(20);
-        //    OffersAndBundles offersAndBundles = new OffersAndBundles()
-        //    {
+            int OffersAmount = db.Offers.Where(i => i.IsActive && i.Bundle == null).Count();
+            int BundlesAmount = db.Bundles.Where(i => i.IsActive).Count();
 
-        //    };
-        //    return RedirectToAction("Kat","Home",new { type = type, KatID = KatID, page = page});
-        //}
-        // OFFER VIEW
+            offersAndBundles.MaxPage = OffersAmount > BundlesAmount ? (OffersAmount / 20) + 1 : (BundlesAmount / 20) + 1;
+
+            int Page = int.TryParse(collection["page"], out int page) && page > 0 ? page : 1;
+
+            string firstPriceFilterSection = "";
+            string secondPriceFilterSection = "";
+
+            if (collection["price"].Contains('-') && (collection["price"].Split('-').Count() == 2))
+            {
+                firstPriceFilterSection = collection["price"].Split('-')[0];
+                secondPriceFilterSection = collection["price"].Split('-')[1];
+            }
+
+            int startingPriceFilter = int.TryParse(firstPriceFilterSection, out int startingPrice) ? startingPrice : 1;
+            int endingPriceFilter = int.TryParse(secondPriceFilterSection, out int endingPrice) ? endingPrice : 100;
+
+
+            var Offers = db.Offers.Where(i => i.Category.CategoryID == KatID && i.IsActive).ToList();
+
+            if (Offers != null)
+            {
+                var OffersFiltered = Offers
+                    .Where(i => i.Price > startingPrice && i.Price < endingPrice)
+                    .OrderByDescending(i => i.CreationDate)
+                    .Skip(20 * (Page - 1))
+                    .Take(20)
+                    .ToList();
+                offersAndBundles.Offers = OffersFiltered;
+                if (user != null)
+                {
+                    offersAndBundles.FavouriteOffersIDs = user.FavouriteOffer
+                        .Where(i => i.Offer.IsActive && OffersFiltered.Contains(i.Offer))
+                        .Select(i => i.Offer.OfferID);
+                    if (user.Bucket.BucketItems != null)
+                    {
+                        offersAndBundles.InBucketOffersIDs = user.Bucket.BucketItems.Where(i => i.Offer != null)
+                            .Select(i => i.Offer.OfferID).ToList();
+                    }
+                }
+            }
+            else
+                ViewBag.Message = "Brak ofert dla podanych filtrów";
+            var Bundles = db.Bundles.Where(i => i.Offers.Where(x => x.Category.CategoryID == KatID).Any() && i.IsActive).ToList();
+            var BundlesFiltered = Bundles.Where(i => i.BundlePrice > startingPrice && i.BundlePrice < endingPrice)
+                                    .OrderByDescending(i => i.CreationDate)
+                                    .Skip(20 * (page - 1))
+                                    .Take(20)
+                                    .ToList();
+            if (BundlesFiltered != null)
+            {
+                offersAndBundles.Bundles = BundlesFiltered;
+                if (user != null)
+                {
+                    offersAndBundles.FavouriteBundlesIDs = user.FavouriteOffer
+                        .Where(i => i.Bundle.IsActive && BundlesFiltered.Contains(i.Bundle))
+                        .Select(i => i.Bundle.BundleID);
+                    if (user.Bucket.BucketItems != null)
+                        offersAndBundles.InBucketBundlesIDs = user.Bucket.BucketItems.Where(i => i.Bundle != null)
+                            .Select(i => i.Bundle.BundleID).ToList();
+                }
+            }
+            else
+                ViewBag.Message = "Brak zestawów dla podanych filtrów";
+            return View(offersAndBundles);
+        }
 
         #region FavouriteOfferManagement
         [HttpPost]
@@ -102,7 +171,7 @@ namespace ShopApp.Controllers
                         db.Favourites.Add(Fv);
                         Fv.Offer.FavouriteOffer.Add(Fv);
                         Fv.User.FavouriteOffer.Add(Fv);
-                        ConcurencyHandling(db);
+                        ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
                     }
                 }
                 else
@@ -115,7 +184,7 @@ namespace ShopApp.Controllers
                         db.Favourites.Add(Fv);
                         Fv.Bundle.Favourites.Add(Fv);
                         Fv.User.FavouriteOffer.Add(Fv);
-                        ConcurencyHandling(db);
+                        ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
                     }
                 }
             }
@@ -141,7 +210,7 @@ namespace ShopApp.Controllers
                         var offer = db.Offers.Where(i => i.OfferID == id).First();
                         offer.FavouriteOffer.Remove(Fv);
                         db.Favourites.Remove(Fv);
-                        ConcurencyHandling(db);
+                        ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
                     }
                 }
                 else
@@ -153,7 +222,7 @@ namespace ShopApp.Controllers
                         var offer = db.Bundles.Where(i => i.BundleID == id).First();
                         offer.Favourites.Remove(Fv);
                         db.Favourites.Remove(Fv);
-                        ConcurencyHandling(db);
+                        ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
                     }
                 }
             }
@@ -161,37 +230,5 @@ namespace ShopApp.Controllers
             return Json(errors, JsonRequestBehavior.AllowGet);
         }
         #endregion
-        [NonAction]
-        public static void ConcurencyHandling(ShopContext db)
-        {
-            bool saved = false;
-            while (!saved)
-            {
-                try
-                {
-                    db.SaveChanges();
-                    saved = true;
-                }
-                catch (DbUpdateException ex)
-                {
-                    foreach (var entry in ex.Entries)
-                    {
-                        var proposedValues = entry.CurrentValues;
-                        var databaseValues = entry.GetDatabaseValues();
-
-                        foreach (var property in proposedValues.PropertyNames)
-                        {
-                            var proposedValue = proposedValues[property];
-                            var databaseValue = databaseValues[property];
-
-                            proposedValues[property] = proposedValue;
-                        }
-
-                        // Refresh original values to bypass next concurrency check
-                        entry.OriginalValues.SetValues(databaseValues);
-                    }
-                }
-            }
-        }
     }
 }

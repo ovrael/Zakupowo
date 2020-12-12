@@ -14,6 +14,7 @@ namespace ShopApp.Models
 		public double TotalPrice { get; set; }
 		public bool IsChosen { get; set; }
 		public virtual Offer Offer { get; set; }
+		public virtual Bundle Bundle { get; set; }
 		public virtual Bucket Bucket { get; set; }
         public byte[] RowVersion { get ; set ; }
     }
