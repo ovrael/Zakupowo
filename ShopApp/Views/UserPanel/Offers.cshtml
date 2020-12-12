@@ -28,12 +28,24 @@
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Nazwa</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Dodano</th>
-                                    <th scope="col">Cena</th>
-                                    <th scope="col">Pozostało</th>
-                                    <th scope="col">Sprzedano</th>
+                                    <th scope="col">
+                                        <a href="@Url.Action("Offers","UserPanel",new { sortBy = 1 + ViewBag.TitleSort})">@ViewBag.TitleSort</a>
+                                    </th>
+                                    <th scope="col">
+                                        <a href="@Url.Action("Offers","UserPanel",new { sortBy = 3 + ViewBag.StatusSort})">Status</a>
+                                    </th>
+                                    <th scope="col">
+                                        <a href="@Url.Action("Offers","UserPanel",new { sortBy = 5 + ViewBag.CreationDateSort})">Dodano</a>
+                                    </th>
+                                    <th scope="col">
+                                        <a href="@Url.Action("Offers","UserPanel",new { sortBy = 7 + ViewBag.PriceSort})">Cena</a>
+                                    </th>
+                                    <th scope="col">
+                                        <a href="@Url.Action("Offers","UserPanel",new { sortBy = 9 + ViewBag.LeftSort})">Pozostało</a>
+                                    </th>
+                                    <th scope="col">
+                                        <a href="@Url.Action("Offers","UserPanel",new { sortBy = 11 + ViewBag.SoldSort})">Sprzedano</a>
+                                    </th>
                                     <th scope="colgroup" colspan="2">Ustawienia</th>
                                 </tr>
                             </thead>
@@ -113,7 +125,7 @@
                     </div>
                     <div class="modal-body">
                         <p>
-                            Pamiętaj, że dezaktywowana oferta nie zniknie z serwisu, ponadto <strong>zestaw</strong> w którym oferta się znajduje również zostanie <strong>zdezaktywowany</strong>! 
+                            Pamiętaj, że dezaktywowana oferta nie zniknie z serwisu, ponadto <strong>zestaw</strong> w którym oferta się znajduje również zostanie <strong>zdezaktywowany</strong>!
                             <br />
                             Jej status zostanie zaktualizowany do <i>nieaktywnej</i>.
                             <br />
