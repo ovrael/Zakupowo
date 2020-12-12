@@ -125,7 +125,7 @@ namespace ShopApp.Controllers
 
             User User = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
 
-            if ((type == "Offer" || type == "Bundle"))
+            if ((type == "Offer" || type == "Bundle") && User != null)
             {
                 if (type == "Offer" && User.FavouriteOffer.Select(i => i.Offer).Count() > 0)
                 {
