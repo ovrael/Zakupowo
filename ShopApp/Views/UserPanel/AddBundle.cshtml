@@ -53,7 +53,10 @@
                         string id = "Offer_" + offer.OfferID.ToString();
                         string offerQuantity = "OffersQuantity_" + offer.OfferID.ToString();
 
-                        <div class="row row-offer mr-1 ml-0">
+                    System.Diagnostics.Debug.WriteLine("OfferID: " + id);
+                    System.Diagnostics.Debug.WriteLine("Quantity: " + offerQuantity);
+
+                    <div class="row row-offer mr-1">
 
                             @*OFFER PICTURE*@
                             <div class="col-1 p-0">

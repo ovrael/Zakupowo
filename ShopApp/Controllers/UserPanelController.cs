@@ -290,10 +290,28 @@ namespace ShopApp.Controllers
 
         #region OffersAndBundles   
 
-        public ActionResult Offers(int? sortBy)
+        public ActionResult Offers(int? sortBy, bool? userActivated, bool? success)
         {
+            if (userActivated != null && !(bool)userActivated)
+            {
+                ViewBag.UserNotActivated = "Musisz aktywować swoje konto by móc wystawiać oferty!";
+            }
+
+            if (success != null && (bool)success)
+            {
+                ViewBag.Success = "Oferta dodana pomyślnie!";
+            }
+
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
             List<Offer> offers = editUser.Offers.ToList();
+
+            ViewBag.TitleSort = ViewBag.TitleSort == null ? 0 : ViewBag.TitleSort;
+            ViewBag.StatusSort = ViewBag.StatusSort == null ? 0 : ViewBag.StatusSort;
+            ViewBag.CreationDateSort = ViewBag.CreationDateSort == null ? 0 : ViewBag.CreationDateSort;
+            ViewBag.PriceSort = ViewBag.PriceSort == null ? 0 : ViewBag.PriceSort;
+            ViewBag.LeftSort = ViewBag.LeftSort == null ? 0 : ViewBag.LeftSort;
+            ViewBag.SoldSort = ViewBag.SoldSort == null ? 0 : ViewBag.SoldSort;
+            ViewBag.CategorySort = ViewBag.CategorySort == null ? 0 : ViewBag.CategorySort;
 
             if (sortBy != null)
             {
@@ -302,95 +320,127 @@ namespace ShopApp.Controllers
                     // SORTY BY TITLE
                     case 1:
                         offers = offers.OrderBy(o => o.Title).ToList();
+                        ViewBag.SortBy = "Title";
                         ViewBag.TitleSort = 1;
                         break;
 
                     case 2:
                         offers = offers.OrderByDescending(o => o.Title).ToList();
+                        ViewBag.SortBy = "Title";
                         ViewBag.TitleSort = 0;
                         break;
 
                     //SORT BY STATUS
                     case 3:
-                        offers = offers.OrderBy(o => o.IsActive).ToList();
+                        offers = offers.OrderByDescending(o => o.IsActive).ThenBy(o => o.Title).ToList();
+                        ViewBag.SortBy = "Status";
                         ViewBag.StatusSort = 1;
                         break;
 
                     case 4:
-                        offers = offers.OrderByDescending(o => o.IsActive).ToList();
+                        offers = offers.OrderBy(o => o.IsActive).ThenBy(o => o.Title).ToList();
+                        ViewBag.SortBy = "Status";
                         ViewBag.StatusSort = 0;
                         break;
 
                     //SORT BY DATE
                     case 5:
-                        offers = offers.OrderBy(o => o.CreationDate).ToList();
+                        offers = offers.OrderByDescending(o => o.CreationDate).ToList();
+                        ViewBag.SortBy = "Date";
                         ViewBag.CreationDateSort = 1;
                         break;
 
                     case 6:
-                        offers = offers.OrderByDescending(o => o.CreationDate).ToList();
+                        offers = offers.OrderBy(o => o.CreationDate).ToList();
+                        ViewBag.SortBy = "Date";
                         ViewBag.CreationDateSort = 0;
                         break;
 
                     // SORTY BY PRICE
                     case 7:
                         offers = offers.OrderBy(o => o.Price).ToList();
+                        ViewBag.SortBy = "Price";
                         ViewBag.PriceSort = 1;
                         break;
 
                     case 8:
                         offers = offers.OrderByDescending(o => o.Price).ToList();
+                        ViewBag.SortBy = "Price";
                         ViewBag.PriceSort = 0;
                         break;
 
                     //SORT BY LEFT
                     case 9:
                         offers = offers.OrderBy(o => o.InStockNow).ToList();
+                        ViewBag.SortBy = "Left";
                         ViewBag.LeftSort = 1;
                         break;
 
                     case 10:
                         offers = offers.OrderByDescending(o => o.InStockNow).ToList();
+                        ViewBag.SortBy = "Left";
                         ViewBag.LeftSort = 0;
                         break;
 
                     //SORT BY SOLD
                     case 11:
                         offers = offers.OrderBy(o => o.InStockOriginaly - o.InStockNow).ToList();
+                        ViewBag.SortBy = "Sold";
                         ViewBag.SoldSort = 1;
                         break;
 
                     case 12:
                         offers = offers.OrderByDescending(o => o.InStockOriginaly - o.InStockNow).ToList();
+                        ViewBag.SortBy = "Sold";
                         ViewBag.SoldSort = 0;
+                        break;
+
+                    //SORT BY CATEGORY
+                    case 13:
+                        offers = offers.OrderBy(o => o.Category.CategoryName).ToList();
+                        ViewBag.SortBy = "Category";
+                        ViewBag.CategorySort = 1;
+                        break;
+
+                    case 14:
+                        offers = offers.OrderByDescending(o => o.Category.CategoryName).ToList();
+                        ViewBag.SortBy = "Category";
+                        ViewBag.CategorySort = 0;
+                        break;
+
+                    default:
+                        offers = offers.OrderBy(o => o.OfferID).ToList();
                         break;
                 }
             }
-
-            ViewBag.TitleSort = 0;
-            ViewBag.StatusSort = 0;
-            ViewBag.CreationDateSort = 0;
-            ViewBag.PriceSort = 0;
-            ViewBag.LeftSort = 0;
-            ViewBag.SoldSort = 0;
+            else
+            {
+                ViewBag.TitleSort = 0;
+                ViewBag.StatusSort = 0;
+                ViewBag.CreationDateSort = 0;
+                ViewBag.PriceSort = 0;
+                ViewBag.LeftSort = 0;
+                ViewBag.SoldSort = 0;
+                ViewBag.CategorySort = 0;
+            }
 
             return View(offers);
         }
 
-        //public ActionResult Offers(int? sortBy)
-        //{
-        //    User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-        //    List<Offer> offers = editUser.Offers.ToList();
-
-
-
-
-
-        //    return View(offers);
-        //}
-
-        public ActionResult AddOffer()
+        public ActionResult AddOffer(bool? success)
         {
+            User editUser = db.Users.Where(u => u.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+
+            if (!editUser.IsActivated)
+            {
+                return RedirectToAction("Offers", "UserPanel", new { userActivated = false });
+            }
+
+            if (success != null && !(bool)success)
+            {
+                ViewBag.Success = "Oferta nie została utworzona.";
+            }
+
             List<Category> categoryList = db.Categories.ToList();
 
             return View(categoryList);
@@ -404,12 +454,14 @@ namespace ShopApp.Controllers
             int categoryID = int.Parse(collection["Category"]);
             Category offerCategory = db.Categories.Where(o => o.CategoryID == categoryID).FirstOrDefault();
 
+            string priceWithDot = collection["Price"].Contains(',') ? collection["Price"].Replace(',', '.') : collection["Price"];
+
             Offer offer = new Offer
             {
                 Title = collection["Name"],
                 Description = collection["Description"],
                 InStockOriginaly = Convert.ToDouble(collection["Quantity"]),
-                Price = Convert.ToDouble(collection["Price"]),
+                Price = Convert.ToDouble(priceWithDot),
                 Category = offerCategory,
                 User = editUser,
                 IsActive = true,
@@ -439,14 +491,12 @@ namespace ShopApp.Controllers
                         {
                             OfferPicture offerPicture = new OfferPicture() { PathToFile = fileUrl, Offer = offer };
                             pictures.Add(offerPicture);
-
-                            ViewBag.Message = "File uploaded successfully";
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    ViewBag.Message = "ERROR:" + ex.Message.ToString();
+                    ViewBag.Error = "Wystąpił błąd: " + ex.Message.ToString();
                 }
             }
             else if (files.Count == 0)
@@ -456,19 +506,26 @@ namespace ShopApp.Controllers
             }
             else
             {
-                ViewBag.Message = "You have not specified a file.";
+                ViewBag.Error = "Brak zdjęć";
             }
 
-            offer.OfferPictures = pictures;
-            db.SaveChanges();
+            if (ViewBag.Error == null)
+            {
+                offer.OfferPictures = pictures;
+                db.SaveChanges();
 
-            offer.Category.Offers.Add(offer);
-            db.SaveChanges();
+                offer.Category.Offers.Add(offer);
+                db.SaveChanges();
 
-            editUser.Offers.Add(offer);
-            db.SaveChanges();
+                editUser.Offers.Add(offer);
+                db.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+                return RedirectToAction("Offers", "UserPanel", new { success = true });
+            }
+            else
+            {
+                return RedirectToAction("AddOffer", "UserPanel", new { success = false });
+            }
         }
 
         public ActionResult DeactivateOffer(int? offerID)
@@ -502,7 +559,7 @@ namespace ShopApp.Controllers
             return RedirectToAction("Offers", "UserPanel");
         }
 
-        public ActionResult Bundles(bool? availableOffers)
+        public ActionResult Bundles(bool? availableOffers, bool? addedBundle, int? sortBy)
         {
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
@@ -512,6 +569,104 @@ namespace ShopApp.Controllers
             {
                 ViewBag.NoOffers = "Brak dostępnych ofert do stworzenia zestawu!";
             }
+
+            if (addedBundle != null && !(bool)addedBundle)
+            {
+                ViewBag.Success = "Zestaw stworzony pomyślnie!";
+            }
+
+            ViewBag.TitleSort = ViewBag.TitleSort == null ? 0 : ViewBag.TitleSort;
+            ViewBag.StatusSort = ViewBag.StatusSort == null ? 0 : ViewBag.StatusSort;
+            ViewBag.CreationDateSort = ViewBag.CreationDateSort == null ? 0 : ViewBag.CreationDateSort;
+            ViewBag.PriceSort = ViewBag.PriceSort == null ? 0 : ViewBag.PriceSort;
+            //ViewBag.CategorySort = ViewBag.CategorySort == null ? 0 : ViewBag.CategorySort;
+
+            if (sortBy != null)
+            {
+                switch (sortBy)
+                {
+                    // SORTY BY TITLE
+                    case 1:
+                        userBundles = userBundles.OrderBy(o => o.Title).ToList();
+                        ViewBag.SortBy = "Title";
+                        ViewBag.TitleSort = 1;
+                        break;
+
+                    case 2:
+                        userBundles = userBundles.OrderByDescending(o => o.Title).ToList();
+                        ViewBag.SortBy = "Title";
+                        ViewBag.TitleSort = 0;
+                        break;
+
+                    // SORTY BY PRICE
+                    case 3:
+                        userBundles = userBundles.OrderBy(o => o.BundlePrice).ToList();
+                        ViewBag.SortBy = "Price";
+                        ViewBag.PriceSort = 1;
+                        break;
+
+                    case 4:
+                        userBundles = userBundles.OrderByDescending(o => o.BundlePrice).ToList();
+                        ViewBag.SortBy = "Price";
+                        ViewBag.PriceSort = 0;
+                        break;
+
+                    //SORT BY STATUS
+                    case 5:
+                        userBundles = userBundles.OrderByDescending(o => o.IsActive).ThenBy(o => o.Title).ToList();
+                        ViewBag.SortBy = "Status";
+                        ViewBag.StatusSort = 1;
+                        break;
+
+                    case 6:
+                        userBundles = userBundles.OrderBy(o => o.IsActive).ThenBy(o => o.Title).ToList();
+                        ViewBag.SortBy = "Status";
+                        ViewBag.StatusSort = 0;
+                        break;
+
+                    //SORT BY DATE
+                    case 7:
+                        userBundles = userBundles.OrderByDescending(o => o.CreationDate).ToList();
+                        ViewBag.SortBy = "Date";
+                        ViewBag.CreationDateSort = 1;
+                        break;
+
+                    case 8:
+                        userBundles = userBundles.OrderBy(o => o.CreationDate).ToList();
+                        ViewBag.SortBy = "Date";
+                        ViewBag.CreationDateSort = 0;
+                        break;
+
+
+                    ////SORT BY CATEGORY
+                    //case 13:
+                    //    userBundles = userBundles.OrderBy(o => o.Category.CategoryName).ToList();
+                    //    ViewBag.SortBy = "Category";
+                    //    ViewBag.CategorySort = 1;
+                    //    break;
+
+                    //case 14:
+                    //    userBundles = userBundles.OrderByDescending(o => o.Category.CategoryName).ToList();
+                    //    ViewBag.SortBy = "Category";
+                    //    ViewBag.CategorySort = 0;
+                    //    break;
+
+                    default:
+                        userBundles = userBundles.OrderBy(o => o.BundleID).ToList();
+                        break;
+                }
+            }
+            else
+            {
+                ViewBag.TitleSort = 0;
+                ViewBag.StatusSort = 0;
+                ViewBag.CreationDateSort = 0;
+                ViewBag.PriceSort = 0;
+                ViewBag.LeftSort = 0;
+                ViewBag.SoldSort = 0;
+                ViewBag.CategorySort = 0;
+            }
+
 
             return View(userBundles);
         }
@@ -550,7 +705,6 @@ namespace ShopApp.Controllers
             {
                 return RedirectToAction("AddBundle", "UserPanel", new { noPickedOffers = true });
             }
-
 
             string[] offerIDs = collection["OffersInBundle"].Split(',');
             foreach (var offerID in offerIDs)
@@ -600,21 +754,20 @@ namespace ShopApp.Controllers
             newBundle.IsActive = true;
             newBundle.User = editUser;
 
-            try
+            if (ViewBag.Error == null)
             {
                 db.Bundles.Add(newBundle);
                 db.SaveChanges();
 
                 editUser.Bundles.Add(newBundle);
                 db.SaveChanges();
+                return RedirectToAction("Bundles", "UserPanel", new { addedBundle = true });
             }
-            catch (Exception e)
+            else
             {
-                Debug.WriteLine(e.Message);
+                return RedirectToAction("Bundles", "UserPanel", new { addedBundle = false });
             }
 
-
-            return RedirectToAction("Bundles", "UserPanel");
         }
 
         public ActionResult DeactivateBundle(int? bundleID)
