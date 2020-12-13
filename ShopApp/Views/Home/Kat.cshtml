@@ -1,6 +1,7 @@
 ﻿@model ShopApp.ViewModels.OffersAndBundles
 
 @Styles.Render("~/bundles/Kat")
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 @{
     // Wyświetl komunikat o braku ofert w danej kategorii
@@ -28,29 +29,19 @@
         <div class="row">
             <div class="col-12">
                 <i class="fas fa-times"></i>
-                <form>
+                <form name="mform">
                     <h2 class="my-1">Filtry</h2>
                     <h5 class="my-3">Cena</h5>
-                    <input class="d-inline-block" type="radio" value="" name="price" id="price25">
-                    <label class="d-inline-block text-right" for="price25">poniżej 25 zł</label>
-                    <br>
-                    <input type="radio" value="" name="price" id="price25to75">
-                    <label for="price25to75">25 zł do 75 zł</label>
-                    <br>
-                    <input type="radio" value="" name="price" id="price75to125">
-                    <label for="price75to125">75 zł do 125 zł</label>
-                    <br>
-                    <input type="radio" value="" name="price" id="price125to175">
-                    <label for="price125to175">125 zł do 175 zł</label>
-                    <br>
-                    <input type="radio" value="" name="price" id="price175">
-                    <label for="price175">powyżej 175 zł</label>
+                    <p>
+                        <input type="text" id="mamount" readonly style="border:0; color:#FFB24A; font-weight:bold">
+                    </p>
+                    <div id="mslider-range"></div>
                     <h5 class="my-3">Stan</h5>
-                    <input type="checkbox" value="" name="state" id="statenew">
-                    <label for="statenew">Nowy</label>
+                    <input type="checkbox" value="" name="mstate" id="mstatenew">
+                    <label for="mstatenew">Nowy</label>
                     <br>
-                    <input type="checkbox" value="" name="stateold" id="stateold">
-                    <label for="stateold">Używany</label>
+                    <input type="checkbox" value="" name="mstateold" id="mstateold">
+                    <label for="mstateold">Używany</label>
                     <input class="btn btn-primary filterSubmit d-block p-3" type="submit" value="POKAŻ OFERTY">
                 </form>
             </div>
@@ -66,32 +57,19 @@
     </div>
     <div class="row offers offer-row p-2 mb-3 mx-lg-auto justify-content-center">
         <div class="col-2 d-none d-lg-block offers-menu-filters m-2 p-4 shadow">
-            <form>
+            <form name="dform">
                 <h2 class="my-1">Filtry</h2>
                 <h5 class="my-3">Cena</h5>
-                <input class="d-inline-block" type="radio" value="" name="price" id="price25">
-                <label class="d-inline-block text-right" for="price25">poniżej 25 zł</label>
-                <br>
-                <input type="radio" value="25-75" name="price" id="price25to75">
-                <label for="price25">25 zł do 75 zł</label>
-                <br>
-                <input type="radio" value="75-125" name="price" id="price75to125">
-                <label for="price25">75 zł do 125 zł</label>
-                <br>
-                <input type="radio" value="125-175" name="price" id="price125to175">
-                <label for="price25">125 zł do 175 zł</label>
-                <br>
-                <input type="number" min="1" max="@Model.MaxPage" value="page" name="page">
-                <label for="price25">125 zł do 175 zł</label>
-                <br />
-                <input type="radio" value="175-10000" name="price" id="price175">
-                <label for="price25">powyżej 175 zł</label>
+                <p>
+                    <input type="text" id="damount" readonly style="border:0; color:#FFB24A; font-weight:bold">
+                </p>
+                <div id="dslider-range"></div>
                 <h5 class="my-3">Stan</h5>
-                <input type="checkbox" value="" name="state" id="statenew">
+                <input type="checkbox" value="" name="dstate" id="dstatenew">
                 <label for="statenew">Nowy</label>
                 <br>
-                <input type="checkbox" value="" name="stateold" id="stateold">
-                <label for="stateold">Używany</label>
+                <input type="checkbox" value="" name="dstateold" id="dstateold">
+                <label for="dstateold">Używany</label>
                 <input class="btn btn-primary filterSubmit d-block p-3 mx-auto mt-2" type="submit" value="POKAŻ OFERTY">
             </form>
         </div>
@@ -127,35 +105,35 @@
                         pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
                     }
 
-        <div class="row offer item-row p-2 m-0 mt-1">
-            <div class="col-12 col-lg-4 text-center offer-img my-auto">
-                <img class="img-fluid" src="@pictureUrl">
-            </div>
-            <div class="col-12 col-lg-8 offer-desc p-0">
-                <h3><a class="product-name" href="@Url.Action("Index","Offer",new { OfferID = item.OfferID})">@item.Title</a></h3>
-                <p class="seller d-none d-lg-block mb-0">Sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
-                <h3 class="product-price mb-3">@item.Price zł</h3>
-                <p class="offer-count d-none d-lg-block pb-3">Dostępne: @item.InStockNow</p>
-                <br>
-                <a class="addToBucket" href="#">DODAJ DO KOSZYKA</a>
-                @if (Model.FavouriteOffersIDs != null && Model.FavouriteOffersIDs.Contains(item.OfferID) && HttpContext.Current.User.Identity.IsAuthenticated)
-                {
-                    <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Offer" id="@item.OfferID"></i>
-                }
-                else if (HttpContext.Current.User.Identity.IsAuthenticated)
-                {
-                    <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Offer" id="@item.OfferID"></i>
-                }
-                else
-                {
-                    <i class="fas fa-heart fa-fw product-fav not-logged"></i>
-                }
-            </div>
-            <hr class="w-100">
-        </div>
+                    <div class="row offer item-row p-2 m-0 mt-1">
+                        <div class="col-12 col-lg-4 text-center offer-img my-auto">
+                            <img class="img-fluid" src="@pictureUrl">
+                        </div>
+                        <div class="col-12 col-lg-8 offer-desc p-0">
+                            <h3><a class="product-name" href="@Url.Action("Index","Offer",new { OfferID = item.OfferID})">@item.Title</a></h3>
+                            <p class="seller d-none d-lg-block mb-0">Sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
+                            <h3 class="product-price mb-3">@item.Price zł</h3>
+                            <p class="offer-count d-none d-lg-block pb-3">Dostępne: @item.InStockNow</p>
+                            <br>
+                            <a class="addToBucket" href="#">DODAJ DO KOSZYKA</a>
+                            @if (Model.FavouriteOffersIDs != null && Model.FavouriteOffersIDs.Contains(item.OfferID) && HttpContext.Current.User.Identity.IsAuthenticated)
+                            {
+                                <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Offer" id="@item.OfferID"></i>
+                            }
+                            else if (HttpContext.Current.User.Identity.IsAuthenticated)
+                            {
+                                <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Offer" id="@item.OfferID"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-heart fa-fw product-fav not-logged"></i>
+                            }
+                        </div>
+                        <hr class="w-100">
+                    </div>
                 }
             }
-            @if(Model.Bundles != null)
+            @if (Model.Bundles != null)
             {
                 foreach (var item in Model.Bundles)
                 {
@@ -169,43 +147,43 @@
                         pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
                     }
 
-        <div class="row offer bundle-row d-none p-2 mt-1">
-            <div class="col-12 col-lg-4 text-center my-auto">
-                <img class="img-fluid" src="@pictureUrl">
-            </div>
-            <div class="col-12 col-lg-8 offer-desc p-0">
-                <h3><a class="product-name" href="@Url.Action("Index","Offer",new { BundleID = item.BundleID})">@item.Title</a></h3>
-                <p class="seller d-none d-lg-block mb-0">Sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
-                <h3 class="product-price mb-1">@item.BundlePrice zł</h3>
-                <h3 class="product-price mb-1" style="text-decoration: line-through;">@item.OffersPriceSum zł</h3>
-                <br>
-                @if (HttpContext.Current.User.Identity.IsAuthenticated)
-                {
-                    if (Model.InBucketBundlesIDs.Contains(item.BundleID))
-                    {
-                        <a class="addToBucket" data-type="Bundle" id="@item.BundleID">/*PRZEDMIOT JUZ W KOSZYKU*/</a>
-                    }
-                    else
-                    {
-                        <a class="addToBucket" data-type="Bundle" id="@item.BundleID">DODAJ DO KOSZYKA</a>
-                    }
-                    if (Model.FavouriteBundlesIDs != null && Model.FavouriteBundlesIDs.Contains(item.BundleID))
-                    {
-                        <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Bundle" id="@item.BundleID."></i>
-                    }
-                    else
-                    {
-                        <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Bundle" id="@item.BundleID"></i>
-                    }
-                }
-                else
-                {
-                    <a class="addToBucket not-logged">DODAJ DO KOSZYKA</a>
-                    <i class="fas fa-heart fa-fw product-fav not-logged"></i>
-                }
-            </div>
-            <hr class="w-100">
-        </div>
+                    <div class="row offer bundle-row d-none p-2 mt-1">
+                        <div class="col-12 col-lg-4 text-center my-auto">
+                            <img class="img-fluid" src="@pictureUrl">
+                        </div>
+                        <div class="col-12 col-lg-8 offer-desc p-0">
+                            <h3><a class="product-name" href="@Url.Action("Index","Offer",new { BundleID = item.BundleID})">@item.Title</a></h3>
+                            <p class="seller d-none d-lg-block mb-0">Sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
+                            <h3 class="product-price mb-1">@item.BundlePrice zł</h3>
+                            <h3 class="product-price mb-1" style="text-decoration: line-through;">@item.OffersPriceSum zł</h3>
+                            <br>
+                            @if (HttpContext.Current.User.Identity.IsAuthenticated)
+                            {
+                                if (Model.InBucketBundlesIDs.Contains(item.BundleID))
+                                {
+                                    <a class="addToBucket" data-type="Bundle" id="@item.BundleID">/*PRZEDMIOT JUZ W KOSZYKU*/</a>
+                                }
+                                else
+                                {
+                                    <a class="addToBucket" data-type="Bundle" id="@item.BundleID">DODAJ DO KOSZYKA</a>
+                                }
+                                if (Model.FavouriteBundlesIDs != null && Model.FavouriteBundlesIDs.Contains(item.BundleID))
+                                {
+                                    <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Bundle" id="@item.BundleID."></i>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Bundle" id="@item.BundleID"></i>
+                                }
+                            }
+                            else
+                            {
+                                <a class="addToBucket not-logged">DODAJ DO KOSZYKA</a>
+                                <i class="fas fa-heart fa-fw product-fav not-logged"></i>
+                            }
+                        </div>
+                        <hr class="w-100">
+                    </div>
                 }
 
             }
@@ -213,6 +191,10 @@
         </div>
     </div>
 }
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+        integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
 @Scripts.Render("~/bundles/Offerjs")
 @Scripts.Render("~/bundles/Katjs")
 
