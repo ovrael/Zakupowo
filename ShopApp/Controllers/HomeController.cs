@@ -38,40 +38,45 @@ namespace ShopApp.Controllers
                     .Take(20)
                     .ToList();
                 offersAndBundles.Offers = OffersFiltered;
-                    if (user != null)
+                if (user != null)
                 {
-                        offersAndBundles.FavouriteOffersIDs = user.FavouriteOffer
-                            .Where(i => i.Offer.IsActive && OffersFiltered.Contains(i.Offer))
-                            .Select(i => i.Offer.OfferID);
-                    if(user.Bucket.BucketItems != null)
+                    var FavouriteOffers = user.FavouriteOffer.Where(i => i.Offer != null).Select(i => i.Offer).ToList();
+                    offersAndBundles.FavouriteOffersIDs = FavouriteOffers
+                        .Where(i => i.IsActive && OffersFiltered.Contains(i))
+                        .Select(i => i.OfferID);
+                    if (user.Bucket.BucketItems != null)
                     {
                         offersAndBundles.InBucketOffersIDs = user.Bucket.BucketItems.Where(i => i.Offer != null)
                             .Select(i => i.Offer.OfferID).ToList();
                     }
                 }
-                }
+            }
                 else
                     ViewBag.Message = "Brak ofert dla podanych filtrów";
             var Bundles = db.Bundles.Where(i => i.Offers.Where(x => x.Category.CategoryID == KatID).Any() && i.IsActive).ToList();
-            
-                if (Bundles != null)
-                {
+
+            if (Bundles != null)
+            {
                 var BundlesFiltered = Bundles.OrderByDescending(i => i.CreationDate)
                                     .Take(20)
                                     .ToList();
                 offersAndBundles.Bundles = BundlesFiltered;
-                    if (user != null)
+                if (user != null)
+                {
+                    var FavouriteBundles = user.FavouriteOffer.Where(i => i.Bundle != null).Select(i => i.Bundle).ToList();
+                    if (FavouriteBundles != null)
                     {
-                            offersAndBundles.FavouriteBundlesIDs = user.FavouriteOffer
-                                .Where(i => i.Bundle.IsActive && BundlesFiltered.Contains(i.Bundle))
-                                .Select(i => i.Bundle.BundleID);
-                    if (user.Bucket.BucketItems != null)
-                        offersAndBundles.InBucketBundlesIDs = user.Bucket.BucketItems.Where(i => i.Bundle != null)
-                            .Select(i => i.Bundle.BundleID).ToList();
-                    } 
+                        offersAndBundles.FavouriteBundlesIDs = FavouriteBundles
+                            .Where(i => i.IsActive && BundlesFiltered.Contains(i))
+                            .Select(i => i.BundleID);
+                        if (user.Bucket.BucketItems != null)
+                            offersAndBundles.InBucketBundlesIDs = user.Bucket.BucketItems.Where(i => i.Bundle != null)
+                                .Select(i => i.Bundle.BundleID).ToList();
+                    }
                 }
-                else
-                    ViewBag.Message = "Brak zestawów dla podanych filtrów";
+            }
+            else
+                ViewBag.Message = "Brak zestawów dla podanych filtrów";
             return View(offersAndBundles);
         }
         [HttpPost]
@@ -114,9 +119,10 @@ namespace ShopApp.Controllers
                 offersAndBundles.Offers = OffersFiltered;
                 if (user != null)
                 {
-                    offersAndBundles.FavouriteOffersIDs = user.FavouriteOffer
-                        .Where(i => i.Offer.IsActive && OffersFiltered.Contains(i.Offer))
-                        .Select(i => i.Offer.OfferID);
+                    var FavouriteOffers = user.FavouriteOffer.Where(i => i.Offer != null).Select(i => i.Offer).ToList();
+                    offersAndBundles.FavouriteOffersIDs = FavouriteOffers
+                        .Where(i => i.IsActive && OffersFiltered.Contains(i))
+                        .Select(i => i.OfferID);
                     if (user.Bucket.BucketItems != null)
                     {
                         offersAndBundles.InBucketOffersIDs = user.Bucket.BucketItems.Where(i => i.Offer != null)
@@ -137,12 +143,16 @@ namespace ShopApp.Controllers
                 offersAndBundles.Bundles = BundlesFiltered;
                 if (user != null)
                 {
-                    offersAndBundles.FavouriteBundlesIDs = user.FavouriteOffer
-                        .Where(i => i.Bundle.IsActive && BundlesFiltered.Contains(i.Bundle))
-                        .Select(i => i.Bundle.BundleID);
+                    var FavouriteBundles = user.FavouriteOffer.Where(i => i.Bundle != null).Select(i => i.Bundle).ToList();
+                    if(FavouriteBundles != null)
+                    {
+                    offersAndBundles.FavouriteBundlesIDs = FavouriteBundles
+                        .Where(i => i.IsActive && BundlesFiltered.Contains(i))
+                        .Select(i => i.BundleID);
                     if (user.Bucket.BucketItems != null)
                         offersAndBundles.InBucketBundlesIDs = user.Bucket.BucketItems.Where(i => i.Bundle != null)
                             .Select(i => i.Bundle.BundleID).ToList();
+                    }
                 }
             }
             else
