@@ -14,7 +14,6 @@ namespace ShopApp.Models
         public double TotalBucketPrice {get; set;}
         public virtual User User { get; set; }
         public virtual ICollection<BucketItem> BucketItems { get; set; }
-        public virtual ICollection<Bundle> Bundles { get; set; }
         public byte[] RowVersion { get; set; }
     }
 }

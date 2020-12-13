@@ -72,16 +72,19 @@
                 <input class="d-inline-block" type="radio" value="" name="price" id="price25">
                 <label class="d-inline-block text-right" for="price25">poniżej 25 zł</label>
                 <br>
-                <input type="radio" value="" name="price" id="price25to75">
+                <input type="radio" value="25-75" name="price" id="price25to75">
                 <label for="price25">25 zł do 75 zł</label>
                 <br>
-                <input type="radio" value="" name="price" id="price75to125">
+                <input type="radio" value="75-125" name="price" id="price75to125">
                 <label for="price25">75 zł do 125 zł</label>
                 <br>
-                <input type="radio" value="" name="price" id="price125to175">
+                <input type="radio" value="125-175" name="price" id="price125to175">
                 <label for="price25">125 zł do 175 zł</label>
                 <br>
-                <input type="radio" value="" name="price" id="price175">
+                <input type="number" min="1" max="@Model.MaxPage" value="page" name="page">
+                <label for="price25">125 zł do 175 zł</label>
+                <br />
+                <input type="radio" value="175-10000" name="price" id="price175">
                 <label for="price25">powyżej 175 zł</label>
                 <h5 class="my-3">Stan</h5>
                 <input type="checkbox" value="" name="state" id="statenew">
@@ -135,7 +138,7 @@
                 <p class="offer-count d-none d-lg-block pb-3">Dostępne: @item.InStockNow</p>
                 <br>
                 <a class="addToBucket" href="#">DODAJ DO KOSZYKA</a>
-                @if (Model.FavouriteItemsIDs != null && Model.FavouriteItemsIDs.Contains(item.OfferID) && HttpContext.Current.User.Identity.IsAuthenticated)
+                @if (Model.FavouriteOffersIDs != null && Model.FavouriteOffersIDs.Contains(item.OfferID) && HttpContext.Current.User.Identity.IsAuthenticated)
                 {
                     <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Offer" id="@item.OfferID"></i>
                 }
@@ -152,7 +155,7 @@
         </div>
                 }
             }
-            else
+            @if(Model.Bundles != null)
             {
                 foreach (var item in Model.Bundles)
                 {
@@ -176,17 +179,28 @@
                 <h3 class="product-price mb-1">@item.BundlePrice zł</h3>
                 <h3 class="product-price mb-1" style="text-decoration: line-through;">@item.OffersPriceSum zł</h3>
                 <br>
-                <a class="addToBucket" href="#">DODAJ DO KOSZYKA</a>
-                @if (Model.FavouriteItemsIDs != null && Model.FavouriteItemsIDs.Contains(item.BundleID) && HttpContext.Current.User.Identity.IsAuthenticated)
+                @if (HttpContext.Current.User.Identity.IsAuthenticated)
                 {
-                    <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Bundle" id="@item.BundleID."></i>
-                }
-                else if (HttpContext.Current.User.Identity.IsAuthenticated)
-                {
-                    <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Bundle" id="@item.BundleID"></i>
+                    if (Model.InBucketBundlesIDs.Contains(item.BundleID))
+                    {
+                        <a class="addToBucket" data-type="Bundle" id="@item.BundleID">/*PRZEDMIOT JUZ W KOSZYKU*/</a>
+                    }
+                    else
+                    {
+                        <a class="addToBucket" data-type="Bundle" id="@item.BundleID">DODAJ DO KOSZYKA</a>
+                    }
+                    if (Model.FavouriteBundlesIDs != null && Model.FavouriteBundlesIDs.Contains(item.BundleID))
+                    {
+                        <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Bundle" id="@item.BundleID."></i>
+                    }
+                    else
+                    {
+                        <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Bundle" id="@item.BundleID"></i>
+                    }
                 }
                 else
                 {
+                    <a class="addToBucket not-logged">DODAJ DO KOSZYKA</a>
                     <i class="fas fa-heart fa-fw product-fav not-logged"></i>
                 }
             </div>

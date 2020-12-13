@@ -282,6 +282,10 @@
     <Compile Include="Migrations\202012112357539_OptimisticConcurrencyExceptionHandling.Designer.cs">
       <DependentUpon>202012112357539_OptimisticConcurrencyExceptionHandling.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012122224201_ChangesForProperBucketItemAdding.cs" />
+    <Compile Include="Migrations\202012122224201_ChangesForProperBucketItemAdding.Designer.cs">
+      <DependentUpon>202012122224201_ChangesForProperBucketItemAdding.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
@@ -294,6 +298,7 @@
     <Compile Include="Models\ShippingAdress.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="Utility\ConcurencyHandling.cs" />
     <Compile Include="Utility\ConnectionString.cs" />
     <Compile Include="Utility\Cryptographing.cs" />
     <Compile Include="Models\Offer.cs" />
@@ -347,6 +352,7 @@
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
     <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\fav.js" />
     <Content Include="Scripts\index.js.flow" />
     <Content Include="Scripts\esm\popper.min.js.map" />
     <Content Include="Scripts\esm\popper.js.map" />
@@ -616,6 +622,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012112357539_OptimisticConcurrencyExceptionHandling.resx">
       <DependentUpon>202012112357539_OptimisticConcurrencyExceptionHandling.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012122224201_ChangesForProperBucketItemAdding.resx">
+      <DependentUpon>202012122224201_ChangesForProperBucketItemAdding.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ShopApp.ViewModels.User;
+using ShopApp.Utility;
 
 namespace ShopApp.Controllers
 {
@@ -66,25 +67,84 @@ namespace ShopApp.Controllers
             }
             return RedirectToAction("Index", "Offer", new { OfferID = collection["prodId"] });
         }
+        [HttpPost]
+        [Authorize]
+        public ActionResult AddToBucket(string type, int? quantity, int? id)
+        {
+            List<string> errors = new List<string>();
 
+            User user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+           
+            if ((type == "Offer" || type == "Bundle") && user != null && quantity != null && id != null)
+            {
+                BucketItem bucketItem = new BucketItem();
+                if (type == "Offer")
+                {
+                    bucketItem.Offer = db.Offers.Where(i => i.OfferID == id).FirstOrDefault();
+                    if(user.Bucket.BucketItems.Any())
+                    {
+                        var OfferList = user.Bucket.BucketItems.Where(i => i.Offer != null).ToList();
+                        if (bucketItem.Offer != null && !OfferList.Where(i => i.Offer.OfferID == bucketItem.Offer.OfferID).Any())
+                        {
+                            bucketItem.Quantity = (int)quantity;
+                            bucketItem.TotalPrice = bucketItem.Quantity * bucketItem.Offer.Price;
+                            db.BucketItems.Add(bucketItem);
+                            user.Bucket.BucketItems.Add(bucketItem);
+                            bucketItem.Bucket = user.Bucket;
+                            ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                        }
+                    }
+                }
+                else
+                {
+                    bucketItem.Bundle = db.Bundles.Where(i => i.BundleID == id).FirstOrDefault();
+                    if (user.Bucket.BucketItems.Any())
+                    {
+                        var BundleList = user.Bucket.BucketItems.Where(i => i.Bundle != null).ToList();
+                        if (bucketItem.Bundle != null && !BundleList.Where(i => i.Bundle.BundleID == bucketItem.Bundle.BundleID).Any())
+                        {
+                            bucketItem.Quantity = (int)quantity;
+                            bucketItem.TotalPrice = bucketItem.Bundle.BundlePrice;
+                            db.BucketItems.Add(bucketItem);
+                            user.Bucket.BucketItems.Add(bucketItem);
+                            bucketItem.Bucket = user.Bucket;
+                            ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                        }
+                    }
+                }
+            }
+
+            return Json(errors,JsonRequestBehavior.AllowGet);
+        }
         [Authorize]
         public ActionResult Bucket()
         {
-            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-            var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer.User);
-            return View(BucketItems);
+            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+            if (user != null)
+            {
+                var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer.User);
+                return View(BucketItems); 
+            }
+            else
+                return new HttpStatusCodeResult(404);
         }
+        
         [HttpPost]
         [Authorize]
         public ActionResult Bucket(FormCollection collection)
         {
-            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-            var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer.User);
-            //Dodawania transakcji dla każdego bucketItema którego sellerem jest collection["SelectedSeller_]""
-            //foreach(var Seller in BucketItems)
-            //    if(collection["SelectedSeller_"+ Seller.Key.Login])
+            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+            if (user != null)
+            {
+                var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer.User);
+                //Dodawania transakcji dla każdego bucketItema którego sellerem jest collection["SelectedSeller_]""
+                //foreach(var Seller in BucketItems)
+                //    if(collection["SelectedSeller_"+ Seller.Key.Login])
 
-            return View("SuccesfulShopping");
+                return View("SuccesfulShopping");
+            }
+            else
+                return new HttpStatusCodeResult(404);
         }
         [HttpGet]
         [Authorize]
@@ -98,12 +158,12 @@ namespace ShopApp.Controllers
 
                 foreach (var favOffer in user.FavouriteOffer)
                 {
-                    if (favOffer.Offer != null)
+                    if (favOffer != null && favOffer.Offer != null)
                     {
                         favUserOffers.Add(favOffer.Offer);
                         continue;
                     }
-                    else if (favOffer.Bundle != null)
+                    else if (favOffer != null && favOffer.Bundle != null)
                     {
                         favUserBundles.Add(favOffer.Bundle);
                     }
