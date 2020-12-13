@@ -22,17 +22,7 @@
                     <hr>
                 </div>
             </div>
-            @using (Html.BeginForm("AddBundle", "UserPanel", FormMethod.Post))
-            {
-                <div class="row row-offer mr-1">
-                    <div class="form-group">
-                        <label class="col control-label" for="Name">Nazwa zestawu</label>
-                        <div class="col">
-                            <input maxlength="60" id="bundle_name" name="BundleTitle" placeholder="Bundle name" class="form-control input-md" required type="text" />
-                            <small id="descriptionCodeHelp" class="form-text text-muted">Maksymalnie 60 znaków</small>
-                        </div>
-                    </div>
-                </div>
+           
                 @using (Html.BeginForm("AddBundle", "UserPanel", FormMethod.Post))
                 {
                     <div class="row row-offer mr-1 ml-0 pb-4 pt-4">
