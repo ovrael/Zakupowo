@@ -6,36 +6,49 @@
 @Styles.Render("~/bundles/UserPanel")
 @Html.Partial("_SideBar")
 
-<div class="container pl-5">
+<div class="container pl-5 pr-3">
     <div class="row">
-        <div class="col-12 pl-0">
-            <div class="row  row-offer mr-1">
-                <div class="col  pt-3 font-weight-bold">
-                    <h3> Stwórz zestaw</h3>
-                    @if (ViewBag.NoPickedOffers != null)
-                    {
-                        <hr />
-                        <div class="h5 col-12">
-                            <div class="alert alert-danger">@ViewBag.NoPickedOffers</div>
-                        </div>
-                    }
-                    <hr>
+        <div class="col-12 pl-0 pr-0">
+            <div class="use-add-product">
+                <div class="row  row-offer mr-1 ml-0">
+                    <div class="col  pt-3 font-weight-bold ml-0">
+                        <h3> Stwórz zestaw</h3>
+                        @if (ViewBag.NoPickedOffers != null)
+                        {
+                            <hr />
+                            <div class="h5 col-12">
+                                <div class="alert alert-danger">@ViewBag.NoPickedOffers</div>
+                            </div>
+                        }
+                        <hr>
+                    </div>
                 </div>
-            </div>
-           
+
                 @using (Html.BeginForm("AddBundle", "UserPanel", FormMethod.Post))
                 {
-                    <div class="row row-offer mr-1 ml-0 pb-4 pt-4">
-                        
-                            <div class="col">
-                                <label class=" control-label" for="Name">Nazwa zestawu</label>
-                            </div>
-                                <div class="col-10">
-                                    <input maxlength="60" id="bundle_name" name="BundleTitle" placeholder="Bundle name" class="form-control input-md" required type="text" />
-                                    <small id="descriptionCodeHelp" class="form-text text-muted">Maksymalnie 60 znaków</small>
-                                </div>
-                     </div>
-                                <hr />
+                    <div class="row row-offer mr-1 ml-0 pb-2 pt-4">
+
+                        <div class="col">
+                            <label class=" control-label" for="Name">Nazwa zestawu</label>
+                        </div>
+                        <div class="col-9 col-md-10">
+                            <input maxlength="60" id="bundle_name" name="BundleTitle" placeholder="Bundle name" class="form-control input-md" required type="text" />
+                            <small id="descriptionCodeHelp" class="form-text text-muted">Maksymalnie 60 znaków</small>
+                        </div>
+                    </div>
+                    <div class="row row-offer mr-1 ml-0 pb-4 pt-3">
+                        <div class="col">
+                            <label class="control-label" for="Category">Kategoria</label>
+                        </div>
+                        <div class="col-9 col-md-10">
+                            <select id="product_categorie" name="Category" class="form-control" required>
+                                <option selected>Wybierz kategorie</option>
+
+                            </select>
+                        </div>
+
+                    </div>
+                    <hr />
 
                     foreach (var offer in Model)
                     {
@@ -43,144 +56,160 @@
                         string id = "Offer_" + offer.OfferID.ToString();
                         string offerQuantity = "OffersQuantity_" + offer.OfferID.ToString();
 
-                    System.Diagnostics.Debug.WriteLine("OfferID: " + id);
-                    System.Diagnostics.Debug.WriteLine("Quantity: " + offerQuantity);
+                        System.Diagnostics.Debug.WriteLine("OfferID: " + id);
+                        System.Diagnostics.Debug.WriteLine("Quantity: " + offerQuantity);
+            <div class="row row-offer mr-1 ml-0 pb-3">
+                @*ADD TO BUNDLE CHECKBOX*@
+                <div class="col-10 p-0 pt-1 pl-4 justify-content-end text-left">
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="@id" name="OffersInBundle" value="@offer.OfferID">
+                        <label class="form-check-label" for="@id">Dodaj do zestawu</label>
+                    </div>
+                </div>
+            </div>
 
-                    <div class="row row-offer mr-1">
+                            <div class="row row-offer mr-1 ml-0">
 
-                            @*OFFER PICTURE*@
-                            <div class="col-1 p-0">
-                                <img src="@offer.OfferPictures.ToList()[0].PathToFile" class="rounded" style="width: 70px" alt="offerPicture">
+                                @*OFFER PICTURE*@
+                                <div class="col-1 p-0 pr-5">
+                                    <img src="@offer.OfferPictures.ToList()[0].PathToFile" class="rounded" style="width: 50px" alt="offerPicture">
+                                </div>
+
+                                @*OFFER TITLE*@
+                                <div class="col-2 pt-1">
+                                    @offer.Title
+                                </div>
+
+                                @*OFFER QUANTITY*@
+                                <div class="col-6 col-lg-3 col-md-3 p-0 pt-1 pl-4">
+                                    <div class="form-group">
+                                        <input id="available_quantity" name="@offerQuantity" value="1" min="1" max="@offer.InStockNow" placeholder="Offer quantity" class="form-control input-group-sm" required type="number">
+                                    </div>
+                                </div>
+
+
+
+                                @*OFFER PRICE*@
+                                <div class="col-2 p-0 pt-1 pl-lg-5 pl-4">
+                                    @offer.Price zł
+                                </div>
+
+                              
                             </div>
 
-                            @*OFFER TITLE*@
-                            <div class="col-3 pt-1">
-                                @offer.Title
+                            }
+
+                            <hr />
+
+                            <div class="row row-offer mr-1 ml-0 pb-4 pt-4">
+                               
+                                <div class="col-3 p-0 pl-lg-5 pl-2 ml-lg-5 text-warning font-weight-bold mr-4 " style="font-size:18px;">Suma: </div>
+                                <div class="col-3 p-0 pl-4 text-warning  font-weight-bold" style="font-size:18px;"> 1430zł</div>
+                                <div class="col-3 p-0"> </div>
                             </div>
 
-                            @*OFFER QUANTITY*@
-                            <div class="col-2 p-0 pt-1">
+                            <div class="row row-offer mr-1 ml-0">
+                                <div class="col-3 pt-1 pl-lg-5 pl-2 ml-lg-5 font-weight-bold " style="font-size:18px;">
+                                     Rabat 
+                                </div>
+                                <div class="col-2 p-0 pt-1 ml-4 mr-3 ">
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" name="RadioDiscount" id="radioPercent" value="PercentDiscount">
+                                        <label class="form-check-label font-weight-bold mr-5" for="radioPercent">
+                                            Tak, procentowo
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-4 col-lg-3 p-0 pt-1">
+                                    <div class="input-group mb-3 mr-4 ml-5 pl-1">
+                                        @* WALIDACJA % OD 1 DO 100 *@
+                                        <input type="text" class="form-control" aria-label="Amount" name="PercentDiscountValue" value="">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text ">%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3 p-0"> </div>
+
+
+
+                               
+                            </div>
+
+
+                            <div class="row row-offer mr-1 ml-0">
+
+                                <div class="col-3 pt-1 pl-0 pl-2 ml-lg-5">
+                                   
+                                </div>
+
+                                <div class="col-2 p-0 pt-1  ml-4 mr-3">
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" name="RadioDiscount" id="radioCurrency" value="CurrencyDiscount">
+                                        <label class="form-check-label font-weight-bold" for="radioCurrency">
+                                            Tak, walutowo
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-4 col-lg-3 p-0 pt-1">
+                                    <div class="input-group mb-3 mr-4 ml-5 pl-1">
+                                        @* WALIDACJA ZŁ OD 1 DO SUMY ZA ZESTAW *@
+                                        <input type="text" class="form-control" aria-label="Amount" name="CurrencyDiscountValue" value="">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">zł</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row row-offer mr-1 ml-0">
+
+                                <div class="col-3 pt-1 pl-0 pl-2 ml-lg-5"></div>
+                                <div class="col-2 p-0 pt-1  ml-4 mr-3">
+                                    <div class="form-check">
+                                        <input type="radio" class="form-check-input" name="RadioDiscount" id="radioLack" value="NoDiscount" checked>
+                                        <label class="form-check-label font-weight-bold" for="radioLack">
+                                            Brak
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-4 p-0 pt-1"></div>
+                            </div>
+                            <hr />
+                            <div class="row row-offer mr-1 ml-0 pb-4 pt-4">
+                                
+                                <div class="col-8 col-lg-2 ml-lg-5 pl-lg-5 p-0 text-danger font-weight-bold " style="font-size:18px;">Cena końcowa: </div>
+                                <div class="col-3 p-0 text-danger text-center font-weight-bold" style="font-size:18px;"> 1430zł</div>
+                            </div>
+
+                            <div class="row  justify-content-end row-offer mr-1 pt-3">
                                 <div class="form-group">
-                                    <input id="available_quantity" name="@offerQuantity" value="1" min="1" max="@offer.InStockNow" placeholder="Offer quantity" class="form-control input-md" required type="number">
+                                    <label class="col-3 control-label"></label>
+                                    <div class="col-3">
+                                        <input type="submit" value="Stwórz zestaw!" class="btn btn-outline-warning mb-3" />
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="col-1 p-0 pt-1"></div>
-
-                            @*OFFER PRICE*@
-                            <div class="col-2 p-0 pt-1">
-                                @offer.Price zł
-                            </div>
-
-                            @*ADD TO BUNDLE CHECKBOX*@
-                            <div class="col-2 p-0 pt-1">
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="@id" name="OffersInBundle" value="@offer.OfferID">
-                                    <label class="form-check-label" for="@id">Dodaj do zestawu</label>
-                                </div>
-                            </div>
+                            @*<div class="row  justify-content-end row-offer mr-1 pt-3 pb-5">
+                        <div class="col-3">
+                            <button type="button" class="btn btn-dark">Stwórz zestaw</button>
                         </div>
+                    </div>*@
 
-                    }
+                            }
 
-                    <hr />
-                    <div class="row row-offer mr-1 ml-0">
-                        <div class="col-3 p-0"> </div>
-
-                        <div class="col-3 pt-1">
-                            <h4> Rabat </h4>
-                        </div>
-
-                        <div class="col-2 p-0 pt-1">
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" name="RadioDiscount" id="radioPercent" value="PercentDiscount">
-                                <label class="form-check-label font-weight-bold" for="radioPercent">
-                                    Tak, procentowo
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="col-2 p-0 pt-1">
-                            <div class="input-group mb-3 mr-4">
-                                @* WALIDACJA % OD 1 DO 100 *@
-                                <input type="text" class="form-control" aria-label="Amount" name="PercentDiscountValue" value="">
-                                <div class="input-group-append">
-                                    <span class="input-group-text ">%</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2 p-0 pt-1"></div>
-                    </div>
-
-
-                    <div class="row row-offer mr-1 ml-0">
-
-                        <div class="col-6 pt-1"></div>
-
-                        <div class="col-2 p-0 pt-1">
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" name="RadioDiscount" id="radioCurrency" value="CurrencyDiscount">
-                                <label class="form-check-label font-weight-bold" for="radioCurrency">
-                                    Tak, walutowo
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="col-2 p-0 pt-1">
-                            <div class="input-group mb-3 mr-4">
-                                @* WALIDACJA ZŁ OD 1 DO SUMY ZA ZESTAW *@
-                                <input type="text" class="form-control" aria-label="Amount" name="CurrencyDiscountValue" value="">
-                                <div class="input-group-append">
-                                    <span class="input-group-text">zł</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-2 p-0 pt-1"></div>
-                    </div>
-
-                    <div class="row row-offer mr-1 ml-0">
-
-                        <div class="col-6 pt-1"></div>
-                        <div class="col-2 p-0 pt-1">
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" name="RadioDiscount" id="radioLack" value="NoDiscount" checked>
-                                <label class="form-check-label font-weight-bold" for="radioLack">
-                                    Brak
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-4 p-0 pt-1"></div>
-                    </div>
-
-                    <div class="row  justify-content-end row-offer mr-1 pt-3">
-                        <div class="col-8"></div>
-                        <div class="col-2 font-weight-bold" style="font-size:18px;">
-                            SUMA:
-                        </div>
-                        <div class="col-2 font-weight-bold" style="font-size:18px;">
-                            PODLICZYĆ
                         </div>
                     </div>
-
-                    <div class="row  justify-content-end row-offer mr-1 pt-3">
-                        <div class="form-group">
-                            <label class="col-3 control-label"></label>
-                            <div class="col-3">
-                                <input type="submit" value="Stwórz zestaw!" class="btn btn-outline-warning mb-3" />
-                            </div>
-                        </div>
-                    </div>
-
-                    @*<div class="row  justify-content-end row-offer mr-1 pt-3 pb-5">
-                    <div class="col-3">
-                        <button type="button" class="btn btn-dark">Stwórz zestaw</button>
-                    </div>
-                </div>*@
-
-                }
-
-            </div>
-            </div>
         </div>
 
 </div>
+
+
+
+
+
+
+
