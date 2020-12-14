@@ -36,6 +36,7 @@ namespace ShopApp.DAL
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Favourite> Favourites { get; set; }
         public virtual DbSet<ShippingAdress> ShippingAdresses { get; set; }
+        public virtual DbSet<Message> Messages { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //base.OnModelCreating(modelBuilder);

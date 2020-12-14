@@ -13,12 +13,13 @@ namespace ShopApp.Models
     {
         [Key]
         public int MessageID { get; set; }
+
         public User Sender { get; set; }
+
         public User Receiver { get; set; }
 
         [Column("Content", TypeName = "nvarchar")]
         public string Content { get; set; }
-
 
         [Column("SentTime", TypeName = "DateTime2")]
         public DateTime SentTime { get; set; }

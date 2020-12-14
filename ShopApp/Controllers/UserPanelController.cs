@@ -808,15 +808,58 @@ namespace ShopApp.Controllers
 
         public ActionResult Communicator()
         {
-            return View();
-        }
-        public ActionResult AddProductSet()
-        {
-            return View();
-        }
-        public ActionResult ProductSet()
-        {
-            return View();
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            User userSender = db.Users.Where(i => i.Login == "kamreos").First();
+
+            Dictionary<User, Message> lastMessages = new Dictionary<User, Message>();
+
+            if (userSender == null)
+            {
+                Debug.WriteLine("SENDER TO NULL");
+            }
+
+
+
+            // PRZY WYSYŁANIU WIADOMOŚCI PRZYPISZ JĄ DO WYSYŁAJĄCEGO I ODBIORCY
+            if (db.Messages.Count() < 5)
+            {
+                Message msg = new Message() { Sender = userSender, Receiver = editUser, Content = "Wiadomość od " + userSender.Login + " do Jacka", SentTime = DateTime.Now };
+
+                db.Entry(msg).State = System.Data.Entity.EntityState.Added;
+                db.SaveChanges();
+
+                userSender.Messages.Add(msg);
+                db.SaveChanges();
+
+                editUser.Messages.Add(msg);
+                db.SaveChanges();
+            }
+
+            Debug.WriteLine("Wiadomości: " + editUser.Messages.Count());
+
+            foreach (var item in editUser.Messages)
+            {
+                if (item.Sender != null)
+                    Debug.WriteLine("Nadawca: " + item.Sender.Login + "Odbiorca: " + item.Receiver.Login + "Zawartość: " + item.Content);
+            }
+
+            var usersWithMessages = editUser.Messages.Where(m => m.Receiver == editUser).GroupBy(m => m.Sender).ToList();
+            Debug.WriteLine("Znalezionych grup:" + usersWithMessages.Count);
+
+            foreach (var item in usersWithMessages)
+            {
+                //ŁAPIE OSTATNIEGO UŻYTKOWNIKA NIE WIEM CZEMU
+                if (item.Key != null)
+                {
+                    Debug.WriteLine(item.Key.Login);
+                    Message lastMessage = editUser.Messages.Where(m => m.Sender == item.Key).Last();
+                    lastMessages.Add(item.Key, lastMessage);
+                }
+            }
+            ViewBag.LastMessages = lastMessages;
+
+
+            return View(editUser.Messages.OrderBy(m => m.SentTime).ToList());
         }
     }
 }
