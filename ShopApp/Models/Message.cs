@@ -19,6 +19,10 @@ namespace ShopApp.Models
         [Column("Content", TypeName = "nvarchar")]
         public string Content { get; set; }
 
+
+        [Column("SentTime", TypeName = "DateTime2")]
+        public DateTime SentTime { get; set; }
+
         public byte[] RowVersion { get; set; }
     }
 }

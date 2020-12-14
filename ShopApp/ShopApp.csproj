@@ -290,6 +290,10 @@
     <Compile Include="Migrations\202012141235399_AddedMessegeModel.Designer.cs">
       <DependentUpon>202012141235399_AddedMessegeModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012141249422_MessageModelUpdated_AddedSentTime.cs" />
+    <Compile Include="Migrations\202012141249422_MessageModelUpdated_AddedSentTime.Designer.cs">
+      <DependentUpon>202012141249422_MessageModelUpdated_AddedSentTime.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
@@ -633,6 +637,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012141235399_AddedMessegeModel.resx">
       <DependentUpon>202012141235399_AddedMessegeModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012141249422_MessageModelUpdated_AddedSentTime.resx">
+      <DependentUpon>202012141249422_MessageModelUpdated_AddedSentTime.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
