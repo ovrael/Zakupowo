@@ -286,6 +286,10 @@
     <Compile Include="Migrations\202012122224201_ChangesForProperBucketItemAdding.Designer.cs">
       <DependentUpon>202012122224201_ChangesForProperBucketItemAdding.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012141235399_AddedMessegeModel.cs" />
+    <Compile Include="Migrations\202012141235399_AddedMessegeModel.Designer.cs">
+      <DependentUpon>202012141235399_AddedMessegeModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
@@ -294,6 +298,7 @@
     <Compile Include="Models\Bundle.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Favourite.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Models\OfferPicture.cs" />
     <Compile Include="Models\ShippingAdress.cs" />
     <Compile Include="Models\Transaction.cs" />
@@ -625,6 +630,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012122224201_ChangesForProperBucketItemAdding.resx">
       <DependentUpon>202012122224201_ChangesForProperBucketItemAdding.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012141235399_AddedMessegeModel.resx">
+      <DependentUpon>202012141235399_AddedMessegeModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
