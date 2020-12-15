@@ -53,7 +53,6 @@ namespace ShopApp.Controllers
 
             if (ModelState.IsValid && properDate && properAge && uniqueEmail && uniqueLogin)
             {
-                Debug.WriteLine("Tworze usera");
                 User user = new User()
                 {
                     FirstName = collection["FirstName"].Trim(),
@@ -148,6 +147,7 @@ namespace ShopApp.Controllers
 
                 if (user.AvatarImage == null)
                 {
+                    Debug.WriteLine("Brak zdjęcia dodam defaultowe");
                     AvatarImage avatarImage = new AvatarImage() { PathToFile = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg", User = user };
 
                     user.AvatarImage = avatarImage;

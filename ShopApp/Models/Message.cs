@@ -14,15 +14,15 @@ namespace ShopApp.Models
         [Key]
         [Column("MessageID", Order = 1)]
         public int MessageID { get; set; }
-        public int SenderID { get; set; }
-        public int ReceiverID { get; set; }
+        //public int SenderID { get; set; }
+        //public int ReceiverID { get; set; }
 
         //[Column("SenderID", Order = 2)]
-        [ForeignKey("SenderID")]
+        //[ForeignKey("SenderID")]
         public virtual User Sender { get; set; }
 
         //[Column("ReceiverID", Order = 3)]
-        [ForeignKey("ReceiverID")]
+        //[ForeignKey("ReceiverID")]
         public virtual User Receiver { get; set; }
 
         [Column("Content", TypeName = "nvarchar")]
@@ -39,7 +39,7 @@ namespace ShopApp.Models
                 return 1;
 
             else
-                return this.SentTime.CompareTo(other.SentTime);
+                return this.SentTime.CompareTo(other.SentTime) * -1;
         }
 
         public override string ToString()

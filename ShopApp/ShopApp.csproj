@@ -390,6 +390,10 @@
     <Compile Include="Migrations\202012151610488_WorkinOnChatsV3.Designer.cs">
       <DependentUpon>202012151610488_WorkinOnChatsV3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012152220545_WorkinOnChat_UsingInverseProperties.cs" />
+    <Compile Include="Migrations\202012152220545_WorkinOnChat_UsingInverseProperties.Designer.cs">
+      <DependentUpon>202012152220545_WorkinOnChat_UsingInverseProperties.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
@@ -809,6 +813,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012151610488_WorkinOnChatsV3.resx">
       <DependentUpon>202012151610488_WorkinOnChatsV3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012152220545_WorkinOnChat_UsingInverseProperties.resx">
+      <DependentUpon>202012152220545_WorkinOnChat_UsingInverseProperties.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

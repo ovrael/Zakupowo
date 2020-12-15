@@ -45,17 +45,23 @@ namespace ShopApp.DAL
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Conventions.Add(new ConcurrencyAwareEntityConvention());
 
-            modelBuilder.Entity<Message>()
-                    .HasRequired(m => m.Sender)
-                    .WithMany(t => t.SentMessages)
-                    .HasForeignKey(m => m.SenderID)
-                    .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Message>()
+            //        .HasRequired(m => m.Chat)
+            //        .WithMany(t => t.Messages)
+            //        .HasForeignKey(m => m.ChatID)
+            //        .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Message>()
-                        .HasRequired(m => m.Receiver)
-                        .WithMany(t => t.ReceivedMessages)
-                        .HasForeignKey(m => m.ReceiverID)
-                        .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<Chat>()
+            //        .HasRequired(m => m.Sender)
+            //        .WithMany(t => t.Chats)
+            //        .HasForeignKey(m => m.SenderID)
+            //        .WillCascadeOnDelete(false);
+
+            //modelBuilder.Entity<Chat>()
+            //            .HasRequired(m => m.Receiver)
+            //            .WithMany(t => t.Chats)
+            //            .HasForeignKey(m => m.ReceiverID)
+            //            .WillCascadeOnDelete(false);
         }
 
     }

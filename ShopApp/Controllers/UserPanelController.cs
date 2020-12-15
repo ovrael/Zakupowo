@@ -808,31 +808,47 @@ namespace ShopApp.Controllers
 
         public ActionResult Communicator()
         {
-            //string senderName = "Jaca";
+            string senderName = "ZakupowoTeam";
+            string receiverName = "ovrael";
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-            //User sender = db.Users.Where(i => i.Login == senderName).First();
+            User sender = db.Users.Where(i => i.Login == senderName).First();
+            User receiver = db.Users.Where(i => i.Login == receiverName).First();
             List<Message> lastMessages = new List<Message>();
 
-            //Message msg = new Message() { Sender = sender, Receiver = editUser, Content = "Wiadomość od:" + sender.Login + "\t do Jacka.", SentTime = DateTime.Now };
+            // DODAWANIE NOWEJ WIADOMOŚCI
+            //Message msg = new Message() { Sender = sender, Receiver = receiver, Content = "Wiadomość od " + sender.Login + "\t do " + receiver.Login, SentTime = DateTime.Now };
+
+            //Debug.WriteLine(msg.ToString());
 
             //db.Messages.Add(msg);
             //db.SaveChanges();
 
-            //editUser.ReceivedMessages.Add(msg);
+            //receiver.ReceivedMessages.Add(msg);
             //db.SaveChanges();
 
             //sender.SentMessages.Add(msg);
             //db.SaveChanges();
 
-            var groupUserWithMessages = editUser.ReceivedMessages.GroupBy(m => m.Sender).ToList();
+            //var groupUserWithMessages = editUser.ReceivedMessages.GroupBy(m => m.Sender).Distinct().ToList();
+            //lastMessages = editUser.ReceivedMessages.OrderByDescending(m => m.SentTime).DistinctBy(m => m.Sender).ToList();
 
-            foreach (var user in groupUserWithMessages)
-            {
-                lastMessages.Add(editUser.ReceivedMessages.Where(m => m.Sender == user.Key).Last());
-            }
+            //lastMessages.Sort();
+            //var groups = editUser.AllMesseges().OrderBy(m => m.SentTime).GroupBy(m => m.Sender).ToList();
 
-            var groups = editUser.AllMesseges().GroupBy(m => m.Sender).ToList();
-            ViewBag.GroupUserMessages = groups;
+            //var x = editUser.AllMesseges();
+
+            //foreach (var item in groups)
+            //{
+            //    Debug.WriteLine("Wiadomości od: " + item.Key.Login);
+
+            //    foreach (var msg in item)
+            //    {
+            //        Debug.WriteLine(msg.ToString());
+
+            //    }
+            //}
+
+            //ViewBag.GroupUserMessages = groups;
 
             return View(lastMessages);
         }

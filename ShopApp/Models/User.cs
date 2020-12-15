@@ -65,7 +65,11 @@ namespace ShopApp.Models
         public virtual ICollection<Bundle> Bundles { get; set; }
         public virtual ICollection<ShippingAdress> ShippingAdresses { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
+
+        [InverseProperty("Sender")]
         public virtual ICollection<Message> SentMessages { get; set; }
+
+        [InverseProperty("Receiver")]
         public virtual ICollection<Message> ReceivedMessages { get; set; }
         public byte[] RowVersion { get; set; }
 
@@ -79,15 +83,15 @@ namespace ShopApp.Models
             return name + " " + login + " " + email + " " + phone;
         }
 
-        public List<Message> AllMesseges()
-        {
-            List<Message> messeges = new List<Message>();
-            messeges.AddRange(SentMessages);
-            messeges.AddRange(ReceivedMessages);
+        //public List<Message> AllMesseges()
+        //{
+        //    List<Message> messeges = new List<Message>();
+        //    messeges.AddRange(SentMessages);
+        //    messeges.AddRange(ReceivedMessages);
 
-            messeges.Sort();
+        //    messeges.Sort();
 
-            return messeges;
-        }
+        //    return messeges;
+        //}
     }
 }
