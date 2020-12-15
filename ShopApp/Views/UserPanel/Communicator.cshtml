@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ShopApp.Models.Message>
 
 @{
-    Dictionary<ShopApp.Models.User, ShopApp.Models.Message> lastMessages = (Dictionary<ShopApp.Models.User, ShopApp.Models.Message>)ViewBag.LastMessages;
+    List<IGrouping<ShopApp.Models.User, ShopApp.Models.Message>> groupUserMessages = (List<IGrouping<ShopApp.Models.User, ShopApp.Models.Message>>)ViewBag.GroupUserMessages;
 }
 
 @Styles.Render("~/bundles/UserPanel")
@@ -23,30 +23,33 @@
                     <div class="list-group rounded-0">
 
                         @{
-                            foreach (var user in lastMessages.Keys)
+                            if(Model != null && Model.Count() > 0)
                             {
-                                string shortSentDate = string.Empty;
-                                if (lastMessages[user].SentTime.CompareTo(DateTime.Now) > 1)
+                                foreach (var msg in Model)
                                 {
-                                    shortSentDate = lastMessages[user].SentTime.ToShortDateString();
-                                }
-                                else
-                                {
-                                    shortSentDate = lastMessages[user].SentTime.ToShortTimeString();
-                                }
+                                    string shortSentDate = string.Empty;
+                                    if (msg.SentTime.CompareTo(DateTime.Now.AddDays(-1)) < 1)
+                                    {
+                                        shortSentDate = msg.SentTime.ToShortDateString();
+                                    }
+                                    else
+                                    {
+                                        shortSentDate = msg.SentTime.ToShortTimeString();
+                                    }
 
-                                <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                                    <div class="media">
-                                        @*<img src="@user.AvatarImage.PathToFile" alt="user" width="50" class="rounded-circle">*@
-                                        <img src="~/Images/user2.jpg" alt="user" width="50" class="rounded-circle">
-                                        <div class="media-body ml-4">
-                                            <div class="d-flex align-items-center justify-content-between mb-1">
-                                                <h6 class="mb-0"> @user.FirstName @user.LastName </h6><small class="small font-weight-bold"> @shortSentDate </small>
+                                    <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
+                                        <div class="media">
+                                            <img src="@msg.Sender.AvatarImage.PathToFile" alt="user" width="50" class="rounded-circle">
+                                            @*<img src="~/Images/user2.jpg" alt="user" width="50" class="rounded-circle">*@
+                                            <div class="media-body ml-4">
+                                                <div class="d-flex align-items-center justify-content-between mb-1">
+                                                    <h6 class="mb-0"> @msg.Sender.Login </h6><small class="small font-weight-bold"> @shortSentDate </small>
+                                                </div>
+                                                <p class="font-italic text-muted mb-0 text-small">@msg.Content</p>
                                             </div>
-                                            <p class="font-italic text-muted mb-0 text-small">@lastMessages[user].Content</p>
                                         </div>
-                                    </div>
-                                </a>
+                                    </a>
+                                }
                             }
                         }
 

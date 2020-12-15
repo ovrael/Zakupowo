@@ -53,6 +53,7 @@ namespace ShopApp.Controllers
 
             if (ModelState.IsValid && properDate && properAge && uniqueEmail && uniqueLogin)
             {
+                Debug.WriteLine("Tworze usera");
                 User user = new User()
                 {
                     FirstName = collection["FirstName"].Trim(),
@@ -64,13 +65,12 @@ namespace ShopApp.Controllers
                     CreationDate = DateTime.Now,
                     IsActivated = false
                 };
-
                 AvatarImage avatarImage = new AvatarImage() { PathToFile = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg", User = user };
-                user.AvatarImage = avatarImage;
 
                 db.Users.Add(user);
                 db.SaveChanges();
-                db.AvatarImages.Add(avatarImage);
+
+                user.AvatarImage = avatarImage;
                 db.SaveChanges();
 
                 var bucket = new Bucket
@@ -79,6 +79,8 @@ namespace ShopApp.Controllers
                 };
                 db.Buckets.Add(bucket);
                 db.SaveChanges();
+
+
 
                 Task.Run(() => EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email));
                 return RedirectToAction("Login");
@@ -120,6 +122,7 @@ namespace ShopApp.Controllers
         //Login methods
         public ActionResult Login()
         {
+
             if (HttpContext.User.Identity.IsAuthenticated)
                 return RedirectToAction("Index", "Home");
             else
@@ -142,6 +145,16 @@ namespace ShopApp.Controllers
             if (user != null)
             {
                 FormsAuthentication.SetAuthCookie(user.Login, (collection["rememberMeInput"] == "rememberMe" ? true : false));
+
+                if (user.AvatarImage == null)
+                {
+                    AvatarImage avatarImage = new AvatarImage() { PathToFile = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg", User = user };
+
+                    user.AvatarImage = avatarImage;
+                    db.SaveChanges();
+                }
+
+                ViewBag.UserAvatarURL = user.AvatarImage.PathToFile;
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.ErrorMessage = "Nieprawidłowe dane logowania";

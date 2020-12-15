@@ -808,58 +808,33 @@ namespace ShopApp.Controllers
 
         public ActionResult Communicator()
         {
+            //string senderName = "Jaca";
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-            User userSender = db.Users.Where(i => i.Login == "kamreos").First();
+            //User sender = db.Users.Where(i => i.Login == senderName).First();
+            List<Message> lastMessages = new List<Message>();
 
-            Dictionary<User, Message> lastMessages = new Dictionary<User, Message>();
+            //Message msg = new Message() { Sender = sender, Receiver = editUser, Content = "Wiadomość od:" + sender.Login + "\t do Jacka.", SentTime = DateTime.Now };
 
-            if (userSender == null)
+            //db.Messages.Add(msg);
+            //db.SaveChanges();
+
+            //editUser.ReceivedMessages.Add(msg);
+            //db.SaveChanges();
+
+            //sender.SentMessages.Add(msg);
+            //db.SaveChanges();
+
+            var groupUserWithMessages = editUser.ReceivedMessages.GroupBy(m => m.Sender).ToList();
+
+            foreach (var user in groupUserWithMessages)
             {
-                Debug.WriteLine("SENDER TO NULL");
+                lastMessages.Add(editUser.ReceivedMessages.Where(m => m.Sender == user.Key).Last());
             }
 
+            var groups = editUser.AllMesseges().GroupBy(m => m.Sender).ToList();
+            ViewBag.GroupUserMessages = groups;
 
-
-            // PRZY WYSYŁANIU WIADOMOŚCI PRZYPISZ JĄ DO WYSYŁAJĄCEGO I ODBIORCY
-            if (db.Messages.Count() < 5)
-            {
-                Message msg = new Message() { Sender = userSender, Receiver = editUser, Content = "Wiadomość od " + userSender.Login + " do Jacka", SentTime = DateTime.Now };
-
-                db.Entry(msg).State = System.Data.Entity.EntityState.Added;
-                db.SaveChanges();
-
-                userSender.Messages.Add(msg);
-                db.SaveChanges();
-
-                editUser.Messages.Add(msg);
-                db.SaveChanges();
-            }
-
-            Debug.WriteLine("Wiadomości: " + editUser.Messages.Count());
-
-            foreach (var item in editUser.Messages)
-            {
-                if (item.Sender != null)
-                    Debug.WriteLine("Nadawca: " + item.Sender.Login + "Odbiorca: " + item.Receiver.Login + "Zawartość: " + item.Content);
-            }
-
-            var usersWithMessages = editUser.Messages.Where(m => m.Receiver == editUser).GroupBy(m => m.Sender).ToList();
-            Debug.WriteLine("Znalezionych grup:" + usersWithMessages.Count);
-
-            foreach (var item in usersWithMessages)
-            {
-                //ŁAPIE OSTATNIEGO UŻYTKOWNIKA NIE WIEM CZEMU
-                if (item.Key != null)
-                {
-                    Debug.WriteLine(item.Key.Login);
-                    Message lastMessage = editUser.Messages.Where(m => m.Sender == item.Key).Last();
-                    lastMessages.Add(item.Key, lastMessage);
-                }
-            }
-            ViewBag.LastMessages = lastMessages;
-
-
-            return View(editUser.Messages.OrderBy(m => m.SentTime).ToList());
+            return View(lastMessages);
         }
     }
 }
