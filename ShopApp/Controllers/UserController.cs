@@ -65,8 +65,14 @@ namespace ShopApp.Controllers
                     IsActivated = false
                 };
 
+                AvatarImage avatarImage = new AvatarImage() { PathToFile = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg", User = user };
+                user.AvatarImage = avatarImage;
+
                 db.Users.Add(user);
                 db.SaveChanges();
+                db.AvatarImages.Add(avatarImage);
+                db.SaveChanges();
+
                 var bucket = new Bucket
                 {
                     User = db.Users.Where(i => i.Login == user.Login).First()
@@ -85,12 +91,12 @@ namespace ShopApp.Controllers
         {
             string userEmail = TempData["email"].ToString();
             User editUser = db.Users.Where(u => u.Email.Equals(userEmail)).FirstOrDefault();
-            
+
             if (editUser != null)
             {
                 editUser.IsActivated = true;
                 db.SaveChanges();
-                
+
 
                 return View(editUser);
             }

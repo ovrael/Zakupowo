@@ -294,6 +294,10 @@
     <Compile Include="Migrations\202012141249422_MessageModelUpdated_AddedSentTime.Designer.cs">
       <DependentUpon>202012141249422_MessageModelUpdated_AddedSentTime.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012141457569_ShopContextUpdate_AddedMessagesList.cs" />
+    <Compile Include="Migrations\202012141457569_ShopContextUpdate_AddedMessagesList.Designer.cs">
+      <DependentUpon>202012141457569_ShopContextUpdate_AddedMessagesList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
@@ -316,6 +320,7 @@
     <Compile Include="Utility\EmailManager.cs" />
     <Compile Include="Utility\FileManager.cs" />
     <Compile Include="Utility\Utilities.cs" />
+    <Compile Include="ViewModels\CommunicatorViewModel.cs" />
     <Compile Include="ViewModels\OffersAndBundles.cs" />
     <Compile Include="ViewModels\User\AccountViewModel.cs" />
     <Compile Include="ViewModels\UserCache.cs" />
@@ -640,6 +645,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012141249422_MessageModelUpdated_AddedSentTime.resx">
       <DependentUpon>202012141249422_MessageModelUpdated_AddedSentTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012141457569_ShopContextUpdate_AddedMessagesList.resx">
+      <DependentUpon>202012141457569_ShopContextUpdate_AddedMessagesList.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

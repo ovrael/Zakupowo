@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using ShopApp.DAL;
 
-namespace ShopApp.Models 
+namespace ShopApp.Models
 {
     public class Offer : IConcurrencyAwareEntity
     {
@@ -38,6 +38,6 @@ namespace ShopApp.Models
         public virtual ICollection<BucketItem> BucketItems { get; set; }
         public virtual ICollection<Favourite> FavouriteOffer { get; set; }
         public virtual ICollection<OfferPicture> OfferPictures { get; set; }
-        public byte[] RowVersion { get ; set ; }
+        public byte[] RowVersion { get; set; }
     }
 }
