@@ -59,14 +59,18 @@ namespace ShopApp.Models
         public DateTime CreationDate { get; set; }
         public virtual Bucket Bucket { get; set; }
         public virtual AvatarImage AvatarImage { get; set; }
-        public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<Auction> Auction { get; set; }
         public virtual ICollection<Offer> Offers { get; set; }
         public virtual ICollection<Favourite> FavouriteOffer { get; set; }
         public virtual ICollection<Bundle> Bundles { get; set; }
         public virtual ICollection<ShippingAdress> ShippingAdresses { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
 
-        public virtual ICollection<Message> Messages { get; set; }
+        [InverseProperty("Sender")]
+        public virtual ICollection<Message> SentMessages { get; set; }
+
+        [InverseProperty("Receiver")]
+        public virtual ICollection<Message> ReceivedMessages { get; set; }
         public byte[] RowVersion { get; set; }
 
         public string ShowBasicInformation()
@@ -79,5 +83,15 @@ namespace ShopApp.Models
             return name + " " + login + " " + email + " " + phone;
         }
 
+        //public List<Message> AllMesseges()
+        //{
+        //    List<Message> messeges = new List<Message>();
+        //    messeges.AddRange(SentMessages);
+        //    messeges.AddRange(ReceivedMessages);
+
+        //    messeges.Sort();
+
+        //    return messeges;
+        //}
     }
 }

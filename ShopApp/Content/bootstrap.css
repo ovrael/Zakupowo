@@ -3147,6 +3147,22 @@ input[type="button"].btn-block {
   transition: opacity 0.15s linear;
 }
 
+.fade-fast {
+    transition: opacity 0.11s linear;
+}
+
+.fade-fast-very {
+    transition: opacity 0.07s linear;
+}
+
+.fade-slow {
+    transition: opacity 0.19s linear;
+}
+
+.fade-slow-very {
+    transition: opacity 0.23s linear;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .fade {
     transition: none;

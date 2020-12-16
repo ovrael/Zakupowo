@@ -808,58 +808,49 @@ namespace ShopApp.Controllers
 
         public ActionResult Communicator()
         {
+            string senderName = "ZakupowoTeam";
+            string receiverName = "ovrael";
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-            User userSender = db.Users.Where(i => i.Login == "kamreos").First();
+            User sender = db.Users.Where(i => i.Login == senderName).First();
+            User receiver = db.Users.Where(i => i.Login == receiverName).First();
+            List<Message> lastMessages = new List<Message>();
 
-            Dictionary<User, Message> lastMessages = new Dictionary<User, Message>();
+            // DODAWANIE NOWEJ WIADOMOŚCI
+            //Message msg = new Message() { Sender = sender, Receiver = receiver, Content = "Wiadomość od " + sender.Login + "\t do " + receiver.Login, SentTime = DateTime.Now };
 
-            if (userSender == null)
-            {
-                Debug.WriteLine("SENDER TO NULL");
-            }
+            //Debug.WriteLine(msg.ToString());
 
+            //db.Messages.Add(msg);
+            //db.SaveChanges();
 
+            //receiver.ReceivedMessages.Add(msg);
+            //db.SaveChanges();
 
-            // PRZY WYSYŁANIU WIADOMOŚCI PRZYPISZ JĄ DO WYSYŁAJĄCEGO I ODBIORCY
-            if (db.Messages.Count() < 5)
-            {
-                Message msg = new Message() { Sender = userSender, Receiver = editUser, Content = "Wiadomość od " + userSender.Login + " do Jacka", SentTime = DateTime.Now };
+            //sender.SentMessages.Add(msg);
+            //db.SaveChanges();
 
-                db.Entry(msg).State = System.Data.Entity.EntityState.Added;
-                db.SaveChanges();
+            //var groupUserWithMessages = editUser.ReceivedMessages.GroupBy(m => m.Sender).Distinct().ToList();
+            //lastMessages = editUser.ReceivedMessages.OrderByDescending(m => m.SentTime).DistinctBy(m => m.Sender).ToList();
 
-                userSender.Messages.Add(msg);
-                db.SaveChanges();
+            //lastMessages.Sort();
+            //var groups = editUser.AllMesseges().OrderBy(m => m.SentTime).GroupBy(m => m.Sender).ToList();
 
-                editUser.Messages.Add(msg);
-                db.SaveChanges();
-            }
+            //var x = editUser.AllMesseges();
 
-            Debug.WriteLine("Wiadomości: " + editUser.Messages.Count());
+            //foreach (var item in groups)
+            //{
+            //    Debug.WriteLine("Wiadomości od: " + item.Key.Login);
 
-            foreach (var item in editUser.Messages)
-            {
-                if (item.Sender != null)
-                    Debug.WriteLine("Nadawca: " + item.Sender.Login + "Odbiorca: " + item.Receiver.Login + "Zawartość: " + item.Content);
-            }
+            //    foreach (var msg in item)
+            //    {
+            //        Debug.WriteLine(msg.ToString());
 
-            var usersWithMessages = editUser.Messages.Where(m => m.Receiver == editUser).GroupBy(m => m.Sender).ToList();
-            Debug.WriteLine("Znalezionych grup:" + usersWithMessages.Count);
+            //    }
+            //}
 
-            foreach (var item in usersWithMessages)
-            {
-                //ŁAPIE OSTATNIEGO UŻYTKOWNIKA NIE WIEM CZEMU
-                if (item.Key != null)
-                {
-                    Debug.WriteLine(item.Key.Login);
-                    Message lastMessage = editUser.Messages.Where(m => m.Sender == item.Key).Last();
-                    lastMessages.Add(item.Key, lastMessage);
-                }
-            }
-            ViewBag.LastMessages = lastMessages;
+            //ViewBag.GroupUserMessages = groups;
 
-
-            return View(editUser.Messages.OrderBy(m => m.SentTime).ToList());
+            return View(lastMessages);
         }
     }
 }
