@@ -1,15 +1,23 @@
-﻿
+﻿@*MODEL IS LAST MESSAGES FROM EACH USER*@
+@model IEnumerable<ShopApp.Models.Message>
+
+@{
+    List<IGrouping<ShopApp.Models.User, ShopApp.Models.Message>> groupUserMessages = (List<IGrouping<ShopApp.Models.User, ShopApp.Models.Message>>)ViewBag.GroupUserMessages;
+    //ShopApp.Models.User lastUser = Model.First().Sender;
+}
 
 @Styles.Render("~/bundles/UserPanel")
-
 <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 @Html.Partial("_SideBar")
 
-<div class="container pl-5">
 
+
+
+<div class="container pl-5">
     <div class="row rounded-lg overflow-hidden pl-lg-5 pl-md-4">
+
         <!-- Users box-->
-        <div class="col-5 px-0">
+        <div class="col-5 px-0 ">
             <div class="bg-white">
 
                 <div class="bg-gray px-4 py-2 bg-light">
@@ -17,185 +25,149 @@
                 </div>
 
                 <div class="messages-box">
-                    <div class="list-group rounded-0">
-                        <a class="list-group-item list-group-item-action active text-white rounded-0">
-                            <div class="media">
-                                <img src="~/Images/user2.jpg" alt="user" width="50" class="rounded-circle">
-                                <div class="media-body ml-4">
-                                    <div class="d-flex align-items-center justify-content-between mb-1">
-                                        <h6 class="mb-0">Jan Kowalski</h6><small class="small font-weight-bold">25 Paź</small>
+
+                    @*
+                                        <div class="list-group rounded-0 nav-pills" role="tablist" aria-orientation="vertical">
+                                            @{
+                                                if (Model != null && Model.Count() > 0)
+                                                {
+                                                    int n = 0;
+                                                    foreach (var msg in Model)
+                                                    {
+                                                        System.Diagnostics.Debug.WriteLine("Uzytkownik w pillsach: " + msg.Sender.Login);
+                                                        string shortSentDate = string.Empty;
+                                                        string ariaControls = msg.SenderID + "Conversation";
+                                                        string tabID = ariaControls + "-tab";
+                                                        string hrefLink = "#v-pills-" + ariaControls;
+
+                                                        string selectedAreaClass = n == 0 ? "true" : "false";
+                                                        string activeClass = n == 0 ? "active" : string.Empty;
+
+                                                        if (msg.SentTime.CompareTo(DateTime.Now.AddDays(-1)) < 1)
+                                                        {
+                                                            shortSentDate = msg.SentTime.ToShortDateString();
+                                                        }
+                                                        else
+                                                        {
+                                                            shortSentDate = msg.SentTime.ToShortTimeString();
+                                                        }
+
+                                                        if (msg.Sender.AvatarImage == null)
+                                                        {
+                                                            System.Diagnostics.Debug.WriteLine("Użytkownik: " + msg.Sender.Login + " nie ma avatara.");
+                                                            msg.Sender.AvatarImage.PathToFile = ".. / .. / App_Files / Images / UserAvatars / DefaultAvatar.jpg";
+                                                        }
+
+                                                        <a id="@tabID" data-toggle="pill" href="@hrefLink" role="tab" aria-controls="@ariaControls" aria-selected="@selectedAreaClass" class="list-group-item list-group-item-action list-group-item-light rounded-0 @activeClass nav-link">
+                                                            <div class="media">
+                                                                <img src="@msg.Sender.AvatarImage.PathToFile" alt="user" width="50" class="rounded-circle">
+                                                                <div class="media-body ml-4">
+                                                                    <div class="d-flex align-items-center justify-content-between mb-1">
+                                                                        <h6 class="mb-0"> @msg.Sender.Login </h6><small class="small font-weight-bold"> @shortSentDate </small>
+                                                                    </div>
+                                                                    <p class="font-italic text-muted mb-0 text-small">@msg.Content</p>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                        n++;
+                                                    }
+                                                }
+                                            }
+
+                                        </div>
                                     </div>
-                                    <p class="font-italic mb-0 text-small">:)</p>
                                 </div>
                             </div>
-                        </a>
 
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                            <div class="media">
-                                <img src="~/Images/user2.jpg" alt="user" width="50" class="rounded-circle">
-                                <div class="media-body ml-4">
-                                    <div class="d-flex align-items-center justify-content-between mb-1">
-                                        <h6 class="mb-0">Anna Kowalczyk</h6><small class="small font-weight-bold">14 Paź</small>
+                        <!-- Chat Box-->
+
+
+                        <div class="col-7 px-0 tab-content">
+                            @{
+                                int k = 0;
+                                foreach (var user in groupUserMessages)
+                                {
+                                    if (user.Key.Login == HttpContext.Current.User.Identity.Name)
+                                    {
+                                        continue;
+                                    }
+
+                                    string conversationID = "v-pills-" + user.Key.UserID + "Conversation";
+                                    string ariaLabelled = conversationID + "-tab";
+                                    string activeClass = user.Key == lastUser ? "show active" : string.Empty;
+
+                                    <div class="px-4 py-5 chat-box bg-white tab-pane @activeClass" id="@conversationID" role="tabpanel" aria-labelledby="@ariaLabelled">
+                                        <p> OKNO CZATU Z @user.Key.Login</p>
+
+                                        @{
+                                            string shortSentDate = string.Empty;
+                                            foreach (var message in user)
+                                            {
+
+                                                if (message.SentTime.CompareTo(DateTime.Now.AddDays(-1)) < 1)
+                                                {
+                                                    shortSentDate = message.SentTime.ToShortDateString();
+                                                }
+                                                else
+                                                {
+                                                    shortSentDate = message.SentTime.ToShortTimeString();
+                                                }
+
+                                                //System.Diagnostics.Debug.WriteLine(message.ToString());
+                                                //System.Diagnostics.Debug.WriteLine("Sender: " + message.Sender.Login + "\tUser.key: " + user.Key.Login);
+
+                                                if (message.Sender == user.Key)
+                                                {
+                                                    //System.Diagnostics.Debug.WriteLine("Sender: " + message.Sender.Login + "\tUser.key: " + user.Key.Login);
+
+                                                    <div class="media w-50 mb-3">
+                                                        <img src="@user.Key.AvatarImage.PathToFile" alt="user" width="50" class="rounded-circle">
+                                                        <div class="media-body ml-3">
+                                                            <div class="bg-light rounded py-2 px-3 mb-2">
+                                                                <p class="text-small mb-0 text-muted">@message.Content</p>
+                                                            </div>
+                                                            <p class="small text-muted">@shortSentDate</p>
+                                                        </div>
+                                                    </div>
+                                                }
+
+                                                if (message.Sender.Login == HttpContext.Current.User.Identity.Name)
+                                                {
+                                                    //System.Diagnostics.Debug.WriteLine(" -=-=-=-= ELSE =-=-=-=-");
+                                                    <!-- Reciever Message-->
+                                                    <div class="media w-50 ml-auto mb-3">
+                                                        <div class="media-body">
+                                                            <div class="bg-primary rounded py-2 px-3 mb-2">
+                                                                <p class="text-small mb-0 text-white">@message.Content</p>
+                                                            </div>
+                                                            <p class="small text-muted">@message.SentTime</p>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                        }
+
+
+
                                     </div>
-                                    <p class="font-italic text-muted mb-0 text-small">Dziękuje za informacje.</p>
-                                </div>
-                            </div>
-                        </a>
 
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                            <div class="media">
-                                <img src="~/Images/user2.jpg" alt="user" width="50" class="rounded-circle">
-                                <div class="media-body ml-4">
-                                    <div class="d-flex align-items-center justify-content-between mb-1">
-                                        <h6 class="mb-0">Andrzej Wiśniewski</h6><small class="small font-weight-bold">9 Paź</small>
+                                    k++;
+                                }
+                                <!-- Typing area -->
+                                <form action="#" class="bg-light">
+                                    <div class="input-group">
+                                        <input type="text" placeholder="Napisz wiadomość" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+                                        <div class="input-group-append">
+                                            <button id="button-addon2" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
+                                        </div>
                                     </div>
-                                    <p class="font-italic text-muted mb-0 text-small">Przy wyborze zapłaty jest możliwość tylko płatność kartą.Rozumiem że nie można zapłacić za pobraniem ?</p>
-                                </div>
-                            </div>
-                        </a>
+                                </form>
+                            }
+                        </div>*@
 
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                            <div class="media">
-                                <img src="~/Images/user2.jpg" alt="user" width="50" class="rounded-circle">
-                                <div class="media-body ml-4">
-                                    <div class="d-flex align-items-center justify-content-between mb-1">
-                                        <h6 class="mb-0">Zofia Nowak</h6><small class="small font-weight-bold">18 Wrz</small>
-                                    </div>
-                                    <p class="font-italic text-muted mb-0 text-small">Chcialambym zgłosić rekamacje.</p>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                            <div class="media">
-                                <img src="~/Images/user2.jpg" alt="user" width="50" class="rounded-circle">
-                                <div class="media-body ml-4">
-                                    <div class="d-flex align-items-center justify-content-between mb-1">
-                                        <h6 class="mb-0">Karol Nowak</h6><small class="small font-weight-bold">17 Wrz</small>
-                                    </div>
-                                    <p class="font-italic text-muted mb-0 text-small">Dziękuję za odpowiedź.</p>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                            <div class="media">
-                                <img src="~/Images/user2.jpg" alt="user" width="50" class="rounded-circle">
-                                <div class="media-body ml-4">
-                                    <div class="d-flex align-items-center justify-content-between mb-1">
-                                        <h6 class="mb-0">Stanisław Kowalski</h6><small class="small font-weight-bold">2 Sie</small>
-                                    </div>
-                                    <p class="font-italic text-muted mb-0 text-small">Chciałbym zrezygnować z zakupu</p>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                            <div class="media">
-                                <img src="~/Images/user2.jpg" alt="user" width="50" class="rounded-circle">
-                                <div class="media-body ml-4">
-                                    <div class="d-flex align-items-center justify-content-between mb-1">
-                                        <h6 class="mb-0">xy</h6><small class="small font-weight-bold">30 Lip</small>
-                                    </div>
-                                    <p class="font-italic text-muted mb-0 text-small"></p>
-                                </div>
-                            </div>
-                        </a>
-
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-light rounded-0">
-                            <div class="media">
-                                <img src="~/Images/user2.jpg" alt="user" width="50" class="rounded-circle">
-                                <div class="media-body ml-4">
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <h6 class="mb-0">xy</h6><small class="small font-weight-bold">21 Lip</small>
-                                    </div>
-                                    <p class="font-italic text-muted mb-0 text-small"></p>
-                                </div>
-                            </div>
-                        </a>
-
-                    </div>
                 </div>
             </div>
-        </div>
-        <!-- Chat Box-->
-        <div class="col-7 px-0">
-            <div class="px-4 py-5 chat-box bg-white">
-                <!-- Sender Message-->
-                <div class="media w-50 mb-3">
-                    <img src="~/Images/user.jpg" alt="user" width="50" class="rounded-circle">
-                    <div class="media-body ml-3">
-                        <div class="bg-light rounded py-2 px-3 mb-2">
-                            <p class="text-small mb-0 text-muted">Dzień dobry, chciałbym zapytać o czas wystłki prokduktu.</p>
-                        </div>
-                        <p class="small text-muted">11:00 PM | Paź 31</p>
-                    </div>
-                </div>
-
-                <!-- Reciever Message-->
-                <div class="media w-50 ml-auto mb-3">
-                    <div class="media-body">
-                        <div class="bg-primary rounded py-2 px-3 mb-2">
-                            <p class="text-small mb-0 text-white">Dzień dobry, wysyłka została już do pana wysłana.Powinna dotrzeć do 2 dni roboczych.</p>
-                        </div>
-                        <p class="small text-muted">11:05 PM | Paź 31</p>
-                    </div>
-                </div>
-
-                <!-- Sender Message-->
-                <div class="media w-50 mb-3">
-                    <img src="~/Images/user.jpg" alt="user" width="50" class="rounded-circle">
-                    <div class="media-body ml-3">
-                        <div class="bg-light rounded py-2 px-3 mb-2">
-                            <p class="text-small mb-0 text-muted">Dziękuje za szybką odpowiedź.</p>
-                        </div>
-                        <p class="small text-muted">11:07 PM | Paź 31</p>
-                    </div>
-                </div>
-
-                <!-- Reciever Message-->
-                <div class="media w-50 ml-auto mb-3">
-                    <div class="media-body">
-                        <div class="bg-primary rounded py-2 px-3 mb-2">
-                            <p class="text-small mb-0 text-white">Proszę bardzo.</p>
-                        </div>
-                        <p class="small text-muted">11:10 PM | Paź 31</p>
-                    </div>
-                </div>
-
-                <!-- Sender Message-->
-                <div class="media w-50 mb-3">
-                    <img src="~/Images/user.jpg" alt="user" width="50" class="rounded-circle">
-                    <div class="media-body ml-3">
-                        <div class="bg-light rounded py-2 px-3 mb-2">
-                            <p class="text-small mb-0 text-muted">:)</p>
-                        </div>
-                        <p class="small text-muted">11:11 PM | Paź 31</p>
-                    </div>
-                </div>
-
-                <!-- Reciever Message-->
-                <div class="media w-50 ml-auto mb-3">
-                    <div class="media-body">
-                        <div class="bg-primary rounded py-2 px-3 mb-2">
-                            <p class="text-small mb-0 text-white">:)</p>
-                        </div>
-                        <p class="small text-muted">11:12 PM | Paź 31</p>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Typing area -->
-            <form action="#" class="bg-light">
-                <div class="input-group">
-                    <input type="text" placeholder="Napisz wiadomość" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
-                    <div class="input-group-append">
-                        <button id="button-addon2" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
-                    </div>
-                </div>
-            </form>
-
         </div>
     </div>
 </div>
+

@@ -808,15 +808,49 @@ namespace ShopApp.Controllers
 
         public ActionResult Communicator()
         {
-            return View();
-        }
-        public ActionResult AddProductSet()
-        {
-            return View();
-        }
-        public ActionResult ProductSet()
-        {
-            return View();
+            string senderName = "ZakupowoTeam";
+            string receiverName = "ovrael";
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            User sender = db.Users.Where(i => i.Login == senderName).First();
+            User receiver = db.Users.Where(i => i.Login == receiverName).First();
+            List<Message> lastMessages = new List<Message>();
+
+            // DODAWANIE NOWEJ WIADOMOŚCI
+            //Message msg = new Message() { Sender = sender, Receiver = receiver, Content = "Wiadomość od " + sender.Login + "\t do " + receiver.Login, SentTime = DateTime.Now };
+
+            //Debug.WriteLine(msg.ToString());
+
+            //db.Messages.Add(msg);
+            //db.SaveChanges();
+
+            //receiver.ReceivedMessages.Add(msg);
+            //db.SaveChanges();
+
+            //sender.SentMessages.Add(msg);
+            //db.SaveChanges();
+
+            //var groupUserWithMessages = editUser.ReceivedMessages.GroupBy(m => m.Sender).Distinct().ToList();
+            //lastMessages = editUser.ReceivedMessages.OrderByDescending(m => m.SentTime).DistinctBy(m => m.Sender).ToList();
+
+            //lastMessages.Sort();
+            //var groups = editUser.AllMesseges().OrderBy(m => m.SentTime).GroupBy(m => m.Sender).ToList();
+
+            //var x = editUser.AllMesseges();
+
+            //foreach (var item in groups)
+            //{
+            //    Debug.WriteLine("Wiadomości od: " + item.Key.Login);
+
+            //    foreach (var msg in item)
+            //    {
+            //        Debug.WriteLine(msg.ToString());
+
+            //    }
+            //}
+
+            //ViewBag.GroupUserMessages = groups;
+
+            return View(lastMessages);
         }
     }
 }

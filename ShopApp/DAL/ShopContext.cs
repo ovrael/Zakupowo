@@ -35,14 +35,34 @@ namespace ShopApp.DAL
         public virtual DbSet<Bucket> Buckets { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Favourite> Favourites { get; set; }
+        public virtual DbSet<AvatarImage> AvatarImages { get; set; }
         public virtual DbSet<ShippingAdress> ShippingAdresses { get; set; }
+        public virtual DbSet<Message> Messages { get; set; }
+        //public virtual DbSet<Chat> Chats { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //base.OnModelCreating(modelBuilder);
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Conventions.Add(new ConcurrencyAwareEntityConvention());
+
+            //modelBuilder.Entity<Message>()
+            //        .HasRequired(m => m.Chat)
+            //        .WithMany(t => t.Messages)
+            //        .HasForeignKey(m => m.ChatID)
+            //        .WillCascadeOnDelete(false);
+
+            //modelBuilder.Entity<Chat>()
+            //        .HasRequired(m => m.Sender)
+            //        .WithMany(t => t.Chats)
+            //        .HasForeignKey(m => m.SenderID)
+            //        .WillCascadeOnDelete(false);
+
+            //modelBuilder.Entity<Chat>()
+            //            .HasRequired(m => m.Receiver)
+            //            .WithMany(t => t.Chats)
+            //            .HasForeignKey(m => m.ReceiverID)
+            //            .WillCascadeOnDelete(false);
         }
 
-        public System.Data.Entity.DbSet<ShopApp.Models.AvatarImage> AvatarImages { get; set; }
     }
 }
