@@ -386,17 +386,6 @@ ul.navbar-nav {
     }
 }
 
-/*ADD_PRODUCT_SET*/
-
-.add-product-set
-{
-    width: 300px;
-    background-color:#fff;
-}
-@media screen and (min-width:1200px) {
-    .add-product-set {
-        width: 1000px;
-        background-color: #fff;
-    }
-   
+.text-footer{
+    padding-left:48px;
 }

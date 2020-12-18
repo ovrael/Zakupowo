@@ -6,7 +6,7 @@
 @Styles.Render("~/bundles/UserPanel")
 @Html.Partial("_SideBar")
 
-<div class="container pl-5 pr-3">
+<div class="container pl-5 pr-3 pb-4">
     <div class="row">
         <div class="col-12 pl-0 pr-0">
             <div class="use-add-product">
@@ -58,9 +58,9 @@
 
                         System.Diagnostics.Debug.WriteLine("OfferID: " + id);
                         System.Diagnostics.Debug.WriteLine("Quantity: " + offerQuantity);
-            <div class="row row-offer mr-1 ml-0 pb-3">
+            <div class="row row-offer mr-1 ml-0 pb-5">
                 @*ADD TO BUNDLE CHECKBOX*@
-                <div class="col-10 p-0 pt-1 pl-4 justify-content-end text-left">
+                <div class="col-10 p-0 pt-1 pl-3 justify-content-end text-left">
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="@id" name="OffersInBundle" value="@offer.OfferID">
                         <label class="form-check-label" for="@id">Dodaj do zestawu</label>
@@ -104,7 +104,7 @@
                             <div class="row row-offer mr-1 ml-0 pb-4 pt-4">
                                
                                 <div class="col-3 p-0 pl-lg-5 pl-2 ml-lg-5 text-warning font-weight-bold mr-4 " style="font-size:18px;">Suma: </div>
-                                <div class="col-3 p-0 pl-4 text-warning  font-weight-bold" style="font-size:18px;"> 1430zł</div>
+                                <div class="col-3 p-0  text-warning  font-weight-bold" style="font-size:18px;"> suma ceny produktów</div>
                                 <div class="col-3 p-0"> </div>
                             </div>
 
@@ -181,7 +181,7 @@
                             <div class="row row-offer mr-1 ml-0 pb-4 pt-4">
                                 
                                 <div class="col-8 col-lg-2 ml-lg-5 pl-lg-5 p-0 text-danger font-weight-bold " style="font-size:18px;">Cena końcowa: </div>
-                                <div class="col-3 p-0 text-danger text-center font-weight-bold" style="font-size:18px;"> 1430zł</div>
+                                <div class="col-3 p-0 text-danger text-center font-weight-bold" style="font-size:18px;"> Suma po wybraniu rabatu</div>
                             </div>
 
                             <div class="row  justify-content-end row-offer mr-1 pt-3">
