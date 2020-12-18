@@ -808,14 +808,16 @@ namespace ShopApp.Controllers
 
         public ActionResult Communicator()
         {
-            string senderName = "ZakupowoTeam";
-            string receiverName = "ovrael";
+            string senderName = "ovrael";
+            string receiverName = "AdministratorZakupowo";
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
             User sender = db.Users.Where(i => i.Login == senderName).First();
             User receiver = db.Users.Where(i => i.Login == receiverName).First();
             List<Message> lastMessages = new List<Message>();
+            HashSet<User> uniqueUsers = new HashSet<User>();
 
-            // DODAWANIE NOWEJ WIADOMOŚCI
+            List<List<Message>> allMessages = new List<List<Message>>();
+            //DODAWANIE NOWEJ WIADOMOŚCI
             //Message msg = new Message() { Sender = sender, Receiver = receiver, Content = "Wiadomość od " + sender.Login + "\t do " + receiver.Login, SentTime = DateTime.Now };
 
             //Debug.WriteLine(msg.ToString());
@@ -829,28 +831,100 @@ namespace ShopApp.Controllers
             //sender.SentMessages.Add(msg);
             //db.SaveChanges();
 
-            //var groupUserWithMessages = editUser.ReceivedMessages.GroupBy(m => m.Sender).Distinct().ToList();
-            //lastMessages = editUser.ReceivedMessages.OrderByDescending(m => m.SentTime).DistinctBy(m => m.Sender).ToList();
+            var groupUserWithMessages = editUser.ReceivedMessages.GroupBy(m => m.Sender).Distinct().ToList();
 
-            //lastMessages.Sort();
-            //var groups = editUser.AllMesseges().OrderBy(m => m.SentTime).GroupBy(m => m.Sender).ToList();
 
-            //var x = editUser.AllMesseges();
 
-            //foreach (var item in groups)
+            //var x = editUser.SentMessages.GroupBy(m => m.Receiver).Distinct().ToList();
+            var lastReceivedMessages = editUser.ReceivedMessages.OrderByDescending(m => m.SentTime).DistinctBy(m => m.Sender).ToList();
+            var lastSentMessages = editUser.SentMessages.OrderByDescending(m => m.SentTime).DistinctBy(m => m.Receiver).ToList();
+
+            lastMessages.AddRange(lastReceivedMessages);
+
+            foreach (var item in lastReceivedMessages)
+            {
+                uniqueUsers.Add(item.Sender);
+            }
+
+            foreach (var item in lastSentMessages)
+            {
+                uniqueUsers.Add(item.Sender);
+            }
+
+            uniqueUsers.Remove(editUser);
+
+
+            foreach (var user in uniqueUsers)
+            {
+                allMessages.Add(editUser.AllMesseges().Where(m => m.Receiver == user || m.Sender == user).OrderBy(m => m.SentTime).ToList());
+            }
+
+            ViewBag.AllMessages = allMessages;
+
+            lastMessages.Sort();
+
+            var receivedGroups = editUser.ReceivedMessages.OrderBy(m => m.SentTime).GroupBy(m => m.Sender).ToList();
+            var sentGroups = editUser.SentMessages.OrderBy(m => m.SentTime).GroupBy(m => m.Receiver).ToList();
+
+            //Debug.WriteLine("receivedGroups");
+            //foreach (var item in receivedGroups)
             //{
-            //    Debug.WriteLine("Wiadomości od: " + item.Key.Login);
+            //    Debug.WriteLine("---------------------------------------------Wiadomości od: " + item.Key.Login);
 
-            //    foreach (var msg in item)
+            //    foreach (var message in item)
             //    {
-            //        Debug.WriteLine(msg.ToString());
-
+            //        Debug.WriteLine(message.ToString());
             //    }
             //}
 
-            //ViewBag.GroupUserMessages = groups;
+            //Debug.WriteLine("sentGroups");
+            //foreach (var item in sentGroups)
+            //{
+            //    Debug.WriteLine("---------------------------------------------Wiadomości do: " + item.Key.Login);
 
-            return View(lastMessages);
+            //    foreach (var message in item)
+            //    {
+            //        Debug.WriteLine(message.ToString());
+            //    }
+            //}
+
+
+            ViewBag.ReceivedGroups = receivedGroups;
+            ViewBag.SentGroups = sentGroups;
+
+            return View(lastReceivedMessages);
+        }
+
+        [HttpPost]
+        public ActionResult createMessage(Message message)
+        {
+            User sender = message.Sender;
+            User receiver = message.Receiver;
+
+
+            db.Messages.Add(message);
+            db.SaveChanges();
+
+            sender.SentMessages.Add(message);
+            db.SaveChanges();
+
+            receiver.ReceivedMessages.Add(message);
+            db.SaveChanges();
+
+            string msg = "SUCCESS";
+            return Json(new { Message = msg, JsonRequestBehavior.AllowGet });
+        }
+
+        [HttpPost]
+        public ActionResult SendMessage(FormCollection formCollection)
+        {
+            foreach (var item in formCollection)
+            {
+                if (item != null)
+                    Debug.WriteLine(item.ToString());
+            }
+
+            return View();
         }
     }
 }
