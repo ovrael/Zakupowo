@@ -29,9 +29,7 @@
                 </div>
 
                 <div class="messages-box">
-
-
-                    <div class="list-group rounded-0 nav-pills" role="tablist" aria-orientation="vertical">
+                    <div class="list-group rounded-0 nav-pills" role="tablist" aria-orientation="vertical" id="div-user-boxes">
                         @{
                             if (Model != null && Model.Count() > 0)
                             {
@@ -85,8 +83,7 @@
 
         <!-- Chat Box-->
 
-
-        <div class="col-7 px-0 tab-content">
+        <div class="col-7 px-0 tab-content" id="div-chat-boxes">
             @{
                 int k = 0;
                 foreach (var messagesList in allMessages)
@@ -128,13 +125,14 @@
                                 {
                                     //System.Diagnostics.Debug.WriteLine("Sender: " + message.Sender.Login + "\tUser.key: " + user.Key.Login);
 
-                                    <div class="media w-50 mb-3">
+                                    <div class="media w-50 mb-3 message">
                                         <img src="@user.AvatarImage.PathToFile" alt="user" width="30" class="rounded-circle">
                                         <div class="media-body ml-3">
-                                            <div class="bg-light rounded py-2 px-3 mb-2">
+                                            <div class="bg-light rounded py-2 px-3 mb-2" data-toggle="tooltip" title="@customSentDate">
                                                 <p class="text-small mb-0 text-muted">@message.Content</p>
                                             </div>
-                                            <p class="small text-muted">@customSentDate</p>
+                                            @*<small class="text-muted" style="margin-bottom:0px">@customSentDate</small>*@
+                                            @*<p class="small text-muted">@customSentDate</p>*@
                                         </div>
                                     </div>
                                 }
@@ -143,12 +141,13 @@
                                 {
                                     //System.Diagnostics.Debug.WriteLine(" -=-=-=-= ELSE =-=-=-=-");
                                     <!-- Reciever Message-->
-                                    <div class="media w-50 ml-auto mb-3">
+                                    <div class="media w-50 ml-auto mb-3 message">
                                         <div class="media-body">
-                                            <div class="bg-primary rounded py-2 px-3 mb-2">
+                                            <div class="bg-primary rounded py-2 px-3 mb-2" data-toggle="tooltip" title="@customSentDate">
                                                 <p class="text-small mb-0 text-white">@message.Content</p>
                                             </div>
-                                            <p class="small text-muted">@customSentDate</p>
+                                            @*<small class="text-muted" style="margin-bottom:0px">@customSentDate</small>*@
+                                            @*<p class="small text-muted">@customSentDate</p>*@
                                         </div>
                                     </div>
                                 }
@@ -164,9 +163,9 @@
                 <!-- Typing area -->
                 <form action="#" class="bg-light">
                     <div class="input-group">
-                        <input type="text" placeholder="Napisz wiadomość" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+                        <input id="messageContent" type="text" placeholder="Napisz wiadomość" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
                         <div class="input-group-append">
-                            <button id="button-addon2" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
+                            <button id="button-addon2" type="submit" class="btn btn-link" onClick="send_message(this.id)"> <i class="fa fa-paper-plane"></i></button>
                         </div>
                     </div>
                 </form>
@@ -187,10 +186,27 @@
     </div>*@
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        $(".user-last-msg").click(function () {
-            var userID = document.getElementsByClassName(".user-last-msg")[0].id;
-            alert(userID);
-            console.log(userID);
-        });
+    function send_message(clicked_id) {
+
+        var user = document.getElementsByClassName("user-last-msg active");
+        console.log("user[0].ID: " + user[0].id);
+        console.log("user[0].id.indexOf(Conversation): " + user[0].id.indexOf("Conversation"));
+        var userID = user[0].id.substring(0, user[0].id.indexOf("Conversation"));
+        console.log("userID: " + userID);
+
+
+        var msg = document.getElementById("messageContent");
+
+        console.log("msg.ID: " + msg.id);
+        console.log("msg.value (wartość tekstu): " + msg.value);
+
+        $.ajax({
+            type: "post",
+            url: "/UserPanel/SendMessage",
+            data: { "receiverID": userID, "content": msg.value },
+            success: function (data) {
+                $("#div-chat-boxes").load(location.href + " #div-chat-boxes>*", "");
+            }
+        })
+    }
 </script>

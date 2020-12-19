@@ -895,36 +895,36 @@ namespace ShopApp.Controllers
             return View(lastReceivedMessages);
         }
 
-        [HttpPost]
-        public ActionResult createMessage(Message message)
+        public ActionResult LearningJS()
         {
-            User sender = message.Sender;
-            User receiver = message.Receiver;
-
-
-            db.Messages.Add(message);
-            db.SaveChanges();
-
-            sender.SentMessages.Add(message);
-            db.SaveChanges();
-
-            receiver.ReceivedMessages.Add(message);
-            db.SaveChanges();
-
-            string msg = "SUCCESS";
-            return Json(new { Message = msg, JsonRequestBehavior.AllowGet });
+            return View();
         }
 
-        [HttpPost]
-        public ActionResult SendMessage(FormCollection formCollection)
+        public JsonResult SendMessage(string receiverID, string content)
         {
-            foreach (var item in formCollection)
+            if (receiverID != "" && content != "" && int.TryParse(receiverID, out int int_receiverID))
             {
-                if (item != null)
-                    Debug.WriteLine(item.ToString());
+                User sender = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+                User receiver = db.Users.Where(i => i.UserID == int_receiverID).First();
+
+                Message msg = new Message() { Sender = sender, Receiver = receiver, Content = content, SentTime = DateTime.Now };
+
+                db.Messages.Add(msg);
+                db.SaveChanges();
+
+                receiver.ReceivedMessages.Add(msg);
+                db.SaveChanges();
+
+                sender.SentMessages.Add(msg);
+                db.SaveChanges();
+
+                return Json("success", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("error", JsonRequestBehavior.AllowGet);
             }
 
-            return View();
         }
     }
 }

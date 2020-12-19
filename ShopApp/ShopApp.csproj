@@ -649,6 +649,7 @@
     <Content Include="Views\UserPanel\Bundles.cshtml" />
     <Content Include="Views\UserPanel\AddBundle.cshtml" />
     <Content Include="Views\Offer\Favourites.cshtml" />
+    <Content Include="Views\UserPanel\LearningJS.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
