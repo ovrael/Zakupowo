@@ -127,23 +127,21 @@
             <h3 class="product-price">@Model.Offer.Price</h3>
             <p class="product-price-wdeliver">z dostawą: 115 zł ?cena + cena wybranego dostawcy? </p>
             <hr class="mb-2" />
-             <p class="buyer-counter mb-1"></p>
-             <form method="post">
-                 <label for="quantity-input">Pozostało: @Model.Offer.InStockNow</label>
-                 <input type="number" step="1" max="@Model.Offer.InStockNow" min="1" value="1" name="quantity" class="quantity-field w-25">
-                 <input type="hidden">
-                 @if (Model.IsInBucket)
-                 {
-                     <input type="submit" class="offer-button w-100 p-3 mt-2 in-bucket addToBucket in-bucket">
-                 }
-                 else
-                 {
-                     <input type="submit" data-id="@Model.Offer.OfferID" data-type="Offer" class="offer-button w-100 p-3 mt-2 in-bucket addToBucket">
-                 }
-             </form>           
+            <p class="buyer-counter mb-1"></p>
+            <label for="quantity-input">Pozostało: @Model.Offer.InStockNow</label>
+            <input type="number" step="1" max="@Model.Offer.InStockNow" min="1" value="1" id="quantity" class="quantity-field w-25">
+            <input type="hidden">
+            @if (Model.IsInBucket)
+            {
+                <a class="offer-button w-100 p-3 mt-2 in-bucket addToBucket in-bucket">/*PRZEDMIOT JUŻ W KOSZYKU KLASA IN-BUCKET*/</a>
+            }
+            else
+            {
+                <a data-id="@Model.Offer.OfferID" data-type="Offer" data-quantity="" class="offer-button w-100 p-3 mt-2 in-bucket addToBucket">DODAJ DO KOSZYKA</a>
+            }
             @*
-            Tutaj nie będzie formularza, wszystko powinno być na Ajaxie     
-            
+                Tutaj nie będzie formularza, wszystko powinno być na Ajaxie
+
             *@
         </div>
         <div class="col-12 col-lg-10 offer-desc w-100 m-0 p-0">
@@ -152,6 +150,6 @@
             <p> @Model.Offer.Description </p>
         </div>
     </div>
-
+    @Scripts.Render("~/bundles/BucketAndFavjs")
     @Scripts.Render("~/bundles/Offerjs")
 }

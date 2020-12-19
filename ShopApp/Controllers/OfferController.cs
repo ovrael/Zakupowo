@@ -7,6 +7,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ShopApp.Utility;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace ShopApp.Controllers
 {
@@ -20,8 +22,10 @@ namespace ShopApp.Controllers
             var offer = db.Offers.Where(i => i.OfferID == OfferID).FirstOrDefault();
             if (offer != null)
             {
-                OfferIndexViewModel offerIndexViewModel = new OfferIndexViewModel();
-                offerIndexViewModel.Offer = offer;
+                OfferIndexViewModel offerIndexViewModel = new OfferIndexViewModel
+                {
+                    Offer = offer
+                };
                 var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
                 if(user != null)
                 { 
@@ -43,6 +47,9 @@ namespace ShopApp.Controllers
             //TODO MESSAGE WHY IT THREW ME AWAY FROM OFFER
             //return RedirectToAction("Index", "Home");
         }
+
+
+
         //[HttpPost]
         //[Authorize]
         //public ActionResult Index(FormCollection collection)
@@ -95,7 +102,7 @@ namespace ShopApp.Controllers
                         var OffersThatAreAlreadyInUsersBucket = user.Bucket?.BucketItems?.Where(i => i.Offer != null).ToList();
                         if (OffersThatAreAlreadyInUsersBucket != null && !OffersThatAreAlreadyInUsersBucket.Where(i => i.Offer.OfferID == NewBucketItem.Offer.OfferID).Any())//We check if user has already that offer in bucket.
                         {
-                            NewBucketItem.Quantity = NewBucketItem.Offer.InStockNow <= (int)quantity? (int)quantity : 1;
+                            NewBucketItem.Quantity = NewBucketItem.Offer.InStockNow >= (int)quantity? (int)quantity : 1;
                             NewBucketItem.TotalPrice = NewBucketItem.Quantity * NewBucketItem.Offer.Price;
                             db.BucketItems.Add(NewBucketItem);
                             user.Bucket.BucketItems.Add(NewBucketItem);
@@ -137,24 +144,96 @@ namespace ShopApp.Controllers
             else
                 return new HttpStatusCodeResult(404);
         }
-        
+
+
         [HttpPost]
         [Authorize]
-        public ActionResult Bucket(FormCollection collection)
+        public async Task<ActionResult>Bucket(FormCollection collection)
         {
+            //IdOferty
+            //Ilosc
+            //Suma
+            //
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-            if (user != null)
+            if(user != null)
             {
-                var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer.User);
-                //Dodawania transakcji dla każdego bucketItema którego sellerem jest collection["SelectedSeller_]""
-                //foreach(var Seller in BucketItems)
-                //    if(collection["SelectedSeller_"+ Seller.Key.Login])
+                if(collection != null)
+                {
+                    var bucketItems = user?.Bucket?.BucketItems?.ToList();
+                    if(bucketItems != null)
+                    {
+                        var OffersIDsInBucket = user.Bucket.BucketItems.Where(i => i.Offer != null && i.Offer.IsActive).ToList();
+                        var BundlesIDsInBucket = user.Bucket.BucketItems.Where(i => i.Bundle != null && i.Bundle.IsActive).ToList();
+                        var CollectionSellers = collection.AllKeys.Where(i => i.StartsWith("SelectedSeller_")).Select(i => i.Substring(i.LastIndexOf("_") + 1).ToList());
 
-                return View("SuccesfulShopping");
+                        List<string> SellersLogins = new List<string>();
+
+                        foreach (var item in CollectionSellers)
+                            SellersLogins.Add( new string (item.ToArray()));
+
+                        List<BucketItem> BucketItemsListThatIsGoingToBeBought = new List<BucketItem>();
+
+                        foreach(var item in collection.AllKeys)
+                        {
+                            if(item.StartsWith("Offer_quantity_") && int.TryParse(item.Substring(item.LastIndexOf("_") + 1),out int OfferID))
+                            {
+                                var BucketItemThatIsGoingToBeBought = OffersIDsInBucket.Where(i => i.Offer.OfferID == OfferID).FirstOrDefault();
+                                if (BucketItemThatIsGoingToBeBought != null && SellersLogins.Contains(BucketItemThatIsGoingToBeBought.Offer.User.Login) &&int.TryParse(collection["Offer_quantity_" + OfferID],out int OfferQuantity))
+                                {
+                                    await ChangeInBucketOfferAmount(BucketItemThatIsGoingToBeBought, OfferQuantity);
+                                    BucketItemsListThatIsGoingToBeBought.Add(BucketItemThatIsGoingToBeBought);
+                                }
+                            }
+                            else if (item.StartsWith("Bundle_quantity_") && int.TryParse(item.Substring(item.LastIndexOf("_") + 1), out int BundleID))
+                            {
+                                var BucketItemThatIsGoingToBeBought = BundlesIDsInBucket.Where(i => i.Bundle.BundleID == BundleID).FirstOrDefault();
+                                if (BucketItemThatIsGoingToBeBought != null && SellersLogins.Contains(BucketItemThatIsGoingToBeBought.Bundle.User.Login))
+                                {
+                                    BucketItemsListThatIsGoingToBeBought.Add(BucketItemThatIsGoingToBeBought);
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            else
-                return new HttpStatusCodeResult(404);
+            return View();
+            //else
+            //ViewBag.YouHaveExccededThePossibleAmount
+            //return View();
         }
+
+        [NonAction]
+        public async Task<bool> ChangeInBucketOfferAmount(BucketItem inBucketOffer, int newAmount)
+        {
+
+            Debug.WriteLine("Rozpoczęcie asynchronicznej metody");
+            bool result = false;
+            //We will be returning a bool if changing the amount of offer's units that are in particular user's bucket was succesfull or not
+
+
+            return result;
+        }
+
+
+
+
+        //[HttpPost]
+        //[Authorize]
+        //public ActionResult Bucket(FormCollection collection)
+        //{
+        //    var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+        //    if (user != null)
+        //    {
+        //        var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer.User);
+        //        //Dodawania transakcji dla każdego bucketItema którego sellerem jest collection["SelectedSeller_]""
+        //        //foreach(var Seller in BucketItems)
+        //        //    if(collection["SelectedSeller_"+ Seller.Key.Login])
+
+        //        return View("SuccesfulShopping");
+        //    }
+        //    else
+        //        return new HttpStatusCodeResult(404);
+        //}
         [HttpGet]
         [Authorize]
         public ActionResult Favourites()

@@ -2,21 +2,21 @@
 
 @Styles.Render("~/bundles/Bucket")
 
-    <div class="bucket mb-2 mx-auto">
-        <div class="row bucket-header my-2 my-lg-1 text-center">
-            <div class="col-12"><h1 class="my-lg-3">Twój koszyk</h1></div>
-        </div>
-        <hr>
-        <div class="items">
-            <form method="post">
+<div class="bucket mb-2 mx-auto">
+    <div class="row bucket-header my-2 my-lg-1 text-center">
+        <div class="col-12"><h1 class="my-lg-3">Twój koszyk</h1></div>
+    </div>
+    <hr>
+    <div class="items">
+        <form method="post">
 
-                @foreach (var Seller in Model)
-                {
+            @foreach (var Seller in Model)
+            {
                 <div class="items-group shadow mt-1 selected" selected>
                     <div class="row items-header p-3">
                         <div class="col-1 my-auto bucket-items-checkbox">
                             <input type="checkbox"
-                                   name="SelectedSeller_@Seller.Key.Login" checked/>
+                                   name="SelectedSeller_@Seller.Key.Login" checked />
                         </div>
                         <div class="col-10 items-seller">
                             <p class="m-0">od: <a class="seller-name">@Seller.Key.Login</a></p>
@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="col-1 d-lg-none"></div>
                                 <div class="col-5 col-lg-3 item-quantity pt-3 pt-lg-0">
-                                    <input name="quantity_@item.BucketItemID" type="number" min="1" max="@item.Offer.InStockNow">
+                                    <input name="Offer_quantity_@item.BucketItemID" type="number" value="@item.Quantity" min="1" max="@item.Offer.InStockNow">
                                 </div>
                                 <div class="col-5 col-lg-2 item-price pt-3 pt-lg-0">
                                     <p class="total-price m-0">@item.TotalPrice zł</p>
@@ -66,29 +66,31 @@
                                 <div class="col-5 col-lg-3 item-price pt-3 pt-lg-0">
                                     <p class="total-price m-0">@item.Bundle.BundlePrice zł</p>
                                 </div>
+                                <input type="hidden" name="Bundle_quantity_@item.BucketItemID" value="1" />
                             </div>
                             <hr>
                         }
                     }
                 </div>
-                }
-                <div class="row bucket-summary justify-content-center text-center shadow m-3">
-                    <div class="col-12">
-                        <p class="bucket-price-header m-0">Razem do zapłaty:</p>
-                        <p class="bucket-price m-0"><span class="bucket-price-amount">1500 zł</span> + dostawa</p>
-                    </div>
-                    <div class="col-12 p-2">
-                        <input type="submit"
-                               value="DO KASY"
-                               class="cashout-button p-3" />
-                    </div>
-                    <div class="col-12 p-2">
-                        <a href="@Url.Action("Index","Home")">
-                            <button class="continue-button p-3">KONTYNNUJ ZAKUPY</button>
-                        </a>
-                    </div>
+            }
+            <div class="row bucket-summary justify-content-center text-center shadow m-3">
+                <div class="col-12">
+                    <p class="bucket-price-header m-0">Razem do zapłaty:</p>
+                    <p class="bucket-price m-0"><span class="bucket-price-amount">1500 zł</span> + dostawa</p>
                 </div>
-            </form>
-        </div>
+                <div class="col-12 p-2">
+                    <input type="submit"
+                           value="DO KASY"
+                           class="cashout-button p-3" />
+                </div>
+                <div class="col-12 p-2">
+                    <a href="@Url.Action("Index","Home")">
+                        <button class="continue-button p-3">KONTYNNUJ ZAKUPY</button>
+                    </a>
+                </div>
+            </div>
+        </form>
     </div>
+</div>
+@Scripts.Render("~/bundles/BucketAndFavjs")
 @Scripts.RenderFormat("<script type=\"text/javascript\" charset=\"utf-8\" src=\"{0}\"></script>", "~/bundles/Bucketjs")

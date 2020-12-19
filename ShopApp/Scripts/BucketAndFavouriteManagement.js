@@ -68,8 +68,8 @@ $(document).ready(function () {
                 type: 'POST',
                 data: {
                     type: type,
-                    quantity: quantity,
-                    id: id
+                    id: id,
+                    quantity: quantity
                 },
                 success: function (data) {
                     if (data.length == 0)// No errors
