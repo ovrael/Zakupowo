@@ -83,15 +83,15 @@ namespace ShopApp.Models
             return name + " " + login + " " + email + " " + phone;
         }
 
-        //public List<Message> AllMesseges()
-        //{
-        //    List<Message> messeges = new List<Message>();
-        //    messeges.AddRange(SentMessages);
-        //    messeges.AddRange(ReceivedMessages);
+        public List<Message> AllMesseges()
+        {
+            List<Message> messeges = new List<Message>();
+            messeges.AddRange(SentMessages);
+            messeges.AddRange(ReceivedMessages);
 
-        //    messeges.Sort();
+            messeges.Sort();
 
-        //    return messeges;
-        //}
+            return messeges;
+        }
     }
 }

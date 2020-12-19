@@ -1,4 +1,6 @@
-﻿@model IEnumerable<ShopApp.Models.Bundle>
+﻿
+
+@model IEnumerable<ShopApp.Models.Bundle>
 @{
     ViewBag.Title = "Zestawy";
 }
@@ -11,43 +13,43 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="use-add-product">
+            <div class="use-add-product pb-3">
                 <div class=" row justify-content-center">
                     <div class="row mb-4 mr-1">
-                        <div class="col p-0 pt-3 font-weight-bold"> <h3> Stwórz zestaw</h3> </div>
+                        <div class="col p-0 pt-3 font-weight-bold"> <h3> Moje zestawy</h3> </div>
                     </div>
                 </div>
-                <div class="row">
-
-                    <div class="col-3">
-                        <a class="btn btn-dark" href="@Url.Action("AddBundle", "UserPanel")">Stwórz nowy zestaw!</a>
-                    </div>
 
 
-                    <div class="col-1"></div>
-
-                    <div class="col-5">
-                        @if (ViewBag.NoOffers != null)
-                        {
-                            <div class="alert alert-danger">@ViewBag.NoOffers</div>
-                        }
-
-                        @if (ViewBag.Success != null)
-                        {
-                            <div class="alert alert-danger">@ViewBag.Success</div>
-                        }
-                    </div>
-
-                    <div class="col-3"></div>
-
-                </div>
-                <hr>
-                <div class="row justify-content-center">
-                    <h6>Co to jest zestaw</h6>
+                <div class="col-md " style="display: inline-block;">
+                    <a class="btn btn-outline-warning" href="@Url.Action("AddBundle", "UserPanel")">Stwórz nowy zestaw!</a>
                 </div>
 
+                <div class="col-5">
+                    @if (ViewBag.NoOffers != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible mt-3 ml-3">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong><i class="fas fa-info-circle"></i></strong> @ViewBag.NoOffers
+                        </div>
+                    }
+
+                    @if (ViewBag.Success != null)
+                    {
+                        <div class="alert alert-secondary alert-dismissible mt-3 ml-3">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong><i class="fas fa-info-circle"></i></strong> @ViewBag.Success
+                        </div>
+                    }
+                </div>
 
                 <hr>
+                <div class="row justify-content-center pl-4">
+                    <h6>W tym miejscu możesz dodawać, przeglądać, edytować oraz deaktywować swoje zestawy.</h6>
+                </div>
+                <hr>
+
+
                 @{
                     string titleSign = string.Empty;
                     //string categorySign = string.Empty;
@@ -84,81 +86,83 @@
                         <div class="row pl-4 pb-3">
                             <h6>Twoje zestawy: </h6>
                         </div>
-                        <table class="table table-striped">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">
-                                        <a class="text-warning" href="@Url.Action("Bundles","UserPanel",new { sortBy = 1 + ViewBag.TitleSort})">Nazwa @titleSign</a>
-                                    </th>
-                                    @*<th scope="col">
-                                            <a href="@Url.Action("Bundles","UserPanel",new { sortBy = 13 + ViewBag.CategorySort})">Kategoria @categorySign</a>
-                                        </th>*@
-                                    <th scope="col">
-                                        <a class="text-warning" href="@Url.Action("Bundles","UserPanel",new { sortBy = 3 + ViewBag.PriceSort})">Cena [ zł ] @priceSign</a>
-                                    </th>
-                                    <th scope="col">
-                                        <a class="text-warning" href="@Url.Action("Bundles","UserPanel",new { sortBy = 5 + ViewBag.StatusSort})">Status @statusSign</a>
-                                    </th>
-                                    <th scope="col">
-                                        <a class="text-warning" href="@Url.Action("Bundles","UserPanel",new { sortBy = 7 + ViewBag.CreationDateSort})">Dodano @dateSign</a>
-                                    </th>
-                                    <th class="text-warning" scope="colgroup" colspan="2">Ustawienia</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    int n = 0;
-                                    foreach (var bundle in Model)
-                                    {
-                                        n++;
-                                        string status = bundle.IsActive ? "Aktywny" : "Nieaktywny";
-                                        string statusColorClass = bundle.IsActive ? "text-success" : "text-danger";
-                                        string bundleWarning = "#warningBeforeDeactivate_" + bundle.BundleID;
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">
+                                            <a class="text-white" href="@Url.Action("Bundles","UserPanel",new { sortBy = 1 + ViewBag.TitleSort})">Nazwa @titleSign</a>
+                                        </th>
+                                        @*<th scope="col">
+                                    <a href="@Url.Action("Bundles","UserPanel",new { sortBy = 13 + ViewBag.CategorySort})">Kategoria @categorySign</a>
+                                </th>*@
+                                        <th scope="col">
+                                            <a class="text-white" href="@Url.Action("Bundles","UserPanel",new { sortBy = 3 + ViewBag.PriceSort})">Cena [ zł ] @priceSign</a>
+                                        </th>
+                                        <th scope="col">
+                                            <a class="text-white" href="@Url.Action("Bundles","UserPanel",new { sortBy = 5 + ViewBag.StatusSort})">Status @statusSign</a>
+                                        </th>
+                                        <th scope="col">
+                                            <a class="text-white" href="@Url.Action("Bundles","UserPanel",new { sortBy = 7 + ViewBag.CreationDateSort})">Dodano @dateSign</a>
+                                        </th>
+                                        <th class="text-white text-center" scope="colgroup" colspan="3">Ustawienia</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int n = 0;
+                                        foreach (var bundle in Model)
+                                        {
+                                            n++;
+                                            string status = bundle.IsActive ? "Aktywny" : "Nieaktywny";
+                                            string statusColorClass = bundle.IsActive ? "text-success" : "text-danger";
+                                            string bundleWarning = "#warningBeforeDeactivate_" + bundle.BundleID;
 
-                                        <tr>
-                                            <td>@bundle.Title</td>
-                                            <td>@bundle.BundlePrice</td>
-                                            <td>
-                                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Status mówi o tym czy zestaw jest aktywny">
-                                                    <a class="@statusColorClass" style="pointer-events: none;"><b>@status</b></a>
-                                                </span>
-                                            </td>
-                                            <td>@bundle.CreationDate</td>
-
-                                            @if (bundle.IsActive)
-                                            {
+                                            <tr>
+                                                <td>@bundle.Title</td>
+                                                <td>@bundle.BundlePrice</td>
                                                 <td>
-                                                    <button type="button" class="btn btn-light">Edytuj</button>
+                                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Status mówi o tym czy zestaw jest aktywny">
+                                                        <a class="@statusColorClass" style="pointer-events: none;"><b>@status</b></a>
+                                                    </span>
                                                 </td>
-                                                <td>
-                                                    <div class="col-md-2 ">
-                                                        <button data-toggle="modal" data-target="@bundleWarning" class="btn btn-outline-danger">Dezaktywuj</button>
-                                                    </div>
-                                                </td>
-                                            }
-                                            else
-                                            {
-                                                <td colspan="2">
-                                                    <button class="btn btn-outline-info" href="#"> Zobacz zestaw </button>
-                                                </td>
-                                            }
+                                                <td>@bundle.CreationDate</td>
 
-                                        </tr>
+                                                @if (bundle.IsActive)
+                                                {
+                                                    <td>
+                                                        <button type="button" class="btn btn-outline-warning">Edytuj</button>
+                                                    </td>
+                                                    <td>
+                                                        <div class="col-md-2 ">
+                                                            <button data-toggle="modal" data-target="@bundleWarning" class="btn btn-outline-danger">Dezaktywuj</button>
+                                                        </div>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td colspan="2">
+                                                        <button class="btn btn-outline-dark" href="#"> Zobacz zestaw </button>
+                                                    </td>
+                                                }
+
+                                            </tr>
+                                        }
                                     }
-                                }
-                            </tbody>
-                        </table>
-                    }
-                    else
-                    {
-                        <div class="row justify-content-center">
-                            <h6>Nie masz jeszcze żadnych zestawów!</h6>
-                        </div>
-                    }
-                }
+                                </tbody>
+                            </table>
+                            </div>
+                            }
+                            else
+                            {
+                            <div class="alert alert-secondary" role="alert">
+                                Nie utworzyłeś jeszcze żadnych zestawów!
+                            </div>
+                            }
+                            }
 
-            </div>
-        </div>
+                        </div>
+                    </div>
     </div>
 </div>
 
@@ -201,3 +205,6 @@
         </div>
     }
 }
+
+
+

@@ -1,0 +1,22 @@
+﻿
+<div>
+    <p>
+        Heje heja jestem widok do uczenia JS
+    </p>
+</div>
+
+<button id="pierwszy" onClick="reply_click(this.id)" value="VALUEJEDEN">B1</button>
+<button id="drugi" onClick="reply_click(this.id)" value="VALUEDWA">B2</button>
+<button id="trzeci" onClick="reply_click(this.id)" value="VALUETRZY">B3</button>
+
+<script type="text/javascript">
+    function reply_click(clicked_id) {
+        console.log("ID: " + clicked_id);
+
+        var x = document.getElementById(clicked_id);
+
+        console.log("x.ID: " + x.id);
+        console.log("x.InnerHTML (wartość tekstu): " + x.innerHTML);
+
+    }
+</script>
