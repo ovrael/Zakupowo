@@ -36,7 +36,9 @@ namespace ShopApp
                         "~/Scripts/kat.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/BucketAndFavjs").Include(
-                        "~/Scripts/BucketAndFavouriteManagement.js"));
+                        "~/Scripts/BucketAndFavouriteManagement.js",
+                        "~/Scripts/Fav.js",
+                        "~/Scripts/Bucket.js"));
 
             // Użyj wersji deweloperskiej biblioteki Modernizr do nauki i opracowywania rozwiązań. Następnie, kiedy wszystko będzie
             // gotowe do produkcji, użyj narzędzia do kompilowania ze strony https://modernizr.com, aby wybrać wyłącznie potrzebne testy.
