@@ -178,6 +178,11 @@ namespace ShopApp.Controllers
                 List<Offer> favUserOffers = new List<Offer>();
                 List<Bundle> favUserBundles = new List<Bundle>();
 
+
+                List<int> OffersIDsInBucket = new List<int>();
+                List<int> BundlesIDsInBucket = new List<int>();
+
+
                 foreach (var favOffer in user.FavouriteOffer)
                 {
                     if (favOffer != null && favOffer.Offer != null)
@@ -191,13 +196,19 @@ namespace ShopApp.Controllers
                     }
                 }
 
-                OffersAndBundles List = new OffersAndBundles
+                OffersIDsInBucket = user?.Bucket?.BucketItems?.Where(i => i.Offer != null && i.Offer.IsActive).Select(i => i.Offer.OfferID).ToList();
+
+                BundlesIDsInBucket = user?.Bucket?.BucketItems?.Where(i => i.Bundle != null && i.Bundle.IsActive).Select(i => i.Bundle.BundleID).ToList();
+
+                OffersAndBundles list = new OffersAndBundles
                 {
                     Offers = favUserOffers,
-                    Bundles = favUserBundles
+                    Bundles = favUserBundles,
+                    InBucketOffersIDs = OffersIDsInBucket,
+                    InBucketBundlesIDs = BundlesIDsInBucket
                 };
 
-                return View(List);
+                return View(list);
             }
             else
             {
