@@ -27,7 +27,7 @@ namespace ShopApp
                         "~/Scripts/layout.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Offerjs").Include(
-                        "~/Scripts/offer.js"));
+                        "~/Scripts/BucketAndFavouriteManagement.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Bucketjs").Include(
                         "~/Scripts/bucket.js"));

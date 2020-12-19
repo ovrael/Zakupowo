@@ -7,7 +7,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Diagnostics;
-using ShopApp.ViewModels;
 using System.Threading.Tasks;
 using System.Data.Entity.Infrastructure;
 using ShopApp.Utility;
@@ -96,7 +95,7 @@ namespace ShopApp.Controllers
             string firstPriceFilterSection = "";
             string secondPriceFilterSection = "";
 
-            if (collection["price"].Contains('-') && (collection["price"].Split('-').Count() == 2))
+            if (collection["price"] != null && collection["price"].Contains('-') && (collection["price"].Split('-').Count() == 2))
             {
                 firstPriceFilterSection = collection["price"].Split('-')[0];
                 secondPriceFilterSection = collection["price"].Split('-')[1];

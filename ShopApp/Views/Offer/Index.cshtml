@@ -1,9 +1,9 @@
-﻿@model ShopApp.Models.Offer
+﻿@model ShopApp.ViewModels.OfferIndexViewModel
 
 @Styles.Render("~/bundles/Offer")
 
 @{
-    string czyAktywna = Model.IsActive ? "Aktywna" : "Nieaktywna";
+    string czyAktywna = Model.Offer.IsActive ? "Aktywna" : "Nieaktywna";
 }
 
 @if (ViewBag.BucketItem != null)
@@ -39,7 +39,7 @@
 
                 <ol class="carousel-indicators">
                     <li data-target="#carousel-offer" data-slide-to="0" class="active"></li>
-                    @for (int i = 1; i < Model.OfferPictures.Count; i++)
+                    @for (int i = 1; i < Model.Offer.OfferPictures.Count; i++)
                     {
                         <li data-target="#carousel-offer" data-slide-to="@i"></li>
                     }
@@ -50,9 +50,9 @@
                     @{
 
                         string pictureUrl = string.Empty;
-                        if (Model.OfferPictures != null && Model.OfferPictures.Count > 0)
+                        if (Model.Offer.OfferPictures != null && Model.Offer.OfferPictures.Count > 0)
                         {
-                            List<ShopApp.Models.OfferPicture> pictures = Model.OfferPictures.ToList();
+                            List<ShopApp.Models.OfferPicture> pictures = Model.Offer.OfferPictures.ToList();
 
                             <div class="carousel-item active">
                                 <img src="@pictures[0].PathToFile" alt="1. offer picture" class="d-block w-100">
@@ -102,39 +102,16 @@
         </div>
         <div class="col-12 col-lg-4 offer-info p-2 p-lg-0 m-lg-4 d-block">
             <div class="row justify-content-between align-items-center m-0">
-                <h3 class="product-name">@Model.Title</h3>
+                <h3 class="product-name">@Model.Offer.Title</h3>
 
                 @{
-                    bool IsFav = false;
-                    ShopApp.Models.User User;
-
-                    using (ShopApp.DAL.ShopContext db = new ShopApp.DAL.ShopContext())
+                    if (Model.IsInFavourite && HttpContext.Current.User.Identity.IsAuthenticated)
                     {
-                        User = db.Users.Where(i => i.Login == HttpContext.Current.User.Identity.Name).SingleOrDefault();
-
-                        if (User != null && User.FavouriteOffer.Where(f => f.Offer.OfferID == Model.OfferID).FirstOrDefault() != null)
-                        {
-                            IsFav = true;
-                        }
-
-                        //if (User != null)
-                        //{
-                        //    foreach (var item in User.FavouriteOffer)
-                        //    {
-                        //        if (item.Offer.OfferID == Model.OfferID)
-                        //        {
-                        //            IsFav = true;
-                        //        }
-                        //    }
-                        //}
-                    }
-                    if (IsFav && HttpContext.Current.User.Identity.IsAuthenticated)
-                    {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" data-type="Offer" id="@Model.OfferID"></i>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" data-type="Offer" id="@Model.Offer.OfferID"></i>
                     }
                     else if (HttpContext.Current.User.Identity.IsAuthenticated)
                     {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-unActive" data-type="Offer" id="@Model.OfferID"></i>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-unActive" data-type="Offer" id="@Model.Offer.OfferID"></i>
                     }
                     else
                     {
@@ -143,26 +120,36 @@
                 }
 
             </div>
-            <p class="seller d-block m-0 p-0"> Sprzedawca: <a class="seller-name" href="#">@Model.User.Login</a></p>
+            <p class="seller d-block m-0 p-0"> Sprzedawca: <a class="seller-name" href="#">@Model.Offer.User.Login</a></p>
             <p class="product-condition d-block m-0 p-0"> Status: @czyAktywna</p>
             <p class="product-condition m-0 p-0">Stan: nowy</p>
             <hr class="mb-2" />
-            <h3 class="product-price">@Model.Price</h3>
+            <h3 class="product-price">@Model.Offer.Price</h3>
             <p class="product-price-wdeliver">z dostawą: 115 zł ?cena + cena wybranego dostawcy? </p>
             <hr class="mb-2" />
-            <form method="post">
-                <p class="buyer-counter mb-1"></p>
-                <label for="quantity-input">Pozostało: @Model.InStockNow</label>
-                <input type="number" step="1" max="@Model.InStockNow" min="1" value="1" name="quantity" class="quantity-field w-25">
-                <input type="hidden" name="prodId" value=@Model.OfferID>
-                <input type="submit" name="choice" value="DODAJ DO KOSZYKA" class="offer-button w-100 p-3 mt-2">
-                <input type="submit" name="choice" value="KUP TERAZ" class="offer-button p-3 w-100 my-1">
-            </form>
+             <p class="buyer-counter mb-1"></p>
+             <form method="post">
+                 <label for="quantity-input">Pozostało: @Model.Offer.InStockNow</label>
+                 <input type="number" step="1" max="@Model.Offer.InStockNow" min="1" value="1" name="quantity" class="quantity-field w-25">
+                 <input type="hidden">
+                 @if (Model.IsInBucket)
+                 {
+                     <input type="submit" class="offer-button w-100 p-3 mt-2 in-bucket addToBucket in-bucket">
+                 }
+                 else
+                 {
+                     <input type="submit" data-id="@Model.Offer.OfferID" data-type="Offer" class="offer-button w-100 p-3 mt-2 in-bucket addToBucket">
+                 }
+             </form>           
+            @*
+            Tutaj nie będzie formularza, wszystko powinno być na Ajaxie     
+            
+            *@
         </div>
         <div class="col-12 col-lg-10 offer-desc w-100 m-0 p-0">
             <hr />
             <h3>Opis produktu</h3>
-            <p> @Model.Description </p>
+            <p> @Model.Offer.Description </p>
         </div>
     </div>
 

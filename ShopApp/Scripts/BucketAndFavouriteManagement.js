@@ -62,7 +62,7 @@ $(document).ready(function () {
         if (jQuery(this).hasClass("not-logged")) {
             alert("You have to be logged in to add anything to bucket!");
         }
-        else
+        if (!jQuery(this).hasClass('in-bucket'))
         $.ajax({
                 url: '/Offer/AddToBucket',
                 type: 'POST',

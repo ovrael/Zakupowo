@@ -417,6 +417,7 @@
     <Compile Include="Utility\EmailManager.cs" />
     <Compile Include="Utility\FileManager.cs" />
     <Compile Include="Utility\Utilities.cs" />
+    <Compile Include="ViewModels\OfferIndexViewModel.cs" />
     <Compile Include="ViewModels\OffersAndBundles.cs" />
     <Compile Include="ViewModels\User\AccountViewModel.cs" />
     <Compile Include="ViewModels\UserCache.cs" />
@@ -494,7 +495,7 @@
     <Content Include="Scripts\layout.js" />
     <Content Include="Scripts\login.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\offer.js" />
+    <Content Include="Scripts\BucketAndFavouriteManagement.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
