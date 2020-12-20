@@ -17,26 +17,21 @@ namespace ShopApp.ControllersAPI
     {
         private ShopContext db = new ShopContext();
 
-        // GET: api/Offers
-        public IQueryable<Offer> GetOffers()
-        {
-            return db.Offers;
-        }
+       
 
-
-        // GET: api/Offers/Category/5
-        [Route("Category")]
-        public IHttpActionResult GetOffersByCategory(int id )
+        
+      
+        public IHttpActionResult GetOffersByCategory()
         {
             var offers = db.Offers;
             List<OfferItem> offerItems = new List<OfferItem>();
             foreach(Offer offer in offers)
             {
-                if(offer.Category.CategoryID == id)
-                {
+              
+                
                     var offerItem = OfferItem.ConvertOfferToOfferItem(offer);
                     offerItems.Add(offerItem);
-                }
+                
             }
             return Ok(offerItems);
         }
@@ -86,14 +81,14 @@ namespace ShopApp.ControllersAPI
         public double Price { get; set; }
         public int UserID { get; set; }
         public int CategoryID { get; set; }
-        public int BundleID { get; set; }
+       
         public List<OfferItemPicture> OfferPictures { get; set; }
 
 
 
 
 
-        public OfferItem(int offerID, string title, string description, DateTime creationDate, bool isActive, string stocking, double inStockOriginaly, double inStockNow, double price, int userID, int categoryID, int bundleID, List<OfferItemPicture> offerItemPictures)
+        public OfferItem(int offerID, string title, string description, DateTime creationDate, bool isActive, string stocking, double inStockOriginaly, double inStockNow, double price, int userID, int categoryID,  List<OfferItemPicture> offerItemPictures)
         {
             OfferID = offerID;
             Title = title;
@@ -106,7 +101,6 @@ namespace ShopApp.ControllersAPI
             Price = price;
             UserID = userID;
             CategoryID = categoryID;
-            BundleID = bundleID;
             OfferPictures = offerItemPictures;
         }
 
@@ -121,7 +115,7 @@ namespace ShopApp.ControllersAPI
                 offerItemPictures.Add(offerItemPicture);
             }
 
-            return new OfferItem(offer.OfferID,offer.Title, offer.Description, offer.CreationDate, offer.IsActive,offer.Stocking,offer.InStockOriginaly,offer.InStockNow,offer.Price,offer.User.UserID,offer.Category.CategoryID, offer.Bundle.BundleID, offerItemPictures);
+            return new OfferItem(offer.OfferID,offer.Title, offer.Description, offer.CreationDate, offer.IsActive,offer.Stocking,offer.InStockOriginaly,offer.InStockNow,offer.Price,offer.User.UserID,offer.Category.CategoryID,  offerItemPictures);
         }
 
     }
