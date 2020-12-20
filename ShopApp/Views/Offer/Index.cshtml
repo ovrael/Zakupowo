@@ -133,11 +133,11 @@
             <input type="hidden">
             @if (Model.IsInBucket)
             {
-                <a class="offer-button w-100 p-3 mt-2 in-bucket addToBucket in-bucket">/*PRZEDMIOT JUŻ W KOSZYKU KLASA IN-BUCKET*/</a>
+            <button class="offer-button w-100 p-3 mt-2 in-bucket addToBucket">OFERTA ZNAJDUJE SIĘ W KOSZYKU</button>
             }
             else
             {
-                <a data-id="@Model.Offer.OfferID" data-type="Offer" data-quantity="" class="offer-button w-100 p-3 mt-2 in-bucket addToBucket">DODAJ DO KOSZYKA</a>
+                <button data-id="@Model.Offer.OfferID" data-type="Offer" data-quantity="" class="offer-button w-100 p-3 mt-2 addToBucket">DODAJ DO KOSZYKA</button>
             }
             @*
                 Tutaj nie będzie formularza, wszystko powinno być na Ajaxie
