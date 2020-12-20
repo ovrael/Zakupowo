@@ -202,8 +202,8 @@ namespace ShopApp.Controllers
                         }
 
                         //Tworzenie tabeli dla Zamówienia
-                        
-
+                        var s =  BucketItemsListThatIsGoingToBeBought.GroupBy(i => i.Bucket.User);
+                        user.Order.GroupedBucketItems = s;
                         return RedirectToAction("DoKasy");
                     }
                 }

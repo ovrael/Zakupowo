@@ -11,7 +11,7 @@ namespace ShopApp.Models
     {
         [ForeignKey("Owner")]
         public int OrderID { get; set; }
-        public IGrouping<User, BucketItem> GroupedBucketItems { get; set;}
+        public IEnumerable<IGrouping<User, BucketItem>> GroupedBucketItems { get; set;}
         public virtual User Owner { get; set; }
         public byte[] RowVersion { get; set; }
     }
