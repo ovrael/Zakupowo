@@ -119,53 +119,7 @@
                         </div>
 
                     }
-                    foreach (var offer in Model)
-                    {
-
-                        string id = "Offer_" + offer.OfferID.ToString();
-                        string offerQuantity = "OffersQuantity_" + offer.OfferID.ToString();
-
-                        System.Diagnostics.Debug.WriteLine("OfferID: " + id);
-                        System.Diagnostics.Debug.WriteLine("Quantity: " + offerQuantity);
-                        <hr />
-                        <div class="row row-offer mr-1 ml-0 pb-3 pl-4 ">
-
-                            @*ADD TO BUNDLE CHECKBOX*@
-                            <div class="col-sm-10 col-lg-2 col-md-1 pl-0 pb-4 pr-5  text-center">
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="@id" name="OffersInBundle" value="@offer.OfferID">
-                                    <label class="form-check-label" for="@id">Dodaj do zestawu</label>
-                                </div>
-                            </div>
-
-                            @*OFFER PICTURE*@
-                            <div class="col-sm-10 col-md-1 col-lg-1 text-center pb-3 pr-5 mr-5 ">
-                                <img src="@offer.OfferPictures.ToList()[0].PathToFile" class="rounded" style="width: 50px" alt="offerPicture">
-                            </div>
-
-                            @*OFFER TITLE*@
-                            <div class="col-sm-10 col-md-2 col-lg-2 text-center pb-3 pr-5 mr-5">
-                                @offer.Title
-                            </div>
-
-                            @*OFFER QUANTITY*@
-                            <div class="col-10 col-lg-3 col-md-3 pb-3 d-flex justify-content-center">
-                                <div class="form-group">
-                                    <input id="available_quantity" name="@offerQuantity" value="1" min="1" max="@offer.InStockNow" placeholder="Offer quantity" class="form-control input-group-sm" required type="number">
-                                </div>
-                            </div>
-
-
-
-                            @*OFFER PRICE*@
-                            <div class="col-sm-10 col-lg-2 col-md-2 text-center pr-5 mr-5">
-                                @offer.Price zł
-                            </div>
-                            <hr />
-
-                        </div>
-
-                    }
+                    
 
 
                     <hr />
