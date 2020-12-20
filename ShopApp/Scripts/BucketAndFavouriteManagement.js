@@ -84,10 +84,21 @@ $(document).ready(function () {
         }
         ),
 
-        $(".item-delete").on("click", function () {
+        $(".item-delete").click( function () {
             var id = jQuery(this).attr('data-id');
             var type = jQuery(this).attr('data-type');
             var element = this;
+
+            $.alert({
+                title: 'Pomyślnie usunięto',
+                content: 'Usunąłeś "' + $(this).closest(".item").find(".item-name").find("a").text() + '" z ulubionych',
+                buttons: {
+                    ok: {
+                        text: 'ok',
+                        btnClass: 'btn-popout'
+                    }
+                }
+            });
 
             if (!jQuery(this).hasClass('item-deleted')) {
                 $.ajax({
@@ -100,7 +111,6 @@ $(document).ready(function () {
                     success: function (data) {
                         if (data.length == 0)// No errors
                         {
-                            $(element).addClass("item-deleted");
                         }
                     },
                 });
