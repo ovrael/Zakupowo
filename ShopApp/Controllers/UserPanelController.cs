@@ -900,6 +900,11 @@ namespace ShopApp.Controllers
             return View();
         }
 
+        public ActionResult LearningSignalR()
+        {
+            return View();
+        }
+
         public JsonResult SendMessage(string receiverID, string content)
         {
             if (receiverID != "" && content != "" && int.TryParse(receiverID, out int int_receiverID))

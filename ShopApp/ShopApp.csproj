@@ -525,6 +525,7 @@
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\register.js" />
     <Content Include="Scripts\Scripts.js" />
+    <Content Include="Scripts\SignalR.js" />
     <Content Include="Scripts\src\index.js" />
     <Content Include="Scripts\src\methods\defaults.js" />
     <Content Include="Scripts\src\methods\destroy.js" />
@@ -652,6 +653,7 @@
     <Content Include="Views\UserPanel\AddBundle.cshtml" />
     <Content Include="Views\Offer\Favourites.cshtml" />
     <Content Include="Views\UserPanel\LearningJS.cshtml" />
+    <Content Include="Views\UserPanel\LearningSignalR.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

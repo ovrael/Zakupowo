@@ -102,15 +102,19 @@
     <div class="container-fluid">
         @RenderBody()
     </div>
-        <footer>
-            <div class="footer text-center">
-                <div class="col-12 p-0 my-auto">
-                    <div class="text-footer">
+    <footer>
+        <div class="footer text-center">
+            <div class="col-12 p-0 my-auto">
+                <div class="text-footer">
                     ©2020 website created for educational purpose
 
-                    </div>
                 </div>
             </div>
-        </footer>
+        </div>
+    </footer>
+
+
+    @RenderSection("scripts", required: false);
+
 </body>
 </html>

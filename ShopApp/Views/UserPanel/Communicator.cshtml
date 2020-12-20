@@ -185,28 +185,32 @@
         </ul>
     </div>*@
 
-<script type="text/javascript">
-    function send_message(clicked_id) {
+@section scripts
+{
+    <script type="text/javascript">
+        function send_message(clicked_id) {
 
-        var user = document.getElementsByClassName("user-last-msg active");
-        console.log("user[0].ID: " + user[0].id);
-        console.log("user[0].id.indexOf(Conversation): " + user[0].id.indexOf("Conversation"));
-        var userID = user[0].id.substring(0, user[0].id.indexOf("Conversation"));
-        console.log("userID: " + userID);
+            var user = document.getElementsByClassName("user-last-msg active");
+            console.log("user[0].ID: " + user[0].id);
+            console.log("user[0].id.indexOf(Conversation): " + user[0].id.indexOf("Conversation"));
+            var userID = user[0].id.substring(0, user[0].id.indexOf("Conversation"));
+            console.log("userID: " + userID);
 
 
-        var msg = document.getElementById("messageContent");
+            var msg = document.getElementById("messageContent");
 
-        console.log("msg.ID: " + msg.id);
-        console.log("msg.value (wartość tekstu): " + msg.value);
+            console.log("msg.ID: " + msg.id);
+            console.log("msg.value (wartość tekstu): " + msg.value);
 
-        $.ajax({
-            type: "post",
-            url: "/UserPanel/SendMessage",
-            data: { "receiverID": userID, "content": msg.value },
-            success: function (data) {
-                $("#div-chat-boxes").load(location.href + " #div-chat-boxes>*", "");
-            }
-        })
-    }
-</script>
+            $.ajax({
+                type: "post",
+                url: "/UserPanel/SendMessage",
+                data: { "receiverID": userID, "content": msg.value },
+                success: function (data) {
+                    $("#div-chat-boxes").load(location.href + " #div-chat-boxes>*", "");
+                }
+            })
+        }
+    </script>
+
+}
