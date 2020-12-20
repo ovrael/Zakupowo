@@ -34,7 +34,14 @@
                     <h3 class="product-price mb">@item.Price zł</h3>
                     <p class="offer-count d-none d-lg-block pb-3">dostępne: @item.InStockNow z @item.InStockOriginaly</p>
                     <br>
-                    <a class="addToBucket" href="#">DODAJ DO KOSZYKA</a>
+                    @if (Model.InBucketOffersIDs != null && Model.InBucketOffersIDs.Contains(item.OfferID))
+                    {
+                <a class="addToBucket in-bucket" data-type="Offer" id="@item.OfferID">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
+                    }
+                    else
+                    {
+                        <a class="addToBucket" data-type="Offer" id="@item.OfferID">DODAJ DO KOSZYKA</a>
+                    }
                     <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Offer" id="@item.OfferID"></i>
                 </div>
                 <hr class="w-100">
@@ -44,7 +51,7 @@
 
 
 
-        @*@foreach (var item in Model.Bundles)
+        @foreach (var item in Model.Bundles)
         {
             <div class="row bundle-row offer p-2 m-0">
                 <div class="col-4 offer-img my-auto">
@@ -56,12 +63,19 @@
                     <h3 class="product-price mb-1">@item.OffersPriceSum</h3>PRZEKRESLONE
                     <h3 class="product-price mb-1">@item.BundlePrice</h3>
                     <br>
-                    <a class="addToBucket" href="#">DODAJ DO KOSZYKA</a>
-                    <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" data-type="Bundle" id="@item.BundleID"></i>
+                    @if (Model.InBucketOffersIDs != null && Model.InBucketOffersIDs.Contains(item.BundleID))
+                    {
+                <a class="addToBucket in-bucket" data-type="Offer" id="@item.BundleID">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
+                    }
+                    else
+                    {
+                        <a class="addToBucket" data-type="Offer" id="@item.BundleID">DODAJ DO KOSZYKA</a>
+                    }
+                    <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Offer" id="@item.BundleID"></i>
                 </div>
             </div>
             <hr>
-        }*@
+        }
 
 
 
@@ -72,6 +86,6 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
         @Scripts.Render("~/bundles/BucketAndFavjs")
-        @Scripts.Render("~/bundles/Katjs")
+        @Scripts.Render("~/bundles/Favouritejs")
     </div>
 </div>
