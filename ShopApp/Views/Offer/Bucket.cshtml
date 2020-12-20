@@ -30,7 +30,7 @@
                         if (item.Offer != null)
                         {
                             <div class="row item justify-content-around align-items-center text-center p-3">
-                                <div class="col-1 item-delete">
+                                <div class="col-1 item-delete" data-id="@item.Offer.OfferID" data-type="Offer">
                                     <i class="fas fa-times"></i>
                                 </div>
                                 <div class="col-5 col-lg-3 item-image">
@@ -53,7 +53,7 @@
                         else
                         {
                             <div class="row item justify-content-around align-items-center text-center p-3">
-                                <div class="col-1 item-delete">
+                                <div class="col-1 item-delete" data-id="@item.Bundle.BundleID" data-type="Bundle">
                                     <i class="fas fa-times"></i>
                                 </div>
                                 <div class="col-5 col-lg-3 item-image">

@@ -59,6 +59,7 @@ namespace ShopApp.Models
         public DateTime CreationDate { get; set; }
         public virtual Bucket Bucket { get; set; }
         public virtual AvatarImage AvatarImage { get; set; }
+        public virtual Order Order { get; set; }
         public virtual ICollection<Auction> Auction { get; set; }
         public virtual ICollection<Offer> Offers { get; set; }
         public virtual ICollection<Favourite> FavouriteOffer { get; set; }

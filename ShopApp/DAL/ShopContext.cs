@@ -38,6 +38,7 @@ namespace ShopApp.DAL
         public virtual DbSet<AvatarImage> AvatarImages { get; set; }
         public virtual DbSet<ShippingAdress> ShippingAdresses { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
         //public virtual DbSet<Chat> Chats { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
