@@ -288,12 +288,15 @@ ul.navbar-nav {
 .links i {
     color: white;
 }
-.links .icon :hover {
+/*.links .icon :hover{
     color: #002447;
-}
-.links .title :hover {
-    
-    text-decoration-color: #002447;
+}*/
+/*.links .title :hover {
+    color: #002447;
+}*/
+
+.links :hover {
+    color: #002447;
 }
 
 .sidebar-active-element i {
@@ -386,6 +389,23 @@ ul.navbar-nav {
     }
 }
 
+/*ADD-BUNDLE*/
 .text-footer{
     padding-left:48px;
+}
+
+.has-search .form-control {
+    padding-left: 2.375rem;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
 }
