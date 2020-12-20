@@ -143,7 +143,7 @@ namespace ShopApp.Controllers
 
             if (user != null)
             {
-                FormsAuthentication.SetAuthCookie(user.Login, (collection["rememberMeInput"] == "rememberMe" ? true : false));
+                FormsAuthentication.SetAuthCookie(user.Login, (collection["rememberMeInput"] == "rememberMe"));
 
                 if (user.AvatarImage == null)
                 {

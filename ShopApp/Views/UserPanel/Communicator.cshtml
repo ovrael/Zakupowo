@@ -2,8 +2,12 @@
 @model IEnumerable<ShopApp.Models.Message>
 
 @{
-    List<IGrouping<ShopApp.Models.User, ShopApp.Models.Message>> groupUserMessages = (List<IGrouping<ShopApp.Models.User, ShopApp.Models.Message>>)ViewBag.GroupUserMessages;
-    //ShopApp.Models.User lastUser = Model.First().Sender;
+    List<IGrouping<ShopApp.Models.User, ShopApp.Models.Message>> receivedMessages = (List<IGrouping<ShopApp.Models.User, ShopApp.Models.Message>>)ViewBag.ReceivedGroups;
+    //List<IGrouping<ShopApp.Models.User, ShopApp.Models.Message>> sentMessages = (List<IGrouping<ShopApp.Models.User, ShopApp.Models.Message>>)ViewBag.SentGroups;
+    List<ShopApp.Models.User> chatUsers = new List<ShopApp.Models.User>();
+    ShopApp.Models.User lastUser = Model.First().Sender;
+
+    List<List<ShopApp.Models.Message>> allMessages = (List<List<ShopApp.Models.Message>>)ViewBag.AllMessages;
 }
 
 @Styles.Render("~/bundles/UserPanel")
@@ -25,149 +29,184 @@
                 </div>
 
                 <div class="messages-box">
-
-                    @*
-                                        <div class="list-group rounded-0 nav-pills" role="tablist" aria-orientation="vertical">
-                                            @{
-                                                if (Model != null && Model.Count() > 0)
-                                                {
-                                                    int n = 0;
-                                                    foreach (var msg in Model)
-                                                    {
-                                                        System.Diagnostics.Debug.WriteLine("Uzytkownik w pillsach: " + msg.Sender.Login);
-                                                        string shortSentDate = string.Empty;
-                                                        string ariaControls = msg.SenderID + "Conversation";
-                                                        string tabID = ariaControls + "-tab";
-                                                        string hrefLink = "#v-pills-" + ariaControls;
-
-                                                        string selectedAreaClass = n == 0 ? "true" : "false";
-                                                        string activeClass = n == 0 ? "active" : string.Empty;
-
-                                                        if (msg.SentTime.CompareTo(DateTime.Now.AddDays(-1)) < 1)
-                                                        {
-                                                            shortSentDate = msg.SentTime.ToShortDateString();
-                                                        }
-                                                        else
-                                                        {
-                                                            shortSentDate = msg.SentTime.ToShortTimeString();
-                                                        }
-
-                                                        if (msg.Sender.AvatarImage == null)
-                                                        {
-                                                            System.Diagnostics.Debug.WriteLine("Użytkownik: " + msg.Sender.Login + " nie ma avatara.");
-                                                            msg.Sender.AvatarImage.PathToFile = ".. / .. / App_Files / Images / UserAvatars / DefaultAvatar.jpg";
-                                                        }
-
-                                                        <a id="@tabID" data-toggle="pill" href="@hrefLink" role="tab" aria-controls="@ariaControls" aria-selected="@selectedAreaClass" class="list-group-item list-group-item-action list-group-item-light rounded-0 @activeClass nav-link">
-                                                            <div class="media">
-                                                                <img src="@msg.Sender.AvatarImage.PathToFile" alt="user" width="50" class="rounded-circle">
-                                                                <div class="media-body ml-4">
-                                                                    <div class="d-flex align-items-center justify-content-between mb-1">
-                                                                        <h6 class="mb-0"> @msg.Sender.Login </h6><small class="small font-weight-bold"> @shortSentDate </small>
-                                                                    </div>
-                                                                    <p class="font-italic text-muted mb-0 text-small">@msg.Content</p>
-                                                                </div>
-                                                            </div>
-                                                        </a>
-                                                        n++;
-                                                    }
-                                                }
-                                            }
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        <!-- Chat Box-->
-
-
-                        <div class="col-7 px-0 tab-content">
-                            @{
-                                int k = 0;
-                                foreach (var user in groupUserMessages)
+                    <div class="list-group rounded-0 nav-pills" role="tablist" aria-orientation="vertical" id="div-user-boxes">
+                        @{
+                            if (Model != null && Model.Count() > 0)
+                            {
+                                int n = 0;
+                                foreach (var msg in Model)
                                 {
-                                    if (user.Key.Login == HttpContext.Current.User.Identity.Name)
+                                    System.Diagnostics.Debug.WriteLine("Uzytkownik w pillsach: " + msg.Sender.Login);
+                                    string shortSentDate = string.Empty;
+                                    string ariaControls = msg.Sender.UserID + "Conversation";
+                                    string tabID = ariaControls + "-tab";
+                                    string hrefLink = "#v-pills-" + ariaControls;
+
+                                    string selectedAreaClass = n == 0 ? "true" : "false";
+                                    string activeClass = n == 0 ? "active" : string.Empty;
+
+                                    if (msg.SentTime.CompareTo(DateTime.Now.AddDays(-1)) < 1)
                                     {
-                                        continue;
+                                        shortSentDate = msg.SentTime.ToShortDateString();
+                                    }
+                                    else
+                                    {
+                                        shortSentDate = msg.SentTime.ToShortTimeString();
                                     }
 
-                                    string conversationID = "v-pills-" + user.Key.UserID + "Conversation";
-                                    string ariaLabelled = conversationID + "-tab";
-                                    string activeClass = user.Key == lastUser ? "show active" : string.Empty;
+                                    if (msg.Sender.AvatarImage == null)
+                                    {
+                                        System.Diagnostics.Debug.WriteLine("Użytkownik: " + msg.Sender.Login + " nie ma avatara.");
+                                        msg.Sender.AvatarImage.PathToFile = ".. / .. / App_Files / Images / UserAvatars / DefaultAvatar.jpg";
+                                    }
 
-                                    <div class="px-4 py-5 chat-box bg-white tab-pane @activeClass" id="@conversationID" role="tabpanel" aria-labelledby="@ariaLabelled">
-                                        <p> OKNO CZATU Z @user.Key.Login</p>
-
-                                        @{
-                                            string shortSentDate = string.Empty;
-                                            foreach (var message in user)
-                                            {
-
-                                                if (message.SentTime.CompareTo(DateTime.Now.AddDays(-1)) < 1)
-                                                {
-                                                    shortSentDate = message.SentTime.ToShortDateString();
-                                                }
-                                                else
-                                                {
-                                                    shortSentDate = message.SentTime.ToShortTimeString();
-                                                }
-
-                                                //System.Diagnostics.Debug.WriteLine(message.ToString());
-                                                //System.Diagnostics.Debug.WriteLine("Sender: " + message.Sender.Login + "\tUser.key: " + user.Key.Login);
-
-                                                if (message.Sender == user.Key)
-                                                {
-                                                    //System.Diagnostics.Debug.WriteLine("Sender: " + message.Sender.Login + "\tUser.key: " + user.Key.Login);
-
-                                                    <div class="media w-50 mb-3">
-                                                        <img src="@user.Key.AvatarImage.PathToFile" alt="user" width="50" class="rounded-circle">
-                                                        <div class="media-body ml-3">
-                                                            <div class="bg-light rounded py-2 px-3 mb-2">
-                                                                <p class="text-small mb-0 text-muted">@message.Content</p>
-                                                            </div>
-                                                            <p class="small text-muted">@shortSentDate</p>
-                                                        </div>
-                                                    </div>
-                                                }
-
-                                                if (message.Sender.Login == HttpContext.Current.User.Identity.Name)
-                                                {
-                                                    //System.Diagnostics.Debug.WriteLine(" -=-=-=-= ELSE =-=-=-=-");
-                                                    <!-- Reciever Message-->
-                                                    <div class="media w-50 ml-auto mb-3">
-                                                        <div class="media-body">
-                                                            <div class="bg-primary rounded py-2 px-3 mb-2">
-                                                                <p class="text-small mb-0 text-white">@message.Content</p>
-                                                            </div>
-                                                            <p class="small text-muted">@message.SentTime</p>
-                                                        </div>
-                                                    </div>
-                                                }
-                                            }
-                                        }
-
-
-
-                                    </div>
-
-                                    k++;
-                                }
-                                <!-- Typing area -->
-                                <form action="#" class="bg-light">
-                                    <div class="input-group">
-                                        <input type="text" placeholder="Napisz wiadomość" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
-                                        <div class="input-group-append">
-                                            <button id="button-addon2" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
+                                    <a id="@tabID" data-toggle="pill" href="@hrefLink" role="tab" aria-controls="@ariaControls" aria-selected="@selectedAreaClass" class="user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 @activeClass nav-link">
+                                        <div class="media">
+                                            <img src="@msg.Sender.AvatarImage.PathToFile" alt="user" width="50" class="rounded-circle">
+                                            <div class="media-body ml-4">
+                                                <div class="d-flex align-items-center justify-content-between mb-1">
+                                                    <h6 class="mb-0"> @msg.Sender.Login </h6><small class="small font-weight-bold"> @shortSentDate </small>
+                                                </div>
+                                                <p class="font-italic text-muted mb-0 text-small">@msg.Content</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </form>
+                                    </a>
+                                    n++;
+                                }
                             }
-                        </div>*@
+                        }
 
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- Chat Box-->
+
+        <div class="col-7 px-0 tab-content" id="div-chat-boxes">
+            @{
+                int k = 0;
+                foreach (var messagesList in allMessages)
+                {
+                    //if (user.Key.Login == HttpContext.Current.User.Identity.Name)
+                    //{
+
+                    //    continue;
+                    //}
+                    //chatUsers.Add(user.Key);
+
+                    ShopApp.Models.User user = messagesList[0].Receiver.Login == HttpContext.Current.User.Identity.Name ? messagesList[0].Sender : messagesList[0].Receiver;
+
+                    string conversationID = "v-pills-" + user.UserID + "Conversation";
+                    string ariaLabelled = conversationID + "-tab";
+                    string activeClass = user == lastUser ? "show active" : string.Empty;
+
+                    <div class="px-4 py-5 chat-box bg-white tab-pane @activeClass" id="@conversationID" role="tabpanel" aria-labelledby="@ariaLabelled">
+                        <p> OKNO CZATU Z @user.Login</p>
+
+                        @{
+                            string customSentDate = string.Empty;
+                            foreach (var message in messagesList)
+                            {
+
+                                if (message.SentTime.CompareTo(DateTime.Now.AddDays(-1)) < 1)
+                                {
+                                    customSentDate = message.SentTime.ToShortDateString();
+                                }
+                                else
+                                {
+                                    customSentDate = message.SentTime.ToShortTimeString();
+                                }
+
+                                //System.Diagnostics.Debug.WriteLine(message.ToString());
+                                //System.Diagnostics.Debug.WriteLine("Sender: " + message.Sender.Login + "\tUser.key: " + user.Key.Login);
+
+                                if (message.Sender == user)
+                                {
+                                    //System.Diagnostics.Debug.WriteLine("Sender: " + message.Sender.Login + "\tUser.key: " + user.Key.Login);
+
+                                    <div class="media w-50 mb-3 message">
+                                        <img src="@user.AvatarImage.PathToFile" alt="user" width="30" class="rounded-circle">
+                                        <div class="media-body ml-3">
+                                            <div class="bg-light rounded py-2 px-3 mb-2" data-toggle="tooltip" title="@customSentDate">
+                                                <p class="text-small mb-0 text-muted">@message.Content</p>
+                                            </div>
+                                            @*<small class="text-muted" style="margin-bottom:0px">@customSentDate</small>*@
+                                            @*<p class="small text-muted">@customSentDate</p>*@
+                                        </div>
+                                    </div>
+                                }
+
+                                if (message.Sender.Login == HttpContext.Current.User.Identity.Name)
+                                {
+                                    //System.Diagnostics.Debug.WriteLine(" -=-=-=-= ELSE =-=-=-=-");
+                                    <!-- Reciever Message-->
+                                    <div class="media w-50 ml-auto mb-3 message">
+                                        <div class="media-body">
+                                            <div class="bg-primary rounded py-2 px-3 mb-2" data-toggle="tooltip" title="@customSentDate">
+                                                <p class="text-small mb-0 text-white">@message.Content</p>
+                                            </div>
+                                            @*<small class="text-muted" style="margin-bottom:0px">@customSentDate</small>*@
+                                            @*<p class="small text-muted">@customSentDate</p>*@
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        }
+
+
+
+                    </div>
+
+                    k++;
+                }
+                <!-- Typing area -->
+                <form action="#" class="bg-light">
+                    <div class="input-group">
+                        <input id="messageContent" type="text" placeholder="Napisz wiadomość" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+                        <div class="input-group-append">
+                            <button id="button-addon2" type="submit" class="btn btn-link" onClick="send_message(this.id)"> <i class="fa fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </form>
+            }
+        </div>
+
+
     </div>
 </div>
 
+
+@*<div class="container">
+        <input type="text" id="message" />
+        <input type="button" id="sendmessage" value="Send" />
+        <input type="hidden" id="displayname" />
+        <ul id="discussion">
+        </ul>
+    </div>*@
+
+<script type="text/javascript">
+    function send_message(clicked_id) {
+
+        var user = document.getElementsByClassName("user-last-msg active");
+        console.log("user[0].ID: " + user[0].id);
+        console.log("user[0].id.indexOf(Conversation): " + user[0].id.indexOf("Conversation"));
+        var userID = user[0].id.substring(0, user[0].id.indexOf("Conversation"));
+        console.log("userID: " + userID);
+
+
+        var msg = document.getElementById("messageContent");
+
+        console.log("msg.ID: " + msg.id);
+        console.log("msg.value (wartość tekstu): " + msg.value);
+
+        $.ajax({
+            type: "post",
+            url: "/UserPanel/SendMessage",
+            data: { "receiverID": userID, "content": msg.value },
+            success: function (data) {
+                $("#div-chat-boxes").load(location.href + " #div-chat-boxes>*", "");
+            }
+        })
+    }
+</script>

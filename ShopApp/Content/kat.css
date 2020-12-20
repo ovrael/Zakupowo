@@ -57,6 +57,7 @@
     letter-spacing: 1px;
     font-weight: 700;
     font-size: 12px;
+    cursor: pointer;
 }
 
     .addToBucket:hover, .addToBucket:visited {
@@ -147,6 +148,11 @@
 .btn-popout {
     background-color: #FFB24A !important;
     border: 1px solid black;
+}
+
+.in-bucket, .in-bucket:hover, .in-bucket:active, .in-bucket:focus {
+    cursor: not-allowed;
+    color: grey;
 }
 
 @media (min-width: 992px) {

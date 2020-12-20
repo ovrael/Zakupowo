@@ -29,7 +29,6 @@
             $(".overlay").addClass("d-none");
         }
     })
-
     $(".btn-group").click(function (e) {
         console.log(this);
         if ($(e.target).hasClass("switch-offer")) {

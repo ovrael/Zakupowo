@@ -5,8 +5,8 @@ $(document).ready(function () {
         var id = jQuery(this).attr('id');
         var type = jQuery(this).attr('data-type');
 
-        if (jQuery(this).hasClass("fav-active")) {
-
+        if ($(this).hasClass("fav-active")) {
+            var element = this;
             $.ajax({
                 url: '/Home/UnFav',
                 type: 'POST',
@@ -17,15 +17,16 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.length == 0)// No errors
                     {
-                        $("#" + id).addClass("fav-unActive");
-                        $("#" + id).removeClass("fav-active");
+                        jQuery(element).addClass("fav-unActive");
+                        jQuery(element).removeClass("fav-active");
                     }
                   
                 },
             });
            
         }
-        if (jQuery(this).hasClass("fav-unActive")) {
+        if ($(this).hasClass("fav-unActive")) {
+            var element = this;
             $.ajax({
                 url: '/Home/Fav',
                 type: 'POST',
@@ -36,8 +37,8 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.length == 0)
                     {
-                        $("#" + id).addClass("fav-active");
-                        $("#" + id).removeClass("fav-unActive");
+                        $(element).addClass("fav-active");
+                        $(element).removeClass("fav-unActive");
 
                     }// No errors
             
@@ -54,28 +55,27 @@ $(document).ready(function () {
 
 
     $(".addToBucket").on("click", function () {
-
         var id = jQuery(this).attr('id');
         var type = jQuery(this).attr('data-type');
         var quantity = jQuery(this).attr('data-quantity');
-
+        var element = this;
         if (jQuery(this).hasClass("not-logged")) {
             alert("You have to be logged in to add anything to bucket!");
         }
-        else
+        if (!jQuery(this).hasClass('in-bucket'))
         $.ajax({
                 url: '/Offer/AddToBucket',
                 type: 'POST',
                 data: {
                     type: type,
-                    quantity: quantity,
-                    id: id
+                    id: id,
+                    quantity: quantity
                 },
                 success: function (data) {
                     if (data.length == 0)// No errors
                     {
-                        $("#" + id).addClass("in-bucket");
-                        $("#" + id).removeClass("addToBucket");
+                        $(element).addClass("in-bucket");
+                        $(element).text("OFERTA ZNAJDUJE SIĘ W KOSZYKU");
                     }
 
                 },
