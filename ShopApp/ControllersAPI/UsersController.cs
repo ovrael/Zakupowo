@@ -28,8 +28,16 @@ namespace ShopApp.Controllers
         
         public IHttpActionResult GetAvatarURI(int userID)
         {
-            var user = db.Users.Where(i => i.UserID == userID).First();
+            User user = null;
+            try
+            {
+                user = db.Users.Where(i => i.UserID == userID).First();
+            }catch(Exception e)
+            {
 
+            }
+           
+               
             if (user == null)
             {
                 return BadRequest("Couldn't find user!");
