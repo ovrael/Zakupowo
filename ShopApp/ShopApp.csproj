@@ -413,6 +413,14 @@
     <Compile Include="Migrations\202012152220545_WorkinOnChat_UsingInverseProperties.Designer.cs">
       <DependentUpon>202012152220545_WorkinOnChat_UsingInverseProperties.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012201834308_MakingOrderTable.cs" />
+    <Compile Include="Migrations\202012201834308_MakingOrderTable.Designer.cs">
+      <DependentUpon>202012201834308_MakingOrderTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012201848096_MakingOrderTable2.cs" />
+    <Compile Include="Migrations\202012201848096_MakingOrderTable2.Designer.cs">
+      <DependentUpon>202012201848096_MakingOrderTable2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
@@ -424,6 +432,7 @@
     <Compile Include="Models\Favourite.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\OfferPicture.cs" />
+    <Compile Include="Models\Order.cs" />
     <Compile Include="Models\ShippingAdress.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Settings.cs" />
@@ -841,6 +850,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012152220545_WorkinOnChat_UsingInverseProperties.resx">
       <DependentUpon>202012152220545_WorkinOnChat_UsingInverseProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012201834308_MakingOrderTable.resx">
+      <DependentUpon>202012201834308_MakingOrderTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012201848096_MakingOrderTable2.resx">
+      <DependentUpon>202012201848096_MakingOrderTable2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
