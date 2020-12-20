@@ -22,6 +22,25 @@ namespace ShopApp.Controllers
     {
         private ShopContext db = new ShopContext();
 
+
+        // GET: api/Users/Avatar/5
+        [Route("Avatar")]
+        
+        public IHttpActionResult GetAvatarURI(int userID)
+        {
+            var user = db.Users.Where(i => i.UserID == userID).First();
+
+            if (user == null)
+            {
+                return BadRequest("Couldn't find user!");
+            }
+        
+            var avatarImage = user.AvatarImage;
+            var uri = "https://shopapp.conveyor.cloud/../App_Files/Images/UserAvatars/DefaultAvatar.jpg";
+            if (avatarImage != null) uri = avatarImage.PathToFile;
+            return Ok(uri);
+        }
+       
         //POST api/Users/Register
         [AllowAnonymous]
         [Route("Register")]
@@ -68,6 +87,7 @@ namespace ShopApp.Controllers
             var password = Cryptographing.Encrypt(model.Password);
 
             var user = db.Users.Where(x => x.Login == login && x.EncryptedPassword == password).SingleOrDefault();
+
 
             if (user != null)
             {
@@ -127,6 +147,10 @@ namespace ShopApp.Controllers
         public string Password { get; set; }
 
     }
+
+
+    
+
 
 
 
