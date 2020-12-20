@@ -76,6 +76,9 @@ namespace ShopApp
             bundles.Add(new StyleBundle("~/bundles/Kat").Include(
                        "~/Content/kat.css"));
 
+            bundles.Add(new StyleBundle("~/bundles/Order").Include(
+                "~/Content/CashOut.css"));
+
         }
     }
 }
