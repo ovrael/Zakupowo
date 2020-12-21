@@ -146,6 +146,8 @@ namespace ShopApp.Controllers
             if (user != null)
             {
                 var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer.User);
+                if (user.ShippingAdresses.Count() == 0)
+                    ViewBag.UserHasNoShippingAddress = "Przed przejściem do kasy wymagane jest ustawienie adresu dostawy";
                 return View(BucketItems); 
             }
             else
@@ -159,6 +161,8 @@ namespace ShopApp.Controllers
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
             if(user != null)
             {
+                if (user.ShippingAdresses.Count() == 0)
+                    return RedirectToAction("Bucket");
                 if(collection != null)
                 {
                     var bucketItems = user?.Bucket?.BucketItems?.ToList();
@@ -214,6 +218,8 @@ namespace ShopApp.Controllers
                             GroupedBucketItems = user.Order.GroupedBucketItems,
                             ShippingAdresses = user.ShippingAdresses
                         };
+
+                        
 
                         return View("Order",cashOutViewModel);
                     }

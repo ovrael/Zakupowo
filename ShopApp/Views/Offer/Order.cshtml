@@ -25,9 +25,9 @@
                 <div class="col-12 col-lg-7 m-2 mx-auto">
                     <input type="hidden" value="@Adress.AdressID" />
                     <p>@Adress.User.FirstName @Adress.User.LastName</p>
-                    <p>@Adress.Street</p>
-                    <p>@Adress.PostalCode @Adress.City</p>
-                    <p>@Adress.User.Phone</p>
+                    <p>Ulica: @Adress.Street</p>
+                    <p>Kod pocztowy: @Adress.PostalCode Miasto: @Adress.City</p>
+                    <p>Telefon: @Adress.User.Phone</p>
                 </div>
             }
         </div>
@@ -50,7 +50,7 @@
                             </div>
                             <div class="col-6 col-lg-4 item-desc">
                                 <p><a class="product-name" href="#">@item.Offer.Title</a></p>
-                                <p class="product-price">@item.Quantity @item.Offer.Price zł</p>
+                                <p class="product-price">@item.Quantity * @item.Offer.Price zł</p>
                                 <p class="product-price">@(item.Quantity * item.Offer.Price) zł</p>
                             </div>
                         </div>

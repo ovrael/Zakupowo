@@ -77,7 +77,12 @@
                 <div class="col-12">
                     <p class="bucket-price-header m-0">Razem do zapłaty:</p>
                     <p class="bucket-price m-0"><span class="bucket-price-amount">1500 zł</span> + dostawa</p>
+                    @if (ViewBag.UserHasNoShippingAddress != null)
+                    {
+                        <p class="alert-danger m-0"> @ViewBag.UserHasNoShippingAddress</p>
+                    }
                 </div>
+                
                 <div class="col-12 p-2">
                     <input type="submit"
                            value="DO KASY"
