@@ -290,17 +290,157 @@ namespace ShopApp.Controllers
 
         #region OffersAndBundles   
 
-        public ActionResult Offers()
+        public ActionResult Offers(int? sortBy, bool? userActivated, bool? success)
         {
-            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            if (userActivated != null && !(bool)userActivated)
+            {
+                ViewBag.UserNotActivated = "Musisz aktywować swoje konto by móc wystawiać oferty!";
+            }
 
+            if (success != null && (bool)success)
+            {
+                ViewBag.Success = "Oferta dodana pomyślnie!";
+            }
+
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
             List<Offer> offers = editUser.Offers.ToList();
+
+            ViewBag.TitleSort = ViewBag.TitleSort == null ? 0 : ViewBag.TitleSort;
+            ViewBag.StatusSort = ViewBag.StatusSort == null ? 0 : ViewBag.StatusSort;
+            ViewBag.CreationDateSort = ViewBag.CreationDateSort == null ? 0 : ViewBag.CreationDateSort;
+            ViewBag.PriceSort = ViewBag.PriceSort == null ? 0 : ViewBag.PriceSort;
+            ViewBag.LeftSort = ViewBag.LeftSort == null ? 0 : ViewBag.LeftSort;
+            ViewBag.SoldSort = ViewBag.SoldSort == null ? 0 : ViewBag.SoldSort;
+            ViewBag.CategorySort = ViewBag.CategorySort == null ? 0 : ViewBag.CategorySort;
+
+            if (sortBy != null)
+            {
+                switch (sortBy)
+                {
+                    // SORTY BY TITLE
+                    case 1:
+                        offers = offers.OrderBy(o => o.Title).ToList();
+                        ViewBag.SortBy = "Title";
+                        ViewBag.TitleSort = 1;
+                        break;
+
+                    case 2:
+                        offers = offers.OrderByDescending(o => o.Title).ToList();
+                        ViewBag.SortBy = "Title";
+                        ViewBag.TitleSort = 0;
+                        break;
+
+                    //SORT BY STATUS
+                    case 3:
+                        offers = offers.OrderByDescending(o => o.IsActive).ThenBy(o => o.Title).ToList();
+                        ViewBag.SortBy = "Status";
+                        ViewBag.StatusSort = 1;
+                        break;
+
+                    case 4:
+                        offers = offers.OrderBy(o => o.IsActive).ThenBy(o => o.Title).ToList();
+                        ViewBag.SortBy = "Status";
+                        ViewBag.StatusSort = 0;
+                        break;
+
+                    //SORT BY DATE
+                    case 5:
+                        offers = offers.OrderByDescending(o => o.CreationDate).ToList();
+                        ViewBag.SortBy = "Date";
+                        ViewBag.CreationDateSort = 1;
+                        break;
+
+                    case 6:
+                        offers = offers.OrderBy(o => o.CreationDate).ToList();
+                        ViewBag.SortBy = "Date";
+                        ViewBag.CreationDateSort = 0;
+                        break;
+
+                    // SORTY BY PRICE
+                    case 7:
+                        offers = offers.OrderBy(o => o.Price).ToList();
+                        ViewBag.SortBy = "Price";
+                        ViewBag.PriceSort = 1;
+                        break;
+
+                    case 8:
+                        offers = offers.OrderByDescending(o => o.Price).ToList();
+                        ViewBag.SortBy = "Price";
+                        ViewBag.PriceSort = 0;
+                        break;
+
+                    //SORT BY LEFT
+                    case 9:
+                        offers = offers.OrderBy(o => o.InStockNow).ToList();
+                        ViewBag.SortBy = "Left";
+                        ViewBag.LeftSort = 1;
+                        break;
+
+                    case 10:
+                        offers = offers.OrderByDescending(o => o.InStockNow).ToList();
+                        ViewBag.SortBy = "Left";
+                        ViewBag.LeftSort = 0;
+                        break;
+
+                    //SORT BY SOLD
+                    case 11:
+                        offers = offers.OrderBy(o => o.InStockOriginaly - o.InStockNow).ToList();
+                        ViewBag.SortBy = "Sold";
+                        ViewBag.SoldSort = 1;
+                        break;
+
+                    case 12:
+                        offers = offers.OrderByDescending(o => o.InStockOriginaly - o.InStockNow).ToList();
+                        ViewBag.SortBy = "Sold";
+                        ViewBag.SoldSort = 0;
+                        break;
+
+                    //SORT BY CATEGORY
+                    case 13:
+                        offers = offers.OrderBy(o => o.Category.CategoryName).ToList();
+                        ViewBag.SortBy = "Category";
+                        ViewBag.CategorySort = 1;
+                        break;
+
+                    case 14:
+                        offers = offers.OrderByDescending(o => o.Category.CategoryName).ToList();
+                        ViewBag.SortBy = "Category";
+                        ViewBag.CategorySort = 0;
+                        break;
+
+                    default:
+                        offers = offers.OrderBy(o => o.OfferID).ToList();
+                        break;
+                }
+            }
+            else
+            {
+                ViewBag.TitleSort = 0;
+                ViewBag.StatusSort = 0;
+                ViewBag.CreationDateSort = 0;
+                ViewBag.PriceSort = 0;
+                ViewBag.LeftSort = 0;
+                ViewBag.SoldSort = 0;
+                ViewBag.CategorySort = 0;
+            }
 
             return View(offers);
         }
 
-        public ActionResult AddOffer()
+        public ActionResult AddOffer(bool? success)
         {
+            User editUser = db.Users.Where(u => u.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+
+            if (!editUser.IsActivated)
+            {
+                return RedirectToAction("Offers", "UserPanel", new { userActivated = false });
+            }
+
+            if (success != null && !(bool)success)
+            {
+                ViewBag.Success = "Oferta nie została utworzona.";
+            }
+
             List<Category> categoryList = db.Categories.ToList();
 
             return View(categoryList);
@@ -314,15 +454,18 @@ namespace ShopApp.Controllers
             int categoryID = int.Parse(collection["Category"]);
             Category offerCategory = db.Categories.Where(o => o.CategoryID == categoryID).FirstOrDefault();
 
+            string priceWithDot = collection["Price"].Contains(',') ? collection["Price"].Replace(',', '.') : collection["Price"];
+
             Offer offer = new Offer
             {
                 Title = collection["Name"],
                 Description = collection["Description"],
                 InStockOriginaly = Convert.ToDouble(collection["Quantity"]),
-                Price = Convert.ToDouble(collection["Price"]),
+                Price = Convert.ToDouble(priceWithDot),
                 Category = offerCategory,
                 User = editUser,
-                IsActive = true
+                IsActive = true,
+                CreationDate = DateTime.Now
             };
             offer.InStockNow = offer.InStockOriginaly;
 
@@ -348,14 +491,12 @@ namespace ShopApp.Controllers
                         {
                             OfferPicture offerPicture = new OfferPicture() { PathToFile = fileUrl, Offer = offer };
                             pictures.Add(offerPicture);
-
-                            ViewBag.Message = "File uploaded successfully";
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    ViewBag.Message = "ERROR:" + ex.Message.ToString();
+                    ViewBag.Error = "Wystąpił błąd: " + ex.Message.ToString();
                 }
             }
             else if (files.Count == 0)
@@ -365,19 +506,297 @@ namespace ShopApp.Controllers
             }
             else
             {
-                ViewBag.Message = "You have not specified a file.";
+                ViewBag.Error = "Brak zdjęć";
             }
 
-            offer.OfferPictures = pictures;
+            if (ViewBag.Error == null)
+            {
+                offer.OfferPictures = pictures;
+                db.SaveChanges();
+
+                offer.Category.Offers.Add(offer);
+                db.SaveChanges();
+
+                editUser.Offers.Add(offer);
+                db.SaveChanges();
+
+                return RedirectToAction("Offers", "UserPanel", new { success = true });
+            }
+            else
+            {
+                return RedirectToAction("AddOffer", "UserPanel", new { success = false });
+            }
+        }
+
+        public ActionResult DeactivateOffer(int? offerID)
+        {
+            if (offerID == null)
+            {
+                ViewBag.Error = "offerID == null";
+                return RedirectToAction("Offers", "UserPanel");
+            }
+
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            Offer offerToDeactivate = db.Offers.Where(o => o.OfferID == offerID).FirstOrDefault();
+
+            offerToDeactivate.IsActive = false;
             db.SaveChanges();
 
-            offer.Category.Offers.Add(offer);
+            offerToDeactivate.Bundle.IsActive = false;
             db.SaveChanges();
 
-            editUser.Offers.Add(offer);
+            //foreach (var offer in bundleToRemove.Offers)
+            //{
+            //    offer.Bundle = null;
+            //}
+            //db.SaveChanges();
+
+            //editUser.Offers.Remove(offerToDeactivate);
+            //db.SaveChanges();
+            //db.Offers.Remove(offerToDeactivate);
+            //db.SaveChanges();
+
+            return RedirectToAction("Offers", "UserPanel");
+        }
+
+        public ActionResult Bundles(bool? availableOffers, bool? addedBundle, int? sortBy)
+        {
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+
+            List<Bundle> userBundles = editUser.Bundles.ToList();
+
+            if (availableOffers != null && availableOffers == false)
+            {
+                ViewBag.NoOffers = "Brak dostępnych ofert do stworzenia zestawu!";
+            }
+
+            if (addedBundle != null && !(bool)addedBundle)
+            {
+                ViewBag.Success = "Zestaw stworzony pomyślnie!";
+            }
+
+            ViewBag.TitleSort = ViewBag.TitleSort == null ? 0 : ViewBag.TitleSort;
+            ViewBag.StatusSort = ViewBag.StatusSort == null ? 0 : ViewBag.StatusSort;
+            ViewBag.CreationDateSort = ViewBag.CreationDateSort == null ? 0 : ViewBag.CreationDateSort;
+            ViewBag.PriceSort = ViewBag.PriceSort == null ? 0 : ViewBag.PriceSort;
+            //ViewBag.CategorySort = ViewBag.CategorySort == null ? 0 : ViewBag.CategorySort;
+
+            if (sortBy != null)
+            {
+                switch (sortBy)
+                {
+                    // SORTY BY TITLE
+                    case 1:
+                        userBundles = userBundles.OrderBy(o => o.Title).ToList();
+                        ViewBag.SortBy = "Title";
+                        ViewBag.TitleSort = 1;
+                        break;
+
+                    case 2:
+                        userBundles = userBundles.OrderByDescending(o => o.Title).ToList();
+                        ViewBag.SortBy = "Title";
+                        ViewBag.TitleSort = 0;
+                        break;
+
+                    // SORTY BY PRICE
+                    case 3:
+                        userBundles = userBundles.OrderBy(o => o.BundlePrice).ToList();
+                        ViewBag.SortBy = "Price";
+                        ViewBag.PriceSort = 1;
+                        break;
+
+                    case 4:
+                        userBundles = userBundles.OrderByDescending(o => o.BundlePrice).ToList();
+                        ViewBag.SortBy = "Price";
+                        ViewBag.PriceSort = 0;
+                        break;
+
+                    //SORT BY STATUS
+                    case 5:
+                        userBundles = userBundles.OrderByDescending(o => o.IsActive).ThenBy(o => o.Title).ToList();
+                        ViewBag.SortBy = "Status";
+                        ViewBag.StatusSort = 1;
+                        break;
+
+                    case 6:
+                        userBundles = userBundles.OrderBy(o => o.IsActive).ThenBy(o => o.Title).ToList();
+                        ViewBag.SortBy = "Status";
+                        ViewBag.StatusSort = 0;
+                        break;
+
+                    //SORT BY DATE
+                    case 7:
+                        userBundles = userBundles.OrderByDescending(o => o.CreationDate).ToList();
+                        ViewBag.SortBy = "Date";
+                        ViewBag.CreationDateSort = 1;
+                        break;
+
+                    case 8:
+                        userBundles = userBundles.OrderBy(o => o.CreationDate).ToList();
+                        ViewBag.SortBy = "Date";
+                        ViewBag.CreationDateSort = 0;
+                        break;
+
+
+                    ////SORT BY CATEGORY
+                    //case 13:
+                    //    userBundles = userBundles.OrderBy(o => o.Category.CategoryName).ToList();
+                    //    ViewBag.SortBy = "Category";
+                    //    ViewBag.CategorySort = 1;
+                    //    break;
+
+                    //case 14:
+                    //    userBundles = userBundles.OrderByDescending(o => o.Category.CategoryName).ToList();
+                    //    ViewBag.SortBy = "Category";
+                    //    ViewBag.CategorySort = 0;
+                    //    break;
+
+                    default:
+                        userBundles = userBundles.OrderBy(o => o.BundleID).ToList();
+                        break;
+                }
+            }
+            else
+            {
+                ViewBag.TitleSort = 0;
+                ViewBag.StatusSort = 0;
+                ViewBag.CreationDateSort = 0;
+                ViewBag.PriceSort = 0;
+                ViewBag.LeftSort = 0;
+                ViewBag.SoldSort = 0;
+                ViewBag.CategorySort = 0;
+            }
+
+
+            return View(userBundles);
+        }
+
+        public ActionResult AddBundle(bool? noPickedOffers)
+        {
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            List<Offer> userOffers = editUser.Offers.Where(o => o.IsActive == true && o.InStockNow > 0 && o.Bundle == null).ToList();
+
+            if (noPickedOffers != null && noPickedOffers == true)
+            {
+                ViewBag.NoPickedOffers = "Musisz wybrać przynajmniej jedną ofertę by stworzyć zestaw!";
+            }
+
+
+            if (userOffers.Count > 0)
+                return View(userOffers);
+            else
+            {
+                return RedirectToAction("Bundles", "UserPanel", new { availableOffers = false });
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AddBundle(FormCollection collection)
+        {
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+
+            Bundle newBundle = new Bundle();
+
+            double offersPriceSum = 0.0;
+            double bundlePrice = 0.0;
+            List<Offer> bundleOffers = new List<Offer>();
+
+            if (collection["OffersInBundle"] == null)
+            {
+                return RedirectToAction("AddBundle", "UserPanel", new { noPickedOffers = true });
+            }
+
+            string[] offerIDs = collection["OffersInBundle"].Split(',');
+            foreach (var offerID in offerIDs)
+            {
+                if (int.TryParse(offerID, out int ID))
+                {
+                    Offer offer = db.Offers.Where(o => o.OfferID == ID).FirstOrDefault();
+                    bundleOffers.Add(offer);
+
+                    string offerQuantity = "OffersQuantity_" + offerID;
+                    offersPriceSum += offer.Price * int.Parse(collection[offerQuantity]);
+                }
+            }
+
+            if (collection["RadioDiscount"] == "CurrencyDiscount")
+            {
+                if (double.TryParse(collection["CurrencyDiscountValue"], out double discount))
+                {
+                    bundlePrice = offersPriceSum - discount;
+                }
+                else
+                {
+                    ViewBag.Error = "Cant parse discount to double";
+                }
+            }
+            else if (collection["RadioDiscount"] == "PercentDiscount")
+            {
+                if (int.TryParse(collection["PercentDiscountValue"], out int discount))
+                {
+                    bundlePrice = Math.Round(offersPriceSum - offersPriceSum * discount / 100, 2);
+                }
+                else
+                {
+                    ViewBag.Error = "Cant parse discount to int";
+                }
+            }
+            else
+            {
+                bundlePrice = offersPriceSum;
+            }
+
+            newBundle.Title = collection["BundleTitle"];
+            newBundle.Offers = bundleOffers;
+            newBundle.OffersPriceSum = offersPriceSum;
+            newBundle.BundlePrice = bundlePrice;
+            newBundle.CreationDate = DateTime.Now;
+            newBundle.IsActive = true;
+            newBundle.User = editUser;
+
+            if (ViewBag.Error == null)
+            {
+                db.Bundles.Add(newBundle);
+                db.SaveChanges();
+
+                editUser.Bundles.Add(newBundle);
+                db.SaveChanges();
+                return RedirectToAction("Bundles", "UserPanel", new { addedBundle = true });
+            }
+            else
+            {
+                return RedirectToAction("Bundles", "UserPanel", new { addedBundle = false });
+            }
+
+        }
+
+        public ActionResult DeactivateBundle(int? bundleID)
+        {
+            if (bundleID == null)
+            {
+                ViewBag.Error = "BundleID == null";
+                return RedirectToAction("Bundles", "UserPanel");
+            }
+
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            Bundle bundleToDeactivate = db.Bundles.Where(b => b.BundleID == bundleID).FirstOrDefault();
+
+            bundleToDeactivate.IsActive = false;
             db.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            foreach (var offer in bundleToDeactivate.Offers)
+            {
+                offer.Bundle = null;
+            }
+            db.SaveChanges();
+
+
+            //editUser.Bundles.Remove(bundleToDeactivate);
+            //db.SaveChanges();
+            //db.Bundles.Remove(bundleToDeactivate);
+            //db.SaveChanges();
+
+            return RedirectToAction("Bundles", "UserPanel");
         }
 
         #endregion
@@ -389,15 +808,123 @@ namespace ShopApp.Controllers
 
         public ActionResult Communicator()
         {
-            return View();
+            string senderName = "ovrael";
+            string receiverName = "AdministratorZakupowo";
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            User sender = db.Users.Where(i => i.Login == senderName).First();
+            User receiver = db.Users.Where(i => i.Login == receiverName).First();
+            List<Message> lastMessages = new List<Message>();
+            HashSet<User> uniqueUsers = new HashSet<User>();
+
+            List<List<Message>> allMessages = new List<List<Message>>();
+            //DODAWANIE NOWEJ WIADOMOŚCI
+            //Message msg = new Message() { Sender = sender, Receiver = receiver, Content = "Wiadomość od " + sender.Login + "\t do " + receiver.Login, SentTime = DateTime.Now };
+
+            //Debug.WriteLine(msg.ToString());
+
+            //db.Messages.Add(msg);
+            //db.SaveChanges();
+
+            //receiver.ReceivedMessages.Add(msg);
+            //db.SaveChanges();
+
+            //sender.SentMessages.Add(msg);
+            //db.SaveChanges();
+
+            var groupUserWithMessages = editUser.ReceivedMessages.GroupBy(m => m.Sender).Distinct().ToList();
+
+
+
+            //var x = editUser.SentMessages.GroupBy(m => m.Receiver).Distinct().ToList();
+            var lastReceivedMessages = editUser.ReceivedMessages.OrderByDescending(m => m.SentTime).DistinctBy(m => m.Sender).ToList();
+            var lastSentMessages = editUser.SentMessages.OrderByDescending(m => m.SentTime).DistinctBy(m => m.Receiver).ToList();
+
+            lastMessages.AddRange(lastReceivedMessages);
+
+            foreach (var item in lastReceivedMessages)
+            {
+                uniqueUsers.Add(item.Sender);
+            }
+
+            foreach (var item in lastSentMessages)
+            {
+                uniqueUsers.Add(item.Sender);
+            }
+
+            uniqueUsers.Remove(editUser);
+
+
+            foreach (var user in uniqueUsers)
+            {
+                allMessages.Add(editUser.AllMesseges().Where(m => m.Receiver == user || m.Sender == user).OrderBy(m => m.SentTime).ToList());
+            }
+
+            ViewBag.AllMessages = allMessages;
+
+            lastMessages.Sort();
+
+            var receivedGroups = editUser.ReceivedMessages.OrderBy(m => m.SentTime).GroupBy(m => m.Sender).ToList();
+            var sentGroups = editUser.SentMessages.OrderBy(m => m.SentTime).GroupBy(m => m.Receiver).ToList();
+
+            //Debug.WriteLine("receivedGroups");
+            //foreach (var item in receivedGroups)
+            //{
+            //    Debug.WriteLine("---------------------------------------------Wiadomości od: " + item.Key.Login);
+
+            //    foreach (var message in item)
+            //    {
+            //        Debug.WriteLine(message.ToString());
+            //    }
+            //}
+
+            //Debug.WriteLine("sentGroups");
+            //foreach (var item in sentGroups)
+            //{
+            //    Debug.WriteLine("---------------------------------------------Wiadomości do: " + item.Key.Login);
+
+            //    foreach (var message in item)
+            //    {
+            //        Debug.WriteLine(message.ToString());
+            //    }
+            //}
+
+
+            ViewBag.ReceivedGroups = receivedGroups;
+            ViewBag.SentGroups = sentGroups;
+
+            return View(lastReceivedMessages);
         }
-        public ActionResult AddProductSet()
+
+        public ActionResult LearningJS()
         {
             return View();
         }
-        public ActionResult ProductSet()
+
+        public JsonResult SendMessage(string receiverID, string content)
         {
-            return View();
+            if (receiverID != "" && content != "" && int.TryParse(receiverID, out int int_receiverID))
+            {
+                User sender = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+                User receiver = db.Users.Where(i => i.UserID == int_receiverID).First();
+
+                Message msg = new Message() { Sender = sender, Receiver = receiver, Content = content, SentTime = DateTime.Now };
+
+                db.Messages.Add(msg);
+                db.SaveChanges();
+
+                receiver.ReceivedMessages.Add(msg);
+                db.SaveChanges();
+
+                sender.SentMessages.Add(msg);
+                db.SaveChanges();
+
+                return Json("success", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("error", JsonRequestBehavior.AllowGet);
+            }
+
         }
     }
 }

@@ -1,0 +1,187 @@
+﻿.filter-button {
+    background-color: white;
+    box-shadow: none;
+    border-radius: 2px;
+    color: #495057;
+    border: 1px solid rgb(206, 212, 218);
+    border-radius: .25rem;
+}
+
+    .filter-button:hover, .filter-button:active {
+        color: #495057 !important;
+        border: 1px solid rgb(206, 212, 218) !important;
+        background-color: white !important;
+    }
+
+.offers-main, .offers-menu-filters {
+    background-color: white;
+}
+
+.product-name {
+    color: black;
+    font-size: 18px;
+}
+
+.product-price {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.seller-name {
+    color: #FFB24A;
+    font-weight: 700;
+}
+
+    .seller-name:hover, .seller-name:visited {
+        color: #FFB24A;
+    }
+
+.product-name:hover, .product-name:active {
+    color: #6684A1;
+}
+
+.product-fav {
+    font-size: 14px;
+    transition: 0.4s;
+    color: grey;
+    float: right;
+    clear: both;
+}
+
+.fav-active {
+    color: red !important;
+}
+
+.addToBucket {
+    color: #FFB24A;
+    letter-spacing: 1px;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+    .addToBucket:hover, .addToBucket:visited {
+        color: #FFB24A;
+    }
+
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 90px;
+    left: 0;
+    background-color: white;
+    z-index: 999;
+    padding: 20px;
+    font-size: 18px;
+}
+
+    .overlay > .row > .col-12 > form > h2 {
+        font-size: 38px;
+    }
+
+    .overlay > .row > .col-12 > form > h5 {
+        font-size: 24px;
+    }
+
+.fa-times {
+    font-size: 32px;
+    position: fixed;
+    right: 20px;
+}
+
+.filterSubmit, .filterSubmit:hover, .filterSubmit:active {
+    background-color: #FFB24A !important;
+    box-shadow: none;
+    border: none;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border-radius: 2px;
+    color: white;
+    width: 100%;
+}
+
+.overlay > .row > .col-12 > form > .filterSubmit {
+    position: fixed;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+}
+
+.offer-desc {
+    position: relative;
+}
+
+.addToBucket {
+    position: absolute;
+    bottom: 0;
+}
+
+.product-fav {
+    position: absolute;
+    bottom: 0;
+    right: 5%;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.switch {
+    background-color: white !important;
+    border-color: black;
+    color: black;
+    width: 100px;
+}
+
+    .switch:hover, .switch:active, .switch:focus {
+        border-color: black !important;
+        background-color: #FFB24A !important;
+        color: black;
+    }
+
+.on {
+    border-color: black !important;
+    background-color: #FFB24A !important;
+    color: black;
+}
+
+.btn-popout {
+    background-color: #FFB24A !important;
+    border: 1px solid black;
+}
+
+.in-bucket, .in-bucket:hover, .in-bucket:active, .in-bucket:focus {
+    cursor: not-allowed;
+    color: grey;
+}
+
+@media (min-width: 992px) {
+    .offers-header {
+        width: 60%;
+    }
+    .container-fluid {
+        padding-top: 50px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .product-name {
+        font-size: 26px;
+    }
+    .product-price {
+        font-size: 22px;
+    }
+    .product-fav {
+        font-size: 22px;
+    }
+    .addToBucket {
+        font-size: 16px;
+    }
+    .offers-header {
+        width: 60%;
+    }
+
+    .container-fluid {
+        padding-top: 70px;
+    }
+}

@@ -4,10 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using ShopApp.DAL;
 
 namespace ShopApp.Models
 {
-    public class Offer
+    public class Offer : IConcurrencyAwareEntity
     {
         [Key]
         public int OfferID { get; set; }
@@ -35,7 +36,8 @@ namespace ShopApp.Models
         public virtual Category Category { get; set; }
         public virtual Bundle Bundle { get; set; }
         public virtual ICollection<BucketItem> BucketItems { get; set; }
-        public virtual ICollection<FavouriteOffer> FavouriteOffer { get; set; }
+        public virtual ICollection<Favourite> FavouriteOffer { get; set; }
         public virtual ICollection<OfferPicture> OfferPictures { get; set; }
+        public byte[] RowVersion { get; set; }
     }
 }

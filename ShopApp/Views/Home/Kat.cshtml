@@ -1,34 +1,212 @@
-﻿@model IEnumerable<ShopApp.Models.Offer>
+﻿@model ShopApp.ViewModels.OffersAndBundles
+
+@Styles.Render("~/bundles/Kat")
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 @{
     // Wyświetl komunikat o braku ofert w danej kategorii
-    if (Model.Count() == 0)
+    if (ViewBag.Message != null)
     {
-            <div class="messages-box h5">
-                    <div class="alert alert-danger">BRAK PRODUKTÓW W TEJ KATEGORII</div>
-            </div>
-        }
+        <div class="messages-box h5">
+            <div class="alert alert-danger">@ViewBag.Message</div>
+        </div>
     }
-@foreach (var item in Model)
-        {
-            string pictureUrl = string.Empty;
-            if (item.OfferPictures.Count > 0)
-            {
-                pictureUrl = item.OfferPictures.ToList()[0].PathToFile;
-            }
-            else
-            {
-                pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
-            }
+    else
+    {
 
-            <a href="@Url.Action("Index","Offer",new { OfferID = item.OfferID})">
-            <div  class="offer-box">
-                <img class="img-fluid rounded" style="height:50%;" src="@pictureUrl" />
-                <h2>@item.Title</h2>
-                <p>@item.Description</p>
+        //if (User != null)
+        //{
+        //    foreach (var item in User.FavouriteOffer)
+        //    {
+        //        if (item.Offer.OfferID == Model.OfferID)
+        //        {
+        //            IsFav = true;
+        //        }
+        //    }
+        //}
+    }
+    <div class="overlay d-none">
+        <div class="row">
+            <div class="col-12">
+                <i class="fas fa-times"></i>
+                <form name="mform">
+                    <h2 class="my-1">Filtry</h2>
+                    <h5 class="my-3">Cena</h5>
+                    <p>
+                        <input type="text" id="mamount" readonly style="border:0; color:#FFB24A; font-weight:bold">
+                    </p>
+                    <div id="mslider-range"></div>
+                    <h5 class="my-3">Stan</h5>
+                    <input type="checkbox" value="" name="mstate" id="mstatenew">
+                    <label for="mstatenew">Nowy</label>
+                    <br>
+                    <input type="checkbox" value="" name="mstateold" id="mstateold">
+                    <label for="mstateold">Używany</label>
+                    <input class="btn btn-primary filterSubmit d-block p-3" type="submit" value="POKAŻ OFERTY">
+                </form>
             </div>
-            </a>
-        }
+        </div>
+    </div>
+    <div class="row offers-header text-center mx-auto">
+        <div class="col-12">
+            <h1 class="my-lg-4 mt-lg-2 mt-2">
+                Kategoria
+            </h1>
+            <hr>
+        </div>
+    </div>
+    <div class="row offers offer-row p-2 mb-3 mx-lg-auto justify-content-center">
+        <div class="col-2 d-none d-lg-block offers-menu-filters m-2 p-4 shadow">
+            <form name="dform" method="post">
+                <h2 class="my-1">Filtry</h2>
+                <h5 class="my-3">Cena</h5>
+                <p>
+                    <input type="text" id="damount" readonly style="border:0; color:#FFB24A; font-weight:bold">
+                </p>
+                <div id="dslider-range"></div>
+                <h5 class="my-3">Stan</h5>
+                <input type="checkbox" value="" name="dstate" id="dstatenew">
+                <label for="statenew">Nowy</label>
+                <br>
+                <input type="checkbox" value="" name="dstateold" id="dstateold">
+                <label for="dstateold">Używany</label>
+                <input class="btn btn-primary filterSubmit d-block p-3 mx-auto mt-2" type="submit" value="POKAŻ OFERTY">
+            </form>
+        </div>
+        <div class="col-12 col-lg-6 offers-main m-lg-2 shadow p-3">
+            <div class="row offers-filters justify-content-between">
+                <div class="col-12 mb-2 text-center">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn switch switch-offer btn-primary on">Oferty</button>
+                        <button type="button" class="btn switch switch-bundle btn-secondary">Zestawy</button>
+                    </div>
+                </div>
+                <div class="col-9 col-lg-12 mx-lg-2">
+                    <select class="form-control">
+                        <option>cena: od najniższej</option>
+                        <option>cena: od najwyższej</option>
+                    </select>
+                </div>
+                <div class="col-3 d-lg-none text-center">
+                    <button class="btn btn-primary filter-button w-100">Filtry</button>
+                </div>
+            </div>
+            @if (Model.Offers != null)
+            {
+                foreach (var item in Model.Offers)
+                {
+                    string pictureUrl = string.Empty;
+                    if (item.OfferPictures.Count > 0)
+                    {
+                        pictureUrl = item.OfferPictures.First().PathToFile;
+                    }
+                    else
+                    {
+                        pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
+                    }
 
+                    <div class="row offer item-row p-2 m-0 mt-1">
+                        <div class="col-12 col-lg-4 text-center offer-img my-auto">
+                            <img class="img-fluid" src="@pictureUrl">
+                        </div>
+                        <div class="col-12 col-lg-8 offer-desc p-0">
+                            <h3><a class="product-name" href="@Url.Action("Index","Offer",new { OfferID = item.OfferID})">@item.Title</a></h3>
+                            <p class="seller d-none d-lg-block mb-0">Sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
+                            <h3 class="product-price mb-3">@item.Price zł</h3>
+                            <p class="offer-count d-none d-lg-block pb-3">Dostępne: @item.InStockNow</p>
+                            <br>
+                            @if (HttpContext.Current.User.Identity.IsAuthenticated)
+                            {
+                                if (Model.InBucketOffersIDs != null && Model.InBucketOffersIDs.Contains(item.OfferID))
+                                {
+                                    <a class="addToBucket in-bucket" data-type="Offer" id="@item.OfferID">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
+                                }
+                                else
+                                {
+                                    <a class="addToBucket" data-type="Offer" id="@item.OfferID">DODAJ DO KOSZYKA</a>
+                                }
+                                if (Model.FavouriteOffersIDs != null && Model.FavouriteOffersIDs.Contains(item.OfferID))
+                                {
+                                    <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Offer" id="@item.OfferID"></i>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Offer" id="@item.OfferID"></i>
+                                }
+                            }
+                            else
+                            {
+                                <a class="addToBucket not-logged">DODAJ DO KOSZYKA</a>
+                                <i class="fas fa-heart fa-fw product-fav not-logged"></i>
+                            }
+                        </div>
+                        <hr class="w-100">
+                    </div>
+                }
+            }
+            @if (Model.Bundles != null)
+            {
+                foreach (var item in Model.Bundles)
+                {
+                    string pictureUrl = string.Empty;
+                    if (item.Offers.First().OfferPictures.Count > 0)
+                    {
+                        pictureUrl = item.Offers.First().OfferPictures.First().PathToFile;
+                    }
+                    else
+                    {
+                        pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
+                    }
+
+                    <div class="row offer bundle-row d-none p-2 mt-1">
+                        <div class="col-12 col-lg-4 text-center my-auto">
+                            <img class="img-fluid" src="@pictureUrl">
+                        </div>
+                        <div class="col-12 col-lg-8 offer-desc p-0">
+                            <h3><a class="product-name" href="@Url.Action("Index","Offer",new { BundleID = item.BundleID})">@item.Title \*Zestaw ma sie pokazac w zakladce zestawy*\</a></h3>
+                            <p class="seller d-none d-lg-block mb-0">Sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
+                            <h3 class="product-price mb-1">@item.BundlePrice zł</h3>
+                            <h3 class="product-price mb-1" style="text-decoration: line-through;">@item.OffersPriceSum zł</h3>
+                            <br>
+                            @if (HttpContext.Current.User.Identity.IsAuthenticated)
+                            {
+                                if (Model.InBucketBundlesIDs.Contains(item.BundleID))
+                                {
+                        <a class="addToBucket in-bucket" data-type="Bundle" id="@item.BundleID">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
+                                }
+                                else
+                                {
+                                    <a class="addToBucket" data-type="Bundle" id="@item.BundleID">DODAJ DO KOSZYKA</a>
+                                }
+                                if (Model.FavouriteBundlesIDs != null && Model.FavouriteBundlesIDs.Contains(item.BundleID))
+                                {
+                                    <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Bundle" id="@item.BundleID."></i>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Bundle" id="@item.BundleID"></i>
+                                }
+                            }
+                            else
+                            {
+                                <a class="addToBucket not-logged">DODAJ DO KOSZYKA</a>
+                                <i class="fas fa-heart fa-fw product-fav not-logged"></i>
+                            }
+                        </div>
+                        <hr class="w-100">
+                    </div>
+                }
+
+            }
+
+        </div>
+    </div>
+}
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+        integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+@Scripts.Render("~/bundles/BucketAndFavjs")
+@Scripts.Render("~/bundles/Katjs")
 
 

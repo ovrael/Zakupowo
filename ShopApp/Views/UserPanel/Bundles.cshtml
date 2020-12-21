@@ -1,80 +1,210 @@
-﻿@Html.Partial("_SideBar")
+﻿
 
+@model IEnumerable<ShopApp.Models.Bundle>
+@{
+    ViewBag.Title = "Zestawy";
+}
+
+@Html.Partial("_SideBar")
 
 @Styles.Render("~/bundles/UserPanel")
 
+<div class="container pl-5">
 
-
-<div class="container">
     <div class="row">
-        <div class="col-12 pl-5">
-            <div class="add-product-set">
+        <div class="col-12">
+            <div class="use-add-product pb-3">
                 <div class=" row justify-content-center">
                     <div class="row mb-4 mr-1">
-                        <div class="col p-0 pt-3 font-weight-bold"> <h3> Stwórz zestaw</h3> </div>
+                        <div class="col p-0 pt-3 font-weight-bold"> <h3> Moje zestawy</h3> </div>
                     </div>
                 </div>
+
+
                 <div class="col-md " style="display: inline-block;">
-                    <a class="btn btn-dark" href="@Url.Action("AddBundle", "UserPanel")">Stwórz nowy zestaw!</a>
+                    <a class="btn btn-outline-warning" href="@Url.Action("AddBundle", "UserPanel")">Stwórz nowy zestaw!</a>
+                </div>
+
+                <div class="col-5">
+                    @if (ViewBag.NoOffers != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible mt-3 ml-3">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong><i class="fas fa-info-circle"></i></strong> @ViewBag.NoOffers
+                        </div>
+                    }
+
+                    @if (ViewBag.Success != null)
+                    {
+                        <div class="alert alert-secondary alert-dismissible mt-3 ml-3">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong><i class="fas fa-info-circle"></i></strong> @ViewBag.Success
+                        </div>
+                    }
+                </div>
+
+                <hr>
+                <div class="row justify-content-center pl-4">
+                    <h6>W tym miejscu możesz dodawać, przeglądać, edytować oraz deaktywować swoje zestawy.</h6>
                 </div>
                 <hr>
-                <div class="row justify-content-center">
-                    <h6>Co to jest zestaw</h6>
-                </div>
-                <hr>
-                <div class="row pl-4 pb-3">
-                    <h6>Twoje zestawy: </h6>
-                </div>
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Nazwa</th>
-                            <th scope="col">Cena</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Ilość</th>
-                            <th scope="col">Ustawienia</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Telewizor</td>
-                            <td>1200 zł</td>
-                            <td>25 sztuk</td>
-                            <td>Atualne</td>
-                            <td>
-                                <button type="button" class="btn btn-light">Edytuj</button>
-                                <button type="button" class="btn btn-light">Usuń</button>
-                            </td>
 
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Laptop</td>
-                            <td>3000 zł</td>
-                            <td>- sztuk</td>
-                            <td>Nieaktualne</td>
-                            <td>
-                                <button type="button" class="btn btn-light">Edytuj</button>
-                                <button type="button" class="btn btn-light">Usuń</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Aparat</td>
-                            <td>2000 zł </td>
-                            <td>50 sztuk</td>
-                            <td>Aktualne</td>
-                            <td>
-                                <button type="button" class="btn btn-light">Edytuj</button>
-                                <button type="button" class="btn btn-light">Usuń</button>
-                            </td>
 
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                @{
+                    string titleSign = string.Empty;
+                    //string categorySign = string.Empty;
+                    string statusSign = string.Empty;
+                    string dateSign = string.Empty;
+                    string priceSign = string.Empty;
+
+                    if (ViewBag.SortBy != null)
+                    {
+                        string sortBy = ViewBag.SortBy;
+                        switch (sortBy)
+                        {
+                            case "Title":
+                                titleSign = ViewBag.TitleSort == 0 ? "↑" : "↓";
+                                break;
+                            //case "Category":
+                            //    categorySign = ViewBag.CategorySort == 0 ? "↑" : "↓";
+                            // break;
+                            case "Status":
+                                statusSign = ViewBag.StatusSort == 0 ? "↓" : "↑";
+                                break;
+                            case "Date":
+                                dateSign = ViewBag.CreationDateSort == 0 ? "↓" : "↑";
+                                break;
+                            case "Price":
+                                priceSign = ViewBag.PriceSort == 0 ? "↑" : "↓";
+                                break;
+                        }
+                    }
+
+
+                    if (Model.Count() > 0)
+                    {
+                        <div class="row pl-4 pb-3">
+                            <h6>Twoje zestawy: </h6>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">
+                                            <a class="text-white" href="@Url.Action("Bundles","UserPanel",new { sortBy = 1 + ViewBag.TitleSort})">Nazwa @titleSign</a>
+                                        </th>
+                                        @*<th scope="col">
+                                    <a href="@Url.Action("Bundles","UserPanel",new { sortBy = 13 + ViewBag.CategorySort})">Kategoria @categorySign</a>
+                                </th>*@
+                                        <th scope="col">
+                                            <a class="text-white" href="@Url.Action("Bundles","UserPanel",new { sortBy = 3 + ViewBag.PriceSort})">Cena [ zł ] @priceSign</a>
+                                        </th>
+                                        <th scope="col">
+                                            <a class="text-white" href="@Url.Action("Bundles","UserPanel",new { sortBy = 5 + ViewBag.StatusSort})">Status @statusSign</a>
+                                        </th>
+                                        <th scope="col">
+                                            <a class="text-white" href="@Url.Action("Bundles","UserPanel",new { sortBy = 7 + ViewBag.CreationDateSort})">Dodano @dateSign</a>
+                                        </th>
+                                        <th class="text-white text-center" scope="colgroup" colspan="3">Ustawienia</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int n = 0;
+                                        foreach (var bundle in Model)
+                                        {
+                                            n++;
+                                            string status = bundle.IsActive ? "Aktywny" : "Nieaktywny";
+                                            string statusColorClass = bundle.IsActive ? "text-success" : "text-danger";
+                                            string bundleWarning = "#warningBeforeDeactivate_" + bundle.BundleID;
+
+                                            <tr>
+                                                <td>@bundle.Title</td>
+                                                <td>@bundle.BundlePrice</td>
+                                                <td>
+                                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Status mówi o tym czy zestaw jest aktywny">
+                                                        <a class="@statusColorClass" style="pointer-events: none;"><b>@status</b></a>
+                                                    </span>
+                                                </td>
+                                                <td>@bundle.CreationDate</td>
+
+                                                @if (bundle.IsActive)
+                                                {
+                                                    <td>
+                                                        <button type="button" class="btn btn-outline-warning">Edytuj</button>
+                                                    </td>
+                                                    <td>
+                                                        <div class="col-md-2 ">
+                                                            <button data-toggle="modal" data-target="@bundleWarning" class="btn btn-outline-danger">Dezaktywuj</button>
+                                                        </div>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td colspan="2">
+                                                        <button class="btn btn-outline-dark" href="#"> Zobacz zestaw </button>
+                                                    </td>
+                                                }
+
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                            </div>
+                            }
+                            else
+                            {
+                            <div class="alert alert-secondary" role="alert">
+                                Nie utworzyłeś jeszcze żadnych zestawów!
+                            </div>
+                            }
+                            }
+
+                        </div>
+                    </div>
     </div>
 </div>
+
+
+@{
+    foreach (var bundle in Model)
+    {
+        string bundleWarning = "warningBeforeDeactivate_" + bundle.BundleID;
+
+        <div class="modal fade" id="@bundleWarning" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">
+                            Czy na pewno chcesz dezaktywować zestaw:
+                            <br />
+                            "@bundle.Title"?
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Pamiętaj, że dezaktywowany zestaw nie zniknie z serwisu.
+                            <br />
+                            Jego status zostanie zaktualizawny do <i>nieaktywnego</i>.
+                            <br />
+                            Nie będzie można go kupić, ale nadal będzie można go przeglądać.
+                            <br /><br />
+                            <i>Wszystkie oferty z zestawu będą dalej dostępne do kupienia oraz ponownie będą mogły wejść w skład (nowego) zestawu.</i>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Nie usuwaj</button>
+                        <a href="@Url.Action("DeactivateBundle", "UserPanel", new { bundleID = bundle.BundleID })" class="btn-outline-danger btn" title="DeactivateButton">Dezaktywuj</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+
+

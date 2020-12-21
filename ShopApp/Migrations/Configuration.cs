@@ -11,7 +11,7 @@ using ShopApp.DAL;
 
 namespace ShopApp.Migrations
 {
-    internal sealed class Configuration : DbMigrationsConfiguration<ShopApp.DAL.ShopContext>
+    public sealed class Configuration : DbMigrationsConfiguration<ShopApp.DAL.ShopContext>
     {
         public Configuration()
         {
@@ -21,7 +21,7 @@ namespace ShopApp.Migrations
 
         protected override void Seed(ShopContext context)
         {
-            /*
+
             var users = new List<User>
             {
                 new User{ Email="Seed@mail.com",
@@ -32,7 +32,7 @@ namespace ShopApp.Migrations
                     Phone ="123456789"
                 }
             };
-            users.ForEach(u => context.Users.Add(u));
+            users.ForEach(u => context.Users.AddOrUpdate(u));
             context.SaveChanges();
 
             var categories = new List<Category>
@@ -66,7 +66,7 @@ namespace ShopApp.Migrations
                 new Category{ CategoryID = 14,CategoryName="Inne",
                     CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"}
             };
-            categories.ForEach(u => context.Categories.Add(u));
+            categories.ForEach(u => context.Categories.AddOrUpdate(u));
             context.SaveChanges();
 
             var adresses = new List<ShippingAdress>
@@ -81,9 +81,9 @@ namespace ShopApp.Migrations
                     User = users[0]
                 }
             };
-            adresses.ForEach(a => context.ShippingAdresses.Add(a));
+            adresses.ForEach(a => context.ShippingAdresses.AddOrUpdate(a));
             context.SaveChanges();
-            */
+
         }
     }
 }

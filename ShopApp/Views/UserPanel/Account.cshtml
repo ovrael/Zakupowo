@@ -10,6 +10,11 @@
     string avatarUrl = string.Empty;
     string defaultAvatarUrl = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg";
     string accountStatus = Model.IsActivated ? "Aktywowane" : "Nieaktywowane";
+    string phoneNumber = Model.Phone != null ? Model.Phone : "Brak numeru telefonu";
+    string phoneNumberStyle = Model.Phone != null ? string.Empty : "font-style: italic;";
+    string statusColorClass = Model.IsActivated ? "text-success" : "text-danger";
+
+
 
     if (Model.AvatarImage != null)
     {
@@ -23,7 +28,7 @@
 
 @Html.Partial("_SideBar")
 
-<div class="container pl-5">
+<div class="container pl-5 pb-3">
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -97,8 +102,8 @@
                                         <div class="col-sm-3 col-md-2 col-5">
                                             <label style="font-weight:bold;">Telefon</label>
                                         </div>
-                                        <div class="col-md-8 col-6">
-                                            @Model.Phone
+                                        <div class="col-md-8 col-6" style="@phoneNumberStyle">
+                                            @phoneNumber
                                         </div>
                                     </div>
                                     <hr />
@@ -127,8 +132,8 @@
                                         <div class="col-sm-3 col-md-2 col-5">
                                             <label style="font-weight:bold;">Status konta</label>
                                         </div>
-                                        <div class="col-md-8 col-6">
-                                            @accountStatus
+                                        <div class="col-md-8 col-6 @statusColorClass">
+                                            <b>@accountStatus</b>
                                         </div>
                                     </div>
 

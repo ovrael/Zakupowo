@@ -1,4 +1,4 @@
-.items {
+.items-group {
     background-color: white;
 }
 
@@ -46,6 +46,14 @@
     color: rgb(77, 76, 76);
     background-color: white;
     border: 1px solid black;
+}
+
+.selected {
+    outline: solid 2px #FFB24A;
+}
+
+.bucket-summary {
+    background-color: white;
 }
 
 @media (min-width: 992px) {

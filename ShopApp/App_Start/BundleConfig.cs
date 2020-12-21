@@ -27,10 +27,23 @@ namespace ShopApp
                         "~/Scripts/layout.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Offerjs").Include(
-                        "~/Scripts/offer.js"));
+                        "~/Scripts/Offer.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/Bucketjs").Include(
                         "~/Scripts/bucket.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Katjs").Include(
+                        "~/Scripts/kat.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/BucketAndFavjs").Include(
+                        "~/Scripts/BucketAndFavouriteManagement.js",
+                        "~/Scripts/Bucket.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Favouritejs").Include(
+                        "~/Scripts/Fav.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Orderjs").Include(
+                        "~/Scripts/Order.js"));
 
             // Użyj wersji deweloperskiej biblioteki Modernizr do nauki i opracowywania rozwiązań. Następnie, kiedy wszystko będzie
             // gotowe do produkcji, użyj narzędzia do kompilowania ze strony https://modernizr.com, aby wybrać wyłącznie potrzebne testy.
@@ -62,6 +75,12 @@ namespace ShopApp
 
             bundles.Add(new StyleBundle("~/bundles/Bucket").Include(
                        "~/Content/bucket.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/Kat").Include(
+                       "~/Content/kat.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/Order").Include(
+                "~/Content/CashOut.css"));
 
         }
     }

@@ -12,63 +12,233 @@
 <div class="container pl-5">
     <div class="row">
         <div class="col-12">
-            <div class="use-add-product">
+            <div class="use-add-product pb-3">
 
-                <a href="@Url.Action("AddOffer", "UserPanel")" class="btn btn-outline-warning" role="button">Dodaj ofertę!</a>
+                <div class=" row justify-content-center">
+                    <div class="row mb-4 mr-1">
+                        <div class="col p-0 pt-3 font-weight-bold"> <h3> Moje oferty </h3> </div>
+                    </div>
+                </div>
+                <div class="col pb-3">
+                    <a href="@Url.Action("AddOffer", "UserPanel")" class="btn btn-outline-warning" role="button">Dodaj ofertę!</a>
+
+                    @if (ViewBag.UserNotActivated != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible mt-3">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong><i class="fas fa-info-circle"></i></strong> @ViewBag.UserNotActivated
+                        </div>
+
+                    }
+
+                    @if (ViewBag.Success != null)
+                    {
+                        <div class="alert alert-secondary alert-dismissible mt-3">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong><i class="fas fa-info-circle"></i></strong> @ViewBag.Success
+                        </div>
+                    }
+
+
+                    <hr>
+                    <div class="row justify-content-center pl-4">
+                        <h6> W tym miejscu możesz dodawać, przeglądać, edytować oraz deaktywować swoje oferty.</h6>
+                    </div>
+                    <hr>
+
+
+
+
+                    <div class="col-3"></div>
+
+                </div>
+
+
+                @*<a href="@Url.Action("AddOffer", "UserPanel")" class="btn btn-outline-warning" role="button">Dodaj ofertę!</a>
+        <pre>
+            W tym miejscu możesz dodawać, przeglądać, edytować oraz deaktywować swoje oferty.
+        </pre>
+
+        <div class="col-3">
+            <a class="btn btn-dark" href="@Url.Action("AddBundle", "UserPanel")">Stwórz nowy zestaw!</a>
+        </div>
+
+
+        <div class="col-1"></div>
+
+        <div class="col-5">
+            @if (ViewBag.NoOffers != null)
+            {
+                <div class="alert alert-danger">@ViewBag.NoOffers</div>
+            }
+        </div>*@
+
 
                 @{
+                    string titleSign = string.Empty;
+                    string categorySign = string.Empty;
+                    string statusSign = string.Empty;
+                    string dateSign = string.Empty;
+                    string priceSign = string.Empty;
+                    string leftSign = string.Empty;
+                    string soldSign = string.Empty;
+
+                    if (ViewBag.SortBy != null)
+                    {
+                        string sortBy = ViewBag.SortBy;
+                        switch (sortBy)
+                        {
+                            case "Title":
+                                titleSign = ViewBag.TitleSort == 0 ? "↑" : "↓";
+                                break;
+                            case "Category":
+                                categorySign = ViewBag.CategorySort == 0 ? "↑" : "↓";
+                                break;
+                            case "Status":
+                                statusSign = ViewBag.StatusSort == 0 ? "↓" : "↑";
+                                break;
+                            case "Date":
+                                dateSign = ViewBag.CreationDateSort == 0 ? "↓" : "↑";
+                                break;
+                            case "Price":
+                                priceSign = ViewBag.PriceSort == 0 ? "↑" : "↓";
+                                break;
+                            case "Left":
+                                leftSign = ViewBag.LeftSort == 0 ? "↑" : "↓";
+                                break;
+                            case "Sold":
+                                soldSign = ViewBag.SoldSort == 0 ? "↑" : "↓";
+                                break;
+                        }
+                    }
+
+
+
                     if (Model.Count() > 0)
                     {
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nazwa</th>
-                                    <th scope="col">Aktywna</th>
-                                    @*<th scope="col">Dodano</th>*@
-                                    <th scope="col">Cena</th>
-                                    <th scope="col">Pozostało</th>
-                                    <th scope="col">Sprzedano</th>
-                                    <th scope="colgroup" colspan="2">Ustawienia</th>
-                                    @*<th scope="col">Usuń</th>*@
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{
-                                    int n = 0;
-                                    foreach (var offer in Model)
-                                    {
-                                        n++;
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">
+                                            <a style="color:white" href="@Url.Action("Offers","UserPanel",new { sortBy = 1 + ViewBag.TitleSort})">Nazwa @titleSign</a>
+                                        </th>
+                                        <th scope="col">
+                                            <a style="color:white" href="@Url.Action("Offers","UserPanel",new { sortBy = 13 + ViewBag.CategorySort})">Kategoria @categorySign</a>
+                                        </th>
+                                        <th scope="col">
+                                            <a style="color:white" href="@Url.Action("Offers","UserPanel",new { sortBy = 3 + ViewBag.StatusSort})">Status @statusSign</a>
+                                        </th>
+                                        <th scope="col">
+                                            <a style="color:white" href="@Url.Action("Offers","UserPanel",new { sortBy = 5 + ViewBag.CreationDateSort})">Dodano @dateSign</a>
+                                        </th>
+                                        <th scope="col">
+                                            <a style="color:white" href="@Url.Action("Offers","UserPanel",new { sortBy = 7 + ViewBag.PriceSort})">Cena [ zł ] @priceSign</a>
+                                        </th>
+                                        <th scope="col">
+                                            <a style="color:white" href="@Url.Action("Offers","UserPanel",new { sortBy = 9 + ViewBag.LeftSort})">Pozostało @leftSign</a>
+                                        </th>
+                                        <th scope="col">
+                                            <a style="color:white" href="@Url.Action("Offers","UserPanel",new { sortBy = 11 + ViewBag.SoldSort})">Sprzedano @soldSign</a>
+                                        </th>
+                                        <th style="color:white" scope="colgroup" colspan="2">Ustawienia</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int n = 0;
+                                        foreach (var offer in Model)
+                                        {
+                                            n++;
 
-                                        string aktywna = offer.IsActive ? "Aktywna" : "Nieaktywna";
+                                            string status = offer.IsActive ? "Aktywna" : "Nieaktywna";
+                                            string statusColorClass = offer.IsActive ? "text-success" : "text-danger";
+                                            string offerWarning = "#warningBeforeDeactivate_" + offer.OfferID;
 
-                                        <tr>
-                                            <th scope="row">@n</th>
-                                            <td>@offer.Title</td>
-                                            <td>@aktywna</td>
-                                            <td>@offer.Price</td>
-                                            <td>@offer.InStockNow</td>
-                                            <td>@(offer.InStockOriginaly-offer.InStockNow)</td>
-                                            <td>Edytuj</td>
-                                            <td>Usuń</td>
-                                        </tr>
+                                            <tr>
+                                                <td>
+                                                    <a class="text-warning" href="@Url.Action("Index","Offer",new { OfferID = offer.OfferID})"><b><i>@offer.Title</i></b></a>
+                                                </td>
+                                                <td>@offer.Category.CategoryName</td>
+                                                <td class="@statusColorClass"><b>@status</b></td>
+                                                <td>@offer.CreationDate.ToShortDateString()</td>
+                                                <td>@offer.Price</td>
+                                                <td>@offer.InStockNow</td>
+                                                <td>@(offer.InStockOriginaly-offer.InStockNow)</td>
+
+                                                @if (offer.IsActive)
+                                                {
+                                                    <td>
+                                                        <button class="btn btn-outline-warning"> Edytuj </button>
+                                                    </td>
+                                                    <td>
+                                                        <button data-toggle="modal" data-target="@offerWarning" class="btn btn-outline-danger"> Dezaktywuj </button>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td colspan="2">
+                                                        <a class="btn btn-outline-info" href="@Url.Action("Index", "Offer", new { OfferID = offer.OfferID })"> Zobacz ofertę </a>
+                                                    </td>
+                                                }
+
+                                            </tr>
+                                        }
                                     }
-                                }
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
+                        
                     }
                     else
                     {
-                        <p>
+                        <div class="alert alert-secondary" role="alert">
                             Nie utworzyłeś jeszcze żadnych ofert!
-                        </p>
+                        </div>
                     }
                 }
 
 
             </div>
-        </div>
+                    </div>
     </div>
 </div>
+
+@{
+    foreach (var offer in Model)
+    {
+        string offerWarning = "warningBeforeDeactivate_" + offer.OfferID;
+        <div class="modal fade" id="@offerWarning" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">
+                            Czy na pewno chcesz deazktywować ofertę:
+                            <br />
+                            "@offer.Title"?
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Pamiętaj, że dezaktywowana oferta nie zniknie z serwisu, ponadto <strong>zestaw</strong> w którym oferta się znajduje również zostanie <strong>zdezaktywowany</strong>!
+                            <br />
+                            Jej status zostanie zaktualizowany do <i>nieaktywnej</i>.
+                            <br />
+                            Nie będzie można jej kupić, ale nadal będzie można ją przeglądać.
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+                        <a href="@Url.Action("DeactivateOffer", "UserPanel", new { offerID = offer.OfferID })" class="btn-outline-danger btn" title="DeacitvateButton">Deazaktywuj</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
 
 

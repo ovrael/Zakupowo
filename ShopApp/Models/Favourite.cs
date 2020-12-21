@@ -4,10 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using ShopApp.DAL;
 
 namespace ShopApp.Models
 {
-    public class FavouriteOffer
+    public class Favourite : IConcurrencyAwareEntity
     {
         [Key]
         public int FavouriteOfferID { get; set; }
@@ -17,5 +18,8 @@ namespace ShopApp.Models
 
         [Column("OfferID")]
         public virtual Offer Offer { get; set; }
+        [Column("BundleID")]
+        public virtual Bundle Bundle { get; set; }
+        public byte[] RowVersion { get ; set ; }
     }
 }
