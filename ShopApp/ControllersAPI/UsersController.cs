@@ -44,8 +44,9 @@ namespace ShopApp.Controllers
             }
         
             var avatarImage = user.AvatarImage;
-            var uri = "https://shopapp.conveyor.cloud/../App_Files/Images/UserAvatars/DefaultAvatar.jpg";
-            if (avatarImage != null) uri = avatarImage.PathToFile;
+            var uriBase = "http://192.168.0.103:45455/../";
+            var uri = uriBase + "App_Files/Images/UserAvatars/DefaultAvatar.jpg";
+            if (avatarImage != null) uri = uriBase  +  avatarImage.PathToFile;
             return Ok(uri);
         }
        
