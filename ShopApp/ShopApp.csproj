@@ -448,6 +448,7 @@
     <Compile Include="Utility\EmailManager.cs" />
     <Compile Include="Utility\FileManager.cs" />
     <Compile Include="Utility\Utilities.cs" />
+    <Compile Include="ViewModels\CashOutViewModel.cs" />
     <Compile Include="ViewModels\OfferIndexViewModel.cs" />
     <Compile Include="ViewModels\OffersAndBundles.cs" />
     <Compile Include="ViewModels\User\AccountViewModel.cs" />
@@ -472,6 +473,7 @@
     <Content Include="Content\Layout.css" />
     <Content Include="Content\loginregister.css" />
     <Content Include="Content\offer.css" />
+    <Content Include="Content\CashOut.css" />
     <Content Include="Content\UserPanel.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -663,6 +665,7 @@
     <Content Include="Views\UserPanel\AddBundle.cshtml" />
     <Content Include="Views\Offer\Favourites.cshtml" />
     <Content Include="Views\UserPanel\LearningJS.cshtml" />
+    <Content Include="Views\Offer\Order.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -137,7 +137,8 @@ namespace ShopApp.Controllers
 
             return Json(errors, JsonRequestBehavior.AllowGet);
         }
-
+        
+        [HttpGet]
         [Authorize]
         public ActionResult Bucket()
         {
@@ -155,10 +156,6 @@ namespace ShopApp.Controllers
         [Authorize]
         public ActionResult Bucket(FormCollection collection)
         {
-            //IdOferty
-            //Ilosc
-            //Suma
-            //
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
             if(user != null)
             {
@@ -201,10 +198,24 @@ namespace ShopApp.Controllers
                             }
                         }
 
-                        //Tworzenie tabeli dla Zamówienia
-                        var s =  BucketItemsListThatIsGoingToBeBought.GroupBy(i => i.Bucket.User);
-                        user.Order.GroupedBucketItems = s;
-                        return RedirectToAction("DoKasy");
+                        user.Order.GroupedBucketItems = BucketItemsListThatIsGoingToBeBought.GroupBy(i => i.Offer != null ? i.Offer.User : i.Bundle.User).ToList();
+                        foreach (var seller in user.Order.GroupedBucketItems)
+                        {
+                            Debug.WriteLine(seller.Key.Login);
+                            foreach(var item in seller)
+                            {
+                                Debug.WriteLine(item.BucketItemID);
+                            }
+                        }
+                        db.SaveChanges();
+
+                        CashOutViewModel cashOutViewModel = new CashOutViewModel
+                        {
+                            GroupedBucketItems = user.Order.GroupedBucketItems,
+                            ShippingAdresses = user.ShippingAdresses
+                        };
+
+                        return View("Order",cashOutViewModel);
                     }
                 }
             }
@@ -258,5 +269,7 @@ namespace ShopApp.Controllers
                 return  new HttpStatusCodeResult(404);
             } 
         }
+        
+    
     }
 }

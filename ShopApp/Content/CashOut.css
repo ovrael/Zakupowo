@@ -1,0 +1,68 @@
+﻿.cash-address, .cash-offers, .cash-message, .cash-summary {
+    background-color: white;
+}
+
+h5 {
+    font-size: 18px;
+}
+
+.product-name {
+    color: black;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    word-wrap: break-word;
+}
+
+.seller-name {
+    color: #FFB24A;
+    font-weight: 700;
+}
+
+    .seller-name:hover, .seller-name:visited {
+        color: #FFB24A;
+    }
+
+.product-name:hover, .product-name:active {
+    color: #6684A1;
+}
+
+.product-price {
+    color: grey;
+}
+
+.items-sum {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.cash-sum-text {
+    font-size: 16px;
+}
+
+.cash-sum {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.cashout-btn, .cashout-btn:focus, .cashout-btn:hover, .cashout-btn:active {
+    background-color: #FFB24A !important;
+    box-shadow: none;
+    border: none;
+    font-weight: 700;
+    letter-spacing: 3px;
+    border-radius: 2px;
+    color: white;
+    padding: 20px;
+    width: 100%;
+}
+
+@media (min-width: 992px) {
+    .cash {
+        width: 60%;
+    }
+
+    .cashout-btn, .cashout-btn:focus, .cashout-btn:hover, .cashout-btn:active {
+        width: 60%;
+    }
+}
