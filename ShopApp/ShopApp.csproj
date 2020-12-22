@@ -173,6 +173,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="ChatHub.cs" />
+    <Compile Include="ConnectionMapping.cs" />
     <Compile Include="ControllersAPI\CategoriesController.cs" />
     <Compile Include="ControllersAPI\OffersController.cs" />
     <Compile Include="Controllers\DatabaseController.cs" />
@@ -490,6 +491,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\bucket.js" />
+    <Content Include="Scripts\ChatScript.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
