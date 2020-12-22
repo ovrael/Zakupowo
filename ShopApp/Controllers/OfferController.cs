@@ -120,7 +120,7 @@ namespace ShopApp.Controllers
                         //If collection offers bundles and sellers all were valid => View if not => Redirect
                         if(BucketItemsListThatIsGoingToBeBought != null)
                         {
-                        user.Order.GroupedBucketItems = BucketItemsListThatIsGoingToBeBought.GroupBy(i => i.Offer != null ? i.Offer.User : i.Bundle.User).ToList();
+                        user.Order.BucketItems = BucketItemsListThatIsGoingToBeBought.GroupBy(i => i.Offer != null ? i.Offer.User : i.Bundle.User).ToList();
                         
                         db.SaveChanges();
 
@@ -129,7 +129,8 @@ namespace ShopApp.Controllers
                             GroupedBucketItems = user.Order.GroupedBucketItems,
                             ShippingAdresses = user.ShippingAdresses
                         };
-                        return View("Order",cashOutViewModel);
+
+                        return RedirectToAction("Order",cashOutViewModel);
                         }
                         return RedirectToAction("Bucket");
                     }
@@ -142,7 +143,12 @@ namespace ShopApp.Controllers
         [Authorize]
         public ActionResult Order(CashOutViewModel cashOutViewModel)
         {
-           return View(cashOutViewModel);
+            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+            if (user != null && cashOutViewModel.GroupedBucketItems == user.Order.GroupedBucketItems)
+                return View(cashOutViewModel);
+            else
+                //TODO: Critical Error View with a ViewBag
+                return new HttpStatusCodeResult(404);
         }
 
         [HttpPost]
@@ -151,6 +157,13 @@ namespace ShopApp.Controllers
         {
 
             return View();
+        }
+
+        [NonAction]
+        //Send a transaction request via mail to the seller
+        public ActionResult SendTransactionRequest()
+        {
+            return Content("");
         }
 
         [HttpGet]
