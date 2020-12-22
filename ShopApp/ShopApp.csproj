@@ -164,6 +164,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -192,6 +195,7 @@
     <Compile Include="Controllers\UserPanelJonakController.cs" />
     <Compile Include="Controllers\DataBase.cs" />
     <Compile Include="ControllersAPI\UsersController.cs" />
+    <Compile Include="DAL\ConcurrencyAwareEntityConvention.cs" />
     <Compile Include="DAL\ShopContext.cs" />
     <Compile Include="DAL\ShopInitializer.cs" />
     <Compile Include="Global.asax.cs">
@@ -428,6 +432,10 @@
     <Compile Include="Migrations\202012201848096_MakingOrderTable2.cs" />
     <Compile Include="Migrations\202012201848096_MakingOrderTable2.Designer.cs">
       <DependentUpon>202012201848096_MakingOrderTable2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012222233167_ChangesOnOrder.cs" />
+    <Compile Include="Migrations\202012222233167_ChangesOnOrder.Designer.cs">
+      <DependentUpon>202012222233167_ChangesOnOrder.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
@@ -963,6 +971,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012201848096_MakingOrderTable2.resx">
       <DependentUpon>202012201848096_MakingOrderTable2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012222233167_ChangesOnOrder.resx">
+      <DependentUpon>202012222233167_ChangesOnOrder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
