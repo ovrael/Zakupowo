@@ -61,15 +61,24 @@
     <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.3\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Client, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Client.2.4.1\lib\net45\Microsoft.AspNet.SignalR.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.1\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Owin, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.1.1\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.1.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin.Security, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Security.4.1.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    <Reference Include="Microsoft.Owin.Security, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Security.OAuth, Version=4.1.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Security.OAuth.4.1.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
@@ -79,6 +88,12 @@
     </Reference>
     <Reference Include="MimeKit, Version=2.10.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
       <HintPath>..\packages\MimeKit.2.10.0\lib\net47\MimeKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="StarkbankEcdsa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\starkbank-ecdsa.1.2.0\lib\net452\StarkbankEcdsa.dll</HintPath>
@@ -149,9 +164,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -166,9 +178,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="ChatHub.cs" />
-    <Compile Include="ConnectionMapping.cs" />
+    <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="ControllersAPI\CategoriesController.cs" />
+    <Compile Include="ControllersAPI\DocumentUploadResponse.cs" />
+    <Compile Include="ControllersAPI\FileController.cs" />
     <Compile Include="ControllersAPI\OffersController.cs" />
     <Compile Include="Controllers\DatabaseController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
@@ -288,6 +301,134 @@
     <Compile Include="Migrations\202012091210584_OfferAndBundleChanges.Designer.cs">
       <DependentUpon>202012091210584_OfferAndBundleChanges.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012102136450_AddingBundleToFavourite.cs" />
+    <Compile Include="Migrations\202012102136450_AddingBundleToFavourite.Designer.cs">
+      <DependentUpon>202012102136450_AddingBundleToFavourite.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012112357539_OptimisticConcurrencyExceptionHandling.cs" />
+    <Compile Include="Migrations\202012112357539_OptimisticConcurrencyExceptionHandling.Designer.cs">
+      <DependentUpon>202012112357539_OptimisticConcurrencyExceptionHandling.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012122224201_ChangesForProperBucketItemAdding.cs" />
+    <Compile Include="Migrations\202012122224201_ChangesForProperBucketItemAdding.Designer.cs">
+      <DependentUpon>202012122224201_ChangesForProperBucketItemAdding.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012141235399_AddedMessegeModel.cs" />
+    <Compile Include="Migrations\202012141235399_AddedMessegeModel.Designer.cs">
+      <DependentUpon>202012141235399_AddedMessegeModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012141249422_MessageModelUpdated_AddedSentTime.cs" />
+    <Compile Include="Migrations\202012141249422_MessageModelUpdated_AddedSentTime.Designer.cs">
+      <DependentUpon>202012141249422_MessageModelUpdated_AddedSentTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012141457569_ShopContextUpdate_AddedMessagesList.cs" />
+    <Compile Include="Migrations\202012141457569_ShopContextUpdate_AddedMessagesList.Designer.cs">
+      <DependentUpon>202012141457569_ShopContextUpdate_AddedMessagesList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012142107245_UpdateMessageModel_ChangeID.cs" />
+    <Compile Include="Migrations\202012142107245_UpdateMessageModel_ChangeID.Designer.cs">
+      <DependentUpon>202012142107245_UpdateMessageModel_ChangeID.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012142111300_UpdateMessageModel_BackedToNoIDversion.cs" />
+    <Compile Include="Migrations\202012142111300_UpdateMessageModel_BackedToNoIDversion.Designer.cs">
+      <DependentUpon>202012142111300_UpdateMessageModel_BackedToNoIDversion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012151026240_WorkingWithForeignKeysV3.cs" />
+    <Compile Include="Migrations\202012151026240_WorkingWithForeignKeysV3.Designer.cs">
+      <DependentUpon>202012151026240_WorkingWithForeignKeysV3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012151035235_MessageModelChange_UsersAreVirtualNow.cs" />
+    <Compile Include="Migrations\202012151035235_MessageModelChange_UsersAreVirtualNow.Designer.cs">
+      <DependentUpon>202012151035235_MessageModelChange_UsersAreVirtualNow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012151047258_WorkingWithMessagesV1.cs" />
+    <Compile Include="Migrations\202012151047258_WorkingWithMessagesV1.Designer.cs">
+      <DependentUpon>202012151047258_WorkingWithMessagesV1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012151050479_WorkingWithMessagesV2.cs" />
+    <Compile Include="Migrations\202012151050479_WorkingWithMessagesV2.Designer.cs">
+      <DependentUpon>202012151050479_WorkingWithMessagesV2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012151102065_WorkingWithMessagesV3.cs" />
+    <Compile Include="Migrations\202012151102065_WorkingWithMessagesV3.Designer.cs">
+      <DependentUpon>202012151102065_WorkingWithMessagesV3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012151102445_WorkingWithMessagesV4.cs" />
+    <Compile Include="Migrations\202012151102445_WorkingWithMessagesV4.Designer.cs">
+      <DependentUpon>202012151102445_WorkingWithMessagesV4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012151109311_WorkingWithMessagesV5.cs" />
+    <Compile Include="Migrations\202012151109311_WorkingWithMessagesV5.Designer.cs">
+      <DependentUpon>202012151109311_WorkingWithMessagesV5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012151133587_WorkingWithMessagesV6.cs" />
+    <Compile Include="Migrations\202012151133587_WorkingWithMessagesV6.Designer.cs">
+      <DependentUpon>202012151133587_WorkingWithMessagesV6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012151155129_WorkingWithMessagesV7.cs" />
+    <Compile Include="Migrations\202012151155129_WorkingWithMessagesV7.Designer.cs">
+      <DependentUpon>202012151155129_WorkingWithMessagesV7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012151200456_WorkingWithMessagesV8.cs" />
+    <Compile Include="Migrations\202012151200456_WorkingWithMessagesV8.Designer.cs">
+      <DependentUpon>202012151200456_WorkingWithMessagesV8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012151201323_WorkingWithMessagesV9.cs" />
+    <Compile Include="Migrations\202012151201323_WorkingWithMessagesV9.Designer.cs">
+      <DependentUpon>202012151201323_WorkingWithMessagesV9.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012151209065_WorkingWithMessagesV10.cs" />
+    <Compile Include="Migrations\202012151209065_WorkingWithMessagesV10.Designer.cs">
+      <DependentUpon>202012151209065_WorkingWithMessagesV10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012151210190_WorkingWithMessagesV11.cs" />
+    <Compile Include="Migrations\202012151210190_WorkingWithMessagesV11.Designer.cs">
+      <DependentUpon>202012151210190_WorkingWithMessagesV11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012151214068_WorkingWithMessagesV111.cs" />
+    <Compile Include="Migrations\202012151214068_WorkingWithMessagesV111.Designer.cs">
+      <DependentUpon>202012151214068_WorkingWithMessagesV111.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012151214420_WorkingWithMessagesV12.cs" />
+    <Compile Include="Migrations\202012151214420_WorkingWithMessagesV12.Designer.cs">
+      <DependentUpon>202012151214420_WorkingWithMessagesV12.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012151217238_WorkinOnMessageV13.cs" />
+    <Compile Include="Migrations\202012151217238_WorkinOnMessageV13.Designer.cs">
+      <DependentUpon>202012151217238_WorkinOnMessageV13.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012151221580_WorkinOnMessageV14.cs" />
+    <Compile Include="Migrations\202012151221580_WorkinOnMessageV14.Designer.cs">
+      <DependentUpon>202012151221580_WorkinOnMessageV14.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012151240454_WorkinOnMessageV15.cs" />
+    <Compile Include="Migrations\202012151240454_WorkinOnMessageV15.Designer.cs">
+      <DependentUpon>202012151240454_WorkinOnMessageV15.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012151356503_WorkinOnChatsV1.cs" />
+    <Compile Include="Migrations\202012151356503_WorkinOnChatsV1.Designer.cs">
+      <DependentUpon>202012151356503_WorkinOnChatsV1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012151450357_WorkinOnChatsV2.cs" />
+    <Compile Include="Migrations\202012151450357_WorkinOnChatsV2.Designer.cs">
+      <DependentUpon>202012151450357_WorkinOnChatsV2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012151610488_WorkinOnChatsV3.cs" />
+    <Compile Include="Migrations\202012151610488_WorkinOnChatsV3.Designer.cs">
+      <DependentUpon>202012151610488_WorkinOnChatsV3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012152220545_WorkinOnChat_UsingInverseProperties.cs" />
+    <Compile Include="Migrations\202012152220545_WorkinOnChat_UsingInverseProperties.Designer.cs">
+      <DependentUpon>202012152220545_WorkinOnChat_UsingInverseProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012201834308_MakingOrderTable.cs" />
+    <Compile Include="Migrations\202012201834308_MakingOrderTable.Designer.cs">
+      <DependentUpon>202012201834308_MakingOrderTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012201848096_MakingOrderTable2.cs" />
+    <Compile Include="Migrations\202012201848096_MakingOrderTable2.Designer.cs">
+      <DependentUpon>202012201848096_MakingOrderTable2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
@@ -295,10 +436,16 @@
     <Compile Include="Models\BucketItem.cs" />
     <Compile Include="Models\Bundle.cs" />
     <Compile Include="Models\Category.cs" />
-    <Compile Include="Models\FavouriteOffer.cs" />
+    <Compile Include="Models\Chat.cs" />
+    <Compile Include="Models\Favourite.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Models\OfferPicture.cs" />
+    <Compile Include="Models\Order.cs" />
     <Compile Include="Models\ShippingAdress.cs" />
     <Compile Include="Models\Transaction.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Startup.cs" />
+    <Compile Include="Utility\ConcurencyHandling.cs" />
     <Compile Include="Utility\ConnectionString.cs" />
     <Compile Include="Utility\Cryptographing.cs" />
     <Compile Include="Models\Offer.cs" />
@@ -307,7 +454,9 @@
     <Compile Include="Utility\EmailManager.cs" />
     <Compile Include="Utility\FileManager.cs" />
     <Compile Include="Utility\Utilities.cs" />
-    <Compile Include="ViewModels\HomeIndexView.cs" />
+    <Compile Include="ViewModels\CashOutViewModel.cs" />
+    <Compile Include="ViewModels\OfferIndexViewModel.cs" />
+    <Compile Include="ViewModels\OffersAndBundles.cs" />
     <Compile Include="ViewModels\User\AccountViewModel.cs" />
     <Compile Include="ViewModels\UserCache.cs" />
     <Compile Include="ViewModels\User\ShippingAdressViewModel.cs" />
@@ -316,6 +465,83 @@
     <Content Include="App_Files\Images\OfferPictures\DefaultOfferPicture.jpg" />
     <Content Include="App_Files\Images\UserAvatars\DefaultAvatar.jpg" />
     <Content Include="aspnet-mvc.gitignore" />
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\Antlr3.Runtime.pdb" />
+    <Content Include="bin\BouncyCastle.Crypto.dll" />
+    <Content Include="bin\BouncyCastle.Crypto.xml" />
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.xml" />
+    <Content Include="bin\EntityFramework.xml" />
+    <Content Include="bin\MailKit.dll" />
+    <Content Include="bin\MailKit.pdb" />
+    <Content Include="bin\MailKit.xml" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.Client.dll" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.Core.dll" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.Core.pdb" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.Core.xml" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.SystemWeb.dll" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.SystemWeb.pdb" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.SystemWeb.xml" />
+    <Content Include="bin\Microsoft.Azure.Storage.Blob.dll" />
+    <Content Include="bin\Microsoft.Azure.Storage.Common.dll" />
+    <Content Include="bin\Microsoft.Azure.Storage.DataMovement.dll" />
+    <Content Include="bin\Microsoft.Azure.Storage.File.dll" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
+    <Content Include="bin\Microsoft.Owin.dll" />
+    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.dll" />
+    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.xml" />
+    <Content Include="bin\Microsoft.Owin.xml" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\Microsoft.WindowsAzure.Storage.dll" />
+    <Content Include="bin\Microsoft.WindowsAzure.Storage.pdb" />
+    <Content Include="bin\Microsoft.WindowsAzure.Storage.xml" />
+    <Content Include="bin\MimeKit.dll" />
+    <Content Include="bin\MimeKit.pdb" />
+    <Content Include="bin\MimeKit.xml" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Owin.dll" />
+    <Content Include="bin\pl\Microsoft.AspNet.SignalR.Core.resources.dll" />
+    <Content Include="bin\pl\Microsoft.AspNet.SignalR.SystemWeb.resources.dll" />
+    <Content Include="bin\pl\Microsoft.Owin.Host.SystemWeb.resources.dll" />
+    <Content Include="bin\pl\Microsoft.Owin.resources.dll" />
+    <Content Include="bin\pl\Microsoft.Owin.Security.resources.dll" />
+    <Content Include="bin\pl\System.Web.Helpers.resources.dll" />
+    <Content Include="bin\pl\System.Web.Mvc.resources.dll" />
+    <Content Include="bin\pl\System.Web.Optimization.resources.dll" />
+    <Content Include="bin\pl\System.Web.Razor.resources.dll" />
+    <Content Include="bin\pl\System.Web.WebPages.Deployment.resources.dll" />
+    <Content Include="bin\pl\System.Web.WebPages.Razor.resources.dll" />
+    <Content Include="bin\pl\System.Web.WebPages.resources.dll" />
+    <Content Include="bin\SendGrid.dll" />
+    <Content Include="bin\ShopApp.dll" />
+    <Content Include="bin\ShopApp.pdb" />
+    <Content Include="bin\StarkbankEcdsa.dll" />
+    <Content Include="bin\System.Buffers.dll" />
+    <Content Include="bin\System.Buffers.xml" />
+    <Content Include="bin\System.Net.Http.Formatting.dll" />
+    <Content Include="bin\System.Net.Http.Formatting.xml" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Helpers.xml" />
+    <Content Include="bin\System.Web.Http.dll" />
+    <Content Include="bin\System.Web.Http.WebHost.dll" />
+    <Content Include="bin\System.Web.Http.WebHost.xml" />
+    <Content Include="bin\System.Web.Http.xml" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Mvc.xml" />
+    <Content Include="bin\System.Web.Optimization.dll" />
+    <Content Include="bin\System.Web.Optimization.xml" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.xml" />
+    <Content Include="bin\WebGrease.dll" />
     <Content Include="Content\bootstrap-darkly.css" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -324,8 +550,10 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bucket.css" />
+    <Content Include="Content\CashOut.css" />
     <Content Include="Content\categories.css" />
     <Content Include="Content\error.css" />
+    <Content Include="Content\kat.css" />
     <Content Include="Content\Layout.css" />
     <Content Include="Content\loginregister.css" />
     <Content Include="Content\offer.css" />
@@ -347,11 +575,13 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\bucket.js" />
+    <Content Include="Scripts\BucketAndFavouriteManagement.js" />
     <Content Include="Scripts\ChatScript.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
     <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\fav.js" />
     <Content Include="Scripts\index.js.flow" />
     <Content Include="Scripts\esm\popper.min.js.map" />
     <Content Include="Scripts\esm\popper.js.map" />
@@ -369,20 +599,39 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="LICENSE" />
     <Content Include="README.md" />
+    <Content Include="XamarinFolder\Screenshot_1608460271.png" />
+    <Content Include="bin\ShopApp.dll.config" />
+    <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
+    <Content Include="Scripts\jquery-3.0.0.js" />
+    <Content Include="Scripts\jquery-3.0.0.min.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.min.js" />
+    <Content Include="Scripts\jquery-3.0.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.0.0.min.map" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
-    <Content Include="Scripts\jquery-3.5.1.min.js" />
-    <Content Include="Scripts\jquery-3.5.1.slim.js" />
-    <Content Include="Scripts\jquery-3.5.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.5.1.min.map" />
+    <Content Include="Scripts\jquery-3.5.1.slim.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.2.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.1.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.1.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\kat.js" />
     <Content Include="Scripts\layout.js" />
     <Content Include="Scripts\login.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\offer.js" />
+    <Content Include="Scripts\Order.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -619,6 +868,105 @@
     <EmbeddedResource Include="Migrations\202012091210584_OfferAndBundleChanges.resx">
       <DependentUpon>202012091210584_OfferAndBundleChanges.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012102136450_AddingBundleToFavourite.resx">
+      <DependentUpon>202012102136450_AddingBundleToFavourite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012112357539_OptimisticConcurrencyExceptionHandling.resx">
+      <DependentUpon>202012112357539_OptimisticConcurrencyExceptionHandling.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012122224201_ChangesForProperBucketItemAdding.resx">
+      <DependentUpon>202012122224201_ChangesForProperBucketItemAdding.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012141235399_AddedMessegeModel.resx">
+      <DependentUpon>202012141235399_AddedMessegeModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012141249422_MessageModelUpdated_AddedSentTime.resx">
+      <DependentUpon>202012141249422_MessageModelUpdated_AddedSentTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012141457569_ShopContextUpdate_AddedMessagesList.resx">
+      <DependentUpon>202012141457569_ShopContextUpdate_AddedMessagesList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012142107245_UpdateMessageModel_ChangeID.resx">
+      <DependentUpon>202012142107245_UpdateMessageModel_ChangeID.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012142111300_UpdateMessageModel_BackedToNoIDversion.resx">
+      <DependentUpon>202012142111300_UpdateMessageModel_BackedToNoIDversion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012151026240_WorkingWithForeignKeysV3.resx">
+      <DependentUpon>202012151026240_WorkingWithForeignKeysV3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012151035235_MessageModelChange_UsersAreVirtualNow.resx">
+      <DependentUpon>202012151035235_MessageModelChange_UsersAreVirtualNow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012151047258_WorkingWithMessagesV1.resx">
+      <DependentUpon>202012151047258_WorkingWithMessagesV1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012151050479_WorkingWithMessagesV2.resx">
+      <DependentUpon>202012151050479_WorkingWithMessagesV2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012151102065_WorkingWithMessagesV3.resx">
+      <DependentUpon>202012151102065_WorkingWithMessagesV3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012151102445_WorkingWithMessagesV4.resx">
+      <DependentUpon>202012151102445_WorkingWithMessagesV4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012151109311_WorkingWithMessagesV5.resx">
+      <DependentUpon>202012151109311_WorkingWithMessagesV5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012151133587_WorkingWithMessagesV6.resx">
+      <DependentUpon>202012151133587_WorkingWithMessagesV6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012151155129_WorkingWithMessagesV7.resx">
+      <DependentUpon>202012151155129_WorkingWithMessagesV7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012151200456_WorkingWithMessagesV8.resx">
+      <DependentUpon>202012151200456_WorkingWithMessagesV8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012151201323_WorkingWithMessagesV9.resx">
+      <DependentUpon>202012151201323_WorkingWithMessagesV9.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012151209065_WorkingWithMessagesV10.resx">
+      <DependentUpon>202012151209065_WorkingWithMessagesV10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012151210190_WorkingWithMessagesV11.resx">
+      <DependentUpon>202012151210190_WorkingWithMessagesV11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012151214068_WorkingWithMessagesV111.resx">
+      <DependentUpon>202012151214068_WorkingWithMessagesV111.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012151214420_WorkingWithMessagesV12.resx">
+      <DependentUpon>202012151214420_WorkingWithMessagesV12.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012151217238_WorkinOnMessageV13.resx">
+      <DependentUpon>202012151217238_WorkinOnMessageV13.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012151221580_WorkinOnMessageV14.resx">
+      <DependentUpon>202012151221580_WorkinOnMessageV14.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012151240454_WorkinOnMessageV15.resx">
+      <DependentUpon>202012151240454_WorkinOnMessageV15.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012151356503_WorkinOnChatsV1.resx">
+      <DependentUpon>202012151356503_WorkinOnChatsV1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012151450357_WorkinOnChatsV2.resx">
+      <DependentUpon>202012151450357_WorkinOnChatsV2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012151610488_WorkinOnChatsV3.resx">
+      <DependentUpon>202012151610488_WorkinOnChatsV3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012152220545_WorkinOnChat_UsingInverseProperties.resx">
+      <DependentUpon>202012152220545_WorkinOnChat_UsingInverseProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012201834308_MakingOrderTable.resx">
+      <DependentUpon>202012201834308_MakingOrderTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012201848096_MakingOrderTable2.resx">
+      <DependentUpon>202012201848096_MakingOrderTable2.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

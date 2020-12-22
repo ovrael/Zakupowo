@@ -809,37 +809,34 @@ namespace ShopApp.Controllers
         public ActionResult Communicator()
         {
             string senderName = "ovrael";
-            string receiverName = "AdministratorZakupowo";
-            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            string receiverName = "Jaca";
             User sender = db.Users.Where(i => i.Login == senderName).First();
             User receiver = db.Users.Where(i => i.Login == receiverName).First();
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            receiver = editUser;
             List<Message> lastMessages = new List<Message>();
             HashSet<User> uniqueUsers = new HashSet<User>();
 
             List<List<Message>> allMessages = new List<List<Message>>();
             //DODAWANIE NOWEJ WIADOMOŚCI
-            //Message msg = new Message() { Sender = sender, Receiver = receiver, Content = "Wiadomość od " + sender.Login + "\t do " + receiver.Login, SentTime = DateTime.Now };
+            Message msg = new Message() { Sender = sender, Receiver = receiver, Content = "Wiadomość od " + sender.Login + "\t do " + receiver.Login, SentTime = DateTime.Now };
 
-            //Debug.WriteLine(msg.ToString());
+            Debug.WriteLine(msg.ToString());
 
-            //db.Messages.Add(msg);
-            //db.SaveChanges();
+            db.Messages.Add(msg);
+            db.SaveChanges();
 
-            //receiver.ReceivedMessages.Add(msg);
-            //db.SaveChanges();
+            receiver.ReceivedMessages.Add(msg);
+            db.SaveChanges();
 
-            //sender.SentMessages.Add(msg);
-            //db.SaveChanges();
+            sender.SentMessages.Add(msg);
+            db.SaveChanges();
 
-            var groupUserWithMessages = editUser.ReceivedMessages.GroupBy(m => m.Sender).Distinct().ToList();
-
-
-
-            //var x = editUser.SentMessages.GroupBy(m => m.Receiver).Distinct().ToList();
             var lastReceivedMessages = editUser.ReceivedMessages.OrderByDescending(m => m.SentTime).DistinctBy(m => m.Sender).ToList();
             var lastSentMessages = editUser.SentMessages.OrderByDescending(m => m.SentTime).DistinctBy(m => m.Receiver).ToList();
 
             lastMessages.AddRange(lastReceivedMessages);
+            lastMessages.AddRange(lastSentMessages);
 
             foreach (var item in lastReceivedMessages)
             {
@@ -863,36 +860,7 @@ namespace ShopApp.Controllers
 
             lastMessages.Sort();
 
-            var receivedGroups = editUser.ReceivedMessages.OrderBy(m => m.SentTime).GroupBy(m => m.Sender).ToList();
-            var sentGroups = editUser.SentMessages.OrderBy(m => m.SentTime).GroupBy(m => m.Receiver).ToList();
-
-            //Debug.WriteLine("receivedGroups");
-            //foreach (var item in receivedGroups)
-            //{
-            //    Debug.WriteLine("---------------------------------------------Wiadomości od: " + item.Key.Login);
-
-            //    foreach (var message in item)
-            //    {
-            //        Debug.WriteLine(message.ToString());
-            //    }
-            //}
-
-            //Debug.WriteLine("sentGroups");
-            //foreach (var item in sentGroups)
-            //{
-            //    Debug.WriteLine("---------------------------------------------Wiadomości do: " + item.Key.Login);
-
-            //    foreach (var message in item)
-            //    {
-            //        Debug.WriteLine(message.ToString());
-            //    }
-            //}
-
-
-            ViewBag.ReceivedGroups = receivedGroups;
-            ViewBag.SentGroups = sentGroups;
-
-            return View(lastReceivedMessages);
+            return View(lastMessages);
         }
 
         public ActionResult LearningJS()
@@ -905,31 +873,5 @@ namespace ShopApp.Controllers
             return View();
         }
 
-        public JsonResult SendMessage(string receiverID, string content)
-        {
-            if (receiverID != "" && content != "" && int.TryParse(receiverID, out int int_receiverID))
-            {
-                User sender = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-                User receiver = db.Users.Where(i => i.UserID == int_receiverID).First();
-
-                Message msg = new Message() { Sender = sender, Receiver = receiver, Content = content, SentTime = DateTime.Now };
-
-                db.Messages.Add(msg);
-                db.SaveChanges();
-
-                receiver.ReceivedMessages.Add(msg);
-                db.SaveChanges();
-
-                sender.SentMessages.Add(msg);
-                db.SaveChanges();
-
-                return Json("success", JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return Json("error", JsonRequestBehavior.AllowGet);
-            }
-
-        }
     }
 }

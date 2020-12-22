@@ -29,9 +29,9 @@ namespace ShopApp.Controllers
             OffersAndBundles offersAndBundles = new OffersAndBundles();
 
             var Offers = db.Offers.Where(i => i.Category.CategoryID == KatID && i.IsActive).ToList();
-            
-                if (Offers != null)
-                {
+
+            if (Offers != null)
+            {
                 var OffersFiltered = Offers
                     .OrderByDescending(i => i.CreationDate)
                     .Take(20)
@@ -50,8 +50,8 @@ namespace ShopApp.Controllers
                     }
                 }
             }
-                else
-                    ViewBag.Message = "Brak ofert dla podanych filtrów";
+            else
+                ViewBag.Message = "Brak ofert dla podanych filtrów";
             var Bundles = db.Bundles.Where(i => i.Offers.Where(x => x.Category.CategoryID == KatID).Any() && i.IsActive).ToList();
 
             if (Bundles != null)
@@ -143,14 +143,14 @@ namespace ShopApp.Controllers
                 if (user != null)
                 {
                     var FavouriteBundles = user.FavouriteOffer.Where(i => i.Bundle != null).Select(i => i.Bundle).ToList();
-                    if(FavouriteBundles != null)
+                    if (FavouriteBundles != null)
                     {
-                    offersAndBundles.FavouriteBundlesIDs = FavouriteBundles
-                        .Where(i => i.IsActive && BundlesFiltered.Contains(i))
-                        .Select(i => i.BundleID);
-                    if (user.Bucket.BucketItems != null)
-                        offersAndBundles.InBucketBundlesIDs = user.Bucket.BucketItems.Where(i => i.Bundle != null)
-                            .Select(i => i.Bundle.BundleID).ToList();
+                        offersAndBundles.FavouriteBundlesIDs = FavouriteBundles
+                            .Where(i => i.IsActive && BundlesFiltered.Contains(i))
+                            .Select(i => i.BundleID);
+                        if (user.Bucket.BucketItems != null)
+                            offersAndBundles.InBucketBundlesIDs = user.Bucket.BucketItems.Where(i => i.Bundle != null)
+                                .Select(i => i.Bundle.BundleID).ToList();
                     }
                 }
             }
@@ -174,7 +174,7 @@ namespace ShopApp.Controllers
                 {
                     Fv.Offer = db.Offers.Where(i => i.OfferID == id).FirstOrDefault();
                     var OfferList = User.FavouriteOffer.Where(i => i.Offer != null).ToList();
-                    if(Fv.Offer != null && !OfferList.Where(i => i.Offer.OfferID == Fv.Offer.OfferID).Any())
+                    if (Fv.Offer != null && !OfferList.Where(i => i.Offer.OfferID == Fv.Offer.OfferID).Any())
                     {
                         Fv.User = User;
                         db.Favourites.Add(Fv);
@@ -187,7 +187,7 @@ namespace ShopApp.Controllers
                 {
                     Fv.Bundle = db.Bundles.Where(i => i.BundleID == id).FirstOrDefault();
                     var BundleList = User.FavouriteOffer.Where(i => i.Bundle != null).ToList();
-                    if(Fv.Bundle != null && !BundleList.Where(i => i.Bundle.BundleID == Fv.Bundle.BundleID).Any())
+                    if (Fv.Bundle != null && !BundleList.Where(i => i.Bundle.BundleID == Fv.Bundle.BundleID).Any())
                     {
                         Fv.User = User;
                         db.Favourites.Add(Fv);
@@ -201,7 +201,7 @@ namespace ShopApp.Controllers
             return Json(errors, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public async Task<ActionResult> UnFav(string type, int id) 
+        public async Task<ActionResult> UnFav(string type, int id)
         {
             List<string> errors = new List<string>(); // You might want to return an error if something wrong happened
 
