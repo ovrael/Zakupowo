@@ -120,17 +120,17 @@ namespace ShopApp.Controllers
                         //If collection offers bundles and sellers all were valid => View if not => Redirect
                         if(BucketItemsListThatIsGoingToBeBought != null)
                         {
-                        user.Order.BucketItems = BucketItemsListThatIsGoingToBeBought.GroupBy(i => i.Offer != null ? i.Offer.User : i.Bundle.User).ToList();
+                        user.Order.BucketItems = BucketItemsListThatIsGoingToBeBought.ToList();
                         
                         db.SaveChanges();
 
-                        CashOutViewModel cashOutViewModel = new CashOutViewModel
-                        {
-                            GroupedBucketItems = user.Order.GroupedBucketItems,
-                            ShippingAdresses = user.ShippingAdresses
-                        };
-
-                        return RedirectToAction("Order",cashOutViewModel);
+                            //CashOutViewModel cashOutViewModel = new CashOutViewModel
+                            //{
+                            //    GroupedBucketItems = user.Order.BucketItems,
+                            //    ShippingAdresses = user.ShippingAdresses
+                            //};
+                            return View();
+                        //return RedirectToAction("Order",cashOutViewModel);
                         }
                         return RedirectToAction("Bucket");
                     }
@@ -144,7 +144,7 @@ namespace ShopApp.Controllers
         public ActionResult Order(CashOutViewModel cashOutViewModel)
         {
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-            if (user != null && cashOutViewModel.GroupedBucketItems == user.Order.GroupedBucketItems)
+            if (user != null && cashOutViewModel.GroupedBucketItems == user.Order.BucketItems)
                 return View(cashOutViewModel);
             else
                 //TODO: Critical Error View with a ViewBag

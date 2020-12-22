@@ -424,6 +424,10 @@
     <Compile Include="Migrations\202012201848096_MakingOrderTable2.Designer.cs">
       <DependentUpon>202012201848096_MakingOrderTable2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012222233167_ChangesOnOrder.cs" />
+    <Compile Include="Migrations\202012222233167_ChangesOnOrder.Designer.cs">
+      <DependentUpon>202012222233167_ChangesOnOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
@@ -864,6 +868,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012201848096_MakingOrderTable2.resx">
       <DependentUpon>202012201848096_MakingOrderTable2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012222233167_ChangesOnOrder.resx">
+      <DependentUpon>202012222233167_ChangesOnOrder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
