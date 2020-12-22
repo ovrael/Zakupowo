@@ -13,16 +13,17 @@
                 <h5>Dane odbiorcy</h5>
             </div>
             <div class="col-12 col-lg-7 m-2 mx-auto">
-                <select class="form-control">
-                    @for (int x = 1; x <= Model.ShippingAdresses.Count(); x++)
+                <select id="address-input" name="address-input" class="form-control">
+                    @{List<ShopApp.Models.ShippingAdress> lista = Model.ShippingAdresses.ToList();}
+                    @for (int x = 0; x < Model.ShippingAdresses.Count(); x++)
                     {
-                        <option>adres @x</option>
+                        <option value="@lista[x].AdressID">adres @(x+1)</option>
                     }
                 </select>
             </div>
             @foreach (var Adress in Model.ShippingAdresses)
             {
-                <div class="col-12 col-lg-7 m-2 mx-auto">
+                <div class="col-12 col-lg-7 m-2 mx-auto address" id="Address_@Adress.AdressID">
                     <input type="hidden" value="@Adress.AdressID" />
                     <p>@Adress.User.FirstName @Adress.User.LastName</p>
                     <p>@Adress.Street</p>
@@ -34,54 +35,54 @@
         <div class="cash-offers shadow m-0 mt-2 mt-lg-4 p-3">
             @foreach (var seller in Model.GroupedBucketItems)
             {
-            <div class="items-group mt-1">
-                <div class="row items-header">
-                    <div class="col-12 items-seller">
-                        <p class="pl-4">od: <a class="seller-name">@seller.Key.Login</a></p>
+                <div class="items-group mt-1">
+                    <div class="row items-header">
+                        <div class="col-12 items-seller">
+                            <p class="pl-4">od: <a class="seller-name">@seller.Key.Login</a></p>
+                        </div>
                     </div>
-                </div>
-                @foreach (var item in seller)
-                {
-                    if (item.Offer != null)
+                    @foreach (var item in seller)
                     {
-                        <div class="row item justify-content-center align-items-center text-center">
-                            <div class="col-6 col-lg-4 item-image">
-                                <img class="img-fluid" src="@item.Offer.OfferPictures.First().PathToFile">
+                        if (item.Offer != null)
+                        {
+                            <div class="row item justify-content-center align-items-center text-center">
+                                <div class="col-6 col-lg-4 item-image">
+                                    <img class="img-fluid" src="@item.Offer.OfferPictures.First().PathToFile">
+                                </div>
+                                <div class="col-6 col-lg-4 item-desc">
+                                    <p><a class="product-name" href="#">@item.Offer.Title</a></p>
+                                    <p class="product-price">@item.Quantity x @item.Offer.Price zł</p>
+                                    <p class="product-price">@(item.Quantity * item.Offer.Price) zł</p>
+                                </div>
                             </div>
-                            <div class="col-6 col-lg-4 item-desc">
-                                <p><a class="product-name" href="#">@item.Offer.Title</a></p>
-                                <p class="product-price">@item.Quantity @item.Offer.Price zł</p>
-                                <p class="product-price">@(item.Quantity * item.Offer.Price) zł</p>
+                        }
+                        else
+                        {
+                            <div class="row item justify-content-center align-items-center text-center">
+                                <div class="col-6 col-lg-4 item-image">
+                                    <img class="img-fluid" src="@item.Bundle.Offers.First().OfferPictures.First().PathToFile">
+                                </div>
+                                <div class="col-6 col-lg-4 item-desc">
+                                    <p><a class="product-name" href="#">@item.Bundle.Title</a></p>
+                                    <p class="product-price">@item.Bundle.BundlePrice zł</p>
+                                </div>
                             </div>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="row item justify-content-center align-items-center text-center">
-                            <div class="col-6 col-lg-4 item-image">
-                                <img class="img-fluid" src="@item.Bundle.Offers.First().OfferPictures.First().PathToFile">
-                            </div>
-                            <div class="col-6 col-lg-4 item-desc">
-                                <p><a class="product-name" href="#">@item.Bundle.Title</a></p>
-                                <p class="product-price">@item.Bundle.BundlePrice zł</p>
-                            </div>
-                        </div>
-                    }
+                        }
 
-                }
-                <hr>
-                <div class="row items-footer text-center">
-                    <div class="col-12">
-                        <p class="items-sum">Razem: /*JS*/</p>
+                    }
+                    <hr>
+                    <div class="row items-footer text-center">
+                        <div class="col-12">
+                            <p class="items-sum">Razem: /*JS*/</p>
+                        </div>
                     </div>
                 </div>
-            </div>
             }
         </div>
         <div class="row cash-message shadow m-0 mt-2 mt-lg-4 p-3">
             <div class="col-12 mb-1 text-center"><h5>Wiadomość dla sprzedającego</h5></div>
             <div class="col-12 mx-lg-auto col-lg-6">
-                <input type="text" class="form-control" id="exampleFormControlTextarea1" rows="5">
+                <textarea class="form-control" id="message" name="message" rows="5"></textarea>
             </div>
         </div>
         <div class="row cash-summary shadow m-0 mt-2 mt-lg-4 mb-2 mb-lg-4 p-3 text-center">
@@ -96,3 +97,4 @@
         </div>
     </form>
 </div>
+@Scripts.Render("~/bundles/Orderjs")
