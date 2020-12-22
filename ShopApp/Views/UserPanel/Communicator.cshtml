@@ -1,4 +1,4 @@
-﻿@*MODEL IS LAST MESSAGES FROM EACH USER*@
+﻿@*MODEL IS LAST MESSAGES FROM/TO EACH USER*@
 @model IEnumerable<ShopApp.Models.Message>
 
 @{
@@ -36,7 +36,7 @@
                                 int n = 0;
                                 foreach (var msg in Model)
                                 {
-                                    System.Diagnostics.Debug.WriteLine("Uzytkownik w pillsach: " + msg.Sender.Login);
+                                    //System.Diagnostics.Debug.WriteLine("Uzytkownik w pillsach: " + msg.Sender.Login);
                                     string shortSentDate = string.Empty;
                                     string ariaControls = msg.Sender.UserID + "Conversation";
                                     string tabID = ariaControls + "-tab";
@@ -99,7 +99,7 @@
 
                     string conversationID = "v-pills-" + user.UserID + "Conversation";
                     string ariaLabelled = conversationID + "-tab";
-                    string activeClass = user == lastUser ? "show active" : string.Empty;
+                    string activeClass = user == lastUser ? "active" : string.Empty;
 
                     <div class="px-4 py-5 chat-box bg-white tab-pane @activeClass" id="@conversationID" role="tabpanel" aria-labelledby="@ariaLabelled">
                         <p> OKNO CZATU Z @user.Login</p>
@@ -161,11 +161,11 @@
                     k++;
                 }
                 <!-- Typing area -->
-                <form action="#" class="bg-light">
+                <form id="message-send-form" class="bg-light">
                     <div class="input-group">
-                        <input id="messageContent" type="text" placeholder="Napisz wiadomość" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+                        <input id="message-content" type="text" placeholder="Napisz wiadomość" aria-describedby="send-message-btn" class="form-control rounded-0 border-0 py-4 bg-light" autocomplete="off">
                         <div class="input-group-append">
-                            <button id="button-addon2" type="submit" class="btn btn-link" onClick="send_message(this.id)"> <i class="fa fa-paper-plane"></i></button>
+                            <a id="send-message-btn" class="btn btn-link"> <i class="fa fa-paper-plane"></i></a>
                         </div>
                     </div>
                 </form>
@@ -176,37 +176,39 @@
     </div>
 </div>
 
+@section scripts
+    {
+    <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+    <script src="~/signalr/js"></script>
+    <script src="~/Scripts/ChatScript.js"></script>
+}
 
-@*<div class="container">
-        <input type="text" id="message" />
-        <input type="button" id="sendmessage" value="Send" />
-        <input type="hidden" id="displayname" />
-        <ul id="discussion">
-        </ul>
-    </div>*@
+@*@section scripts
+    {
+        <script type="text/javascript">
+            function send_message(clicked_id) {
 
-<script type="text/javascript">
-    function send_message(clicked_id) {
-
-        var user = document.getElementsByClassName("user-last-msg active");
-        console.log("user[0].ID: " + user[0].id);
-        console.log("user[0].id.indexOf(Conversation): " + user[0].id.indexOf("Conversation"));
-        var userID = user[0].id.substring(0, user[0].id.indexOf("Conversation"));
-        console.log("userID: " + userID);
+                var user = document.getElementsByClassName("user-last-msg active");
+                console.log("user[0].ID: " + user[0].id);
+                console.log("user[0].id.indexOf(Conversation): " + user[0].id.indexOf("Conversation"));
+                var userID = user[0].id.substring(0, user[0].id.indexOf("Conversation"));
+                console.log("userID: " + userID);
 
 
-        var msg = document.getElementById("messageContent");
+                var msg = document.getElementById("messageContent");
 
-        console.log("msg.ID: " + msg.id);
-        console.log("msg.value (wartość tekstu): " + msg.value);
+                console.log("msg.ID: " + msg.id);
+                console.log("msg.value (wartość tekstu): " + msg.value);
 
-        $.ajax({
-            type: "post",
-            url: "/UserPanel/SendMessage",
-            data: { "receiverID": userID, "content": msg.value },
-            success: function (data) {
-                $("#div-chat-boxes").load(location.href + " #div-chat-boxes>*", "");
+                $.ajax({
+                    type: "post",
+                    url: "/UserPanel/SendMessage",
+                    data: { "receiverID": userID, "content": msg.value },
+                    success: function (data) {
+                        $("#div-chat-boxes").load(location.href + " #div-chat-boxes>*", "");
+                    }
+                })
             }
-        })
-    }
-</script>
+        </script>
+
+    }*@
