@@ -186,6 +186,7 @@
     <Compile Include="Controllers\UserPanelJonakController.cs" />
     <Compile Include="Controllers\DataBase.cs" />
     <Compile Include="ControllersAPI\UsersController.cs" />
+    <Compile Include="DAL\ConcurrencyAwareEntityConvention.cs" />
     <Compile Include="DAL\ShopContext.cs" />
     <Compile Include="DAL\ShopInitializer.cs" />
     <Compile Include="Global.asax.cs">
