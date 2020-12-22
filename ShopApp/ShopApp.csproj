@@ -413,6 +413,14 @@
     <Compile Include="Migrations\202012152220545_WorkinOnChat_UsingInverseProperties.Designer.cs">
       <DependentUpon>202012152220545_WorkinOnChat_UsingInverseProperties.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012201834308_MakingOrderTable.cs" />
+    <Compile Include="Migrations\202012201834308_MakingOrderTable.Designer.cs">
+      <DependentUpon>202012201834308_MakingOrderTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012201848096_MakingOrderTable2.cs" />
+    <Compile Include="Migrations\202012201848096_MakingOrderTable2.Designer.cs">
+      <DependentUpon>202012201848096_MakingOrderTable2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
@@ -424,6 +432,7 @@
     <Compile Include="Models\Favourite.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\OfferPicture.cs" />
+    <Compile Include="Models\Order.cs" />
     <Compile Include="Models\ShippingAdress.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Settings.cs" />
@@ -437,6 +446,7 @@
     <Compile Include="Utility\EmailManager.cs" />
     <Compile Include="Utility\FileManager.cs" />
     <Compile Include="Utility\Utilities.cs" />
+    <Compile Include="ViewModels\CashOutViewModel.cs" />
     <Compile Include="ViewModels\OfferIndexViewModel.cs" />
     <Compile Include="ViewModels\OffersAndBundles.cs" />
     <Compile Include="ViewModels\User\AccountViewModel.cs" />
@@ -461,6 +471,7 @@
     <Content Include="Content\Layout.css" />
     <Content Include="Content\loginregister.css" />
     <Content Include="Content\offer.css" />
+    <Content Include="Content\CashOut.css" />
     <Content Include="Content\UserPanel.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -653,6 +664,7 @@
     <Content Include="Views\UserPanel\AddBundle.cshtml" />
     <Content Include="Views\Offer\Favourites.cshtml" />
     <Content Include="Views\UserPanel\LearningJS.cshtml" />
+    <Content Include="Views\Offer\Order.cshtml" />
     <Content Include="Views\UserPanel\LearningSignalR.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -843,6 +855,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012152220545_WorkinOnChat_UsingInverseProperties.resx">
       <DependentUpon>202012152220545_WorkinOnChat_UsingInverseProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012201834308_MakingOrderTable.resx">
+      <DependentUpon>202012201834308_MakingOrderTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012201848096_MakingOrderTable2.resx">
+      <DependentUpon>202012201848096_MakingOrderTable2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

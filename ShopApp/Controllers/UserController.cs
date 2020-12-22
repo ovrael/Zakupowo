@@ -79,6 +79,13 @@ namespace ShopApp.Controllers
                 db.Buckets.Add(bucket);
                 db.SaveChanges();
 
+                Order UniqueOrderForThatUser = new Order
+                {
+                    Owner = user
+                };
+
+                db.Orders.Add(UniqueOrderForThatUser);
+                db.SaveChanges();
 
 
                 Task.Run(() => EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email));

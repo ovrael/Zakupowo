@@ -50,7 +50,7 @@ namespace ShopApp.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult AddToBucket(string type, int? id, int quantity = 1)
+        public async Task<ActionResult> AddToBucket(string type, int? id, int quantity = 1)
         {
             List<string> errors = new List<string>();
 
@@ -97,6 +97,48 @@ namespace ShopApp.Controllers
 
             return Json(errors,JsonRequestBehavior.AllowGet);
         }
+        
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> RemoveFromBucket(string type, int? id)
+        {
+            List<string> errors = new List<string>(); // You might want to return an error if something wrong happened
+
+            User User = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+
+            if ((type == "Offer" || type == "Bundle") && User != null)
+            {
+                if (type == "Offer")
+                {
+                    BucketItem UsersBucketItemThatIsMeantToBeRemoved = User?.Bucket?.BucketItems?.Where(i => i.Offer != null && i.Offer.OfferID == id).FirstOrDefault();
+
+                    if (UsersBucketItemThatIsMeantToBeRemoved != null)
+                    {
+                        User.Bucket.BucketItems.Remove(UsersBucketItemThatIsMeantToBeRemoved);
+                        Offer BucketItemsOFfer = UsersBucketItemThatIsMeantToBeRemoved.Offer;
+                        BucketItemsOFfer.BucketItems.Remove(UsersBucketItemThatIsMeantToBeRemoved);
+                        db.BucketItems.Remove(UsersBucketItemThatIsMeantToBeRemoved);
+                        ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                    }
+                }
+                else
+                {
+                    BucketItem UsersBucketItemThatIsMeantToBeRemoved = User?.Bucket?.BucketItems?.Where(i => i.Bundle != null && i.Bundle.BundleID == id).FirstOrDefault();
+                    if (UsersBucketItemThatIsMeantToBeRemoved != null)
+                    {
+                        User.Bucket.BucketItems.Remove(UsersBucketItemThatIsMeantToBeRemoved);
+                        Bundle BucketItemsBundle = UsersBucketItemThatIsMeantToBeRemoved.Bundle;
+                        BucketItemsBundle.BucketItems.Remove(UsersBucketItemThatIsMeantToBeRemoved);
+                        db.BucketItems.Remove(UsersBucketItemThatIsMeantToBeRemoved);
+                        ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                    }
+                }
+            }
+
+            return Json(errors, JsonRequestBehavior.AllowGet);
+        }
+        
+        [HttpGet]
         [Authorize]
         public ActionResult Bucket()
         {
@@ -110,15 +152,10 @@ namespace ShopApp.Controllers
                 return new HttpStatusCodeResult(404);
         }
 
-
         [HttpPost]
         [Authorize]
         public ActionResult Bucket(FormCollection collection)
         {
-            //IdOferty
-            //Ilosc
-            //Suma
-            //
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
             if(user != null)
             {
@@ -160,8 +197,25 @@ namespace ShopApp.Controllers
                                 }
                             }
                         }
-                        //Tworzenie tabeli dla Zamówienia
-                        return RedirectToAction("DoKasy");
+
+                        user.Order.GroupedBucketItems = BucketItemsListThatIsGoingToBeBought.GroupBy(i => i.Offer != null ? i.Offer.User : i.Bundle.User).ToList();
+                        foreach (var seller in user.Order.GroupedBucketItems)
+                        {
+                            Debug.WriteLine(seller.Key.Login);
+                            foreach(var item in seller)
+                            {
+                                Debug.WriteLine(item.BucketItemID);
+                            }
+                        }
+                        db.SaveChanges();
+
+                        CashOutViewModel cashOutViewModel = new CashOutViewModel
+                        {
+                            GroupedBucketItems = user.Order.GroupedBucketItems,
+                            ShippingAdresses = user.ShippingAdresses
+                        };
+
+                        return View("Order",cashOutViewModel);
                     }
                 }
             }
@@ -215,5 +269,7 @@ namespace ShopApp.Controllers
                 return  new HttpStatusCodeResult(404);
             } 
         }
+        
+    
     }
 }

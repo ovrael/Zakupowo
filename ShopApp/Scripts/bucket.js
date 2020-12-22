@@ -27,4 +27,12 @@ $(document).ready(function () {
         sum = calculate();
         $(".bucket-price-amount").text(sum + " zł");
     })
+    $(".item-delete").click(function (e) {
+        var group = $(this).closest(".item").closest(".items-group");
+        $(this).closest(".item").remove();
+        if (group.find(".item").length === 0) {
+            group.remove();
+        }
+        $(".bucket-price-amount").text(calculate() + " zł");
+    });
 })
