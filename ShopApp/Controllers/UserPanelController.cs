@@ -860,9 +860,30 @@ namespace ShopApp.Controllers
 
             ViewBag.AllMessages = allMessages;
 
+            if (lastMessages == null || lastMessages.Count == 0)
+                ViewBag.LackMessages = true;
+
             lastMessages.Sort();
 
             return View(lastMessages);
+        }
+
+        [HttpPost]
+        public ActionResult GetUserIdFromName(string userLogin)
+        {
+            Debug.WriteLine("UserLogin: " + userLogin);
+            int? userID = db.Users.Where(u => u.Login == userLogin).Select(u => u.UserID).FirstOrDefault();
+
+            if (userID != null)
+            {
+                Debug.WriteLine("userID: " + userID);
+
+                return Json(userID);
+            }
+            else
+            {
+                return Json(false);
+            }
         }
 
         public ActionResult LearningJS()

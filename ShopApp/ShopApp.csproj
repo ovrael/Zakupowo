@@ -468,6 +468,8 @@
     <Compile Include="Models\ShippingAdress.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\UserConnection.cs" />
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
+    <Compile Include="obj\Release\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utility\ConcurencyHandling.cs" />
@@ -583,7 +585,6 @@
     <Content Include="Content\loginregister.css" />
     <Content Include="Content\offer.css" />
     <Content Include="Content\UserPanel.css" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Images\product.jpg" />
     <Content Include="Images\404ErrorImage.svg" />
@@ -624,9 +625,9 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="LICENSE" />
-    <Content Include="README.md" />
     <Content Include="XamarinFolder\Screenshot_1608460271.png" />
     <Content Include="bin\ShopApp.dll.config" />
+    <None Include="Properties\PublishProfiles\Zakupowo - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
     <Content Include="Scripts\jquery-3.0.0.js" />
     <Content Include="Scripts\jquery-3.0.0.min.js" />
@@ -798,13 +799,10 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="App_Files\Other\" />
+    <Folder Include="fonts\" />
     <Folder Include="Views\Error\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <None Include="packages.config" />

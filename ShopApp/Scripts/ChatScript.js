@@ -14,6 +14,30 @@
     //console.log("Zjezdzam na dół: " + $(conversationID)[0].id);
 }
 
+function createMessageWindow() {
+
+    var userLogin = $("#create-message-user").val();
+    //console.log("CHCE STWORZYĆ OKNO DO UŻYTKOWNIKA: " + xxx);
+
+    $.ajax({
+        url: '/UserPanel/GetUserIdFromName',
+        type: 'POST',
+        data: {
+            userLogin: userLogin
+        },
+        success: function (data) {
+            alert(data);
+        },
+        error: function () {
+            alert("error");
+        }
+    });
+
+
+    //console.log("Zjezdzam na dół: " + $(conversationID)[0].id);
+    $("#create-message-user").val('');
+}
+
 (function () {
 
 
