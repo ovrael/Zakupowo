@@ -124,13 +124,12 @@ namespace ShopApp.Controllers
                         
                         db.SaveChanges();
 
-                            //CashOutViewModel cashOutViewModel = new CashOutViewModel
-                            //{
-                            //    GroupedBucketItems = user.Order.BucketItems,
-                            //    ShippingAdresses = user.ShippingAdresses
-                            //};
-                            return View();
-                        //return RedirectToAction("Order",cashOutViewModel);
+                            CashOutViewModel cashOutViewModel = new CashOutViewModel
+                            {
+                                BucketItems = user.Order.BucketItems,
+                                ShippingAdresses = user.ShippingAdresses
+                            };
+                            return RedirectToAction("Order", cashOutViewModel);
                         }
                         return RedirectToAction("Bucket");
                     }
@@ -141,13 +140,14 @@ namespace ShopApp.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult Order(CashOutViewModel cashOutViewModel)
+        public ActionResult Order(CashOutViewModel cashOutViewModel = null)
         {
+
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-            if (user != null && cashOutViewModel.GroupedBucketItems == user.Order.BucketItems)
+            if (user != null && cashOutViewModel != null && cashOutViewModel.BucketItems == user.Order.BucketItems)
                 return View(cashOutViewModel);
             else
-                //TODO: Critical Error View with a ViewBag
+                //Returning 404 becuase managing the code to result in here has to be client-side code changes
                 return new HttpStatusCodeResult(404);
         }
 

@@ -50,6 +50,8 @@ namespace ShopApp
                 {
                     string userConnectionID = userConnection.ConnectionID;
                     string imageURL = sender.AvatarImage.PathToFile;
+                    Debug.WriteLine("------------ WYSYŁAM WIADOMOŚĆ DO " + userConnectionID);
+                    Debug.WriteLine("------------ MÓJ CONNECTION ID: " + Context.ConnectionId);
 
                     Clients.Client(userConnectionID).receiveMessage(message, sender.UserID, sender.Login, imageURL);
                 }
