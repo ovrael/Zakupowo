@@ -437,6 +437,10 @@
     <Compile Include="Migrations\202012222233167_ChangesOnOrder.Designer.cs">
       <DependentUpon>202012222233167_ChangesOnOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012231040155_AddedUserConnectionsForChat.cs" />
+    <Compile Include="Migrations\202012231040155_AddedUserConnectionsForChat.Designer.cs">
+      <DependentUpon>202012231040155_AddedUserConnectionsForChat.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
@@ -451,6 +455,7 @@
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\ShippingAdress.cs" />
     <Compile Include="Models\Transaction.cs" />
+    <Compile Include="Models\UserConnection.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utility\ConcurencyHandling.cs" />
@@ -974,6 +979,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012222233167_ChangesOnOrder.resx">
       <DependentUpon>202012222233167_ChangesOnOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012231040155_AddedUserConnectionsForChat.resx">
+      <DependentUpon>202012231040155_AddedUserConnectionsForChat.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

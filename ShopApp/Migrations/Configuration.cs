@@ -21,22 +21,23 @@ namespace ShopApp.Migrations
 
         protected override void Seed(ShopContext context)
         {
-            //var users = new List<User>()
-            //{
-            //    new User()
-            //    {
-            //        Email="Admin@seed.com",
-            //        Login="AdminSeedLogin",
-            //        EncryptedPassword="AdminSeedPassword",
-            //        FirstName ="Admin",
-            //        LastName="SeedLastName",
-            //        Phone ="123456789",
-            //        CreationDate = DateTime.Now
-            //    }
-            //};
-
-            //users.ForEach(u => context.Users.AddOrUpdate(u));
-            //context.SaveChanges();
+            var users = new List<User>()
+            {
+                new User()
+                {
+                    UserID = 1,
+                    Email = "Zakupowo2020@gmail.com",
+                    Login = "Zakupowo",
+                    EncryptedPassword = Utility.Cryptographing.Encrypt("Zakupowo2020$$$"),
+                    FirstName ="Zakupowo",
+                    LastName="Administration",
+                    CreationDate = DateTime.Now,
+                    Bucket = new Bucket(),
+                    Order = new Order()
+                }
+            };
+            users.ForEach(u => context.Users.AddOrUpdate(i => i.Login));
+            context.SaveChanges();
 
             var categories = new List<Category>
             {
@@ -71,22 +72,6 @@ namespace ShopApp.Migrations
             };
             categories.ForEach(u => context.Categories.AddOrUpdate(u));
             context.SaveChanges();
-
-            //var adresses = new List<ShippingAdress>
-            //{
-            //    new ShippingAdress()
-            //    {
-            //        Country = "Polska",
-            //        City = "Katowice",
-            //        Street = "Mariacka",
-            //        PremisesNumber = "33",
-            //        PostalCode = "40-220",
-            //        User = users[0]
-            //    }
-            //};
-            //adresses.ForEach(a => context.ShippingAdresses.AddOrUpdate(a));
-            //context.SaveChanges();
-
         }
     }
 }
