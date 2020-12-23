@@ -120,16 +120,11 @@ namespace ShopApp.Controllers
                         //If collection offers bundles and sellers all were valid => View if not => Redirect
                         if(BucketItemsListThatIsGoingToBeBought != null)
                         {
-                        user.Order.BucketItems = BucketItemsListThatIsGoingToBeBought.ToList();
+                            user.Order.BucketItems = BucketItemsListThatIsGoingToBeBought;
+                            user.Order.Owner = user;
+                            db.SaveChanges();
                         
-                        db.SaveChanges();
-
-                            CashOutViewModel cashOutViewModel = new CashOutViewModel
-                            {
-                                BucketItems = user.Order.BucketItems,
-                                ShippingAdresses = user.ShippingAdresses
-                            };
-                            return RedirectToAction("Order", cashOutViewModel);
+                        return RedirectToAction("Order");
                         }
                         return RedirectToAction("Bucket");
                     }
@@ -140,12 +135,20 @@ namespace ShopApp.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult Order(CashOutViewModel cashOutViewModel = null)
+        public ActionResult Order()
         {
 
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-            if (user != null && cashOutViewModel != null && cashOutViewModel.BucketItems == user.Order.BucketItems)
+            
+            if (user != null && user.Order.BucketItems != null && user.ShippingAdresses.Count() != 0)
+            {
+                CashOutViewModel cashOutViewModel = new CashOutViewModel
+                {
+                    GroupedBucketItems = user.Order.BucketItems.GroupBy(i => i.Offer != null ? i.Offer.User : i.Bundle.User).ToList(),
+                    ShippingAdresses = user.ShippingAdresses
+                };
                 return View(cashOutViewModel);
+            }
             else
                 //Returning 404 becuase managing the code to result in here has to be client-side code changes
                 return new HttpStatusCodeResult(404);

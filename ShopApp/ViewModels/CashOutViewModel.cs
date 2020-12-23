@@ -8,7 +8,7 @@ namespace ShopApp.ViewModels
 {
     public class CashOutViewModel
     {
-        public ICollection<BucketItem> BucketItems { get; set; }
+        public ICollection<IGrouping<ShopApp.Models.User,BucketItem>> GroupedBucketItems { get; set; }
         public IEnumerable<ShopApp.Models.ShippingAdress> ShippingAdresses { get; set; }
     }
 }
