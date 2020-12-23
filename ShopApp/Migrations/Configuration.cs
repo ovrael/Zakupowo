@@ -9,6 +9,7 @@ using System.Data.Entity.Migrations;
 using System.Configuration;
 using ShopApp.DAL;
 using System.Diagnostics;
+using ShopApp.Utility
 
 namespace ShopApp.Migrations
 {
@@ -22,12 +23,25 @@ namespace ShopApp.Migrations
 
         protected override void Seed(ShopContext context)
         {
-            Debug.WriteLine("We are inside seed somehow");
+            //var users = new List<User>()
+            //{
+            //    new User()
+            //    {
+            //        Email="Admin@seed.com",
+            //        Login="AdminSeedLogin",
+            //        EncryptedPassword="AdminSeedPassword",
+            //        FirstName ="Admin",
+            //        LastName="SeedLastName",
+            //        Phone ="123456789",
+            //        CreationDate = DateTime.Now
+            //    }
+            //};
+
             var users = new List<User>
             {
                 new User{
                     UserID = 1,
-                    Email="Admin@zakupowo.com",
+                    Email="Zakupowo2020@gmail.com",
                     Login="SeedLogin",
                     EncryptedPassword="SeedPassword",
                     FirstName ="SeedFirstName",
