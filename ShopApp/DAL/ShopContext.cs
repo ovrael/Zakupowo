@@ -13,6 +13,8 @@ namespace ShopApp.DAL
     public class ShopContext : DbContext
     {
         public ShopContext() : base("ZakupowoDatabase") { }
+
+        public virtual DbSet<UserConnection> UserConnections { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Auction> Auctions { get; set; }
         public virtual DbSet<Offer> Offers { get; set; }

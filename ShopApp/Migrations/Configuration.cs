@@ -8,8 +8,6 @@ using System.Data.Entity.Validation;
 using System.Data.Entity.Migrations;
 using System.Configuration;
 using ShopApp.DAL;
-using System.Diagnostics;
-using ShopApp.Utility
 
 namespace ShopApp.Migrations
 {
@@ -23,35 +21,21 @@ namespace ShopApp.Migrations
 
         protected override void Seed(ShopContext context)
         {
-            //var users = new List<User>()
-            //{
-            //    new User()
-            //    {
-            //        Email="Admin@seed.com",
-            //        Login="AdminSeedLogin",
-            //        EncryptedPassword="AdminSeedPassword",
-            //        FirstName ="Admin",
-            //        LastName="SeedLastName",
-            //        Phone ="123456789",
-            //        CreationDate = DateTime.Now
-            //    }
-            //};
-
-            var users = new List<User>
+            var users = new List<User>()
             {
-                new User{
+                new User()
+                {
                     UserID = 1,
-                    Email="Zakupowo2020@gmail.com",
-                    Login="SeedLogin",
-                    EncryptedPassword="SeedPassword",
-                    FirstName ="SeedFirstName",
-                    LastName="SeedLastName",
-                    Phone ="123456789",
+                    Email = "Zakupowo2020@gmail.com",
+                    Login = "Zakupowo",
+                    EncryptedPassword = Utility.Cryptographing.Encrypt("Zakupowo2020$$$"),
+                    FirstName ="Zakupowo",
+                    LastName="Administration",
+                    CreationDate = DateTime.Now,
                     Bucket = new Bucket(),
                     Order = new Order()
                 }
             };
-
             users.ForEach(u => context.Users.AddOrUpdate(i => i.Login));
             context.SaveChanges();
 
@@ -88,7 +72,6 @@ namespace ShopApp.Migrations
             };
             categories.ForEach(u => context.Categories.AddOrUpdate(u));
             context.SaveChanges();
-
         }
     }
 }
