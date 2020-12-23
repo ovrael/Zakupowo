@@ -44,7 +44,6 @@ namespace ShopApp
 
                 sender.SentMessages.Add(sendMessage);
                 db.SaveChanges();
-                Debug.WriteLine(sendMessage.Content);
 
                 UserConnection userConnection = db.UserConnections.Where(u => u.UserName == receiver.Login).FirstOrDefault();
 
@@ -52,12 +51,16 @@ namespace ShopApp
                 {
                     string userConnectionID = userConnection.ConnectionID;
                     string imageURL = sender.AvatarImage.PathToFile;
-                    Debug.WriteLine("------------ WYSYŁAM WIADOMOŚĆ DO " + userConnectionID);
-                    Debug.WriteLine("------------ MÓJ CONNECTION ID: " + Context.ConnectionId);
 
                     Debug.WriteLine("------------ WYSYŁAM WIADOMOŚĆ DO " + userConnectionID);
                     Debug.WriteLine("------------ MÓJ CONNECTION ID: " + Context.ConnectionId);
-                    Clients.All.receiveMessage(message, sender.UserID, sender.Login, imageURL);
+                    Clients.User(userConnectionID).receiveMessage(message, sender.UserID, sender.Login, imageURL);
+                    Clients.User(receiver.Login).receiveMessage(message, sender.UserID, sender.Login, imageURL);
+
+                    Clients.Client(userConnectionID).receiveMessage(message, sender.UserID, sender.Login, imageURL);
+                    Clients.Client(receiver.Login).receiveMessage(message, sender.UserID, sender.Login, imageURL);
+
+                    //Clients.All.receiveMessage(message, sender.UserID, sender.Login, imageURL);
                 }
 
                 //if (userConnections.ContainsKey(receiver.Login))
@@ -80,10 +83,16 @@ namespace ShopApp
                 var oldConnection = db.UserConnections.Where(u => u.UserName == name).FirstOrDefault();
                 var newConnection = new UserConnection() { UserName = name, ConnectionID = connectionID };
 
-                oldConnection = newConnection;
-
-                db.Entry(oldConnection).State = oldConnection.UserConnectionID == 0 ? EntityState.Added : EntityState.Modified;
-                db.SaveChanges();
+                if (oldConnection == null)
+                {
+                    db.UserConnections.Add(newConnection);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    oldConnection = newConnection;
+                    db.SaveChanges();
+                }
             }
 
             //if (!userConnections.ContainsKey(name))
