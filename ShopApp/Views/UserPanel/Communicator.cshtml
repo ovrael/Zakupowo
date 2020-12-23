@@ -2,8 +2,13 @@
 @model IEnumerable<ShopApp.Models.Message>
 
 @{
-    List<ShopApp.Models.User> chatUsers = new List<ShopApp.Models.User>();
-    ShopApp.Models.User lastUser = HttpContext.Current.User.Identity.Name == Model.First().Sender.Login ? Model.First().Receiver : Model.First().Sender;
+    bool lackMessages = ViewBag.LackMessages == null ? false : true;
+
+    ShopApp.Models.User lastUser = null;
+    if (!lackMessages)
+    {
+        lastUser = HttpContext.Current.User.Identity.Name == Model.First().Sender.Login ? Model.First().Receiver : Model.First().Sender;
+    }
 
     List<List<ShopApp.Models.Message>> allMessages = (List<List<ShopApp.Models.Message>>)ViewBag.AllMessages;
 }
@@ -27,7 +32,7 @@
                 <div class="messages-box">
                     <div class="list-group rounded-0 nav-pills" role="tablist" aria-orientation="vertical" id="div-user-boxes">
                         @{
-                            if (Model != null && Model.Count() > 0)
+                            if (Model != null && Model.Count() > 0 && !lackMessages)
                             {
                                 int n = 0;
                                 foreach (var msg in Model)
@@ -93,77 +98,91 @@
 
         <div class="col-7 px-0 tab-content" id="div-chat-boxes">
             @{
-                int k = 0;
-                foreach (var messagesList in allMessages)
+                if (!lackMessages)
                 {
-                    //JEŚLI ODBIORCĄ JESTEŚMY MY PRZYDZIEL NADAWCĘ WIADOMOŚCI, W PRZECIWYNYM WYPADKU (GDY MY JESTEŚMY NADAWCĄ) PRZYDZIEL NASZE KONTO
-                    ShopApp.Models.User user = messagesList[0].Receiver.Login == HttpContext.Current.User.Identity.Name ? messagesList[0].Sender : messagesList[0].Receiver;
+                    int k = 0;
+                    foreach (var messagesList in allMessages)
+                    {
+                        //JEŚLI ODBIORCĄ JESTEŚMY MY PRZYDZIEL NADAWCĘ WIADOMOŚCI, W PRZECIWYNYM WYPADKU (GDY MY JESTEŚMY NADAWCĄ) PRZYDZIEL NASZE KONTO
+                        ShopApp.Models.User user = messagesList[0].Receiver.Login == HttpContext.Current.User.Identity.Name ? messagesList[0].Sender : messagesList[0].Receiver;
 
-                    string conversationID = "v-pills-" + user.UserID + "Conversation";
-                    string ariaLabelled = conversationID + "-tab";
-                    string activeClass = user == lastUser ? "active" : string.Empty;
+                        string conversationID = "v-pills-" + user.UserID + "Conversation";
+                        string ariaLabelled = conversationID + "-tab";
+                        string activeClass = user == lastUser ? "active" : string.Empty;
 
-                    <div class="px-4 py-5 chat-box bg-white tab-pane @activeClass" id="@conversationID" role="tabpanel" aria-labelledby="@ariaLabelled">
-                        @{
-                            string customSentDate = string.Empty;
-                            foreach (var message in messagesList)
-                            {
-
-                                if (message.SentTime.CompareTo(DateTime.Now.AddDays(-1)) < 1)
-                                {
-                                    customSentDate = message.SentTime.ToShortDateString();
-                                }
-                                else
-                                {
-                                    customSentDate = message.SentTime.ToShortTimeString();
-                                }
-
-                                if (message.Sender == user)
+                        <div class="px-4 py-5 chat-box bg-white tab-pane @activeClass" id="@conversationID" role="tabpanel" aria-labelledby="@ariaLabelled">
+                            @{
+                                string customSentDate = string.Empty;
+                                foreach (var message in messagesList)
                                 {
 
-                                    <div class="media w-50 mb-3 message">
-                                        <img src="@user.AvatarImage.PathToFile" alt="user" width="30" class="rounded-circle">
-                                        <div class="media-body ml-3">
-                                            <div class="bg-light rounded py-2 px-3 mb-2" data-toggle="tooltip" title="@customSentDate">
-                                                <p class="text-small mb-0 text-muted">@message.Content</p>
+                                    if (message.SentTime.CompareTo(DateTime.Now.AddDays(-1)) < 1)
+                                    {
+                                        customSentDate = message.SentTime.ToShortDateString();
+                                    }
+                                    else
+                                    {
+                                        customSentDate = message.SentTime.ToShortTimeString();
+                                    }
+
+                                    if (message.Sender == user)
+                                    {
+
+                                        <div class="media w-50 mb-3 message">
+                                            <img src="@user.AvatarImage.PathToFile" alt="user" width="30" class="rounded-circle">
+                                            <div class="media-body ml-3">
+                                                <div class="bg-light rounded py-2 px-3 mb-2" data-toggle="tooltip" title="@customSentDate">
+                                                    <p class="text-small mb-0 text-muted">@message.Content</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                }
+                                    }
 
-                                if (message.Sender.Login == HttpContext.Current.User.Identity.Name)
-                                {
-                                    <div class="media w-50 ml-auto mb-3 message">
-                                        <div class="media-body">
-                                            <div class="bg-primary rounded py-2 px-3 mb-2" data-toggle="tooltip" title="@customSentDate">
-                                                <p class="text-small mb-0 text-white">@message.Content</p>
+                                    if (message.Sender.Login == HttpContext.Current.User.Identity.Name)
+                                    {
+                                        <div class="media w-50 ml-auto mb-3 message">
+                                            <div class="media-body">
+                                                <div class="bg-primary rounded py-2 px-3 mb-2" data-toggle="tooltip" title="@customSentDate">
+                                                    <p class="text-small mb-0 text-white">@message.Content</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    }
                                 }
                             }
-                        }
-                    </div>
-
-                    k++;
-                }
-
-                <!-- Typing area -->
-                <form id="message-send-form" class="bg-light">
-                    <div class="input-group">
-                        <input id="message-content" type="text" placeholder="Napisz wiadomość" aria-describedby="send-message-btn" class="form-control rounded-0 border-0 py-4 bg-light" autocomplete="off">
-                        <div class="input-group-append">
-                            <a id="send-message-btn" class="btn btn-link"> <i class="fa fa-paper-plane"></i></a>
                         </div>
-                    </div>
-                </form>
+
+                        k++;
+                    }
+                    <!-- Typing area -->
+                    <form id="message-send-form" class="bg-light">
+                        <div class="input-group">
+                            <input id="message-content" type="text" placeholder="Napisz wiadomość" aria-describedby="send-message-btn" class="form-control rounded-0 border-0 py-4 bg-light" autocomplete="off">
+                            <div class="input-group-append">
+                                <a id="send-message-btn" class="btn btn-link"> <i class="fa fa-paper-plane"></i></a>
+                            </div>
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <div class="px-4 py-5 chat-box bg-white tab-pane active" role="tabpanel"></div>
+                }
             }
         </div>
     </div>
 </div>
 <div class="container pl-5">
     <div class="row rounded-lg overflow-hidden pl-lg-5 pl-md-4">
-        <h3> Napisz wiadomość</h3>
+        <h3> Napisz wiadomość do: </h3>
+        <form id="create-message-user-form" class="bg-light">
+            <div class="input-group">
+                <input id="create-message-user" type="text" placeholder="Login użytkownika" aria-describedby="create-message-user-btn" class="form-control rounded-0 border-0 py-4 bg-light" autocomplete="off">
+                <div class="input-group-append">
+                    <a id="create-message-user-btn" class="btn btn-link" onclick="createMessageWindow()"> <i class="fa fa-paper-plane"></i></a>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 
