@@ -26,10 +26,53 @@ function createMessageWindow() {
             userLogin: userLogin
         },
         success: function (data) {
-            alert(data);
+            // CREATE CHAT WITH USER
+
+            if (data == false) {
+                alert("Nie znaleziono użytkownika o podanym loginie!");
+            }
+            else {
+                var idHelper = data.userID + "Conversation";
+                var tabID = idHelper + "-tab";
+                var pID = idHelper + "-p";
+                var dateID = idHelper + "-date";
+                var conversationID = "v-pills-" + idHelper;
+                var ariaLabelled = conversationID + "-tab";
+                var hrefLink = "#" + conversationID;
+
+                var actualUserBox = document.getElementsByClassName("user-last-msg active")[0];
+
+                if (actualUserBox != undefined) {
+                    actualUserBox.classList.remove("active");
+                }
+                $("#div-user-boxes").append(
+                    "<a onclick=\"scrollToBottom(this.id)\" id=\"" + tabID + "\" data-toggle=\"pill\" href=\"" + hrefLink + "\" role=\tab\" class=\"user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 active nav-link\">"
+                    + "<div class=\"media\">"
+                    + "<img src=\"" + data.userAvatarURL + "\" alt=\"user\" width=\"50\" class=\"rounded-circle\">"
+                    + "<div class=\"media-body ml-4\">"
+                    + "<div class=\"d-flex align-items-center justify-content-between mb-1\">"
+                    + "<h6 class=\"mb-0\">" + userLogin + "</h6><small id=\"" + dateID + "\" class=\"small font-weight-bold\"></small>"
+                    + "</div>"
+                    + "<p style=\"color:lightskyblue\" id=\"" + pID + "\" class=\"font-italic mb-0 text-small\"></p>"
+                    + "</div>"
+                    + "</div>"
+                    + "</a>"
+                );
+
+                var actualChatBox = document.getElementsByClassName("chat-box active")[0];
+
+                if (actualChatBox != undefined) {
+                    actualChatBox.classList.remove("active");
+                }
+
+                $("#div-chat-boxes").append(
+                    "<div class=\"px-4 py-5 chat-box bg-white tab-pane active\" id=\"" + conversationID + "\" role=\"tabpanel\" aria-labelledby=\"" + ariaLabelled + "\">"
+                    + "</div>"
+                );
+            }
         },
         error: function () {
-            alert("error");
+            alert("Nie znaleziono użytkownika o podanym loginie!");
         }
     });
 
@@ -62,6 +105,40 @@ function createMessageWindow() {
 
     chatHub.client.receiveMessage = function (message, senderID, senderName, avatarImmageURL) {
         console.log("Dostałem wiadomość");
+
+        var chatConversationID = "#" + senderID + "Conversation-tab";
+        console.log("Muszę znaleźć: " + chatConversationID);
+        var chat = $(chatConversationID)[0];
+        if (chat == undefined) {
+            console.log("Nie masz konwy z takim użytkownikiem i muszę to zrobić.");
+            var idHelper = senderID + "Conversation";
+            var tabID = idHelper + "-tab";
+            var pID = idHelper + "-p";
+            var dateID = idHelper + "-date";
+            var conversationID = "v-pills-" + idHelper;
+            var ariaLabelled = conversationID + "-tab";
+            var hrefLink = "#" + conversationID;
+
+            $("#div-user-boxes").prepend(
+                "<a onclick=\"scrollToBottom(this.id)\" id=\"" + tabID + "\" data-toggle=\"pill\" href=\"" + hrefLink + "\" role=\tab\" class=\"user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 nav-link\">"
+                + "<div class=\"media\">"
+                + "<img src=\"" + avatarImmageURL + "\" alt=\"user\" width=\"50\" class=\"rounded-circle\">"
+                + "<div class=\"media-body ml-4\">"
+                + "<div class=\"d-flex align-items-center justify-content-between mb-1\">"
+                + "<h6 class=\"mb-0\">" + senderName + "</h6><small id=\"" + dateID + "\" class=\"small font-weight-bold\"></small>"
+                + "</div>"
+                + "<p style=\"color:lightskyblue\" id=\"" + pID + "\" class=\"font-italic mb-0 text-small\"></p>"
+                + "</div>"
+                + "</div>"
+                + "</a>"
+            );
+
+            $("#div-chat-boxes").append(
+                "<div class=\"px-4 py-5 chat-box bg-white tab-pane\" id=\"" + conversationID + "\" role=\"tabpanel\" aria-labelledby=\"" + ariaLabelled + "\">"
+                + "</div>"
+            );
+        }
+
         writeReceivedMessage(message, senderID, senderName, avatarImmageURL);
     }
 

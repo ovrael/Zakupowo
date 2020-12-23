@@ -872,13 +872,11 @@ namespace ShopApp.Controllers
         public ActionResult GetUserIdFromName(string userLogin)
         {
             Debug.WriteLine("UserLogin: " + userLogin);
-            int? userID = db.Users.Where(u => u.Login == userLogin).Select(u => u.UserID).FirstOrDefault();
+            User user = db.Users.Where(u => u.Login == userLogin).FirstOrDefault();
 
-            if (userID != null)
+            if (user != null && user.AvatarImage != null)
             {
-                Debug.WriteLine("userID: " + userID);
-
-                return Json(userID);
+                return Json(new { userID = user.UserID, userAvatarURL = user.AvatarImage.PathToFile });
             }
             else
             {
