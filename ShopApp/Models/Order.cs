@@ -7,7 +7,7 @@ using ShopApp.DAL;
 
 namespace ShopApp.Models
 {
-    public class Order : ConcurrencyAwareEntityConvention
+    public class Order : IConcurrencyAwareEntity
     {
         [ForeignKey("Owner")]
         public int OrderID { get; set; }
