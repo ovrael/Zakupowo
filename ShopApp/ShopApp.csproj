@@ -441,6 +441,14 @@
     <Compile Include="Migrations\202012231040155_AddedUserConnectionsForChat.Designer.cs">
       <DependentUpon>202012231040155_AddedUserConnectionsForChat.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012231710199_DeletingBadRowVersionOfOrder.cs" />
+    <Compile Include="Migrations\202012231710199_DeletingBadRowVersionOfOrder.Designer.cs">
+      <DependentUpon>202012231710199_DeletingBadRowVersionOfOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012231711282_AddingProperRowVersionOfOrder.cs" />
+    <Compile Include="Migrations\202012231711282_AddingProperRowVersionOfOrder.Designer.cs">
+      <DependentUpon>202012231711282_AddingProperRowVersionOfOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
@@ -583,6 +591,7 @@
     <Content Include="Images\user.jpg" />
     <Content Include="Images\user2.jpg" />
     <Content Include="libman.json" />
+    <Content Include="Scripts\avatar.js" />
     <Content Include="Scripts\bootstrap-input-spinner.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -980,6 +989,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012231040155_AddedUserConnectionsForChat.resx">
       <DependentUpon>202012231040155_AddedUserConnectionsForChat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012231710199_DeletingBadRowVersionOfOrder.resx">
+      <DependentUpon>202012231710199_DeletingBadRowVersionOfOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012231711282_AddingProperRowVersionOfOrder.resx">
+      <DependentUpon>202012231711282_AddingProperRowVersionOfOrder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
