@@ -80,6 +80,7 @@ namespace ShopApp.Controllers
             db.SaveChanges();
 
             Task.Run(() => EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email));
+
             if (user != null)
             {
                 return Ok();
@@ -100,7 +101,7 @@ namespace ShopApp.Controllers
 
             if (user != null)
             {
-                return Ok(user.UserID);
+                return Ok(user);
             }
             return BadRequest("User not found");
 

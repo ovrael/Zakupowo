@@ -34,7 +34,7 @@
 
                             <div class="content-panel mb-3">
                                 <h3 class="fieldset-title">Zmiana avatara</h3>
-                                <img src="@avatarUrl" class="img-fluid pb-3 pt-3" alt="example placeholder" style="width:250px;border:solid; border-width:2px; border-color:lightgray">
+                                <img src="@avatarUrl" class="img-fluid pb-3 pt-3 output" alt="example placeholder" style="width:250px;border:solid; border-width:2px; border-color:lightgray">
                                 <br><br>
 
                                 @using (Html.BeginForm("EditAvatar", "UserPanel", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -43,7 +43,7 @@
                                     <label for="file">Wybierz nowy avatar:</label>
                                     <label class="btn btn-outline-dark mr-3 ml-3 ">
                                         <i class="fas fa-upload pl-1"></i>
-                                        <input type="file" name="file" id="file" style="width: 0px;height: 0px;overflow: hidden;">
+                                        <input class="user-avatar-upload" type="file" name="file" id="file" style="width: 0px;height: 0px;overflow: hidden;">
                                     </label>
                                     @*<input type="file" name="file" id="file" /><br><br>*@
                                     <hr>
@@ -59,3 +59,10 @@
 
     </div>
 </div>
+<script>
+    jQuery('.user-avatar-upload').on('change', function (event) {
+        console.log();
+        jQuery('.output').attr('src', URL.createObjectURL(event.target.files[0]));
+       
+    });
+</script>
