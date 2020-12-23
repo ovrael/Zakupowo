@@ -81,7 +81,7 @@ namespace ShopApp.Controllers
 
                 Order UniqueOrderForThatUser = new Order
                 {
-                    Owner = db.Users.Where(i => i.Login == user.Login).First()
+                    User = db.Users.Where(i => i.Login == user.Login).First()
                 };
 
                 db.Orders.Add(UniqueOrderForThatUser);

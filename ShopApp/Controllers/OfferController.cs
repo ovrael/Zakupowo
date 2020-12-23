@@ -120,9 +120,16 @@ namespace ShopApp.Controllers
                         //If collection offers bundles and sellers all were valid => View if not => Redirect
                         if(BucketItemsListThatIsGoingToBeBought != null)
                         {
-                            user.Order.BucketItems = BucketItemsListThatIsGoingToBeBought;
-                            user.Order.Owner = user;
+                            //Not sure what happens if we delete the bucketitems in between operations
+                            foreach (var item in user.Order.BucketItems)
+                                item.Order.Remove(user.Order);
+                            user.Order.BucketItems.Clear();
                             db.SaveChanges();
+                            user.Order.BucketItems = BucketItemsListThatIsGoingToBeBought;
+                            db.SaveChanges();
+                            foreach (var item in user.Order.BucketItems)
+                                item.Order.Add(user.Order);
+                            
                         
                         return RedirectToAction("Order");
                         }
