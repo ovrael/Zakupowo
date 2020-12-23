@@ -14,7 +14,7 @@ namespace ShopApp
     [HubName("chatHub")]
     public class ChatHub : Hub
     {
-        private readonly static Dictionary<string, string> userConnections = new Dictionary<string, string>();
+        //private readonly static Dictionary<string, string> userConnections = new Dictionary<string, string>();
 
         public void SendMessage(string message, string receiverID)
         {
@@ -44,13 +44,23 @@ namespace ShopApp
                 sender.SentMessages.Add(sendMessage);
                 db.SaveChanges();
 
-                if (userConnections.ContainsKey(receiver.Login))
+                UserConnection userConnection = db.UserConnections.Where(u => u.UserName == receiver.Login).FirstOrDefault();
+
+                if (userConnection != null)
                 {
-                    string userConnectionID = userConnections[receiver.Login];
+                    string userConnectionID = userConnection.ConnectionID;
                     string imageURL = sender.AvatarImage.PathToFile;
 
                     Clients.Client(userConnectionID).receiveMessage(message, sender.UserID, sender.Login, imageURL);
                 }
+
+                //if (userConnections.ContainsKey(receiver.Login))
+                //{
+                //    string userConnectionID = userConnections[receiver.Login];
+                //    string imageURL = sender.AvatarImage.PathToFile;
+
+                //    Clients.Client(userConnectionID).receiveMessage(message, sender.UserID, sender.Login, imageURL);
+                //}
             }
         }
 
@@ -59,10 +69,20 @@ namespace ShopApp
             string name = Context.User.Identity.Name;
             string connectionID = Context.ConnectionId;
 
-            if (!userConnections.ContainsKey(name))
+            using (var db = new DAL.ShopContext())
             {
-                userConnections.Add(name, connectionID);
+                if (db.UserConnections.Where(u => u.UserName == name).FirstOrDefault() == null)
+                {
+                    var connection = new UserConnection() { UserName = name, ConnectionID = connectionID };
+                    db.UserConnections.Add(connection);
+                    db.SaveChanges();
+                }
             }
+
+            //if (!userConnections.ContainsKey(name))
+            //{
+            //    userConnections.Add(name, connectionID);
+            //}
 
             return base.OnConnected();
         }
@@ -71,10 +91,20 @@ namespace ShopApp
         {
             string name = Context.User.Identity.Name;
 
-            if (userConnections.ContainsKey(name))
+            using (var db = new DAL.ShopContext())
             {
-                userConnections.Remove(name);
+                if (db.UserConnections.Where(u => u.UserName == name).FirstOrDefault() != null)
+                {
+                    var connection = db.UserConnections.Where(u => u.UserName == name).FirstOrDefault();
+                    db.UserConnections.Remove(connection);
+                    db.SaveChanges();
+                }
             }
+
+            //if (userConnections.ContainsKey(name))
+            //{
+            //    userConnections.Remove(name);
+            //}
 
             return base.OnDisconnected(stopCalled);
         }
@@ -84,10 +114,20 @@ namespace ShopApp
             string name = Context.User.Identity.Name;
             string connectionID = Context.ConnectionId;
 
-            if (!userConnections.ContainsKey(name))
+            using (var db = new DAL.ShopContext())
             {
-                userConnections.Add(name, connectionID);
+                if (db.UserConnections.Where(u => u.UserName == name).FirstOrDefault() == null)
+                {
+                    var connection = new UserConnection() { UserName = name, ConnectionID = connectionID };
+                    db.UserConnections.Add(connection);
+                    db.SaveChanges();
+                }
             }
+
+            //if (!userConnections.ContainsKey(name))
+            //{
+            //    userConnections.Add(name, connectionID);
+            //}
 
             return base.OnReconnected();
         }
