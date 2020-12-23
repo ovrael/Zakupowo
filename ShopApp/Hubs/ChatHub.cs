@@ -91,9 +91,19 @@ namespace ShopApp
                 var oldConnection = db.UserConnections.Where(u => u.UserName == name).FirstOrDefault();
                 var newConnection = new UserConnection() { UserName = name, ConnectionID = connectionID };
 
-                Trace.TraceError("------------------------ Dodaje do bazy połączenie: " + newConnection.UserName + "\tConnectionID: " + newConnection.ConnectionID);
-                db.UserConnections.Add(newConnection);
-                db.SaveChanges();
+                if (oldConnection != null && oldConnection.UserConnectionID != newConnection.UserConnectionID)
+                {
+                    Trace.TraceError("------------------------ Dodaje do bazy połączenie: " + newConnection.UserName + "\tConnectionID: " + newConnection.ConnectionID);
+                    db.UserConnections.Add(newConnection);
+                    db.SaveChanges();
+                }
+
+                if (oldConnection == null)
+                {
+                    Trace.TraceError("------------------------ Dodaje do bazy połączenie: " + newConnection.UserName + "\tConnectionID: " + newConnection.ConnectionID);
+                    db.UserConnections.Add(newConnection);
+                    db.SaveChanges();
+                }
 
                 //if (oldConnection == null)
                 //{
