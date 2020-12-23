@@ -42,6 +42,7 @@
     var chatHub = $.connection.chatHub;
 
     chatHub.client.receiveMessage = function (message, senderID, senderName, avatarImmageURL) {
+        console.log("Dostałem wiadomość");
         writeReceivedMessage(message, senderID, senderName, avatarImmageURL);
     }
 
@@ -54,18 +55,6 @@
             // };
             // WYSYŁANIE WIADOMOŚCI
 
-            $("#send-message-btn").on("click", function () {
-
-                var message = $("#message-content").val();
-                if (message != "") {
-                    var user = document.getElementsByClassName("user-last-msg active");
-                    var receiverID = user[0].id.substring(0, user[0].id.indexOf("Conversation"));
-
-                    //console.log("Wysyłam wiadomość");
-                    writeSentMessage(message, receiverID);
-                    chatHub.server.sendMessage(message, receiverID);
-                }
-            });
 
 
             // NASŁUCHIWANIE WIADOMOŚCI
@@ -76,6 +65,19 @@
             // }
         })
         .fail(function () { alert("ERROR"); })
+
+    $("#send-message-btn").on("click", function () {
+
+        console.log("Wysyłam wiadomość");
+        var message = $("#message-content").val();
+        if (message != "") {
+            var user = document.getElementsByClassName("user-last-msg active");
+            var receiverID = user[0].id.substring(0, user[0].id.indexOf("Conversation"));
+
+            writeSentMessage(message, receiverID);
+            chatHub.server.sendMessage(message, receiverID);
+        }
+    });
 
     var writeReceivedMessage = function (message, senderID, senderName, avatarImageUrl) {
 

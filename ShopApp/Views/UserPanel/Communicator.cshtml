@@ -103,10 +103,6 @@
                     string ariaLabelled = conversationID + "-tab";
                     string activeClass = user == lastUser ? "active" : string.Empty;
 
-                    System.Diagnostics.Debug.WriteLine("Użytkownik: " + user.Login);
-                    System.Diagnostics.Debug.WriteLine("LastUser: " + user.Login);
-
-
                     <div class="px-4 py-5 chat-box bg-white tab-pane @activeClass" id="@conversationID" role="tabpanel" aria-labelledby="@ariaLabelled">
                         @{
                             string customSentDate = string.Empty;
