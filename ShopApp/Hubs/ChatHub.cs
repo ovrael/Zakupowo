@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -53,6 +54,8 @@ namespace ShopApp
                     Debug.WriteLine("------------ WYSYŁAM WIADOMOŚĆ DO " + userConnectionID);
                     Debug.WriteLine("------------ MÓJ CONNECTION ID: " + Context.ConnectionId);
 
+                    Debug.WriteLine("------------ WYSYŁAM WIADOMOŚĆ DO " + userConnectionID);
+                    Debug.WriteLine("------------ MÓJ CONNECTION ID: " + Context.ConnectionId);
                     Clients.Client(userConnectionID).receiveMessage(message, sender.UserID, sender.Login, imageURL);
                 }
 
@@ -73,12 +76,10 @@ namespace ShopApp
 
             using (var db = new DAL.ShopContext())
             {
-                if (db.UserConnections.Where(u => u.UserName == name).FirstOrDefault() == null)
-                {
-                    var connection = new UserConnection() { UserName = name, ConnectionID = connectionID };
-                    db.UserConnections.Add(connection);
-                    db.SaveChanges();
-                }
+                var connection = new UserConnection() { UserName = name, ConnectionID = connectionID };
+
+                db.Entry(connection).State = connection.UserConnectionID == 0 ? EntityState.Added : EntityState.Modified;
+                db.SaveChanges();
             }
 
             //if (!userConnections.ContainsKey(name))
