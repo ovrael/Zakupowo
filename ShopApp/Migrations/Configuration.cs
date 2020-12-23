@@ -8,6 +8,7 @@ using System.Data.Entity.Validation;
 using System.Data.Entity.Migrations;
 using System.Configuration;
 using ShopApp.DAL;
+using System.Diagnostics;
 
 namespace ShopApp.Migrations
 {
@@ -21,18 +22,23 @@ namespace ShopApp.Migrations
 
         protected override void Seed(ShopContext context)
         {
-
+            Debug.WriteLine("We are inside seed somehow");
             var users = new List<User>
             {
-                new User{ Email="Seed@mail.com",
+                new User{
+                    UserID = 1,
+                    Email="Admin@zakupowo.com",
                     Login="SeedLogin",
                     EncryptedPassword="SeedPassword",
                     FirstName ="SeedFirstName",
                     LastName="SeedLastName",
-                    Phone ="123456789"
+                    Phone ="123456789",
+                    Bucket = new Bucket(),
+                    Order = new Order()
                 }
             };
-            users.ForEach(u => context.Users.AddOrUpdate(u));
+
+            users.ForEach(u => context.Users.AddOrUpdate(i => i.Login));
             context.SaveChanges();
 
             var categories = new List<Category>
@@ -67,21 +73,6 @@ namespace ShopApp.Migrations
                     CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"}
             };
             categories.ForEach(u => context.Categories.AddOrUpdate(u));
-            context.SaveChanges();
-
-            var adresses = new List<ShippingAdress>
-            {
-                new ShippingAdress()
-                {
-                    Country = "Polska",
-                    City = "Katowice",
-                    Street = "Mariacka",
-                    PremisesNumber = "33",
-                    PostalCode = "40-220",
-                    User = users[0]
-                }
-            };
-            adresses.ForEach(a => context.ShippingAdresses.AddOrUpdate(a));
             context.SaveChanges();
 
         }
