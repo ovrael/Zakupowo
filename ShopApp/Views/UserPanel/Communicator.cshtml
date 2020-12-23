@@ -3,7 +3,8 @@
 
 @{
     List<ShopApp.Models.User> chatUsers = new List<ShopApp.Models.User>();
-    ShopApp.Models.User lastUser = HttpContext.Current.User.Identity.Name == Model.First().Sender.Login ? Model.First().Receiver : Model.First().Sender;
+
+    ShopApp.Models.User lastUser = HttpContext.Current.User.Identity.Name == Model.FirstOrDefault().Sender.Login ? Model.FirstOrDefault().Receiver : Model.FirstOrDefault().Sender;
 
     List<List<ShopApp.Models.Message>> allMessages = (List<List<ShopApp.Models.Message>>)ViewBag.AllMessages;
 }

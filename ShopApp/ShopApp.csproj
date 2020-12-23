@@ -582,6 +582,7 @@
     <Content Include="Images\user.jpg" />
     <Content Include="Images\user2.jpg" />
     <Content Include="libman.json" />
+    <Content Include="Scripts\avatar.js" />
     <Content Include="Scripts\bootstrap-input-spinner.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
