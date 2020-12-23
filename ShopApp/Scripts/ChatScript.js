@@ -7,12 +7,7 @@
     if (actualChatBox != undefined) {
         actualChatBox.classList.remove("active");
     }
-
     $(conversationID)[0].classList.add("active");
-
-    if (actualChatBox != undefined) {
-
-    }
 
     $(conversationID)[0].scrollTop = $(conversationID)[0].scrollHeight;
 
@@ -94,8 +89,14 @@
         var paragraph = $(paragraphID)[0];
         var date = $(dateID)[0];
 
-        paragraph.innerHTML = senderName + ": " + message;
-        date.innerHTML = hours + ":" + minutes;
+        if (paragraph != undefined) {
+            paragraph.innerHTML = senderName + ": " + message;
+        }
+
+        if (date != undefined) {
+            date.innerHTML = hours + ":" + minutes;
+
+        }
 
 
         $(conversationID).append(
@@ -111,7 +112,7 @@
             + "</div>"
         );
 
-        if (actualChatBox.id == receivedMessageChatBox.id) {
+        if (actualChatBox != undefined && receivedMessageChatBox != undefined && actualChatBox.id == receivedMessageChatBox.id) {
             receivedMessageChatBox.scrollTop = receivedMessageChatBox.scrollHeight;
         }
     }
