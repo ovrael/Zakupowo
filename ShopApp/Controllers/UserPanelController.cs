@@ -808,35 +808,34 @@ namespace ShopApp.Controllers
 
         public ActionResult Communicator()
         {
-            string senderName = "ovrael";
-            string receiverName = "Jaca";
-            User sender = db.Users.Where(i => i.Login == senderName).First();
-            User receiver = db.Users.Where(i => i.Login == receiverName).First();
+            //string senderName = "ovrael";
+            //string receiverName = "Jaca";
+            //User sender = db.Users.Where(i => i.Login == senderName).First();
+            //User receiver = db.Users.Where(i => i.Login == receiverName).First();
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-            receiver = editUser;
+            //receiver = editUser;
             List<Message> lastMessages = new List<Message>();
             HashSet<User> uniqueUsers = new HashSet<User>();
 
             List<List<Message>> allMessages = new List<List<Message>>();
             //DODAWANIE NOWEJ WIADOMOŚCI
-            Message msg = new Message() { Sender = sender, Receiver = receiver, Content = "Wiadomość od " + sender.Login + "\t do " + receiver.Login, SentTime = DateTime.Now };
+            //Message msg = new Message() { Sender = sender, Receiver = receiver, Content = "Wiadomość od " + sender.Login + "\t do " + receiver.Login, SentTime = DateTime.Now };
 
-            Debug.WriteLine(msg.ToString());
+            //Debug.WriteLine(msg.ToString());
 
-            db.Messages.Add(msg);
-            db.SaveChanges();
+            //db.Messages.Add(msg);
+            //db.SaveChanges();
 
-            receiver.ReceivedMessages.Add(msg);
-            db.SaveChanges();
+            //receiver.ReceivedMessages.Add(msg);
+            //db.SaveChanges();
 
-            sender.SentMessages.Add(msg);
-            db.SaveChanges();
+            //sender.SentMessages.Add(msg);
+            //db.SaveChanges();
 
             var lastReceivedMessages = editUser.ReceivedMessages.OrderByDescending(m => m.SentTime).DistinctBy(m => m.Sender).ToList();
             var lastSentMessages = editUser.SentMessages.OrderByDescending(m => m.SentTime).DistinctBy(m => m.Receiver).ToList();
 
             lastMessages.AddRange(lastReceivedMessages);
-            lastMessages.AddRange(lastSentMessages);
 
             foreach (var item in lastReceivedMessages)
             {
@@ -845,9 +844,12 @@ namespace ShopApp.Controllers
 
             foreach (var item in lastSentMessages)
             {
-                uniqueUsers.Add(item.Sender);
+                if (!uniqueUsers.Contains(item.Receiver))
+                {
+                    lastMessages.Add(item);
+                }
+                uniqueUsers.Add(item.Receiver);
             }
-
             uniqueUsers.Remove(editUser);
 
 

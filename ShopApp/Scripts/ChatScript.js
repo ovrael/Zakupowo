@@ -3,12 +3,19 @@
     var userID = clickedElementID.substring(0, clickedElementID.indexOf("Conversation-tab"));
     var conversationID = "#" + "v-pills-" + userID + "Conversation";
     var actualChatBox = document.getElementsByClassName("chat-box active")[0];
-    actualChatBox.classList.remove("active");
+
+    if (actualChatBox != undefined) {
+        actualChatBox.classList.remove("active");
+    }
+
     $(conversationID)[0].classList.add("active");
 
+    if (actualChatBox != undefined) {
 
+    }
 
     $(conversationID)[0].scrollTop = $(conversationID)[0].scrollHeight;
+
     //console.log("Zjezdzam na dół: " + $(conversationID)[0].id);
 }
 
@@ -16,7 +23,9 @@
 
 
     var actualChatBox = document.getElementsByClassName("chat-box active")[0];
-    actualChatBox.scrollTop = actualChatBox.scrollHeight;
+    if (actualChatBox != undefined) {
+        actualChatBox.scrollTop = actualChatBox.scrollHeight;
+    }
 
 
     $('#message-content').keypress(function (e) {

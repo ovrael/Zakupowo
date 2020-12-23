@@ -21,19 +21,22 @@ namespace ShopApp.Migrations
 
         protected override void Seed(ShopContext context)
         {
+            //var users = new List<User>()
+            //{
+            //    new User()
+            //    {
+            //        Email="Admin@seed.com",
+            //        Login="AdminSeedLogin",
+            //        EncryptedPassword="AdminSeedPassword",
+            //        FirstName ="Admin",
+            //        LastName="SeedLastName",
+            //        Phone ="123456789",
+            //        CreationDate = DateTime.Now
+            //    }
+            //};
 
-            var users = new List<User>
-            {
-                new User{ Email="Seed@mail.com",
-                    Login="SeedLogin",
-                    EncryptedPassword="SeedPassword",
-                    FirstName ="SeedFirstName",
-                    LastName="SeedLastName",
-                    Phone ="123456789"
-                }
-            };
-            users.ForEach(u => context.Users.AddOrUpdate(u));
-            context.SaveChanges();
+            //users.ForEach(u => context.Users.AddOrUpdate(u));
+            //context.SaveChanges();
 
             var categories = new List<Category>
             {
@@ -69,20 +72,20 @@ namespace ShopApp.Migrations
             categories.ForEach(u => context.Categories.AddOrUpdate(u));
             context.SaveChanges();
 
-            var adresses = new List<ShippingAdress>
-            {
-                new ShippingAdress()
-                {
-                    Country = "Polska",
-                    City = "Katowice",
-                    Street = "Mariacka",
-                    PremisesNumber = "33",
-                    PostalCode = "40-220",
-                    User = users[0]
-                }
-            };
-            adresses.ForEach(a => context.ShippingAdresses.AddOrUpdate(a));
-            context.SaveChanges();
+            //var adresses = new List<ShippingAdress>
+            //{
+            //    new ShippingAdress()
+            //    {
+            //        Country = "Polska",
+            //        City = "Katowice",
+            //        Street = "Mariacka",
+            //        PremisesNumber = "33",
+            //        PostalCode = "40-220",
+            //        User = users[0]
+            //    }
+            //};
+            //adresses.ForEach(a => context.ShippingAdresses.AddOrUpdate(a));
+            //context.SaveChanges();
 
         }
     }
