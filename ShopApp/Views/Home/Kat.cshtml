@@ -148,19 +148,10 @@
             {
                 foreach (var item in Model.Bundles)
                 {
-                    string pictureUrl = string.Empty;
-                    if (item.Offers.First().OfferPictures.Count > 0)
-                    {
-                        pictureUrl = item.Offers.First().OfferPictures.First().PathToFile;
-                    }
-                    else
-                    {
-                        pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
-                    }
-
                     <div class="row offer bundle-row d-none p-2 mt-1">
                         <div class="col-12 col-lg-4 text-center my-auto">
-                            <img class="img-fluid" src="@pictureUrl">
+                            @*Looking for last offer in bundle becuase it has been ordered by descending creation date*@
+                            <img class="img-fluid" src="@item.Offers.Last().OfferPictures.First().PathToFile">
                         </div>
                         <div class="col-12 col-lg-8 offer-desc p-0">
                             <h3><a class="product-name" href="@Url.Action("Index","Offer",new { BundleID = item.BundleID})">@item.Title</a></h3>
