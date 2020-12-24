@@ -25,7 +25,7 @@
         @foreach (var item in Model.Offers)
         {
             <div class="row offer item-row p-2 m-0">
-                <div class="col-12 col-lg-4 text-center offer-img my-auto">
+                <div class="col-12 col-lg-4 text-center offer-img my-auto text-center">
                     <img class="img-fluid" src="@item.OfferPictures.First().PathToFile">
                 </div>
                 <div class="col-12 col-lg-8 offer-desc">
@@ -53,28 +53,28 @@
 
         @foreach (var item in Model.Bundles)
         {
-            <div class="row bundle-row offer p-2 m-0">
-                <div class="col-4 offer-img my-auto">
-                    <img class="img-fluid" src="@item.Offers.First().OfferPictures.First().PathToFile">
-                </div>
-                <div class="col-8 offer-desc">
-                    <h3><a class="product-name" href="#">@item.Title</a></h3>
-                    <p class="seller d-none d-lg-block">sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
-                    <h3 class="product-price mb-1">@item.OffersPriceSum</h3>PRZEKRESLONE
-                    <h3 class="product-price mb-1">@item.BundlePrice</h3>
-                    <br>
-                    @if (Model.InBucketOffersIDs != null && Model.InBucketOffersIDs.Contains(item.BundleID))
-                    {
+    <div class="row bundle-row offer p-2 m-0 d-none">
+        <div class="col-4 offer-img my-auto text-center">
+            <img class="img-fluid" src="@item.Offers.First().OfferPictures.First().PathToFile">
+        </div>
+        <div class="col-8 offer-desc">
+            <h3><a class="product-name" href="#">@item.Title</a></h3>
+            <p class="seller d-none d-lg-block">sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
+            <s><h3 class="product-price mb-1">@item.OffersPriceSum zł</h3></s>
+            <h3 class="product-price mb-1">@item.BundlePrice zł</h3>
+            <br>
+            @if (Model.InBucketOffersIDs != null && Model.InBucketOffersIDs.Contains(item.BundleID))
+            {
                 <a class="addToBucket in-bucket" data-type="Offer" id="@item.BundleID">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
-                    }
-                    else
-                    {
-                        <a class="addToBucket" data-type="Offer" id="@item.BundleID">DODAJ DO KOSZYKA</a>
-                    }
-                    <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Offer" id="@item.BundleID"></i>
-                </div>
-            </div>
-            <hr>
+            }
+            else
+            {
+                <a class="addToBucket" data-type="Offer" id="@item.BundleID">DODAJ DO KOSZYKA</a>
+            }
+            <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Offer" id="@item.BundleID"></i>
+        </div>
+        <hr class="w-100">
+    </div>
         }
 
 

@@ -163,16 +163,16 @@
                             <img class="img-fluid" src="@pictureUrl">
                         </div>
                         <div class="col-12 col-lg-8 offer-desc p-0">
-                            <h3><a class="product-name" href="@Url.Action("Index","Offer",new { BundleID = item.BundleID})">@item.Title \*Zestaw ma sie pokazac w zakladce zestawy*\</a></h3>
+                            <h3><a class="product-name" href="@Url.Action("Index","Offer",new { BundleID = item.BundleID})">@item.Title</a></h3>
                             <p class="seller d-none d-lg-block mb-0">Sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
+                            <s><h3 class="product-price mb-1" style="text-decoration: line-through;">@item.OffersPriceSum zł</h3></s>
                             <h3 class="product-price mb-1">@item.BundlePrice zł</h3>
-                            <h3 class="product-price mb-1" style="text-decoration: line-through;">@item.OffersPriceSum zł</h3>
                             <br>
                             @if (HttpContext.Current.User.Identity.IsAuthenticated)
                             {
                                 if (Model.InBucketBundlesIDs.Contains(item.BundleID))
                                 {
-                        <a class="addToBucket in-bucket" data-type="Bundle" id="@item.BundleID">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
+                                    <a class="addToBucket in-bucket" data-type="Bundle" id="@item.BundleID">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
                                 }
                                 else
                                 {
