@@ -19,7 +19,7 @@ h5 {
     font-weight: 700;
 }
 
-    .seller-name:hover, .seller-name:visited {
+.seller-name:hover, .seller-name:visited {
         color: #FFB24A;
     }
 
@@ -58,11 +58,15 @@ h5 {
 }
 
 @media (min-width: 992px) {
-    .cash {
+    .cash, .cash-header {
         width: 60%;
     }
 
     .cashout-btn, .cashout-btn:focus, .cashout-btn:hover, .cashout-btn:active {
         width: 60%;
+    }
+
+    .container-fluid {
+        padding-top: 70px;
     }
 }

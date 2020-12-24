@@ -42,11 +42,12 @@
     border: 1px solid black;
 }
 
-.continue-button {
-    color: rgb(77, 76, 76);
-    background-color: white;
-    border: 1px solid black;
-}
+    .continue-button, .continue-button:hover, .continue-button:visited, .continue-button:focus {
+        color: rgb(77, 76, 76);
+        background-color: white;
+        border: 1px solid black;
+        text-decoration: none;
+    }
 
 .selected {
     outline: solid 2px #FFB24A;
@@ -56,9 +57,18 @@
     background-color: white;
 }
 
+
+.fa-times {
+    cursor: pointer;
+}
+
 @media (min-width: 992px) {
-    .bucket {
-        width: 50%;
+    .bucket, .bucket-header {
+        width: 60%;
+    }
+
+    .container-fluid {
+        padding-top: 50px;
     }
 
     .item-name > a {
@@ -77,5 +87,14 @@
 
     .bucket-price {
         font-size: 26px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .bucket, .bucket-header {
+        width: 60%;
+    }
+    .container-fluid {
+        padding-top: 70px;
     }
 }

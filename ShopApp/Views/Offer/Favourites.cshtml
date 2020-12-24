@@ -61,7 +61,7 @@
             <h3><a class="product-name" href="#">@item.Title</a></h3>
             <p class="seller d-none d-lg-block">sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
             <s><h3 class="product-price mb-1">@item.OffersPriceSum zł</h3></s>
-            <h3 class="product-price mb-1">@item.BundlePrice zł</h3>
+            <h3 class="product-price mb-4">@item.BundlePrice zł</h3>
             <br>
             @if (Model.InBucketOffersIDs != null && Model.InBucketOffersIDs.Contains(item.BundleID))
             {
