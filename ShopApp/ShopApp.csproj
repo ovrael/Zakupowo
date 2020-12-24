@@ -453,6 +453,10 @@
     <Compile Include="Migrations\202012231750075_OrderTablev2.Designer.cs">
       <DependentUpon>202012231750075_OrderTablev2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012242132474_UserConnectionModelChanged_AddedCreationDate.cs" />
+    <Compile Include="Migrations\202012242132474_UserConnectionModelChanged_AddedCreationDate.Designer.cs">
+      <DependentUpon>202012242132474_UserConnectionModelChanged_AddedCreationDate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
@@ -1002,6 +1006,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012231750075_OrderTablev2.resx">
       <DependentUpon>202012231750075_OrderTablev2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012242132474_UserConnectionModelChanged_AddedCreationDate.resx">
+      <DependentUpon>202012242132474_UserConnectionModelChanged_AddedCreationDate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

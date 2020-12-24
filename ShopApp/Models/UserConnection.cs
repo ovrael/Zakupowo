@@ -14,6 +14,9 @@ namespace ShopApp.Models
         public string UserName { get; set; }
         public string ConnectionID { get; set; }
 
+        [Column("CreationDate", TypeName = "DateTime2")]
+        public DateTime CreationDate { get; set; }
+
         public byte[] RowVersion { get; set; }
     }
 }

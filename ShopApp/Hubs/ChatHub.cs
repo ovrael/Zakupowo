@@ -15,8 +15,6 @@ namespace ShopApp
     [HubName("chatHub")]
     public class ChatHub : Hub
     {
-        private readonly static Dictionary<string, string> userConnections = new Dictionary<string, string>();
-
         public void SendMessage(string message, string receiverID)
         {
             var userLogin = Context.User.Identity.Name;
@@ -57,24 +55,7 @@ namespace ShopApp
                         Clients.Client(userConnectionID).receiveMessage(message, sender.UserID, sender.Login, imageURL);
 
                     }
-
-                    //Debug.WriteLine("------------ WYSYŁAM WIADOMOŚĆ DO " + userConnectionID);
-                    //Debug.WriteLine("------------ MÓJ CONNECTION ID: " + Context.ConnectionId);
-                    //Clients.User(userConnectionID).receiveMessage(message, sender.UserID, sender.Login, imageURL);
-                    //Clients.User(receiver.Login).receiveMessage(message, sender.UserID, sender.Login, imageURL);
-
-                    //Clients.Client(receiver.Login).receiveMessage(message, sender.UserID, sender.Login, imageURL);
-
-                    //Clients.All.receiveMessage(message, sender.UserID, sender.Login, imageURL);
                 }
-
-                //if (userConnections.ContainsKey(receiver.Login))
-                //{
-                //    string userConnectionID = userConnections[receiver.Login];
-                //    string imageURL = sender.AvatarImage.PathToFile;
-
-                //    Clients.Client(userConnectionID).receiveMessage(message, sender.UserID, sender.Login, imageURL);
-                //}
             }
         }
 
@@ -83,47 +64,32 @@ namespace ShopApp
             string name = Context.User.Identity.Name;
             string connectionID = Context.ConnectionId;
 
-            Debug.WriteLine("------------------------ OnConnected! Podłączono: " + name);
-            Trace.TraceError("------------------------ OnConnected! Podłączono: " + name + "\tConnectionID: " + connectionID);
+            //Debug.WriteLine("------------------------ OnConnected! Podłączono: " + name);
+            //Trace.TraceError("------------------------ OnConnected! Podłączono: " + name + "\tConnectionID: " + connectionID);\
 
             using (var db = new DAL.ShopContext())
             {
-                var oldConnection = db.UserConnections.Where(u => u.UserName == name).FirstOrDefault();
-                var newConnection = new UserConnection() { UserName = name, ConnectionID = connectionID };
+                var connectionInDatabase = db.UserConnections.Where(c => c.UserName == name && c.ConnectionID == connectionID).FirstOrDefault();
 
-                if (oldConnection != null && oldConnection.UserConnectionID != newConnection.UserConnectionID)
+                if (connectionInDatabase == null)
                 {
-                    Trace.TraceError("------------------------ Dodaje do bazy połączenie: " + newConnection.UserName + "\tConnectionID: " + newConnection.ConnectionID);
-                    db.UserConnections.Add(newConnection);
+                    var connection = new UserConnection() { UserName = name, ConnectionID = connectionID, CreationDate = DateTime.UtcNow };
+                    //Trace.TraceError("------------------------ Dodaje do bazy połączenie dla: " + connection.UserName + "\tConnectionID: " + connection.ConnectionID);
+                    db.UserConnections.Add(connection);
                     db.SaveChanges();
                 }
 
-                if (oldConnection == null)
+                var yesterdayDateUtc = DateTime.UtcNow.AddDays(-1);
+                var oldConnections = db.UserConnections.Where(c => c.UserName == name && c.CreationDate.CompareTo(yesterdayDateUtc) == -1).ToList();
+
+                foreach (var connection in oldConnections)
                 {
-                    Trace.TraceError("------------------------ Dodaje do bazy połączenie: " + newConnection.UserName + "\tConnectionID: " + newConnection.ConnectionID);
-                    db.UserConnections.Add(newConnection);
+                    db.UserConnections.Remove(connection);
                     db.SaveChanges();
                 }
 
-                //if (oldConnection == null)
-                //{
-                //    Trace.TraceError("------------------------ Dodaje do bazy połączenie: " + newConnection.UserName + "\tConnectionID: " + newConnection.ConnectionID);
-                //    db.UserConnections.Add(newConnection);
-                //    db.SaveChanges();
-                //}
-                //else
-                //{
-                //    Trace.TraceError("------------------------ Zmieniam STARE połączenie: " + oldConnection.UserName + "\tConnectionID: " + oldConnection.ConnectionID);
-                //    Trace.TraceError("------------------------ Na NOWE połączenie: " + newConnection.UserName + "\tConnectionID: " + newConnection.ConnectionID);
-                //    oldConnection = newConnection;
-                //    db.SaveChanges();
-                //}
+
             }
-
-            //if (!userConnections.ContainsKey(name))
-            //{
-            //    userConnections.Add(name, connectionID);
-            //}
 
             return base.OnConnected();
         }
@@ -133,35 +99,20 @@ namespace ShopApp
             string name = Context.User.Identity.Name;
             string connectionID = Context.ConnectionId;
 
-            Debug.WriteLine("------------------------ OnDisconnected! Odłączono: " + name);
-            Trace.TraceError("------------------------ OnDisconnected! Odłączono : " + name);
+            //Debug.WriteLine("------------------------ OnDisconnected! Odłączono: " + name);
+            //Trace.TraceError("------------------------ OnDisconnected! Odłączono : " + name);
 
             using (var db = new DAL.ShopContext())
             {
 
-                var oldConnection = db.UserConnections.Where(u => u.UserName == name && u.ConnectionID == connectionID).FirstOrDefault();
-                if (oldConnection != null)
+                var connection = db.UserConnections.Where(u => u.UserName == name && u.ConnectionID == connectionID).FirstOrDefault();
+                if (connection != null)
                 {
-                    Trace.TraceError("------------------------ Usuwam z bazy połączenie: " + oldConnection.UserName + "\tConnectionID: " + oldConnection.ConnectionID);
-                    db.UserConnections.Remove(oldConnection);
+                    //Trace.TraceError("------------------------ Usuwam z bazy połączenie dla: " + connection.UserName + "\tConnectionID: " + connection.ConnectionID);
+                    db.UserConnections.Remove(connection);
                     db.SaveChanges();
                 }
-                //var oldConnections = db.UserConnections.Where(u => u.UserName == name).ToList();
-                //if (oldConnections.Count > 0 && oldConnections != null)
-                //{
-                //    foreach (var connection in oldConnections)
-                //    {
-                //        Trace.TraceError("------------------------ Usuwam z bazy połączenie: " + connection.UserName + "\tConnectionID: " + connection.ConnectionID);
-                //        db.UserConnections.Remove(connection);
-                //        db.SaveChanges();
-                //    }
-                //}
             }
-
-            //if (userConnections.ContainsKey(name))
-            //{
-            //    userConnections.Remove(name);
-            //}
 
             return base.OnDisconnected(stopCalled);
         }
@@ -171,40 +122,21 @@ namespace ShopApp
             string name = Context.User.Identity.Name;
             string connectionID = Context.ConnectionId;
 
-            Debug.WriteLine("------------------------ OnReconnected! Podłączono PONOWNIE: " + name);
-            Trace.TraceError("------------------------ OnReconnected! Podłączono PONOWNIE: " + name);
+            //Debug.WriteLine("------------------------ OnReconnected! Podłączono PONOWNIE: " + name);
+            //Trace.TraceError("------------------------ OnReconnected! Podłączono PONOWNIE: " + name);
 
             using (var db = new DAL.ShopContext())
             {
-                var oldConnection = db.UserConnections.Where(u => u.UserName == name).FirstOrDefault();
-                var newConnection = new UserConnection() { UserName = name, ConnectionID = connectionID };
+                var connectionInDatabase = db.UserConnections.Where(c => c.UserName == name && c.ConnectionID == connectionID).FirstOrDefault();
 
-                Trace.TraceError("------------------------ Dodaje do bazy połączenie: " + newConnection.UserName + "\tConnectionID: " + newConnection.ConnectionID);
-                db.UserConnections.Add(newConnection);
-                db.SaveChanges();
-
-                //var oldConnection = db.UserConnections.Where(u => u.UserName == name).FirstOrDefault();
-                //var newConnection = new UserConnection() { UserName = name, ConnectionID = connectionID };
-
-                //if (oldConnection == null)
-                //{
-                //    Trace.TraceError("------------------------ Dodaje do bazy połączenie: " + newConnection.UserName + "\tConnectionID: " + newConnection.ConnectionID);
-                //    db.UserConnections.Add(newConnection);
-                //    db.SaveChanges();
-                //}
-                //else
-                //{
-                //    Trace.TraceError("------------------------ Zmieniam STARE połączenie: " + oldConnection.UserName + "\tConnectionID: " + oldConnection.ConnectionID);
-                //    Trace.TraceError("------------------------ Na NOWE połączenie: " + newConnection.UserName + "\tConnectionID: " + newConnection.ConnectionID);
-                //    oldConnection = newConnection;
-                //    db.SaveChanges();
-                //}
+                if (connectionInDatabase == null)
+                {
+                    var connection = new UserConnection() { UserName = name, ConnectionID = connectionID, CreationDate = DateTime.UtcNow };
+                    //Trace.TraceError("------------------------ Łącze się ponownie i doddaje połączenie dla: " + connection.UserName + "\tConnectionID: " + connection.ConnectionID);
+                    db.UserConnections.Add(connection);
+                    db.SaveChanges();
+                }
             }
-
-            //if (!userConnections.ContainsKey(name))
-            //{
-            //    userConnections.Add(name, connectionID);
-            //}
 
             return base.OnReconnected();
         }

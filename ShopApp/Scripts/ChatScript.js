@@ -91,26 +91,23 @@ function createMessageWindow() {
 }
 
 (function () {
-
-
     var actualChatBox = document.getElementsByClassName("chat-box active")[0];
     if (actualChatBox != undefined) {
         actualChatBox.scrollTop = actualChatBox.scrollHeight;
     }
 
-
     $('#message-content').keypress(function (e) {
-        if (e.which == 13) {//Enter key pressed
+        if (e.which == 13) {
             if ($("#message-content").val() != "") {
-                $('#send-message-btn').trigger('click');    //Trigger send-msg button click event
+                $('#send-message-btn').trigger('click');
             }
         }
     });
 
-    $('create-message-user').keypress(function (e) {
-        if (e.which == 13) {//Enter key pressed
+    $("#create-message-user").keypress(function (e) {
+        if (e.which == 13) {
             if ($("#create-message-user").val() != "") {
-                $('#create-message-user-btn').trigger('click');//Trigger search-user button click event
+                $("#create-message-user-btn").trigger('click');
             }
         }
     });
@@ -124,9 +121,7 @@ function createMessageWindow() {
         return event.keyCode != 13;
     });
 
-    //ŁĄCZY SIĘ Z HUBEM
     var chatHub = $.connection.chatHub;
-
 
     // OTRZYMYWANIE WIADOMOŚCI
     chatHub.client.receiveMessage = function (message, senderID, senderName, avatarImmageURL) {
@@ -167,26 +162,11 @@ function createMessageWindow() {
     $.connection.hub.start()
         .done(function () {
             console.log("Hub connected!");
-
-            // chatHub.client.connected = function (id) {
-            //     console.log("contextID?: " + id);
-            // };
-            // WYSYŁANIE WIADOMOŚCI
-
-
-
-            // NASŁUCHIWANIE WIADOMOŚCI
-            // chatHub.client.receiveMessage = function (message, senderID) {
-            //     console.log("Dostano wiadomość!");
-
-            //     writeReceivedMessage(message, senderID);
-            // }
         })
         .fail(function () { alert("ERROR"); })
 
     $("#send-message-btn").on("click", function () {
 
-        console.log("Wysyłam wiadomość");
         var message = $("#message-content").val();
         if (message != "") {
             var user = document.getElementsByClassName("user-last-msg active");
@@ -204,9 +184,8 @@ function createMessageWindow() {
                 document.getElementById("div-user-boxes").prepend(userWindow);
             }
 
-
-            //createUserWindow(senderName, senderID, avatarImmageURL);
-
+            var usersBox = document.getElementsByClassName("messages-box")[0];
+            usersBox.scrollTop = 0;
 
             writeSentMessage(message, receiverID);
             chatHub.server.sendMessage(message, receiverID);
@@ -254,7 +233,7 @@ function createMessageWindow() {
         var date = $(dateID)[0];
 
         if (paragraph != undefined) {
-            paragraph.innerHTML = senderName + ": " + message;
+            paragraph.innerHTML = message;
         }
 
         if (date != undefined) {
@@ -315,7 +294,6 @@ function createMessageWindow() {
             + "</div>"
             + "</div>"
         );
-
         chatBox[0].scrollTop = chatBox[0].scrollHeight;
 
         $('#message-content').val('');

@@ -49,13 +49,13 @@
                                     string selectedAreaClass = n == 0 ? "true" : "false";
                                     string activeClass = n == 0 ? "active" : string.Empty;
                                     string contactLogin = msg.Sender.Login;
-                                    string whomWrote = msg.Sender.Login;
+                                    string whomWrote = string.Empty;
                                     string avatarURL = msg.Sender.AvatarImage.PathToFile;
 
                                     if (msg.Sender.Login == HttpContext.Current.User.Identity.Name) // IT MEANS WE  WRITE TO SOMEONE AND WITHOUT RESPONSE
                                     {
                                         contactLogin = msg.Receiver.Login;
-                                        whomWrote = "Ty";
+                                        whomWrote = "Ty: ";
                                         avatarURL = msg.Receiver.AvatarImage.PathToFile;
                                     }
 
@@ -81,7 +81,7 @@
                                                 <div class="d-flex align-items-center justify-content-between mb-1">
                                                     <h6 class="mb-0"> @contactLogin </h6><small id="@dateID" class="small font-weight-bold"> @shortSentDate </small>
                                                 </div>
-                                                <p style="color:lightskyblue" id="@pID" class="font-italic mb-0 text-small">@whomWrote : @msg.Content</p>
+                                                <p style="color:lightskyblue" id="@pID" class="font-italic mb-0 text-small">@whomWrote@msg.Content</p>
                                             </div>
                                         </div>
                                     </a>
@@ -120,9 +120,7 @@
 
                                         if (message.SentTime.CompareTo(DateTime.Now.AddDays(-1)) < 1)
                                         {
-                                            customSentDate = message.SentTime.ToShortDateString();
-                                            System.Diagnostics.Debug.WriteLine(message.SentTime.ToShortDateString());
-                                            //customSentDate = dateParts[1] + '.' + dateParts[0] + '.' + dateParts[2];
+                                            customSentDate = message.SentTime.ToString();
                                         }
                                         else
                                         {
@@ -187,7 +185,7 @@
             <div class="input-group">
                 <input id="create-message-user" type="text" placeholder="Login użytkownika" aria-describedby="create-message-user-btn" class="form-control rounded-0 border-0 py-4 bg-light" autocomplete="off">
                 <div class="input-group-append">
-                    <a id="create-message-user-btn" class="btn btn-link" onclick="createMessageWindow()"> <i class="fa fa-paper-plane"></i></a>
+                    <a id="create-message-user-btn" class="btn btn-link" onclick="createMessageWindow()"><i class="fas fa-user-plus"></i></a>
                 </div>
             </div>
         </form>
