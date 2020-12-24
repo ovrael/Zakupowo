@@ -111,7 +111,7 @@
                         </div>
                         <div class="col-12 col-lg-8 offer-desc p-0">
                             <h3><a class="product-name" href="@Url.Action("Index","Offer",new { OfferID = item.OfferID})">@item.Title</a></h3>
-                            <p class="seller d-none d-lg-block mb-0">Sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
+                            <p class="seller d-none d-lg-block mb-3">Sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
                             <h3 class="product-price mb-3">@item.Price zł</h3>
                             <p class="offer-count d-none d-lg-block pb-3">Dostępne: @item.InStockNow</p>
                             <br>
@@ -155,7 +155,7 @@
                         </div>
                         <div class="col-12 col-lg-8 offer-desc p-0">
                             <h3><a class="product-name" href="@Url.Action("Index","Offer",new { BundleID = item.BundleID})">@item.Title</a></h3>
-                            <p class="seller d-none d-lg-block mb-0">Sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
+                            <p class="seller d-none d-lg-block mb-3">Sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
                             <s><h3 class="product-price mb-1" style="text-decoration: line-through;">@item.OffersPriceSum zł</h3></s>
                             <h3 class="product-price mb-1">@item.BundlePrice zł</h3>
                             <br>
