@@ -409,3 +409,13 @@ ul.navbar-nav {
     pointer-events: none;
     color: #aaa;
 }
+
+/* COMMUNICATOR */
+.undread-msg{
+  animation: blinking 2s alternate infinite;
+}
+
+@keyframes blinking {  
+    from { background-color: blue; }
+    to { background-color: red; }
+}

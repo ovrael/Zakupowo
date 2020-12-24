@@ -1,12 +1,21 @@
 ﻿function scrollToBottom(clickedElementID) {
 
     var userID = clickedElementID.substring(0, clickedElementID.indexOf("Conversation-tab"));
+    var mediaID = userID + "Conversation-media";
+
     var conversationID = "#" + "v-pills-" + userID + "Conversation";
     var actualChatBox = document.getElementsByClassName("chat-box active")[0];
 
     if (actualChatBox != undefined) {
         actualChatBox.classList.remove("active");
     }
+
+    var userChatBox = document.getElementById(clickedElementID);
+    if (userChatBox != undefined) {
+        userChatBox.classList.remove("undread-msg");
+    }
+
+
     $(conversationID)[0].classList.add("active");
 
     $(conversationID)[0].scrollTop = $(conversationID)[0].scrollHeight;
@@ -92,46 +101,59 @@ function createMessageWindow() {
 
     $('#message-content').keypress(function (e) {
         if (e.which == 13) {//Enter key pressed
-            $('#send-message-btn').trigger('click');//Trigger search button click event
+            if ($("#message-content").val() != "") {
+                $('#send-message-btn').trigger('click');    //Trigger send-msg button click event
+            }
         }
     });
 
+    $('create-message-user').keypress(function (e) {
+        if (e.which == 13) {//Enter key pressed
+            if ($("#create-message-user").val() != "") {
+                $('#create-message-user-btn').trigger('click');//Trigger search-user button click event
+            }
+        }
+    });
+
+
     $("#message-send-form").keypress(function (event) {
+        return event.keyCode != 13;
+    });
+
+    $("#create-message-user-form").keypress(function (event) {
         return event.keyCode != 13;
     });
 
     //ŁĄCZY SIĘ Z HUBEM
     var chatHub = $.connection.chatHub;
 
+
+    // OTRZYMYWANIE WIADOMOŚCI
     chatHub.client.receiveMessage = function (message, senderID, senderName, avatarImmageURL) {
-        console.log("Dostałem wiadomość");
 
         var chatConversationID = "#" + senderID + "Conversation-tab";
-        console.log("Muszę znaleźć: " + chatConversationID);
+
         var chat = $(chatConversationID)[0];
-        if (chat == undefined) {
-            console.log("Nie masz konwy z takim użytkownikiem i muszę to zrobić.");
+
+        // JEŚLI MAM KONWERSACJĘ Z UŻTKOWNIKIEM -> Przenieś okno z użytkownikiem na górę
+        if (chat != undefined) {
             var idHelper = senderID + "Conversation";
             var tabID = idHelper + "-tab";
-            var pID = idHelper + "-p";
-            var dateID = idHelper + "-date";
+            var userWindow = document.getElementById(tabID);
+
+            document.getElementById(tabID).remove();
+            document.getElementById("div-user-boxes").prepend(userWindow);
+        }
+
+
+        // JEŚLI NIE MAM KONWERSACJI Z DANYM UŻYTKOWNIKIEM MUSZĘ JĄ UTWORZYĆ
+        if (chat == undefined) {
+
+            var idHelper = senderID + "Conversation";
             var conversationID = "v-pills-" + idHelper;
             var ariaLabelled = conversationID + "-tab";
-            var hrefLink = "#" + conversationID;
 
-            $("#div-user-boxes").prepend(
-                "<a onclick=\"scrollToBottom(this.id)\" id=\"" + tabID + "\" data-toggle=\"pill\" href=\"" + hrefLink + "\" role=\tab\" class=\"user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 nav-link\">"
-                + "<div class=\"media\">"
-                + "<img src=\"" + avatarImmageURL + "\" alt=\"user\" width=\"50\" class=\"rounded-circle\">"
-                + "<div class=\"media-body ml-4\">"
-                + "<div class=\"d-flex align-items-center justify-content-between mb-1\">"
-                + "<h6 class=\"mb-0\">" + senderName + "</h6><small id=\"" + dateID + "\" class=\"small font-weight-bold\"></small>"
-                + "</div>"
-                + "<p style=\"color:lightskyblue\" id=\"" + pID + "\" class=\"font-italic mb-0 text-small\"></p>"
-                + "</div>"
-                + "</div>"
-                + "</a>"
-            );
+            createUserWindow(senderName, senderID, avatarImmageURL);
 
             $("#div-chat-boxes").append(
                 "<div class=\"px-4 py-5 chat-box bg-white tab-pane\" id=\"" + conversationID + "\" role=\"tabpanel\" aria-labelledby=\"" + ariaLabelled + "\">"
@@ -170,15 +192,56 @@ function createMessageWindow() {
             var user = document.getElementsByClassName("user-last-msg active");
             var receiverID = user[0].id.substring(0, user[0].id.indexOf("Conversation"));
 
+            var chatConversationID = "#" + receiverID + "Conversation-tab";
+            var chat = $(chatConversationID)[0];
+
+            if (chat != undefined) {
+                var idHelper = receiverID + "Conversation";
+                var tabID = idHelper + "-tab";
+                var userWindow = document.getElementById(tabID);
+
+                document.getElementById(tabID).remove();
+                document.getElementById("div-user-boxes").prepend(userWindow);
+            }
+
+
+            //createUserWindow(senderName, senderID, avatarImmageURL);
+
+
             writeSentMessage(message, receiverID);
             chatHub.server.sendMessage(message, receiverID);
         }
     });
 
+    var createUserWindow = function (senderName, senderID, avatarImmageURL) {
+        var idHelper = senderID + "Conversation";
+        var tabID = idHelper + "-tab";
+        var pID = idHelper + "-p";
+        var dateID = idHelper + "-date";
+        var conversationID = "v-pills-" + idHelper;
+        var hrefLink = "#" + conversationID;
+
+        $("#div-user-boxes").prepend(
+            "<a onclick=\"scrollToBottom(this.id)\" id=\"" + tabID + "\" data-toggle=\"pill\" href=\"" + hrefLink + "\" role=\tab\" class=\"user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 nav-link\">"
+            + "<div class=\"media\">"
+            + "<img src=\"" + avatarImmageURL + "\" alt=\"user\" width=\"50\" class=\"rounded-circle\">"
+            + "<div class=\"media-body ml-4\">"
+            + "<div class=\"d-flex align-items-center justify-content-between mb-1\">"
+            + "<h6 class=\"mb-0\">" + senderName + "</h6><small id=\"" + dateID + "\" class=\"small font-weight-bold\"></small>"
+            + "</div>"
+            + "<p style=\"color:lightskyblue\" id=\"" + pID + "\" class=\"font-italic mb-0 text-small\"></p>"
+            + "</div>"
+            + "</div>"
+            + "</a>"
+        );
+    }
+
     var writeReceivedMessage = function (message, senderID, senderName, avatarImageUrl) {
 
         var conversationID = "#" + "v-pills-" + senderID + "Conversation";
         var paragraphID = "#" + senderID + "Conversation-p";
+        var mediaID = senderID + "Conversation-media";
+        var userChatBoxID = senderID + "Conversation-tab";
         var dateID = "#" + senderID + "Conversation-date";
 
         var date = new Date();
@@ -196,7 +259,12 @@ function createMessageWindow() {
 
         if (date != undefined) {
             date.innerHTML = hours + ":" + minutes;
+        }
 
+        var userChatBox = document.getElementById(userChatBoxID);
+        var actualPickedUser = document.getElementsByClassName("user-last-msg active")[0];
+        if (userChatBox != undefined && userChatBox != actualPickedUser) {
+            userChatBox.classList.add("undread-msg");
         }
 
 

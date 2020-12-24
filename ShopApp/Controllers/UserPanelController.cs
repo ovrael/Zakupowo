@@ -835,8 +835,6 @@ namespace ShopApp.Controllers
             var lastReceivedMessages = editUser.ReceivedMessages.OrderByDescending(m => m.SentTime).DistinctBy(m => m.Sender).ToList();
             var lastSentMessages = editUser.SentMessages.OrderByDescending(m => m.SentTime).DistinctBy(m => m.Receiver).ToList();
 
-            lastMessages.AddRange(lastReceivedMessages);
-
             foreach (var item in lastReceivedMessages)
             {
                 uniqueUsers.Add(item.Sender);
@@ -844,10 +842,6 @@ namespace ShopApp.Controllers
 
             foreach (var item in lastSentMessages)
             {
-                if (!uniqueUsers.Contains(item.Receiver))
-                {
-                    lastMessages.Add(item);
-                }
                 uniqueUsers.Add(item.Receiver);
             }
             uniqueUsers.Remove(editUser);
@@ -858,12 +852,19 @@ namespace ShopApp.Controllers
                 allMessages.Add(editUser.AllMesseges().Where(m => m.Receiver == user || m.Sender == user).OrderBy(m => m.SentTime).ToList());
             }
 
+            foreach (var massageList in allMessages)
+            {
+                lastMessages.Add(massageList.Last());
+            }
+
             ViewBag.AllMessages = allMessages;
 
             if (lastMessages == null || lastMessages.Count == 0)
                 ViewBag.LackMessages = true;
+            else
+                lastMessages.Sort();
 
-            lastMessages.Sort();
+
 
             return View(lastMessages);
         }
