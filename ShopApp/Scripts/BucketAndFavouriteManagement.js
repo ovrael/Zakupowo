@@ -8,7 +8,7 @@ $(document).ready(function () {
         if ($(this).hasClass("fav-active")) {
             var element = this;
             $.ajax({
-                url: '/Home/UnFav',
+                url: '/Offer/UnFav',
                 type: 'POST',
                 data: {
                     type: type,
@@ -17,8 +17,8 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.length == 0)// No errors
                     {
-                        jQuery(element).addClass("fav-unActive");
-                        jQuery(element).removeClass("fav-active");
+                        $(element).addClass("fav-unActive");
+                        $(element).removeClass("fav-active");
                     }
 
                 },
@@ -28,18 +28,19 @@ $(document).ready(function () {
         if ($(this).hasClass("fav-unActive")) {
             var element = this;
             $.ajax({
-                url: '/Home/Fav',
+                url: '/Offer/Fav',
                 type: 'POST',
                 data: {
                     type: type,
                     id: id
                 },
                 success: function (data) {
-                    if (data.length == 0) {
+                    if (data.length == 0)// No errors
+                    {
                         $(element).addClass("fav-active");
                         $(element).removeClass("fav-unActive");
 
-                    }// No errors
+                    }
 
                 },
 
@@ -47,7 +48,7 @@ $(document).ready(function () {
 
         }
         if (jQuery(this).hasClass("not-logged")) {
-            alert("You have to be logged in to add an offer to favourites!");
+            alert("Muszisz być zalogowany żeby dodawać do swojej listy ulubionych!");
         }
     }),
 
@@ -59,7 +60,7 @@ $(document).ready(function () {
             var quantity = jQuery(this).attr('data-quantity');
             var element = this;
             if (jQuery(this).hasClass("not-logged")) {
-                alert("You have to be logged in to add anything to bucket!");
+                alert("Muszisz być zalogowany żeby dodawać do swojego koszyka!");
             }
             if (!jQuery(this).hasClass('in-bucket')) {
                 $.ajax({
@@ -91,7 +92,7 @@ $(document).ready(function () {
 
             $.alert({
                 title: 'Pomyślnie usunięto',
-                content: 'Usunąłeś "' + $(this).closest(".item").find(".item-name").find("a").text() + '" z ulubionych',
+                content: 'Usunąłeś "' + $(this).closest(".item").find(".item-name").find("a").text() + '" ze swojego koszyka',
                 buttons: {
                     ok: {
                         text: 'ok',

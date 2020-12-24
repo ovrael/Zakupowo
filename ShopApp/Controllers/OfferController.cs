@@ -176,6 +176,8 @@ namespace ShopApp.Controllers
             return Content("");
         }
 
+        #region Favourites
+
         [HttpGet]
         [Authorize]
         public ActionResult Favourites()
@@ -225,6 +227,90 @@ namespace ShopApp.Controllers
         }
 
 
+        #region FavouriteOfferManagement
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> Fav(string type, int id)
+        {
+            List<string> errors = new List<string>(); // You might want to return an error if something wrong happened
+
+            User User = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+
+            if ((type == "Offer" || type == "Bundle") && User != null)
+            {
+                Favourite Fv = new Favourite();
+                if (type == "Offer")
+                {
+                    Fv.Offer = db.Offers.Where(i => i.OfferID == id).FirstOrDefault();
+                    var OfferList = User.FavouriteOffer.Where(i => i.Offer != null).ToList();
+                    if (Fv.Offer != null && !OfferList.Where(i => i.Offer.OfferID == Fv.Offer.OfferID).Any())
+                    {
+                        Fv.User = User;
+                        db.Favourites.Add(Fv);
+                        Fv.Offer.FavouriteOffer.Add(Fv);
+                        Fv.User.FavouriteOffer.Add(Fv);
+                        ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                    }
+                }
+                else
+                {
+                    Fv.Bundle = db.Bundles.Where(i => i.BundleID == id).FirstOrDefault();
+                    var BundleList = User.FavouriteOffer.Where(i => i.Bundle != null).ToList();
+                    if (Fv.Bundle != null && !BundleList.Where(i => i.Bundle.BundleID == Fv.Bundle.BundleID).Any())
+                    {
+                        Fv.User = User;
+                        db.Favourites.Add(Fv);
+                        Fv.Bundle.Favourites.Add(Fv);
+                        Fv.User.FavouriteOffer.Add(Fv);
+                        ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                    }
+                }
+            }
+
+            return Json(errors, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [Authorize]
+        public async Task<ActionResult> UnFav(string type, int id)
+        {
+            List<string> errors = new List<string>(); // You might want to return an error if something wrong happened
+
+            User User = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+
+            if ((type == "Offer" || type == "Bundle") && User != null)
+            {
+                if (type == "Offer")
+                {
+                    Favourite Fv = User.FavouriteOffer.Where(i => i.Offer != null && i.Offer.OfferID == id).FirstOrDefault();
+
+                    if (Fv != null)
+                    {
+                        User.FavouriteOffer.Remove(Fv);
+                        var offer = db.Offers.Where(i => i.OfferID == id).First();
+                        offer.FavouriteOffer.Remove(Fv);
+                        db.Favourites.Remove(Fv);
+                        ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                    }
+                }
+                else
+                {
+                    Favourite Fv = User.FavouriteOffer.Where(i => i.Bundle != null && i.Bundle.BundleID == id).FirstOrDefault();
+                    if (Fv != null)
+                    {
+                        User.FavouriteOffer.Remove(Fv);
+                        var offer = db.Bundles.Where(i => i.BundleID == id).First();
+                        offer.Favourites.Remove(Fv);
+                        db.Favourites.Remove(Fv);
+                        ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                    }
+                }
+            }
+
+            return Json(errors, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+        #endregion
 
         [HttpPost]
         [Authorize]
