@@ -877,6 +877,7 @@ namespace ShopApp.Controllers
 
             if (user != null && user.AvatarImage != null)
             {
+                Debug.WriteLine("UserLogin: " + userLogin);
                 return Json(new { userID = user.UserID, userAvatarURL = user.AvatarImage.PathToFile });
             }
             else

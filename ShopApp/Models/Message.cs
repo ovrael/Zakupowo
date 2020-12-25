@@ -25,10 +25,10 @@ namespace ShopApp.Models
         //[ForeignKey("ReceiverID")]
         public virtual User Receiver { get; set; }
 
-        [Column("Content", TypeName = "nvarchar")]
+        [Column("Content", Order = 4, TypeName = "nvarchar")]
         public string Content { get; set; }
 
-        [Column("SentTime", TypeName = "DateTime2")]
+        [Column("SentTime", Order = 5, TypeName = "DateTime2")]
         public DateTime SentTime { get; set; }
 
         public byte[] RowVersion { get; set; }

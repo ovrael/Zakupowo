@@ -120,7 +120,7 @@
                 }
 
             </div>
-            <p class="seller d-block m-0 p-0"> Sprzedawca: <a class="seller-name" href="#">@Model.Offer.User.Login</a></p>
+            <p class="seller d-block m-0 p-0"> Sprzedawca: <a class="seller-name" href="@Url.Action("UserInformation","User",new { userID = Model.Offer.User.UserID})">@Model.Offer.User.Login</a></p>
             <p class="product-condition d-block m-0 p-0"> Status: @czyAktywna</p>
             <p class="product-condition m-0 p-0">Stan: nowy</p>
             <hr class="mb-2" />
@@ -133,7 +133,7 @@
             <input type="hidden">
             @if (Model.IsInBucket)
             {
-            <button class="offer-button w-100 p-3 mt-2 in-bucket addToBucket">OFERTA ZNAJDUJE SIĘ W KOSZYKU</button>
+                <button class="offer-button w-100 p-3 mt-2 in-bucket addToBucket">OFERTA ZNAJDUJE SIĘ W KOSZYKU</button>
             }
             else
             {

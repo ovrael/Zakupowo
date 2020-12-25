@@ -174,5 +174,20 @@ namespace ShopApp.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "User");
         }
+
+        public ActionResult UserInformation(int? userID)
+        {
+            int lastUserID = db.Users.ToList().Last().UserID;
+            if (userID != null && userID >= 0 && userID <= lastUserID)
+            {
+                var showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
+                if (showUser != null)
+                {
+                    return View(showUser);
+                }
+            }
+
+            return View();
+        }
     }
 }

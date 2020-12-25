@@ -36,7 +36,20 @@ namespace ShopApp.Migrations
                     Order = new Order()
                 }
             };
-            users.ForEach(u => context.Users.AddOrUpdate(i => i.Login));
+
+            var avatarImages = new List<AvatarImage>()
+            {
+                new AvatarImage()
+                {
+                    PathToFile = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg",
+                    User = users[0]
+                }
+            };
+
+            avatarImages.ForEach(a => context.AvatarImages.AddOrUpdate(a));
+            context.SaveChanges();
+
+            users.ForEach(u => context.Users.AddOrUpdate(u));
             context.SaveChanges();
 
             var categories = new List<Category>
@@ -50,25 +63,25 @@ namespace ShopApp.Migrations
                 new Category{ CategoryID = 4,CategoryName="Dom",
                     CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"},
                 new Category{ CategoryID = 5,CategoryName="Supermarket",
-                    CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"},
+                    CategoryDescription="Albo hipermarket jak kto woli"},
                 new Category{ CategoryID = 6,CategoryName="Motoryzacja",
-                    CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"},
+                    CategoryDescription="Mrrrrrr zaszpanuj swoim jeden dziewięć TDI"},
                 new Category{ CategoryID = 7, CategoryName="Sport i turystyka",
-                    CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"},
+                    CategoryDescription="Sport to zdrowie, a zdrowie to sam zobacz co"},
                 new Category{ CategoryID = 8,CategoryName="Zwierzęta",
-                    CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"},
+                    CategoryDescription="Ludzi tu nie kupisz."},
                 new Category{ CategoryID = 9,CategoryName="Dla dziecka",
-                    CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"},
+                    CategoryDescription="Gerberki dla dorosłych to byłoby coś."},
                 new Category{ CategoryID = 10,CategoryName="Sztuka",
-                    CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"},
+                    CategoryDescription="Kto ją zrozumie?"},
                 new Category{ CategoryID = 11,CategoryName="Nieruchomości",
-                    CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"},
+                    CategoryDescription="Nie mieszkaj pod mostem!"},
                 new Category{ CategoryID = 12,CategoryName="Zdrowie",
-                    CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"},
+                    CategoryDescription="Bo zdrowie jest najważniejsze!"},
                 new Category{ CategoryID = 13,CategoryName="RTV i AGD",
-                    CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"},
+                    CategoryDescription="AGD i RTV RTV i AGD"},
                 new Category{ CategoryID = 14,CategoryName="Inne",
-                    CategoryDescription="Byłby po 3 ale bohater oddał jedno koledze"}
+                    CategoryDescription="Wszystkie takie co nie mieszczą się w innych"}
             };
             categories.ForEach(u => context.Categories.AddOrUpdate(u));
             context.SaveChanges();
