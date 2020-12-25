@@ -9,7 +9,7 @@ using ShopApp.DAL;
 namespace ShopApp.Models
 {
     public class AvatarImage : IConcurrencyAwareEntity
-        {
+    {
         [ForeignKey("User")]
         public int AvatarImageID { get; set; }
 
@@ -18,6 +18,6 @@ namespace ShopApp.Models
 
         [Column("UserID")]
         public virtual User User { get; set; }
-        public byte[] RowVersion { get; set ; }
+        public byte[] RowVersion { get; set; }
     }
 }

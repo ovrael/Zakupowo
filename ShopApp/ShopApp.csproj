@@ -337,94 +337,6 @@
     <Compile Include="Migrations\202012142111300_UpdateMessageModel_BackedToNoIDversion.Designer.cs">
       <DependentUpon>202012142111300_UpdateMessageModel_BackedToNoIDversion.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202012151026240_WorkingWithForeignKeysV3.cs" />
-    <Compile Include="Migrations\202012151026240_WorkingWithForeignKeysV3.Designer.cs">
-      <DependentUpon>202012151026240_WorkingWithForeignKeysV3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012151035235_MessageModelChange_UsersAreVirtualNow.cs" />
-    <Compile Include="Migrations\202012151035235_MessageModelChange_UsersAreVirtualNow.Designer.cs">
-      <DependentUpon>202012151035235_MessageModelChange_UsersAreVirtualNow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012151047258_WorkingWithMessagesV1.cs" />
-    <Compile Include="Migrations\202012151047258_WorkingWithMessagesV1.Designer.cs">
-      <DependentUpon>202012151047258_WorkingWithMessagesV1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012151050479_WorkingWithMessagesV2.cs" />
-    <Compile Include="Migrations\202012151050479_WorkingWithMessagesV2.Designer.cs">
-      <DependentUpon>202012151050479_WorkingWithMessagesV2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012151102065_WorkingWithMessagesV3.cs" />
-    <Compile Include="Migrations\202012151102065_WorkingWithMessagesV3.Designer.cs">
-      <DependentUpon>202012151102065_WorkingWithMessagesV3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012151102445_WorkingWithMessagesV4.cs" />
-    <Compile Include="Migrations\202012151102445_WorkingWithMessagesV4.Designer.cs">
-      <DependentUpon>202012151102445_WorkingWithMessagesV4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012151109311_WorkingWithMessagesV5.cs" />
-    <Compile Include="Migrations\202012151109311_WorkingWithMessagesV5.Designer.cs">
-      <DependentUpon>202012151109311_WorkingWithMessagesV5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012151133587_WorkingWithMessagesV6.cs" />
-    <Compile Include="Migrations\202012151133587_WorkingWithMessagesV6.Designer.cs">
-      <DependentUpon>202012151133587_WorkingWithMessagesV6.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012151155129_WorkingWithMessagesV7.cs" />
-    <Compile Include="Migrations\202012151155129_WorkingWithMessagesV7.Designer.cs">
-      <DependentUpon>202012151155129_WorkingWithMessagesV7.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012151200456_WorkingWithMessagesV8.cs" />
-    <Compile Include="Migrations\202012151200456_WorkingWithMessagesV8.Designer.cs">
-      <DependentUpon>202012151200456_WorkingWithMessagesV8.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012151201323_WorkingWithMessagesV9.cs" />
-    <Compile Include="Migrations\202012151201323_WorkingWithMessagesV9.Designer.cs">
-      <DependentUpon>202012151201323_WorkingWithMessagesV9.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012151209065_WorkingWithMessagesV10.cs" />
-    <Compile Include="Migrations\202012151209065_WorkingWithMessagesV10.Designer.cs">
-      <DependentUpon>202012151209065_WorkingWithMessagesV10.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012151210190_WorkingWithMessagesV11.cs" />
-    <Compile Include="Migrations\202012151210190_WorkingWithMessagesV11.Designer.cs">
-      <DependentUpon>202012151210190_WorkingWithMessagesV11.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012151214068_WorkingWithMessagesV111.cs" />
-    <Compile Include="Migrations\202012151214068_WorkingWithMessagesV111.Designer.cs">
-      <DependentUpon>202012151214068_WorkingWithMessagesV111.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012151214420_WorkingWithMessagesV12.cs" />
-    <Compile Include="Migrations\202012151214420_WorkingWithMessagesV12.Designer.cs">
-      <DependentUpon>202012151214420_WorkingWithMessagesV12.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012151217238_WorkinOnMessageV13.cs" />
-    <Compile Include="Migrations\202012151217238_WorkinOnMessageV13.Designer.cs">
-      <DependentUpon>202012151217238_WorkinOnMessageV13.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012151221580_WorkinOnMessageV14.cs" />
-    <Compile Include="Migrations\202012151221580_WorkinOnMessageV14.Designer.cs">
-      <DependentUpon>202012151221580_WorkinOnMessageV14.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012151240454_WorkinOnMessageV15.cs" />
-    <Compile Include="Migrations\202012151240454_WorkinOnMessageV15.Designer.cs">
-      <DependentUpon>202012151240454_WorkinOnMessageV15.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012151356503_WorkinOnChatsV1.cs" />
-    <Compile Include="Migrations\202012151356503_WorkinOnChatsV1.Designer.cs">
-      <DependentUpon>202012151356503_WorkinOnChatsV1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012151450357_WorkinOnChatsV2.cs" />
-    <Compile Include="Migrations\202012151450357_WorkinOnChatsV2.Designer.cs">
-      <DependentUpon>202012151450357_WorkinOnChatsV2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012151610488_WorkinOnChatsV3.cs" />
-    <Compile Include="Migrations\202012151610488_WorkinOnChatsV3.Designer.cs">
-      <DependentUpon>202012151610488_WorkinOnChatsV3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202012152220545_WorkinOnChat_UsingInverseProperties.cs" />
-    <Compile Include="Migrations\202012152220545_WorkinOnChat_UsingInverseProperties.Designer.cs">
-      <DependentUpon>202012152220545_WorkinOnChat_UsingInverseProperties.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\202012201834308_MakingOrderTable.cs" />
     <Compile Include="Migrations\202012201834308_MakingOrderTable.Designer.cs">
       <DependentUpon>202012201834308_MakingOrderTable.cs</DependentUpon>
@@ -456,6 +368,10 @@
     <Compile Include="Migrations\202012242132474_UserConnectionModelChanged_AddedCreationDate.cs" />
     <Compile Include="Migrations\202012242132474_UserConnectionModelChanged_AddedCreationDate.Designer.cs">
       <DependentUpon>202012242132474_UserConnectionModelChanged_AddedCreationDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202012251602495_WorkingOnMessageModelV1.cs" />
+    <Compile Include="Migrations\202012251602495_WorkingOnMessageModelV1.Designer.cs">
+      <DependentUpon>202012251602495_WorkingOnMessageModelV1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
@@ -799,12 +715,14 @@
     <Content Include="Views\UserPanel\LearningJS.cshtml" />
     <Content Include="Views\Offer\Order.cshtml" />
     <Content Include="Views\UserPanel\LearningSignalR.cshtml" />
+    <Content Include="Views\User\UserInformation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="App_Files\Other\" />
     <Folder Include="fonts\" />
     <Folder Include="Views\Error\" />
+    <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.min.css.map" />
@@ -920,72 +838,6 @@
     <EmbeddedResource Include="Migrations\202012142111300_UpdateMessageModel_BackedToNoIDversion.resx">
       <DependentUpon>202012142111300_UpdateMessageModel_BackedToNoIDversion.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012151026240_WorkingWithForeignKeysV3.resx">
-      <DependentUpon>202012151026240_WorkingWithForeignKeysV3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012151035235_MessageModelChange_UsersAreVirtualNow.resx">
-      <DependentUpon>202012151035235_MessageModelChange_UsersAreVirtualNow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012151047258_WorkingWithMessagesV1.resx">
-      <DependentUpon>202012151047258_WorkingWithMessagesV1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012151050479_WorkingWithMessagesV2.resx">
-      <DependentUpon>202012151050479_WorkingWithMessagesV2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012151102065_WorkingWithMessagesV3.resx">
-      <DependentUpon>202012151102065_WorkingWithMessagesV3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012151102445_WorkingWithMessagesV4.resx">
-      <DependentUpon>202012151102445_WorkingWithMessagesV4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012151109311_WorkingWithMessagesV5.resx">
-      <DependentUpon>202012151109311_WorkingWithMessagesV5.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012151133587_WorkingWithMessagesV6.resx">
-      <DependentUpon>202012151133587_WorkingWithMessagesV6.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012151155129_WorkingWithMessagesV7.resx">
-      <DependentUpon>202012151155129_WorkingWithMessagesV7.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012151200456_WorkingWithMessagesV8.resx">
-      <DependentUpon>202012151200456_WorkingWithMessagesV8.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012151201323_WorkingWithMessagesV9.resx">
-      <DependentUpon>202012151201323_WorkingWithMessagesV9.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012151209065_WorkingWithMessagesV10.resx">
-      <DependentUpon>202012151209065_WorkingWithMessagesV10.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012151210190_WorkingWithMessagesV11.resx">
-      <DependentUpon>202012151210190_WorkingWithMessagesV11.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012151214068_WorkingWithMessagesV111.resx">
-      <DependentUpon>202012151214068_WorkingWithMessagesV111.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012151214420_WorkingWithMessagesV12.resx">
-      <DependentUpon>202012151214420_WorkingWithMessagesV12.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012151217238_WorkinOnMessageV13.resx">
-      <DependentUpon>202012151217238_WorkinOnMessageV13.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012151221580_WorkinOnMessageV14.resx">
-      <DependentUpon>202012151221580_WorkinOnMessageV14.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012151240454_WorkinOnMessageV15.resx">
-      <DependentUpon>202012151240454_WorkinOnMessageV15.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012151356503_WorkinOnChatsV1.resx">
-      <DependentUpon>202012151356503_WorkinOnChatsV1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012151450357_WorkinOnChatsV2.resx">
-      <DependentUpon>202012151450357_WorkinOnChatsV2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012151610488_WorkinOnChatsV3.resx">
-      <DependentUpon>202012151610488_WorkinOnChatsV3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202012152220545_WorkinOnChat_UsingInverseProperties.resx">
-      <DependentUpon>202012152220545_WorkinOnChat_UsingInverseProperties.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012201834308_MakingOrderTable.resx">
       <DependentUpon>202012201834308_MakingOrderTable.cs</DependentUpon>
     </EmbeddedResource>
@@ -1009,6 +861,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012242132474_UserConnectionModelChanged_AddedCreationDate.resx">
       <DependentUpon>202012242132474_UserConnectionModelChanged_AddedCreationDate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012251602495_WorkingOnMessageModelV1.resx">
+      <DependentUpon>202012251602495_WorkingOnMessageModelV1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

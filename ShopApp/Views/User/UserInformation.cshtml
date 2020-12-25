@@ -1,0 +1,14 @@
+﻿@model ShopApp.Models.User
+
+
+<div class="categories shadow mx-auto mt-4 mb-3 row">
+    <div class="col-2">
+        <img src="@Model.AvatarImage.PathToFile" alt="UserAvatar" width="200" class="rounded-circle">
+    </div>
+    <div class="col-10">
+        <p> Imie: @Model.FirstName</p>
+        <p> Login: @Model.Login</p>
+        <p> E-mail kontaktowy: @Model.Email</p>
+        <p> Użytkownik od: @Model.CreationDate.ToShortDateString()</p>
+    </div>
+</div>
