@@ -34,6 +34,7 @@ namespace ShopApp.Migrations
                     FirstName = "Zakupowo",
                     LastName = "Administration",
                     CreationDate = DateTime.Now,
+                    IsActivated = true,
                     Bucket = new Bucket(),
                     Order = new Order()
                 };

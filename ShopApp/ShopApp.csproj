@@ -524,6 +524,7 @@
     <Content Include="Scripts\bucket.js" />
     <Content Include="Scripts\BucketAndFavouriteManagement.js" />
     <Content Include="Scripts\ChatScript.js" />
+    <Content Include="Scripts\EmailSender.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />

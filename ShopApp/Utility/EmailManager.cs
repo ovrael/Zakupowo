@@ -126,16 +126,16 @@ namespace ShopApp.Utility
         {
             StringBuilder message = new StringBuilder();
             message.AppendLine("<pre>Thank you for registration!");
-            message.AppendLine();
+            message.AppendLine("");
             message.AppendLine("Now you can:");
             message.AppendLine("    -Browse offers");
             message.AppendLine("    -Change your data");
-            message.AppendLine();
+            message.AppendLine("");
             message.AppendLine("If you want more functionality:");
             message.AppendLine("    -Buy offers");
             message.AppendLine("    -Make offers");
-            message.AppendLine();
-            message.AppendLine("<a href=\"http://localhost:44000/User/ConfirmRegistration?email=" + encryptedEmail + "\">Click here</a> to fully register your account!<pre>");
+            message.AppendLine("");
+            message.AppendLine("<a href=\"http://zakupowo.azurewebsites.net/User/ConfirmRegistration?email=" + encryptedEmail + "\">Click here</a> to fully register your account!<pre>");
 
             return message.ToString();
         }
@@ -145,10 +145,10 @@ namespace ShopApp.Utility
         {
             StringBuilder message = new StringBuilder();
             message.AppendLine("<pre>Have you just tried to change your password?");
-            message.AppendLine("<a href=\"http://localhost:44000/UserPanel/ConfirmPasswordChange?email=" + encryptedEmail + "&psw=" + encryptedNewPassword + "\">Click here</a> to confirm the change.");
+            message.AppendLine("<a href=\"http://zakupowo.azurewebsites.net/UserPanel/ConfirmPasswordChange?email=" + encryptedEmail + "&psw=" + encryptedNewPassword + "\">Click here</a> to confirm the change.");
             message.AppendLine();
             message.AppendLine();
-            message.AppendLine("If you don't recognize this activity, please <a href=\"http://localhost:44000/Home/Contact\">contact us</a>.<pre>");
+            message.AppendLine("If you don't recognize this activity, please <a href=\"http://zakupowo.azurewebsites.net/Home/Contact\">contact us</a>.<pre>");
 
             return message.ToString();
         }
