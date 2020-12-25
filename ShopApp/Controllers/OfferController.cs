@@ -46,135 +46,6 @@ namespace ShopApp.Controllers
             }
         }
 
-        //View of items that user has in bucket
-        [HttpGet]
-        [Authorize]
-        public ActionResult Bucket()
-        {
-            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-            if (user != null)
-            {
-                var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer.User);
-                if (user.ShippingAdresses.Count() == 0)
-                    ViewBag.UserHasNoShippingAddress = "Przed przejściem do kasy wymagane jest ustawienie adresu dostawy";
-                return View(BucketItems); 
-            }
-            else
-                //Returning 404 when somehow user is authorized but not in Database
-                return new HttpStatusCodeResult(404);
-        }
-
-        [HttpPost]
-        [Authorize]
-        public ActionResult Bucket(FormCollection collection)
-        {
-            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-            if(user != null)
-            {
-                if (user.ShippingAdresses.Count() == 0)
-                    return RedirectToAction("Bucket");
-                if(collection != null)
-                {
-                    var bucketItems = user?.Bucket?.BucketItems?.ToList();
-                    if(bucketItems != null)
-                    {
-                        var ActiveOffersInBucket = bucketItems.Where(i => i.Offer != null && i.Offer.IsActive).ToList();
-                        var ActiveBundlesInBucket = bucketItems.Where(i => i.Bundle != null && i.Bundle.IsActive).ToList();
-                        var CollectionSellers = collection.AllKeys.Where(i => i.StartsWith("SelectedSeller_")).Select(i => i.Substring(i.LastIndexOf("_") + 1).ToList());
-
-                        List<string> SellersLogins = new List<string>();
-
-                        foreach (var item in CollectionSellers)
-                            SellersLogins.Add( new string (item.ToArray()));
-
-                        List<BucketItem> BucketItemsListThatIsGoingToBeBought = new List<BucketItem>();
-                        if(SellersLogins != null)
-                        {
-                        foreach(var item in collection.AllKeys)
-                        {
-                            if(item.StartsWith("Offer_quantity_") && int.TryParse(item.Substring(item.LastIndexOf("_") + 1),out int BucketItemOfferID))
-                            {
-                                var BucketItemThatIsGoingToBeBought = ActiveOffersInBucket?.Where(i => i.BucketItemID == BucketItemOfferID).FirstOrDefault();
-                                if (BucketItemThatIsGoingToBeBought != null && SellersLogins != null && SellersLogins.Contains(BucketItemThatIsGoingToBeBought.Offer.User.Login) &&int.TryParse(collection["Offer_quantity_" + BucketItemOfferID],out int OfferQuantity))
-                                {
-                                    if (BucketItemThatIsGoingToBeBought.Offer.InStockNow >= OfferQuantity)
-                                        BucketItemsListThatIsGoingToBeBought.Add(BucketItemThatIsGoingToBeBought);
-                                    else
-                                    {
-                                        ViewBag.ExceedingMaxAmount = "Nie wszystkie produkty mogą zostać zakupione w podanych ilościach";
-                                        return View("CriticalWarningPage");
-                                    }
-                                }
-                            }
-                            else if (item.StartsWith("Bundle_quantity_") && int.TryParse(item.Substring(item.LastIndexOf("_") + 1), out int BucketItemBundleID))
-                            {
-                                var BucketItemThatIsGoingToBeBought = ActiveBundlesInBucket?.Where(i => i.BucketItemID == BucketItemBundleID).FirstOrDefault();
-                                if (BucketItemThatIsGoingToBeBought != null && SellersLogins != null && SellersLogins.Contains(BucketItemThatIsGoingToBeBought.Bundle.User.Login))
-                                {
-                                    BucketItemsListThatIsGoingToBeBought.Add(BucketItemThatIsGoingToBeBought);
-                                }
-                            }
-                        }
-                        }    
-
-                        //If collection offers bundles and sellers all were valid => View if not => Redirect
-                        if(BucketItemsListThatIsGoingToBeBought != null)
-                        {
-                            //Not sure what happens if we delete the bucketitems in between operations
-                            foreach (var item in user.Order.BucketItems)
-                                item.Order.Remove(user.Order);
-                            user.Order.BucketItems.Clear();
-                            db.SaveChanges();
-                            user.Order.BucketItems = BucketItemsListThatIsGoingToBeBought;
-                            db.SaveChanges();
-                            foreach (var item in user.Order.BucketItems)
-                                item.Order.Add(user.Order);
-                            
-                        
-                        return RedirectToAction("Order");
-                        }
-                        return RedirectToAction("Bucket");
-                    }
-                }
-            }
-            return new HttpStatusCodeResult(404);
-        }
-
-        [HttpGet]
-        [Authorize]
-        public ActionResult Order()
-        {
-
-            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-            
-            if (user != null && user.Order.BucketItems != null && user.ShippingAdresses.Count() != 0)
-            {
-                CashOutViewModel cashOutViewModel = new CashOutViewModel
-                {
-                    GroupedBucketItems = user.Order.BucketItems.GroupBy(i => i.Offer != null ? i.Offer.User : i.Bundle.User).ToList(),
-                    ShippingAdresses = user.ShippingAdresses
-                };
-                return View(cashOutViewModel);
-            }
-            else
-                //Returning 404 becuase managing the code to result in here has to be client-side code changes
-                return new HttpStatusCodeResult(404);
-        }
-
-        [HttpPost]
-        [Authorize]
-        public ActionResult Order(CashOutViewModel cashOutViewModel,FormCollection collection)
-        {
-
-            return View();
-        }
-
-        [NonAction]
-        //Send a transaction request via mail to the seller
-        public ActionResult SendTransactionRequest()
-        {
-            return Content("");
-        }
 
         #region Favourites
 
@@ -312,6 +183,105 @@ namespace ShopApp.Controllers
 
         #endregion
 
+        
+        #region Bucket
+
+        //View of items that user has in bucket
+        [HttpGet]
+        [Authorize]
+        public ActionResult Bucket()
+        {
+            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+            if (user != null)
+            {
+                var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer.User);
+                if (user.ShippingAdresses.Count() == 0)
+                    ViewBag.UserHasNoShippingAddress = "Przed przejściem do kasy wymagane jest ustawienie adresu dostawy";
+                return View(BucketItems);
+            }
+            else
+                //Returning 404 when somehow user is authorized but not in Database
+                return new HttpStatusCodeResult(404);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Bucket(FormCollection collection)
+        {
+            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+            if (user != null)
+            {
+                if (user.ShippingAdresses.Count() == 0)
+                    return RedirectToAction("Bucket");
+                if (collection != null)
+                {
+                    var bucketItems = user?.Bucket?.BucketItems?.ToList();
+                    if (bucketItems != null)
+                    {
+                        var ActiveOffersInBucket = bucketItems.Where(i => i.Offer != null && i.Offer.IsActive).ToList();
+                        var ActiveBundlesInBucket = bucketItems.Where(i => i.Bundle != null && i.Bundle.IsActive).ToList();
+                        var CollectionSellers = collection.AllKeys.Where(i => i.StartsWith("SelectedSeller_")).Select(i => i.Substring(i.LastIndexOf("_") + 1).ToList());
+
+                        List<string> SellersLogins = new List<string>();
+
+                        foreach (var item in CollectionSellers)
+                            SellersLogins.Add(new string(item.ToArray()));
+
+                        List<BucketItem> BucketItemsListThatIsGoingToBeBought = new List<BucketItem>();
+                        if (SellersLogins != null)
+                        {
+                            foreach (var item in collection.AllKeys)
+                            {
+                                if (item.StartsWith("Offer_quantity_") && int.TryParse(item.Substring(item.LastIndexOf("_") + 1), out int BucketItemOfferID))
+                                {
+                                    var BucketItemThatIsGoingToBeBought = ActiveOffersInBucket?.Where(i => i.BucketItemID == BucketItemOfferID).FirstOrDefault();
+                                    if (BucketItemThatIsGoingToBeBought != null && SellersLogins != null && SellersLogins.Contains(BucketItemThatIsGoingToBeBought.Offer.User.Login) && int.TryParse(collection["Offer_quantity_" + BucketItemOfferID], out int OfferQuantity))
+                                    {
+                                        if (BucketItemThatIsGoingToBeBought.Offer.InStockNow >= OfferQuantity)
+                                            BucketItemsListThatIsGoingToBeBought.Add(BucketItemThatIsGoingToBeBought);
+                                        else
+                                        {
+                                            ViewBag.ExceedingMaxAmount = "Nie wszystkie produkty mogą zostać zakupione w podanych ilościach";
+                                            return View("CriticalWarningPage");
+                                        }
+                                    }
+                                }
+                                else if (item.StartsWith("Bundle_quantity_") && int.TryParse(item.Substring(item.LastIndexOf("_") + 1), out int BucketItemBundleID))
+                                {
+                                    var BucketItemThatIsGoingToBeBought = ActiveBundlesInBucket?.Where(i => i.BucketItemID == BucketItemBundleID).FirstOrDefault();
+                                    if (BucketItemThatIsGoingToBeBought != null && SellersLogins != null && SellersLogins.Contains(BucketItemThatIsGoingToBeBought.Bundle.User.Login))
+                                    {
+                                        BucketItemsListThatIsGoingToBeBought.Add(BucketItemThatIsGoingToBeBought);
+                                    }
+                                }
+                            }
+                        }
+
+                        //If collection offers bundles and sellers all were valid => View if not => Redirect
+                        if (BucketItemsListThatIsGoingToBeBought != null)
+                        {
+                            //Not sure what happens if we delete the bucketitems in between operations
+                            foreach (var item in user.Order.BucketItems)
+                                item.Order.Remove(user.Order);
+                            user.Order.BucketItems.Clear();
+                            db.SaveChanges();
+                            user.Order.BucketItems = BucketItemsListThatIsGoingToBeBought;
+                            db.SaveChanges();
+                            foreach (var item in user.Order.BucketItems)
+                                item.Order.Add(user.Order);
+
+
+                            return RedirectToAction("Order");
+                        }
+                        return RedirectToAction("Bucket");
+                    }
+                }
+            }
+            return new HttpStatusCodeResult(404);
+        }
+
+        #region BucketManagement
+
         [HttpPost]
         [Authorize]
         public async Task<ActionResult> AddToBucket(string type, int? id, int quantity = 1)
@@ -400,6 +370,51 @@ namespace ShopApp.Controllers
             }
 
             return Json(errors, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+        #endregion
+
+
+        #region Orders
+        [HttpGet]
+        [ChildActionOnly]
+        [Authorize]
+        public ActionResult Order()
+        {
+
+            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+
+            if (user != null && user.Order.BucketItems != null && user.ShippingAdresses.Count() != 0)
+            {
+                CashOutViewModel cashOutViewModel = new CashOutViewModel
+                {
+                    GroupedBucketItems = user.Order.BucketItems.GroupBy(i => i.Offer != null ? i.Offer.User : i.Bundle.User).ToList(),
+                    ShippingAdresses = user.ShippingAdresses
+                };
+                return View(cashOutViewModel);
+            }
+            else
+                //Returning 404 becuase managing the code to result in here has to be client-side code changes
+                return new HttpStatusCodeResult(404);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Order(CashOutViewModel cashOutViewModel, FormCollection collection)
+        {
+
+            return View();
+        }
+
+        #endregion
+
+        
+        [NonAction]
+        //Send a transaction request via mail to the seller
+        public ActionResult SendTransactionRequest()
+        {
+            return Content("");
         }
 
 
