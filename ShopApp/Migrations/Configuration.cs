@@ -41,15 +41,16 @@ namespace ShopApp.Migrations
             {
                 new AvatarImage()
                 {
+                    AvatarImageID = 1,
                     PathToFile = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg",
                     User = users[0]
                 }
             };
 
-            avatarImages.ForEach(a => context.AvatarImages.AddOrUpdate(a));
+            avatarImages.ForEach(a => context.AvatarImages.AddOrUpdate(x => x.AvatarImageID));
             context.SaveChanges();
 
-            users.ForEach(u => context.Users.AddOrUpdate(u));
+            users.ForEach(u => context.Users.AddOrUpdate(y => y.UserID));
             context.SaveChanges();
 
             var categories = new List<Category>

@@ -197,6 +197,10 @@ namespace ShopApp.Controllers
                 var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer.User);
                 if (user.ShippingAdresses.Count() == 0)
                     ViewBag.UserHasNoShippingAddress = "Przed przejściem do kasy wymagane jest ustawienie adresu dostawy";
+                if(user?.Bucket?.BucketItems == null)
+                    ViewBag.BucketItemsCountZero = "Żeby przejść do kasy musisz mieć jakieś przedmioty w swoim koszyku.";
+                if((bool)!user?.IsActivated)
+                    ViewBag.UserIsNotActivated = "Aby dokonać zakupu konto musi być aktywowane";
                 return View(BucketItems);
             }
             else
@@ -211,7 +215,7 @@ namespace ShopApp.Controllers
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
             if (user != null)
             {
-                if (user.ShippingAdresses.Count() == 0)
+                if (user.ShippingAdresses.Count() == 0 || user?.Bucket?.BucketItems == null || !user.IsActivated)
                     return RedirectToAction("Bucket");
                 if (collection != null)
                 {
@@ -258,7 +262,7 @@ namespace ShopApp.Controllers
                         }
 
                         //If collection offers bundles and sellers all were valid => View if not => Redirect
-                        if (BucketItemsListThatIsGoingToBeBought != null)
+                        if (BucketItemsListThatIsGoingToBeBought.Count() > 0)
                         {
                             //Not sure what happens if we delete the bucketitems in between operations
                             foreach (var item in user.Order.BucketItems)
@@ -270,7 +274,7 @@ namespace ShopApp.Controllers
                             foreach (var item in user.Order.BucketItems)
                                 item.Order.Add(user.Order);
 
-
+                            TempData["RedirectedFrom"] = "Bucket";
                             return RedirectToAction("Order");
                         }
                         return RedirectToAction("Bucket");
@@ -378,25 +382,29 @@ namespace ShopApp.Controllers
 
         #region Orders
         [HttpGet]
-        [ChildActionOnly]
         [Authorize]
         public ActionResult Order()
         {
-
-            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-
-            if (user != null && user.Order.BucketItems != null && user.ShippingAdresses.Count() != 0)
+            if (TempData["RedirectedFrom"] != null && TempData["RedirectedFrom"] == "Bucket")
             {
-                CashOutViewModel cashOutViewModel = new CashOutViewModel
+                var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+
+                if (user != null && user.Order.BucketItems != null && user.ShippingAdresses.Count() != 0)
                 {
-                    GroupedBucketItems = user.Order.BucketItems.GroupBy(i => i.Offer != null ? i.Offer.User : i.Bundle.User).ToList(),
-                    ShippingAdresses = user.ShippingAdresses
-                };
-                return View(cashOutViewModel);
+                    CashOutViewModel cashOutViewModel = new CashOutViewModel
+                    {
+                        GroupedBucketItems = user.Order.BucketItems.GroupBy(i => i.Offer != null ? i.Offer.User : i.Bundle.User).ToList(),
+                        ShippingAdresses = user.ShippingAdresses
+                    };
+                    return View(cashOutViewModel);
+                }
+                else
+                    //Returning 404 becuase managing the code to result in here has to be client-side code changes
+                    return new HttpStatusCodeResult(404);
             }
             else
-                //Returning 404 becuase managing the code to result in here has to be client-side code changes
                 return new HttpStatusCodeResult(404);
+
         }
 
         [HttpPost]

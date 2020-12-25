@@ -87,6 +87,18 @@
                             <a type="button" href="@Url.Action("AddShippingAdress","UserPanel")">Dodaj Adres!</a>
                         </div>
                     }
+                    @if (ViewBag.BucketItemsCountZero != null)
+                    {
+                        <div>
+                            <p class="alert-danger m-0"> @ViewBag.BucketItemsCountZero </p>
+                        </div>
+                    }
+                    @if (ViewBag.UserIsNotActivated != null)
+                    {
+                        <div>
+                            <p class="alert-danger m-0"> @ViewBag.UserIsNotActivated </p>
+                        </div>
+                    }
                 </div>
 
                 <div class="col-12 p-2">
