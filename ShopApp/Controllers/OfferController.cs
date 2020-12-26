@@ -29,8 +29,8 @@ namespace ShopApp.Controllers
                     Offer = offer
                 };
                 var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-                if(user != null)
-                { 
+                if (user != null)
+                {
                     //Searching whether the offer is in User's Bucket or Favourite list
                     var InBucketOffer = user?.Bucket?.BucketItems?.Where(i => i.Offer != null && i.Offer.OfferID == OfferID).Select(i => i.Offer).FirstOrDefault();
                     offerIndexViewModel.IsInBucket = InBucketOffer != null;
@@ -93,8 +93,8 @@ namespace ShopApp.Controllers
             }
             else
             {
-                return  new HttpStatusCodeResult(404);
-            } 
+                return new HttpStatusCodeResult(404);
+            }
         }
 
 
@@ -183,7 +183,7 @@ namespace ShopApp.Controllers
 
         #endregion
 
-        
+
         #region Bucket
 
         //View of items that user has in bucket
@@ -197,9 +197,9 @@ namespace ShopApp.Controllers
                 var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer.User);
                 if (user.ShippingAdresses.Count() == 0)
                     ViewBag.UserHasNoShippingAddress = "Przed przejściem do kasy wymagane jest ustawienie adresu dostawy";
-                if(user?.Bucket?.BucketItems == null)
+                if (user?.Bucket?.BucketItems == null)
                     ViewBag.BucketItemsCountZero = "Żeby przejść do kasy musisz mieć jakieś przedmioty w swoim koszyku.";
-                if((bool)!user?.IsActivated)
+                if ((bool)!user?.IsActivated)
                     ViewBag.UserIsNotActivated = "Aby dokonać zakupu konto musi być aktywowane";
                 return View(BucketItems);
             }
@@ -409,15 +409,57 @@ namespace ShopApp.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Order(CashOutViewModel cashOutViewModel, FormCollection collection)
+        public async Task<ActionResult> Order(CashOutViewModel cashOutViewModel, FormCollection collection)
         {
-
-            return View();
+            if (collection["message"] != null && collection["address-input"] != null && int.TryParse(collection["address-input"], out int result))
+            {
+                var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name && i.IsActivated).FirstOrDefault();
+                //Odpowiednie errorr message dlaczego
+                if (user != null)
+                {
+                    var order = user.Order?.BucketItems?.ToList();
+                    var Address = user.ShippingAdresses?.Where(i => i.AdressID == result).FirstOrDefault();
+                    List<BucketItem> ItemsThatCouldntBeenSold = new List<BucketItem>();
+                    if (order != null && Address != null)
+                    {
+                        //order.ForEach(i => i.IsChosen = true);
+                        var grouped = order.GroupBy(i => i.Offer != null ? i.Offer.User : i.Bundle.User);
+                        foreach (var seller in grouped)
+                        {
+                            if (!await EmailManager.SendEmailAsync(EmailManager.EmailType.TransactionRequest, seller.Key.FirstName, seller.Key.LastName, seller.Key.Email, user.Login, user.FirstName, user.LastName, seller.ToList(), collection["address-input"], Address))
+                              //check that
+                                seller.ToList().ForEach(i => ItemsThatCouldntBeenSold.Add(i));
+                        }
+                        if (ItemsThatCouldntBeenSold != null && ItemsThatCouldntBeenSold.Count() != 0)
+                        {
+                            ItemsThatCouldntBeenSold.ForEach(x => x.IsChosen = false);
+                            //ViewBag.NotEveryBucketCouldHaveBeenSold = "Niestety, nie udało się zakupić wszystkich przedmiotów po więcej informacji proszę skontaktować się z pomocą Zakupowo lub spróbować ponownie później";
+                        }
+                        for(int x = 0; x< user.Order.BucketItems.Count(); x++)
+                        {
+                            var item = user.Order.BucketItems.ElementAt(x);
+                            if (ItemsThatCouldntBeenSold != null && ItemsThatCouldntBeenSold.Count() != 0 && ItemsThatCouldntBeenSold.Contains(item))
+                                continue;
+                            else
+                            {
+                                await RemoveFromBucket(item.Offer != null ? "Offer" : "Bundle", item.Offer != null ? item.Offer.OfferID : item.Bundle.BundleID);
+                            }
+                        }
+                        user.Order.BucketItems.Clear();
+                        ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                    }
+                }
+                //usunac ischosen z bazy
+                //tworzymy historie transakcji
+                //do bazy dodac w transakcji isconfirmed ischosen
+                //Dodawanie i usuwanie z bucketa musza miec walidacje na transakcje
+            }
+            return RedirectToAction("Bucket");
         }
 
         #endregion
 
-        
+
         [NonAction]
         //Send a transaction request via mail to the seller
         public ActionResult SendTransactionRequest()

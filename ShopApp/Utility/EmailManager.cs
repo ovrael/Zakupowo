@@ -8,6 +8,9 @@ using MailKit.Security;
 using System.Diagnostics;
 using System.Text;
 using System.Web.Mvc;
+using System.Collections.Generic;
+using ShopApp.Models;
+using System.Linq;
 
 namespace ShopApp.Utility
 {
@@ -16,7 +19,8 @@ namespace ShopApp.Utility
         public enum EmailType
         {
             Registration,
-            ChangePassword
+            ChangePassword,
+            TransactionRequest
         }
 
         // Return true if email was successfuly sent to receiver
@@ -41,6 +45,7 @@ namespace ShopApp.Utility
                     builder.HtmlBody = ChangePasswordText(EncryptEmail(receiverEmail), optionalPassword);
                     message.Subject = @"Your password has been changed.";
                     break;
+
             }
             builder.HtmlBody += EndOfEmail();
 
@@ -121,6 +126,87 @@ namespace ShopApp.Utility
             return result;
         }
 
+        public static async Task<bool> SendEmailAsync(EmailType emailType, string receiverFirstName, string receiverLastName, string receiverEmail, string SenderLogin, string SenderFirstName, string SenderLastName, List<BucketItem> PurchaseList, string Message, ShippingAdress Address)
+        {
+            bool result = false;
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Zakupowo Team", "zakupowo2020@gmail.com"));
+            message.To.Add(new MailboxAddress(receiverFirstName + " " + receiverLastName, receiverEmail));
+            message.Subject = string.Empty;
+            var builder = new BodyBuilder();
+            string messageBody = string.Empty;
+
+            builder.HtmlBody = TransactionRequestText(SenderLogin, SenderFirstName, SenderLastName, PurchaseList, Message, Address);
+            message.Subject = @"Purchase request on Zakupowo.";
+           
+            builder.HtmlBody += EndOfEmail();
+            message.Body = builder.ToMessageBody();
+
+            using (var client = new SmtpClient())
+            {
+                try
+                {
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+
+                    await client.ConnectAsync("smtp.gmail.com", 587, SecureSocketOptions.Auto);
+
+                    await client.AuthenticateAsync("zakupowo2020", "Zakupowo2020$$$");
+
+                    await client.SendAsync(message);
+                    client.Disconnect(true);
+                    result = true;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+
+            return result;
+        }
+
+        public static bool SendEmail(EmailType emailType, string receiverFirstName, string receiverLastName, string receiverEmail, string SenderLogin, string SenderFirstName, string SenderLastName, List<BucketItem> PurchaseList, string Message, ShippingAdress Address)
+        {
+            bool result = false;
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Zakupowo Team", "zakupowo2020@gmail.com"));
+            message.To.Add(new MailboxAddress(receiverFirstName + " " + receiverLastName, receiverEmail));
+
+            message.Subject = string.Empty;
+            var builder = new BodyBuilder();
+            string messageBody = string.Empty;
+
+            builder.HtmlBody = TransactionRequestText(SenderLogin, SenderFirstName, SenderLastName, PurchaseList, Message, Address);
+            message.Subject = @"Purchase request on Zakupowo.";
+
+            builder.HtmlBody += EndOfEmail();
+
+            message.Body = builder.ToMessageBody();
+
+            using (var client = new SmtpClient())
+            {
+                try
+                {
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+
+                    client.Connect("smtp.gmail.com", 587, SecureSocketOptions.Auto);
+
+                    client.Authenticate("zakupowo2020", "Zakupowo2020$$$");
+
+                    client.Send(message);
+                    client.Disconnect(true);
+                    result = true;
+                    Debug.WriteLine("EMAIL SENT!");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+
+            return result;
+        }
+
         // A message sent to new registered accounts.
         private static string RegistrationText(string encryptedEmail)
         {
@@ -150,6 +236,34 @@ namespace ShopApp.Utility
             message.AppendLine();
             message.AppendLine("If you don't recognize this activity, please <a href=\"http://localhost:44000/Home/Contact\">contact us</a>.<pre>");
 
+            return message.ToString();
+        }
+
+        // A message sent when user makes a purchase.
+        private static string TransactionRequestText(string SenderLogin, string SenderFirstName, string SenderLastName, List<BucketItem> PurchaseList, string Message, ShippingAdress Address)
+        {
+            StringBuilder message = new StringBuilder();
+            message.AppendLine($"<pre> {SenderLogin} sent you a transaction request to buy your stuff:");
+            foreach(var item in PurchaseList)
+            {
+                if(item.Offer != null)
+                {
+                    message.AppendLine($"<img src=\"{ item.Offer.OfferPictures.First() }\" style = \"height:120px;width:120px;\" alt = \"25\" />");
+                    message.AppendLine($"{item.Offer.Title}");
+                }
+                else
+                {
+                    message.AppendLine($"<img src=\"{ item.Bundle.Offers.First().OfferPictures.First() }\" style = \"height:120px;width:120px;\" alt = \"25\" />");
+                    message.AppendLine($"{item.Bundle.Title}");
+                }
+            }
+            message.Append(message);
+            message.AppendLine("Dane adresowe kupującego:");
+            message.AppendLine(SenderFirstName + " " + SenderLastName);
+            message.AppendLine(Address.Country + " " + Address.PostalCode);
+            message.AppendLine(Address.Street + (Address.PremisesNumber != null ? "/" + Address.PremisesNumber : " " )+ "," + Address.City);
+            message.AppendLine("Check your <a href=\"http://localhost:44000/UserPanel/TransactionHistory\">transaction history</a> for more details and hopefully successful sale");
+            message.AppendLine("Please <a href=\"http://localhost:44000/Home/Contact\">contact us</a> if something is not clear or in case you don't want to receive such messages in future.<pre>");
             return message.ToString();
         }
 
