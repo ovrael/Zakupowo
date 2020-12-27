@@ -119,7 +119,7 @@
                                         <th scope="col">
                                             <a style="color:white" href="@Url.Action("Offers","UserPanel",new { sortBy = 11 + ViewBag.SoldSort})">Sprzedano @soldSign</a>
                                         </th>
-                                        <th style="color:white" scope="colgroup" colspan="2">Ustawienia</th>
+                                        <th style="color:white; text-align: center;" scope="colgroup" colspan="2">Ustawienia</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -155,7 +155,7 @@
                                                 }
                                                 else
                                                 {
-                                                    <td colspan="2">
+                                                    <td colspan="2" style="text-align: center;">
                                                         <a class="btn btn-outline-info" href="@Url.Action("Index", "Offer", new { OfferID = offer.OfferID })"> Zobacz ofertę </a>
                                                     </td>
                                                 }
