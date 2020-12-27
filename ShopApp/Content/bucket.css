@@ -57,6 +57,11 @@
     background-color: white;
 }
 
+.addAddress, .addAddress:visited, .addAddress:hover, .addAddress:focus {
+    color: #ffb24a;
+    font-weight: 700
+}
+
 
 .fa-times {
     cursor: pointer;
