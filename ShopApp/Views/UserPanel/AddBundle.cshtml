@@ -26,7 +26,6 @@
 
                 @using (Html.BeginForm("AddBundle", "UserPanel", FormMethod.Post))
                 {
-
                     <div class="row row-offer mr-1 ml-0 pb-2">
 
                         <div class="col-10 col-md-2 col-lg-2">
@@ -63,49 +62,51 @@
                         </div>
                     </div>
 
+
+                    <table class="table">
+                        <tbody>
+                            @foreach (var offer in Model)
+                            {
+
+                                string id = "Offer_" + offer.OfferID.ToString();
+                                string offerQuantity = "OffersQuantity_" + offer.OfferID.ToString();
+
+
+                                <tr class="offer-row">
+
+                                    @*ADD TO BUNDLE CHECKBOX*@
+                                    <td style="width: 15%; vertical-align: middle;">
+                                        <div class="form-check-inline">
+                                            <input type="checkbox" class="form-check-input" id="@id" name="OffersInBundle" value="@offer.OfferID">
+                                            <label class="form-check-label" style="white-space: nowrap;" for="@id">Dodaj do zestawu</label>
+                                        </div>
+                                    </td>
+
+                                    @*OFFER PICTURE*@
+                                    <td style="width: 10%; vertical-align: middle;">
+                                        <img src="@offer.OfferPictures.ToList()[0].PathToFile" class="rounded" style="width: 70px" alt="offerPicture">
+                                    </td>
+
+                                    @*OFFER TITLE*@
+                                    <td style="width: 45%; text-align: center; vertical-align: middle;">
+                                        @offer.Title
+                                    </td>
+
+                                    @*OFFER QUANTITY*@
+                                    <td style="width: 15%; vertical-align: middle;">
+                                        <input id="available_quantity" name="@offerQuantity" value="1" min="1" max="@offer.InStockNow" placeholder="Offer quantity" class="form-control input-group-sm" required type="number">
+                                    </td>
+
+                                    @*OFFER PRICE*@
+                                    <td style="width: 15%; text-align: center; vertical-align: middle;">
+                                        @offer.Price zł
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                     <hr />
 
-                    foreach (var offer in Model)
-                    {
-
-                        string id = "Offer_" + offer.OfferID.ToString();
-                        string offerQuantity = "OffersQuantity_" + offer.OfferID.ToString();
-
-                        <div class="row row-offer mr-1 ml-0 pb-3 pl-4 offer-row">
-
-                            @*ADD TO BUNDLE CHECKBOX*@
-                            <div class="col-sm-10 col-md-2 col-lg-2 pl-0 pb-4 pr-5  text-center">
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="@id" name="OffersInBundle" value="@offer.OfferID">
-                                    <label class="form-check-label" for="@id">Dodaj do zestawu</label>
-                                </div>
-                            </div>
-
-                            @*OFFER PICTURE*@
-                            <div class="col-sm-10 col-md-1 col-lg-1 text-center pb-3 pr-5 mr-5 ">
-                                <img src="@offer.OfferPictures.ToList()[0].PathToFile" class="rounded" style="width: 50px" alt="offerPicture">
-                            </div>
-
-                            @*OFFER TITLE*@
-                            <div id="offerTitle" class="col-sm-10 col-md-4 col-lg-4 text-center pb-3 pr-5 mr-5 offer-title">
-                                @offer.Title
-                            </div>
-
-                            @*OFFER QUANTITY*@
-                            <div class="col-10 col-lg-2 col-md-2 pb-3 d-flex justify-content-center">
-                                <div class="form-group">
-                                    <input id="available_quantity" name="@offerQuantity" value="1" min="1" max="@offer.InStockNow" placeholder="Offer quantity" class="form-control input-group-sm" required type="number">
-                                </div>
-                            </div>
-
-                            @*OFFER PRICE*@
-                            <div class="col-sm-10 col-lg-1 col-md-1 text-center pr-5 mr-5" style="white-space: nowrap; overflow: hidden;">
-                                @offer.Price zł
-                            </div>
-                        </div>
-                    }
-
-                    <hr />
                     <div class="row row-offer mr-1 ml-0 pb-4 pt-4">
                         <div class="col-8 p-0"> </div>
                         <div class="col-1 p-0 pl-lg-5 pl-2 ml-lg-5 text-black font-weight-bold mr-4 " style="font-size:18px;">Suma: </div>

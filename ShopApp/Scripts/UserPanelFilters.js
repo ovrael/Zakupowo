@@ -34,7 +34,7 @@
         var value = jQuery(this).val().toLowerCase();
 
         $(offers).each(function () {
-            var text = jQuery(this).find(".offer-title").text().toLowerCase();
+            var text = jQuery(this).find('td').eq(2).text().toLowerCase();
 
             if (text.includes(value))
                 jQuery(this).removeClass('hidden');
