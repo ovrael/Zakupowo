@@ -82,9 +82,7 @@
                                         <div class="col-sm-3 col-md-2 col-5">
                                             <label style="font-weight:bold;">Login</label>
                                         </div>
-                                        <div class="col-md-8 col-6">
-                                            @Model.Login
-                                        </div>
+                                        <div id="user-login" class="col-md-8 col-6">@Model.Login</div>
                                     </div>
 
                                     <hr />
@@ -134,6 +132,10 @@
                                         </div>
                                         <div class="col-md-8 col-6 @statusColorClass">
                                             <b>@accountStatus</b>
+                                            @if (!Model.IsActivated)
+                                            {
+                                                <a href="#" onclick="SendActivationEmail();return false;"><i> (Wyślij ponownie link aktywacyjny) </i></a>
+                                            }
                                         </div>
                                     </div>
 
@@ -146,3 +148,8 @@
         </div>
     </div>
 </div>
+
+@section scripts
+{
+    <script src="~/Scripts/EmailSender.js"></script>
+}

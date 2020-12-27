@@ -886,6 +886,24 @@ namespace ShopApp.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult SendActivationEmail(string userLogin)
+        {
+            Debug.WriteLine("UserLogin: " + userLogin);
+            User user = db.Users.Where(u => u.Login == userLogin).FirstOrDefault();
+
+
+            if (user != null)
+            {
+                Task.Run(() => EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email));
+                return Json(new { email = user.Email });
+            }
+            else
+            {
+                return Json(false);
+            }
+        }
+
         public ActionResult LearningJS()
         {
             return View();

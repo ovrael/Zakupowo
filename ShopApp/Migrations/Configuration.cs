@@ -21,37 +21,38 @@ namespace ShopApp.Migrations
 
         protected override void Seed(ShopContext context)
         {
-            var users = new List<User>()
+            User admin = context.Users.Where(u => u.Login == "Zakupowo").FirstOrDefault();
+
+            if (admin == null)
             {
-                new User()
+                var user = new User()
                 {
                     UserID = 1,
                     Email = "Zakupowo2020@gmail.com",
                     Login = "Zakupowo",
                     EncryptedPassword = Utility.Cryptographing.Encrypt("Zakupowo2020$$$"),
-                    FirstName ="Zakupowo",
-                    LastName="Administration",
+                    FirstName = "Zakupowo",
+                    LastName = "Administration",
                     CreationDate = DateTime.Now,
+                    IsActivated = true,
                     Bucket = new Bucket(),
                     Order = new Order()
-                }
-            };
+                };
 
-            var avatarImages = new List<AvatarImage>()
-            {
-                new AvatarImage()
+                var avatarImage = new AvatarImage()
                 {
                     AvatarImageID = 1,
                     PathToFile = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg",
-                    User = users[0]
-                }
-            };
+                    User = user
+                };
 
-            avatarImages.ForEach(a => context.AvatarImages.AddOrUpdate(x => x.AvatarImageID));
-            context.SaveChanges();
+                context.AvatarImages.Add(avatarImage);
+                context.SaveChanges();
 
-            users.ForEach(u => context.Users.AddOrUpdate(y => y.UserID));
-            context.SaveChanges();
+                context.Users.Add(user);
+                context.SaveChanges();
+            }
+
 
             var categories = new List<Category>
             {
