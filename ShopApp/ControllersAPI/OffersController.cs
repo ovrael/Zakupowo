@@ -17,39 +17,38 @@ namespace ShopApp.ControllersAPI
     {
         private ShopContext db = new ShopContext();
 
-       
-
-        
-      
-        public IHttpActionResult GetOffersByCategory()
+        public IHttpActionResult GetOffers()
         {
             var offers = db.Offers;
             List<OfferItem> offerItems = new List<OfferItem>();
             foreach(Offer offer in offers)
             {
-              
-                
-                    var offerItem = OfferItem.ConvertOfferToOfferItem(offer);
-                    offerItems.Add(offerItem);
+               var offerItem = OfferItem.ConvertOfferToOfferItem(offer);
+               offerItems.Add(offerItem);
                 
             }
             return Ok(offerItems);
         }
 
 
-
-        // GET: api/Offers/5
-        [ResponseType(typeof(Offer))]
-        public IHttpActionResult GetOffer(int id)
+        public IHttpActionResult GetOffersByCategory(int id)
         {
-            Offer offer = db.Offers.Find(id);
-            if (offer == null)
+            var offers = db.Offers;
+            List<OfferItem> offerItems = new List<OfferItem>();
+            foreach (Offer offer in offers)
             {
-                return NotFound();
+                if (id == offer.Category.CategoryID)
+                {
+                    var offerItem = OfferItem.ConvertOfferToOfferItem(offer);
+                    offerItems.Add(offerItem);
+                }
+          
             }
-
-            return Ok(offer);
+            return Ok(offerItems);
         }
+
+
+
 
 
 
