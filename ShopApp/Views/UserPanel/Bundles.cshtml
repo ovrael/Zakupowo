@@ -53,116 +53,128 @@
                     </div>
                 </div>
 
-                    @{
-                        string titleSign = string.Empty;
-                        //string categorySign = string.Empty;
-                        string statusSign = string.Empty;
-                        string dateSign = string.Empty;
-                        string priceSign = string.Empty;
+                @{
+                    string titleSign = string.Empty;
+                    //string categorySign = string.Empty;
+                    string statusSign = string.Empty;
+                    string dateSign = string.Empty;
+                    string priceSign = string.Empty;
 
-                        if (ViewBag.SortBy != null)
+                    if (ViewBag.SortBy != null)
+                    {
+                        string sortBy = ViewBag.SortBy;
+                        switch (sortBy)
                         {
-                            string sortBy = ViewBag.SortBy;
-                            switch (sortBy)
-                            {
-                                case "Title":
-                                    titleSign = ViewBag.TitleSort == 0 ? "↑" : "↓";
-                                    break;
-                                //case "Category":
-                                //    categorySign = ViewBag.CategorySort == 0 ? "↑" : "↓";
-                                // break;
-                                case "Status":
-                                    statusSign = ViewBag.StatusSort == 0 ? "↓" : "↑";
-                                    break;
-                                case "Date":
-                                    dateSign = ViewBag.CreationDateSort == 0 ? "↓" : "↑";
-                                    break;
-                                case "Price":
-                                    priceSign = ViewBag.PriceSort == 0 ? "↑" : "↓";
-                                    break;
-                            }
-                        }
-
-
-                        if (Model.Count() > 0)
-                        {
-                            <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th scope="col">
-                                                <a class="text-white" href="@Url.Action("Bundles","UserPanel",new { sortBy = 1 + ViewBag.TitleSort})">Nazwa @titleSign</a>
-                                            </th>
-                                            @*<th scope="col">
-                                        <a href="@Url.Action("Bundles","UserPanel",new { sortBy = 13 + ViewBag.CategorySort})">Kategoria @categorySign</a>
-                                    </th>*@
-                                            <th scope="col">
-                                                <a class="text-white" href="@Url.Action("Bundles","UserPanel",new { sortBy = 3 + ViewBag.PriceSort})">Cena [ zł ] @priceSign</a>
-                                            </th>
-                                            <th scope="col">
-                                                <a class="text-white" href="@Url.Action("Bundles","UserPanel",new { sortBy = 5 + ViewBag.StatusSort})">Status @statusSign</a>
-                                            </th>
-                                            <th scope="col">
-                                                <a class="text-white" href="@Url.Action("Bundles","UserPanel",new { sortBy = 7 + ViewBag.CreationDateSort})">Dodano @dateSign</a>
-                                            </th>
-                                            <th class="text-white text-center" scope="colgroup" colspan="3" style="text-align: center;">Ustawienia</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @{
-                                            int n = 0;
-                                            foreach (var bundle in Model)
-                                            {
-                                                n++;
-                                                string status = bundle.IsActive ? "Aktywny" : "Nieaktywny";
-                                                string statusColorClass = bundle.IsActive ? "text-success" : "text-danger";
-                                                string bundleWarning = "#warningBeforeDeactivate_" + bundle.BundleID;
-
-                                                <tr class="bundle-row">
-                                                    <td>@bundle.Title</td>
-                                                    <td>@bundle.BundlePrice</td>
-                                                    <td>
-                                                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Status mówi o tym czy zestaw jest aktywny">
-                                                            <a class="@statusColorClass" style="pointer-events: none;"><b>@status</b></a>
-                                                        </span>
-                                                    </td>
-                                                    <td>@bundle.CreationDate</td>
-
-                                                    @if (bundle.IsActive)
-                                                    {
-                                                        <td>
-                                                            <button type="button" class="btn btn-outline-warning">Edytuj</button>
-                                                        </td>
-                                                        <td>
-                                                            <div class="col-md-2 ">
-                                                                <button data-toggle="modal" data-target="@bundleWarning" class="btn btn-outline-danger">Dezaktywuj</button>
-                                                            </div>
-                                                        </td>
-                                                    }
-                                                    else
-                                                    {
-                                                        <td colspan="2" style="text-align: center;">
-                                                            <button class="btn btn-outline-dark" href="#"> Zobacz zestaw </button>
-                                                        </td>
-                                                    }
-
-                                                </tr>
-                                            }
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="alert alert-secondary" role="alert">
-                                Nie utworzyłeś jeszcze żadnych zestawów!
-                            </div>
+                            case "Title":
+                                titleSign = ViewBag.TitleSort == 0 ? "↑" : "↓";
+                                break;
+                            //case "Category":
+                            //    categorySign = ViewBag.CategorySort == 0 ? "↑" : "↓";
+                            // break;
+                            case "Status":
+                                statusSign = ViewBag.StatusSort == 0 ? "↓" : "↑";
+                                break;
+                            case "Date":
+                                dateSign = ViewBag.CreationDateSort == 0 ? "↓" : "↑";
+                                break;
+                            case "Price":
+                                priceSign = ViewBag.PriceSort == 0 ? "↑" : "↓";
+                                break;
                         }
                     }
 
-                </div>
+
+                    if (Model.Count() > 0)
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col" style="vertical-align: middle;">
+                                            <a class="text-white" href="@Url.Action("Bundles","UserPanel",new { sortBy = 1 + ViewBag.TitleSort})">Nazwa @titleSign</a>
+                                        </th>
+                                        @*<th scope="col">
+                                                <a href="@Url.Action("Bundles","UserPanel",new { sortBy = 13 + ViewBag.CategorySort})">Kategoria @categorySign</a>
+                                            </th>*@
+                                        <th scope="col" style="text-align: center; vertical-align: middle;">
+                                            <a class="text-white" href="@Url.Action("Bundles","UserPanel",new { sortBy = 3 + ViewBag.PriceSort})">Cena [ zł ] @priceSign</a>
+                                        </th>
+                                        <th scope="col" style="text-align: center; vertical-align: middle;">
+                                            <a class="text-white" href="@Url.Action("Bundles","UserPanel",new { sortBy = 5 + ViewBag.StatusSort})">Status @statusSign</a>
+                                        </th>
+                                        <th scope="col" style="text-align: center; vertical-align: middle;">
+                                            <a class="text-white" href="@Url.Action("Bundles","UserPanel",new { sortBy = 7 + ViewBag.CreationDateSort})">Dodano @dateSign</a>
+                                        </th>
+                                        <th class="text-white text-center" scope="colgroup" colspan="3" style="text-align: center;">
+                                            Ustawienia
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int n = 0;
+                                        foreach (var bundle in Model)
+                                        {
+                                            n++;
+                                            string status = bundle.IsActive ? "Aktywny" : "Nieaktywny";
+                                            string statusColorClass = bundle.IsActive ? "text-success" : "text-danger";
+                                            string bundleWarning = "#warningBeforeDeactivate_" + bundle.BundleID;
+
+                                            <tr class="bundle-row">
+
+                                                <td style="vertical-align: middle;">
+                                                    @bundle.Title
+                                                </td>
+
+                                                <td style="text-align: right; vertical-align: middle;">
+                                                    @bundle.BundlePrice
+                                                </td>
+
+                                                <td style="text-align: center; vertical-align: middle;">
+                                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Status mówi o tym czy zestaw jest aktywny">
+                                                        <a class="@statusColorClass" style="pointer-events: none;"><b>@status</b></a>
+                                                    </span>
+                                                </td>
+
+                                                <td style="text-align: center; vertical-align: middle;">
+                                                    @bundle.CreationDate
+                                                </td>
+
+                                                @if (bundle.IsActive)
+                                                {
+                                                    <td style="text-align: center; vertical-align: middle;">
+                                                        <button type="button" class="btn btn-outline-warning">Edytuj</button>
+                                                    </td>
+                                                    <td style="text-align: center; vertical-align: middle;">
+                                                        <div class="col-md-2 ">
+                                                            <button data-toggle="modal" data-target="@bundleWarning" class="btn btn-outline-danger">Dezaktywuj</button>
+                                                        </div>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td colspan="2" style="text-align: center;">
+                                                        <button class="btn btn-outline-dark" href="#"> Zobacz zestaw </button>
+                                                    </td>
+                                                }
+
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-secondary" role="alert">
+                            Nie utworzyłeś jeszcze żadnych zestawów!
+                        </div>
+                    }
+                }
+
             </div>
+        </div>
     </div>
 </div>
 

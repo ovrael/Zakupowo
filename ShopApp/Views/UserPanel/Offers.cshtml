@@ -98,28 +98,30 @@
                             <table class="table table-striped">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th scope="col">
+                                        <th scope="col" style="vertical-align: middle;">
                                             <a style="color:white" href="@Url.Action("Offers","UserPanel",new { sortBy = 1 + ViewBag.TitleSort})">Nazwa @titleSign</a>
                                         </th>
-                                        <th scope="col">
+                                        <th scope="col" style="text-align: center; vertical-align: middle;">
                                             <a style="color:white" href="@Url.Action("Offers","UserPanel",new { sortBy = 13 + ViewBag.CategorySort})">Kategoria @categorySign</a>
                                         </th>
-                                        <th scope="col">
+                                        <th scope="col" style="text-align: center; vertical-align: middle;">
                                             <a style="color:white" href="@Url.Action("Offers","UserPanel",new { sortBy = 3 + ViewBag.StatusSort})">Status @statusSign</a>
                                         </th>
-                                        <th scope="col">
+                                        <th scope="col" style="text-align: center; vertical-align: middle;">
                                             <a style="color:white" href="@Url.Action("Offers","UserPanel",new { sortBy = 5 + ViewBag.CreationDateSort})">Dodano @dateSign</a>
                                         </th>
-                                        <th scope="col">
+                                        <th scope="col" style="text-align: center; vertical-align: middle;">
                                             <a style="color:white" href="@Url.Action("Offers","UserPanel",new { sortBy = 7 + ViewBag.PriceSort})">Cena [ zł ] @priceSign</a>
                                         </th>
-                                        <th scope="col">
+                                        <th scope="col" style="text-align: center; vertical-align: middle;">
                                             <a style="color:white" href="@Url.Action("Offers","UserPanel",new { sortBy = 9 + ViewBag.LeftSort})">Pozostało @leftSign</a>
                                         </th>
-                                        <th scope="col">
+                                        <th scope="col" style="text-align: center; vertical-align: middle;">
                                             <a style="color:white" href="@Url.Action("Offers","UserPanel",new { sortBy = 11 + ViewBag.SoldSort})">Sprzedano @soldSign</a>
                                         </th>
-                                        <th style="color:white; text-align: center;" scope="colgroup" colspan="2">Ustawienia</th>
+                                        <th style="color:white; text-align: center; vertical-align: middle;" scope="colgroup" colspan="2">
+                                            Ustawienia
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -134,28 +136,47 @@
                                             string offerWarning = "#warningBeforeDeactivate_" + offer.OfferID;
 
                                             <tr class="offer-row">
-                                                <td>
+
+                                                <td style="vertical-align: middle;">
                                                     <a class="text-warning" href="@Url.Action("Index","Offer",new { OfferID = offer.OfferID})"><b><i>@offer.Title</i></b></a>
                                                 </td>
-                                                <td>@offer.Category.CategoryName</td>
-                                                <td class="@statusColorClass"><b>@status</b></td>
-                                                <td>@offer.CreationDate.ToShortDateString()</td>
-                                                <td>@offer.Price</td>
-                                                <td>@offer.InStockNow</td>
-                                                <td>@(offer.InStockOriginaly-offer.InStockNow)</td>
+
+                                                <td style="text-align: center; vertical-align: middle;">
+                                                    @offer.Category.CategoryName
+                                                </td>
+
+                                                <td class="@statusColorClass" style="text-align: center; vertical-align: middle;">
+                                                    <b>@status</b>
+                                                </td>
+
+                                                <td style="text-align: center; vertical-align: middle;">
+                                                    @offer.CreationDate.ToShortDateString()
+                                                </td>
+
+                                                <td style="text-align: right; vertical-align: middle;">
+                                                    @offer.Price
+                                                </td>
+
+                                                <td style="text-align: center; vertical-align: middle;">
+                                                    @offer.InStockNow
+                                                </td>
+
+                                                <td style="text-align: center; vertical-align: middle;">
+                                                    @(offer.InStockOriginaly-offer.InStockNow)
+                                                </td>
 
                                                 @if (offer.IsActive)
                                                 {
-                                                    <td>
+                                                    <td style="text-align: center; vertical-align: middle;">
                                                         <button class="btn btn-outline-warning"> Edytuj </button>
                                                     </td>
-                                                    <td>
+                                                    <td style="text-align: center; vertical-align: middle;">
                                                         <button data-toggle="modal" data-target="@offerWarning" class="btn btn-outline-danger"> Dezaktywuj </button>
                                                     </td>
                                                 }
                                                 else
                                                 {
-                                                    <td colspan="2" style="text-align: center;">
+                                                    <td colspan="2" style="text-align: center; vertical-align: middle;">
                                                         <a class="btn btn-outline-info" href="@Url.Action("Index", "Offer", new { OfferID = offer.OfferID })"> Zobacz ofertę </a>
                                                     </td>
                                                 }
