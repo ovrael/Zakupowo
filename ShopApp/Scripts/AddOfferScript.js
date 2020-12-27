@@ -4,12 +4,9 @@
     var imagesToUpload = [];
 
     $(document).on("click", "i.delete-image", function () {
-
-        console.log("Ilość plików PRZED usunięciem: " + imagesToUpload.length);
         deleteImageFromList($(this)[0].id);
-
         $(this).parent().parent().remove();
-        console.log("Ilość plików PO usunięciu: " + imagesToUpload.length);
+        findFirstPhoto();
     });
 
     $(document).on("change", "#UploadImageInput", function () {
@@ -30,9 +27,6 @@
 
 
         for (let i = 0; i < files.length; i++) {
-
-            var mainPhoto = "<label style=\"background-color:white\"> TWOJE GŁÓWNE ZDJĘCIE</label>";
-
             const image = files[i];
 
             if (/^image/.test(image.type)) {
@@ -49,7 +43,7 @@
 
                     $("#UploadedImagesRow").append(
                         "<div id=\"UploadOfferImageNo-" + imageCounter + "\" class=\"col-lg-3 col-md-4 col-sm-6 imgUp mt-4\">"
-                        + "<div class=\"imagePreview\" style=\"background-image:url(" + this.result + ")\">"
+                        + "<div class=\"imagePreview offerImage\" style=\"background-image:url(" + this.result + ")\">"
                         + "<i id=\"" + deleteID + "\" class=\"fa fa-trash btn delete-image\" style=\"float: right; margin: 5px;\"></i>"
                         + "</div>"
                         + "</div>"
@@ -60,9 +54,7 @@
 
                     if (i == files.length - 1) {
                         reappendAddImgBtn();
-                        //printArray(imagesToUpload);
-                        // files = imagesToUpload;
-                        // console.log(files.length);
+                        findFirstPhoto();
                     }
                 }
             }
@@ -107,7 +99,6 @@
                 if (index > -1) {
                     imagesToUpload.splice(index, 1);
                 }
-                console.log("Usuwam element: " + imageName)
             }
         }
     }
@@ -115,7 +106,6 @@
 
     $("#createOffer").click(function () {
 
-        console.log("Chce wysłać dziwnie pliki: " + imagesToUpload.length);
         if (window.FormData == undefined)
             alert("Error: FormData is undefined");
 
@@ -141,5 +131,16 @@
         }
 
     });
+
+    var findFirstPhoto = function () {
+        var mainPhoto =
+            "<div id=\"main-photo-label\" class=\"col-12 text-center\" style=\"background-color:#FFB24A; position:absolute; bottom:0;\">"
+            + "<h6><i><strong>" + "Twoje główne zdjęcie" + "</strong></i></h6>"
+            + "</div>";
+
+        if (document.getElementById("main-photo-label") == undefined)
+            if ($(".offerImage")[0] != undefined)
+                $(".offerImage").eq(0).append(mainPhoto);
+    }
 
 })()
