@@ -26,7 +26,7 @@
 
                 @using (Html.BeginForm("AddBundle", "UserPanel", FormMethod.Post))
                 {
-            
+
                     <div class="row row-offer mr-1 ml-0 pb-2">
 
                         <div class="col-10 col-md-2 col-lg-2">
@@ -49,7 +49,7 @@
                         </div>
 
                     </div>
-                            <div class="row row-offer mr-1 ml-0 pt-3">
+                    <div class="row row-offer mr-1 ml-0 pt-3">
                         <div class="col-10 col-md-2 col-lg-2">
                             <label class="control-label" for="">Szukaj oferty</label>
                         </div>
@@ -57,20 +57,13 @@
                             <div class="form-group has-search">
 
                                 <span class="fa fa-search form-control-feedback"></span>
-                                <input class="form-control" id="myInput" type="text" placeholder="Search..">
-                                <br>
-                                <ul class="list-group" id="myList"  style="display: none">
-                                    
-                                   
-                                         <li class="list-group-item"></li>
-                                 
-                                </ul>
+                                <input class="form-control" id="createBundleOfferName" type="text" placeholder="Szukaj...">
+
                             </div>
                         </div>
-
                     </div>
 
-
+                    <hr />
 
                     foreach (var offer in Model)
                     {
@@ -78,13 +71,10 @@
                         string id = "Offer_" + offer.OfferID.ToString();
                         string offerQuantity = "OffersQuantity_" + offer.OfferID.ToString();
 
-                        System.Diagnostics.Debug.WriteLine("OfferID: " + id);
-                        System.Diagnostics.Debug.WriteLine("Quantity: " + offerQuantity);
-                        <hr />
-                        <div class="row row-offer mr-1 ml-0 pb-3 pl-4 ">
+                        <div class="row row-offer mr-1 ml-0 pb-3 pl-4 offer-row">
 
                             @*ADD TO BUNDLE CHECKBOX*@
-                            <div class="col-sm-10 col-lg-2 col-md-1 pl-0 pb-4 pr-5  text-center">
+                            <div class="col-sm-10 col-md-2 col-lg-2 pl-0 pb-4 pr-5  text-center">
                                 <div class="form-check">
                                     <input type="checkbox" class="form-check-input" id="@id" name="OffersInBundle" value="@offer.OfferID">
                                     <label class="form-check-label" for="@id">Dodaj do zestawu</label>
@@ -97,38 +87,29 @@
                             </div>
 
                             @*OFFER TITLE*@
-                            <div class="col-sm-10 col-md-2 col-lg-2 text-center pb-3 pr-5 mr-5">
+                            <div id="offerTitle" class="col-sm-10 col-md-4 col-lg-4 text-center pb-3 pr-5 mr-5 offer-title">
                                 @offer.Title
                             </div>
 
                             @*OFFER QUANTITY*@
-                            <div class="col-10 col-lg-3 col-md-3 pb-3 d-flex justify-content-center">
+                            <div class="col-10 col-lg-2 col-md-2 pb-3 d-flex justify-content-center">
                                 <div class="form-group">
                                     <input id="available_quantity" name="@offerQuantity" value="1" min="1" max="@offer.InStockNow" placeholder="Offer quantity" class="form-control input-group-sm" required type="number">
                                 </div>
                             </div>
 
-
-
                             @*OFFER PRICE*@
-                            <div class="col-sm-10 col-lg-2 col-md-2 text-center pr-5 mr-5">
+                            <div class="col-sm-10 col-lg-1 col-md-1 text-center pr-5 mr-5" style="white-space: nowrap; overflow: hidden;">
                                 @offer.Price zł
                             </div>
-                            <hr />
-
                         </div>
-
                     }
-                    
-
 
                     <hr />
-
                     <div class="row row-offer mr-1 ml-0 pb-4 pt-4">
-
-                        <div class="col-3 p-0 pl-lg-5 pl-2 ml-lg-5 text-warning font-weight-bold mr-4 " style="font-size:18px;">Suma: </div>
-                        <div class="col-3 p-0  text-warning  font-weight-bold" style="font-size:18px;"> suma ceny produktów</div>
-                        <div class="col-3 p-0"> </div>
+                        <div class="col-8 p-0"> </div>
+                        <div class="col-1 p-0 pl-lg-5 pl-2 ml-lg-5 text-black font-weight-bold mr-4 " style="font-size:18px;">Suma: </div>
+                        <div class="col-1 p-0 text-success font-weight-bold" style="font-size:18px;"> CENA $$$ </div>
                     </div>
 
 
@@ -147,15 +128,13 @@
                         <div class="col-4 col-lg-3 p-0 pt-1">
                             <div class="input-group mb-3 mr-4 ml-5 pl-1">
                                 @* WALIDACJA % OD 1 DO 100 *@
-                                <input type="text" class="form-control" aria-label="Amount" name="PercentDiscountValue" value="">
+                                <input type="text" class="form-control" aria-label="Amount" name="PercentDiscountValue" value="" min="0" max="100">
                                 <div class="input-group-append">
                                     <span class="input-group-text ">%</span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-3 p-0"> </div>
-
-
 
 
                     </div>
@@ -216,22 +195,18 @@
                             </div>
                         </div>
                     </div>
-
-                    @*<div class="row  justify-content-end row-offer mr-1 pt-3 pb-5">
-                <div class="col-3">
-                    <button type="button" class="btn btn-dark">Stwórz zestaw</button>
-                </div>
-            </div>*@
-
                 }
 
             </div>
-                </div>
         </div>
+    </div>
 
 </div>
 
-
+@section scripts
+{
+    <script src="~/Scripts/UserPanelFilters.js"></script>
+}
 
 
 

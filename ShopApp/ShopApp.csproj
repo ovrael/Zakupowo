@@ -548,6 +548,7 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="LICENSE" />
+    <Content Include="Scripts\UserPanelFilters.js" />
     <Content Include="XamarinFolder\Screenshot_1608460271.png" />
     <Content Include="bin\ShopApp.dll.config" />
     <None Include="Properties\PublishProfiles\Zakupowo - Web Deploy.pubxml" />

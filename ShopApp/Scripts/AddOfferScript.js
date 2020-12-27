@@ -133,14 +133,18 @@
     });
 
     var findFirstPhoto = function () {
+        var tooltipText = "To zdjecie będzie przedstawiać ofertę. \nReszta zdjęć będzie dostępna dopiero po wejściu w odpowiednią ofertę.";
+
         var mainPhoto =
-            "<div id=\"main-photo-label\" class=\"col-12 text-center\" style=\"background-color:#FFB24A; position:absolute; bottom:0;\">"
-            + "<h6><i><strong>" + "Twoje główne zdjęcie" + "</strong></i></h6>"
+            "<div id=\"main-photo-label\" class=\"col-12 text-center\" data-toggle=\"tooltip\" title=\"" + tooltipText + "\" style=\"background-color:#FFB24A; position:absolute; bottom:0;\">"
+            + "<h6><i><strong>" + "Zdjęcie główne oferty" + "</strong></i></h6>"
             + "</div>";
 
         if (document.getElementById("main-photo-label") == undefined)
             if ($(".offerImage")[0] != undefined)
                 $(".offerImage").eq(0).append(mainPhoto);
     }
+
+
 
 })()

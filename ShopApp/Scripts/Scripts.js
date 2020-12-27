@@ -46,10 +46,7 @@ jQuery(document).ready(function () {
             if (text.includes(value)) jQuery(this).removeClass('hidden');
             else jQuery(this).addClass('hidden');
         })
-
-
     });
-
 })
 
 $(document).ready(function () {

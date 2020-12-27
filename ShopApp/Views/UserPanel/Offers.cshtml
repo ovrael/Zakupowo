@@ -39,39 +39,17 @@
                         </div>
                     }
 
-
                     <hr>
                     <div class="row justify-content-center pl-4">
                         <h6> W tym miejscu możesz dodawać, przeglądać, edytować oraz deaktywować swoje oferty.</h6>
                     </div>
                     <hr>
 
-
-
-
-                    <div class="col-3"></div>
-
+                    <div class="row justify-content-center pl-4">
+                        <input type="text" class="form-control" id="offerNameFilter" placeholder="Szukaj po nazwie">
+                    </div>
                 </div>
 
-
-                @*<a href="@Url.Action("AddOffer", "UserPanel")" class="btn btn-outline-warning" role="button">Dodaj ofertę!</a>
-        <pre>
-            W tym miejscu możesz dodawać, przeglądać, edytować oraz deaktywować swoje oferty.
-        </pre>
-
-        <div class="col-3">
-            <a class="btn btn-dark" href="@Url.Action("AddBundle", "UserPanel")">Stwórz nowy zestaw!</a>
-        </div>
-
-
-        <div class="col-1"></div>
-
-        <div class="col-5">
-            @if (ViewBag.NoOffers != null)
-            {
-                <div class="alert alert-danger">@ViewBag.NoOffers</div>
-            }
-        </div>*@
 
 
                 @{
@@ -155,7 +133,7 @@
                                             string statusColorClass = offer.IsActive ? "text-success" : "text-danger";
                                             string offerWarning = "#warningBeforeDeactivate_" + offer.OfferID;
 
-                                            <tr>
+                                            <tr class="offer-row">
                                                 <td>
                                                     <a class="text-warning" href="@Url.Action("Index","Offer",new { OfferID = offer.OfferID})"><b><i>@offer.Title</i></b></a>
                                                 </td>
@@ -188,7 +166,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        
+
                     }
                     else
                     {
@@ -200,7 +178,7 @@
 
 
             </div>
-                    </div>
+        </div>
     </div>
 </div>
 
@@ -240,5 +218,9 @@
     }
 }
 
+@section scripts
+{
+    <script src="~/Scripts/UserPanelFilters.js"></script>
+}
 
 
