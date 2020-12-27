@@ -24,7 +24,6 @@ namespace ShopApp.Controllers
     public class UserPanelController : Controller
     {
         private ShopContext db = new ShopContext();
-
         #region UserData 
 
         // VIEW WITH BASIC INFORMATION ABOUT USER
@@ -449,6 +448,9 @@ namespace ShopApp.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOffer(FormCollection collection)
         {
+            Debug.WriteLine("--------------------- AddOffer");
+            List<OfferPicture> pictures = new List<OfferPicture>();
+
             User editUser = db.Users.Where(u => u.Login == HttpContext.User.Identity.Name).FirstOrDefault();
 
             int categoryID = int.Parse(collection["Category"]);
@@ -472,48 +474,56 @@ namespace ShopApp.Controllers
             db.Offers.Add(offer);
             db.SaveChanges();
 
-            offer = db.Offers.ToList().Last(); // DO POPRAWY
+            HttpFileCollectionBase filesForOffer = null;
+            if (TempData["offerImages"] != null)
+                filesForOffer = (HttpFileCollectionBase)TempData["offerImages"];
 
-            List<OfferPicture> pictures = new List<OfferPicture>();
-
-            var files = Request.Files;
-            if (files != null && files.Count > 0)
+            if (filesForOffer != null && filesForOffer.Count > 0 && offer != null)
             {
-                try
+                var files = filesForOffer;
+
+                if (files != null && files.Count > 0)
                 {
-                    for (int i = 0; i < files.Count; i++)
+                    try
                     {
-                        var workFile = files[i];
-
-                        var fileUrl = await FileManager.UploadOfferImage(workFile, offer.OfferID, i);
-
-                        if (fileUrl != null)
+                        for (int i = 0; i < files.Count; i++)
                         {
-                            OfferPicture offerPicture = new OfferPicture() { PathToFile = fileUrl, Offer = offer };
-                            pictures.Add(offerPicture);
+                            var workFile = files[i];
+
+                            var fileUrl = await FileManager.UploadOfferImage(workFile, offer.OfferID, i);
+
+                            if (fileUrl != null)
+                            {
+                                OfferPicture offerPicture = new OfferPicture() { PathToFile = fileUrl, Offer = offer };
+                                pictures.Add(offerPicture);
+                            }
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        ViewBag.Error = "Wystąpił błąd: " + ex.Message.ToString();
+                    }
                 }
-                catch (Exception ex)
+                else if (files.Count == 0)
                 {
-                    ViewBag.Error = "Wystąpił błąd: " + ex.Message.ToString();
+                    OfferPicture offerPicture = new OfferPicture() { PathToFile = "../../Images/product.jpg", Offer = offer };
+                    pictures.Add(offerPicture);
+                }
+                else
+                {
+                    ViewBag.Error = "Brak zdjęć";
+                }
+
+                if (ViewBag.Error == null)
+                {
+                    offer.OfferPictures = pictures;
+                    db.SaveChanges();
                 }
             }
-            else if (files.Count == 0)
-            {
-                OfferPicture offerPicture = new OfferPicture() { PathToFile = "../../Images/product.jpg", Offer = offer };
-                pictures.Add(offerPicture);
-            }
-            else
-            {
-                ViewBag.Error = "Brak zdjęć";
-            }
+
 
             if (ViewBag.Error == null)
             {
-                offer.OfferPictures = pictures;
-                db.SaveChanges();
-
                 offer.Category.Offers.Add(offer);
                 db.SaveChanges();
 
@@ -526,6 +536,13 @@ namespace ShopApp.Controllers
             {
                 return RedirectToAction("AddOffer", "UserPanel", new { success = false });
             }
+        }
+
+        // DO NOT REMOVE TASK IT MAKES METHOD "UploadOfferImages" RUNS BEFORE "AddOffer(FormCollection collection)"
+        public async Task<JsonResult> UploadOfferImages()
+        {
+            TempData["offerImages"] = Request.Files;
+            return Json("Moved files to AddOffer method.");
         }
 
         public ActionResult DeactivateOffer(int? offerID)

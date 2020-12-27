@@ -506,6 +506,7 @@
     <Content Include="Content\offer.css" />
     <Content Include="Content\UserPanel.css" />
     <Content Include="Global.asax" />
+    <Content Include="Images\DodajZdjecie.png" />
     <Content Include="Images\product.jpg" />
     <Content Include="Images\404ErrorImage.svg" />
     <Content Include="Images\ReadMeImages\AdressesView.png" />
@@ -515,6 +516,7 @@
     <Content Include="Images\user.jpg" />
     <Content Include="Images\user2.jpg" />
     <Content Include="libman.json" />
+    <Content Include="Scripts\AddOfferScript.js" />
     <Content Include="Scripts\avatar.js" />
     <Content Include="Scripts\bootstrap-input-spinner.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -586,7 +588,6 @@
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\register.js" />
     <Content Include="Scripts\Scripts.js" />
-    <Content Include="Scripts\SignalR.js" />
     <Content Include="Scripts\src\index.js" />
     <Content Include="Scripts\src\methods\defaults.js" />
     <Content Include="Scripts\src\methods\destroy.js" />

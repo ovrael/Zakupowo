@@ -66,7 +66,7 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label" for="Quantity">Ilość produktu</label>
                                     <div class="col-md-4">
-                                        <input id="available_quantity" name="Quantity" placeholder="Product quantity" class="form-control input-md" required type="number">
+                                        <input id="available_quantity" name="Quantity" placeholder="Product quantity" class="form-control input-md" required type="number" value="1" min="1" max="@int.MaxValue">
                                     </div>
                                 </div>
 
@@ -81,24 +81,26 @@
 
 
 
-
-
-
-
                                 @*KOPIA WYSYŁANIA ZDJĘĆ*@
-                                <div id="images-container">
-                                    <div class="form-group">
-                                        <i class="fa fa-times del " style="display: none"></i>
-                                        <div class="col-sm-4 imgUp mt-4">
-                                            <div class="imagePreview"></div>
-                                            <label class="btn btn-outline-warning btn-lg btn-block btn-circle">
-                                                <i class="fa fa-plus imgAdd"></i>
-                                                <input type="file" multiple class="uploadFile img" value="Upload Photo" name="ProductImage1" style="width: 0px;height: 0px;overflow: hidden;" required>
-                                            </label>
+                                <div id="UploadedImagesRow" class="row">
+                                    @*<div id="UploadOfferImageNo-0" class="col-lg-3 col-md-4 col-sm-6 imgUp mt-4">
+                                            <div class="imagePreview" style="background-image:url(../../Images/product.jpg)">
+                                                <i class="fa fa-trash btn" style="float: right; margin: 5px;"></i>
+                                                <label style="background-color:white"> TWOJE GŁÓWNE ZDJĘCIE</label>
+                                            </div>
+                                        </div>*@
+
+
+                                    <div id="UploadImageDiv" class="col-lg-3 col-md-4 col-sm-6 mt-4">
+                                        <div id="UploadImageButton" class="imagePreview btn" style="background-image:url(../../Images/DodajZdjecie.png)">
+                                            <input id="UploadImageInput" type="file" multiple accept="image/*" value="Upload Photo" name="UploadOfferImage" style="opacity: 0.0; position: absolute; top: 0; left: 0; bottom: 0; right: 0; width: 100%; height:100%;" required>
                                         </div>
                                     </div>
 
-                                    <div class="form-group" id="imageGroupTemplate" style="display: none">
+                                </div>
+
+
+                                @*<div class="form-group" id="imageGroupTemplate" style="display: none">
                                         <i class="fa fa-times del " style="display: none"></i>
                                         <div class="col-sm-4 imgUp mt-4">
                                             <div class="imagePreview"></div>
@@ -107,50 +109,13 @@
                                                 <input type="file" multiple class="uploadFile img" value="Upload Photo" name="ProductImage2" style="width: 0px;height: 0px;overflow: hidden;">
                                             </label>
                                         </div>
-                                    </div>
-                                </div>
-
-
-
-
-
-                                @*NOWA WERSJA
-                                    <div id="images-container">
-                                        <div class="form-group">
-                                                <i class="fa fa-times del " style="display: none"></i>
-                                                <div class="col-sm-4 imgUp mt-4">
-                                                    <div class="imagePreview"></div>
-
-                                                </div>
-                                            </div>
-
-                                        <div class="form-group" id="imageGroupTemplate" style="display: none">
-                                            <i class="fa fa-times del " style="display: none"></i>
-                                            <div class="col-sm-4 imgUp mt-4">
-                                                <div class="imagePreview"></div>
-
-                                            </div>
-                                        </div>
-                                        <label class="btn btn-outline-warning btn-lg btn-block btn-circle">
-                                            <i class="fa fa-plus imgAdd"></i>
-                                            <input type="file" multiple class="uploadFile img" value="Upload Photo" name="ProductImage1" style="width: 0px;height: 0px;overflow: hidden;" required>
-                                        </label>
                                     </div>*@
-
-
-
-
-
-
-
-
-
 
 
                                 <div class="form-group">
                                     <label class="col-md-4 control-label"></label>
                                     <div class="col-md-4">
-                                        <input type="submit" value="Dodaj oferte!" class="btn btn-outline-warning mb-3" />
+                                        <button id="createOffer" type="submit" value="Dodaj oferte!" class="btn btn-outline-warning mb-3">Dodaj oferte!</button>
                                     </div>
                                 </div>
 
@@ -158,16 +123,12 @@
                         </div>
                     }
                 </div>
-
-
             </div>
         </div>
-
-
-
-
-
     </div>
 </div>
 
-
+@section scripts
+{
+    <script src="~/Scripts/AddOfferScript.js"></script>
+}

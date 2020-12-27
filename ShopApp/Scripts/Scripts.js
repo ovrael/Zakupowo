@@ -9,7 +9,7 @@
 }
 
 function jQueryAjaxPost(form) {
-    
+
     jQuery.validator.unobtrusive.parse(form);
     if (jQuery(form).valid()) {
 
@@ -30,14 +30,14 @@ function jQueryAjaxPost(form) {
         //    ajaxConfig["processData"] == false; 
         //}
 
-   
+
     }
     return false;
 }
 
 
 jQuery(document).ready(function () {
-   
+
     jQuery('.product-search').on('input change', function () {
         var offers = jQuery('.offer-box');
         var value = jQuery(this).val().toLowerCase();
@@ -46,8 +46,8 @@ jQuery(document).ready(function () {
             if (text.includes(value)) jQuery(this).removeClass('hidden');
             else jQuery(this).addClass('hidden');
         })
-      
-        
+
+
     });
 
 })
@@ -94,53 +94,53 @@ $(document).ready(function () {
 });
 
 
-//IMAGE ADD OFFER
-$(".imgAdd").click(function () {
+// //IMAGE ADD OFFER
+// $(".imgAdd").click(function () {
 
-    $(this).closest(".row").find('.imgAdd').before('<div class="form-group"> <div class= "col-sm-4 imgUp mt-4" ><div class="imagePreview"></div> <label class="btn btn-outline-warning btn-lg btn-block btn-circle"> <i class="fa fa-plus imgAdd"></i> <input type="file" class="uploadFile img" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;"> </label></div>');
-    
-});
-$(document).on("click", "i.del", function () {
-    $(this).parent().remove();
-});
-$(function () {
-    $(document).on("change", ".uploadFile", function () {
-        var uploadFile = $(this);
-        var files = !!this.files ? this.files : [];
-        if (!files.length || !window.FileReader) return; 
-        
-        if (/^image/.test(files[0].type)) { 
-            var reader = new FileReader(); 
-            reader.readAsDataURL(files[0]); 
+//     $(this).closest(".row").find('.imgAdd').before('<div class="form-group"> <div class= "col-sm-4 imgUp mt-4" ><div class="imagePreview"></div> <label class="btn btn-outline-warning btn-lg btn-block btn-circle"> <i class="fa fa-plus imgAdd"></i> <input type="file" class="uploadFile img" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;"> </label></div>');
 
-            reader.onloadend = function () { 
-                uploadFile.closest(".imgUp").find('.imagePreview').css("background-image", "url(" + this.result + ")");
-                
-                const imageGroup = $("#imageGroupTemplate").clone();
-                imageGroup.removeAttr('id');
-                uploadFile.closest(".form-group").find(".del").show();
-                uploadFile.closest(".form-group").find(".btn-circle").hide();
-                $("#imageGroupTemplate").before(imageGroup);
-                imageGroup.show();
+// });
+// $(document).on("click", "i.del", function () {
+//     $(this).parent().remove();
+// });
+// $(function () {
+//     $(document).on("change", ".uploadFile", function () {
+//         var uploadFile = $(this);
+//         var files = !!this.files ? this.files : [];
+//         if (!files.length || !window.FileReader) return; 
 
-                $('.uploadFile').each(function (i) {
-                    $(this).attr('name', `ProductImage${i+1}`);
-                });
-                
-            }
-        }
+//         if (/^image/.test(files[0].type)) { 
+//             var reader = new FileReader(); 
+//             reader.readAsDataURL(files[0]); 
 
-    });
-});
+//             reader.onloadend = function () { 
+//                 uploadFile.closest(".imgUp").find('.imagePreview').css("background-image", "url(" + this.result + ")");
+
+//                 const imageGroup = $("#imageGroupTemplate").clone();
+//                 imageGroup.removeAttr('id');
+//                 uploadFile.closest(".form-group").find(".del").show();
+//                 uploadFile.closest(".form-group").find(".btn-circle").hide();
+//                 $("#imageGroupTemplate").before(imageGroup);
+//                 imageGroup.show();
+
+//                 $('.uploadFile').each(function (i) {
+//                     $(this).attr('name', `ProductImage${i+1}`);
+//                 });
+
+//             }
+//         }
+
+//     });
+// });
 
 
-    $(document).ready(function(){
-        $("#myInput").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#myList li").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
-        });
-});
+//     $(document).ready(function(){
+//         $("#myInput").on("keyup", function () {
+//             var value = $(this).val().toLowerCase();
+//             $("#myList li").filter(function () {
+//                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+//             });
+//         });
+// });
 
 
