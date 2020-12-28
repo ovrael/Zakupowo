@@ -59,44 +59,44 @@
                             <table class="table table-striped">
                                 <thead class="thead-dark">
                                     <tr>
-                                        
+
                                         @*TITLE*@
-                                        <th scope="col" class="td-title" style="width:25%;">
+                                        <th scope="col" class="td-title">
                                             <a class="text-white" href="#" id="Name-Asc" onclick="sortOffersBy(this.id); return false;">Nazwa&nbsp;&nbsp;</a>
                                         </th>
 
                                         @*CATEGORY*@
-                                        <th scope="col" class="td-text" style="width:10%;">
+                                        <th scope="col" class="td-text">
                                             <a class="text-white" href="#" id="Category-Asc" onclick="sortOffersBy(this.id); return false;">Kategoria&nbsp;&nbsp;</a>
                                         </th>
 
                                         @*STATUS*@
-                                        <th scope="col" class="td-text" style="width:10%;">
+                                        <th scope="col" class="td-text">
                                             <a class="text-white" href="#" id="Status-Asc" onclick="sortOffersBy(this.id); return false;">Status&nbsp;&nbsp;</a>
                                         </th>
 
                                         @*CREATION DATE*@
-                                        <th scope="col" class="td-text" style="width:10%;">
+                                        <th scope="col" class="td-text">
                                             <a class="text-white" href="#" id="Date-Asc" onclick="sortOffersBy(this.id); return false;">Dodano&nbsp;&nbsp;</a>
                                         </th>
 
                                         @*PRICE*@
-                                        <th scope="col" class="td-text" style="width:12%;">
+                                        <th scope="col" class="td-text">
                                             <a class="text-white" href="#" id="Price-Asc" onclick="sortOffersBy(this.id); return false;">Cena[zł]</a>
                                         </th>
 
                                         @*LEFT*@
-                                        <th scope="col" class="td-text" style="width:11%;">
+                                        <th scope="col" class="td-text">
                                             <a class="text-white" href="#" id="Left-Asc" onclick="sortOffersBy(this.id); return false;">Pozostało</a>
                                         </th>
 
                                         @*SOLD*@
-                                        <th scope="col" class="td-text" style="width:12%;">
+                                        <th scope="col" class="td-text">
                                             <a class="text-white" href="#" id="Sold-Asc" onclick="sortOffersBy(this.id); return false;">Sprzedano</a>
                                         </th>
 
                                         @*SETTINGS*@
-                                        <th scope="colgroup" colspan="2" style="width:5%;" class="td-text text-white">
+                                        <th scope="colgroup" colspan="2" class="td-text text-white">
                                             Ustawienia
                                         </th>
                                     </tr>
@@ -188,7 +188,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">
+                        <h5 class="modal-title" id="offerDeleteModal">
                             Czy na pewno chcesz deazktywować ofertę:
                             <br />
                             "@offer.Title"?
