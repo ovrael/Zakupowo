@@ -47,6 +47,40 @@ namespace ShopApp.ControllersAPI
             return Ok(offerItems);
         }
 
+       
+        public IHttpActionResult AddOffer(OfferBindingModel model)
+        {
+            User user = db.Users.Where(u => u.UserID == model.UserID).FirstOrDefault();
+
+            int categoryID = model.CategoryID;
+            Category offerCategory = db.Categories.Where(o => o.CategoryID == categoryID).FirstOrDefault();
+
+            string priceWithDot = model.Price.Contains(',') ? model.Price.Replace(',', '.') : model.Price;
+
+            Offer offer = new Offer
+            {
+                Title = model.Title,
+                Description = model.Description,
+                InStockOriginaly = model.InStockOriginaly,
+                Price = Convert.ToDouble(priceWithDot),
+                Category = offerCategory,
+                User = user,
+                IsActive = true,
+                CreationDate = DateTime.Now
+            };
+            offer.InStockNow = offer.InStockOriginaly;
+
+            db.Offers.Add(offer);
+            db.SaveChanges();
+
+
+            if (offer != null)
+            {
+                return Ok(offer);
+            }
+            return BadRequest("Couldn't create offer");
+
+        }
 
 
 
@@ -56,6 +90,18 @@ namespace ShopApp.ControllersAPI
         {
             return db.Offers.Count(e => e.OfferID == id) > 0;
         }
+    }
+
+    public class OfferBindingModel
+    {
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+        public string Price { get; set; }
+        public int UserID { get; set; }
+        public int CategoryID { get; set; }
+        public double InStockOriginaly { get; set; }
+
     }
 
     public class OfferItem
