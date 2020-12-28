@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using Newtonsoft.Json;
 using ShopApp.DAL;
 
 namespace ShopApp.Models
@@ -18,6 +19,7 @@ namespace ShopApp.Models
 
         [Column("UserID")]
         public virtual User User { get; set; }
+        [JsonIgnore]
         public byte[] RowVersion { get; set; }
     }
 }
