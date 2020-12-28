@@ -715,9 +715,7 @@
     <Content Include="Views\UserPanel\Bundles.cshtml" />
     <Content Include="Views\UserPanel\AddBundle.cshtml" />
     <Content Include="Views\Offer\Favourites.cshtml" />
-    <Content Include="Views\UserPanel\LearningJS.cshtml" />
     <Content Include="Views\Offer\Order.cshtml" />
-    <Content Include="Views\UserPanel\LearningSignalR.cshtml" />
     <Content Include="Views\User\UserInformation.cshtml" />
   </ItemGroup>
   <ItemGroup>

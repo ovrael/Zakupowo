@@ -420,3 +420,23 @@ ul.navbar-nav {
     from { background-color: blue; }
     to { background-color: red; }
 }
+
+/* TABLES FOR OFFERS AND BUNDLES */
+.td-text{
+    text-align: center; 
+    vertical-align: middle;
+}
+
+.td-number{
+    text-align: right; 
+    vertical-align: middle;
+}
+
+.td-title{
+    text-align: left; 
+    vertical-align: middle;
+}
+
+.td-v-center{
+    vertical-align: middle;
+}
