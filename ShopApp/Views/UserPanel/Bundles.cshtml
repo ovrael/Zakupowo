@@ -25,10 +25,10 @@
                         <a class="btn btn-outline-warning" href="@Url.Action("AddBundle", "UserPanel")">Stwórz nowy zestaw!</a>
                     </div>
 
-                    <div class="col-5">
+                    <div class="col-8">
                         @if (ViewBag.NoOffers != null)
                         {
-                            <div class="alert alert-danger alert-dismissible mt-3 ml-3">
+                            <div class="alert alert-danger alert-dismissible mt-3 ml-1">
                                 <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                 <strong><i class="fas fa-info-circle"></i></strong> @ViewBag.NoOffers
                             </div>
@@ -167,8 +167,10 @@
                     }
                     else
                     {
-                        <div class="alert alert-secondary" role="alert">
-                            Nie utworzyłeś jeszcze żadnych zestawów!
+                        <div class="col-12 pt-3 ">
+                            <div class="alert alert-secondary" role="alert">
+                                Nie utworzyłeś jeszcze żadnych zestawów!
+                            </div>
                         </div>
                     }
                 }

@@ -416,7 +416,9 @@ ul.navbar-nav {
   animation: blinking 2s alternate infinite;
 }
 
-@keyframes blinking {  
-    from { background-color: blue; }
-    to { background-color: red; }
+@keyframes blinking {
+    from {
+        background-color: #002447;
+    }
+    to { background-color: #FFB24A; }
 }
