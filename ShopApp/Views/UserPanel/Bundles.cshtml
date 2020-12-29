@@ -90,27 +90,34 @@
                             <table class="table table-striped">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th scope="col" style="vertical-align: middle;">
-                                            <a class="text-white" href="@Url.Action("Bundles","UserPanel",new { sortBy = 1 + ViewBag.TitleSort})">Nazwa @titleSign</a>
+
+                                        @*TITLE*@
+                                        <th scope="col" class="td-title" style="width:35%;">
+                                            <a style="color:white" href="#" id="Name-Asc" onclick="sortsBundlesBy(this.id); return false;">Nazwa</a>
                                         </th>
-                                        @*<th scope="col">
-                                                <a href="@Url.Action("Bundles","UserPanel",new { sortBy = 13 + ViewBag.CategorySort})">Kategoria @categorySign</a>
-                                            </th>*@
-                                        <th scope="col" style="text-align: center; vertical-align: middle;">
-                                            <a class="text-white" href="@Url.Action("Bundles","UserPanel",new { sortBy = 3 + ViewBag.PriceSort})">Cena [ zł ] @priceSign</a>
+
+                                        @*PRICE*@
+                                        <th scope="col" class="td-number" style="width:15%;">
+                                            <a style="color:white" href="#" id="Price-Asc" onclick="sortsBundlesBy(this.id); return false;">Cena[zł]</a>
                                         </th>
-                                        <th scope="col" style="text-align: center; vertical-align: middle;">
-                                            <a class="text-white" href="@Url.Action("Bundles","UserPanel",new { sortBy = 5 + ViewBag.StatusSort})">Status @statusSign</a>
+
+                                        @*STATUS*@
+                                        <th scope="col" class="td-text" style="width:15%;">
+                                            <a style="color:white" href="#" id="Status-Asc" onclick="sortsBundlesBy(this.id); return false;">Status</a>
                                         </th>
-                                        <th scope="col" style="text-align: center; vertical-align: middle;">
-                                            <a class="text-white" href="@Url.Action("Bundles","UserPanel",new { sortBy = 7 + ViewBag.CreationDateSort})">Dodano @dateSign</a>
+
+                                        @*CREATION DATE*@
+                                        <th scope="col" class="td-text" style="width:10%;">
+                                            <a style="color:white" href="#" id="Date-Asc" onclick="sortsBundlesBy(this.id); return false;">Dodano</a>
                                         </th>
-                                        <th class="text-white text-center" scope="colgroup" colspan="3" style="text-align: center;">
+
+                                        @*SETTINGS*@
+                                        <th scope="colgroup" colspan="2" class="text-white text-center" style="width:25%;">
                                             Ustawienia
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="bundlesTableBody">
                                     @{
                                         int n = 0;
                                         foreach (var bundle in Model)
@@ -122,38 +129,42 @@
 
                                             <tr class="bundle-row">
 
-                                                <td style="vertical-align: middle;">
-                                                    @bundle.Title
+                                                @*NAZWA*@
+                                                <td class="td-title">
+                                                    <a class="text-warning" href="@Url.Action("Index","Bundle",new { BundleID= bundle.BundleID})">
+                                                        <b><i> @bundle.Title</i></b>
+                                                    </a>
                                                 </td>
 
-                                                <td style="text-align: right; vertical-align: middle;">
-                                                    @bundle.BundlePrice
+                                                @*CENA*@
+                                                <td class="td-number">
+                                                    @bundle.BundlePrice.ToString("N2")
                                                 </td>
 
-                                                <td style="text-align: center; vertical-align: middle;">
-                                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Status mówi o tym czy zestaw jest aktywny">
+                                                @*STATUS*@
+                                                <td class="td-text">
+                                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Zdezaktywowana oferta jest możliwa tylko do przeglądania, nie można jej ani modyfikować ani kupić.">
                                                         <a class="@statusColorClass" style="pointer-events: none;"><b>@status</b></a>
                                                     </span>
                                                 </td>
 
-                                                <td style="text-align: center; vertical-align: middle;">
-                                                    @bundle.CreationDate
+                                                @*DODANO*@
+                                                <td class="td-text">
+                                                    @bundle.CreationDate.ToShortDateString()
                                                 </td>
 
                                                 @if (bundle.IsActive)
                                                 {
-                                                    <td style="text-align: center; vertical-align: middle;">
+                                                    <td class="td-text">
                                                         <button type="button" class="btn btn-outline-warning">Edytuj</button>
                                                     </td>
-                                                    <td style="text-align: center; vertical-align: middle;">
-                                                        <div class="col-md-2 ">
-                                                            <button data-toggle="modal" data-target="@bundleWarning" class="btn btn-outline-danger">Dezaktywuj</button>
-                                                        </div>
+                                                    <td class="td-text">
+                                                         <button data-toggle="modal" data-target="@bundleWarning" class="btn btn-outline-danger">Dezaktywuj</button>
                                                     </td>
                                                 }
                                                 else
                                                 {
-                                                    <td colspan="2" style="text-align: center;">
+                                                    <td colspan="2" class="td-text">
                                                         <button class="btn btn-outline-dark" href="#"> Zobacz zestaw </button>
                                                     </td>
                                                 }
