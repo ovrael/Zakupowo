@@ -846,7 +846,7 @@ namespace ShopApp.Controllers
         public JsonResult UsersList(string userLogin)
         {
             Debug.WriteLine("Szukam: " + userLogin);
-            var users = db.Users.Where(u => u.Login.Contains(userLogin)).Take(10).ToList();
+            var users = db.Users.Where(u => u.Login.Contains(userLogin) && u.Login != HttpContext.User.Identity.Name).Take(10).ToList();
 
             if (userLogin == null)
                 return Json("userLogin is null!");
