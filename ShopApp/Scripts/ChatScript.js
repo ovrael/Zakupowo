@@ -23,10 +23,14 @@
     //console.log("Zjezdzam na dół: " + $(conversationID)[0].id);
 }
 
-function createMessageWindow() {
+function createMessageWindow(userLogin) {
 
-    var userLogin = $("#create-message-user").val();
-    //console.log("CHCE STWORZYĆ OKNO DO UŻYTKOWNIKA: " + xxx);
+    var users = jQuery('.user-row');
+    $(users).each(function () {
+        jQuery(this).remove();
+    })
+
+
 
     $.ajax({
         url: '/UserPanel/GetUserIdFromName',
@@ -39,6 +43,19 @@ function createMessageWindow() {
 
             if (data == false) {
                 alert("Nie znaleziono użytkownika o podanym loginie!");
+            }
+            else if (document.getElementById(data.userID + "Conversation-tab") != undefined) {
+
+                var activeUserBox = document.getElementsByClassName("user-last-msg active")[0];
+                activeUserBox.classList.remove("active");
+                var activeConversationPill = document.getElementsByClassName("chat-box active")[0];
+                activeConversationPill.classList.remove("active");
+
+
+                document.getElementById(data.userID + "Conversation-tab").classList.add("active");
+                document.getElementById("v-pills-" + data.userID + "Conversation").classList.add("active");
+
+                return;
             }
             else {
                 var idHelper = data.userID + "Conversation";
@@ -298,4 +315,63 @@ function createMessageWindow() {
 
         $('#message-content').val('');
     }
+
+
+    $("#create-message-user").keyup(function (e) {
+        var findUser = jQuery(this).val().toLowerCase();
+
+        if (findUser != "") {
+            $.ajax({
+                url: '/UserPanel/UsersList',
+                type: 'POST',
+                dataType: 'json',
+                data: '{"userLogin":"' + findUser + '"}',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+
+                    clearUserList();
+
+                    for (let i = 0; i < data.length; i++) {
+                        const user = data[i];
+                        var userTR = createUserTR(user);
+                        $("#usersTableBody").eq(0).append(userTR);
+                    }
+                },
+                error: function () {
+                    alert("Nie udało się :/");
+                }
+            });
+        }
+
+        if (findUser === "") {
+            clearUserList();
+        }
+
+    })
+
+    function clearUserList() {
+        var users = jQuery('.user-row');
+        $(users).each(function () {
+            jQuery(this).remove();
+        })
+    }
+
+    function createUserTR(user) {
+
+        var userAvatar = "<div class=\"col-3\">"
+            + "<img src=\"" + user.AvatarUrl + "\" alt=\"user\" width=\"50\" class=\"rounded-circle\">"
+            + "</div>";
+
+        var userData = "<div style=\"color:black\" class=\"col-9\">"
+            + user.Login + "-" + user.FirstName
+            + "</div>";
+
+        var userTR = "<a href=\"#\" onclick=\"createMessageWindow(this.id)\" class=\"user-row row\" id=\"" + user.Login + "\" style=\"background-color:lightblue;\">"
+            + userAvatar
+            + userData
+            + "</a>";
+
+        return userTR;
+    }
+
 })()

@@ -159,10 +159,4 @@ namespace ShopApp.Controllers
     }
 
 
-    
-
-
-
-
-
 }

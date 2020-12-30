@@ -24,7 +24,6 @@ namespace ShopApp.Controllers
     public class UserPanelController : Controller
     {
         private ShopContext db = new ShopContext();
-
         #region UserData 
 
         // VIEW WITH BASIC INFORMATION ABOUT USER
@@ -290,7 +289,105 @@ namespace ShopApp.Controllers
 
         #region OffersAndBundles   
 
-        public ActionResult Offers(int? sortBy, bool? userActivated, bool? success)
+
+        // OFFERS
+        [HttpPost]
+        public JsonResult SortOffers(string sortBy)
+        {
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            List<Offer> offers = editUser.Offers.ToList();
+
+            if (sortBy == null)
+                return Json("SortBy is null!");
+
+            switch (sortBy)
+            {
+                // SORTY BY TITLE
+                case "Name-Asc":
+                    offers = offers.OrderBy(o => o.Title).ThenBy(o => o.CreationDate).ToList();
+                    break;
+
+                case "Name-Dsc":
+                    offers = offers.OrderByDescending(o => o.Title).ThenBy(o => o.CreationDate).ToList();
+                    break;
+
+                //SORT BY STATUS
+                case "Status-Asc":
+                    offers = offers.OrderByDescending(o => o.IsActive).ThenBy(o => o.CreationDate).ToList();
+                    break;
+
+                case "Status-Dsc":
+                    offers = offers.OrderBy(o => o.IsActive).ThenBy(o => o.CreationDate).ToList();
+                    break;
+
+                //SORT BY DATE
+                case "Date-Asc":
+                    offers = offers.OrderByDescending(o => o.CreationDate).ThenBy(o => o.Title).ToList();
+                    break;
+
+                case "Date-Dsc":
+                    offers = offers.OrderBy(o => o.CreationDate).ThenBy(o => o.Title).ToList();
+                    break;
+
+                // SORTY BY PRICE
+                case "Price-Asc":
+                    offers = offers.OrderBy(o => o.Price).ThenBy(o => o.CreationDate).ToList();
+                    break;
+
+                case "Price-Dsc":
+                    offers = offers.OrderByDescending(o => o.Price).ThenBy(o => o.CreationDate).ToList();
+                    break;
+
+                //SORT BY LEFT
+                case "Left-Asc":
+                    offers = offers.OrderBy(o => o.InStockNow).ThenBy(o => o.CreationDate).ToList();
+                    break;
+
+                case "Left-Dsc":
+                    offers = offers.OrderByDescending(o => o.InStockNow).ThenBy(o => o.CreationDate).ToList();
+                    break;
+
+                //SORT BY SOLD
+                case "Sold-Asc":
+                    offers = offers.OrderBy(o => o.InStockOriginaly - o.InStockNow).ThenBy(o => o.CreationDate).ToList();
+                    break;
+
+                case "Sold-Dsc":
+                    offers = offers.OrderByDescending(o => o.InStockOriginaly - o.InStockNow).ThenBy(o => o.CreationDate).ToList();
+                    break;
+
+                //SORT BY CATEGORY
+                case "Category-Asc":
+                    offers = offers.OrderBy(o => o.Category.CategoryName).ThenBy(o => o.CreationDate).ToList();
+                    break;
+
+                case "Category-Dsc":
+                    offers = offers.OrderByDescending(o => o.Category.CategoryName).ThenBy(o => o.CreationDate).ToList();
+                    break;
+
+                default:
+                    offers = offers.OrderBy(o => o.OfferID).ToList();
+                    break;
+            }
+
+            var jsonOffers = offers
+                .Select(o => new
+                {
+                    OfferID = o.OfferID,     // Can be written as just "o.OfferID"
+                    Title = o.Title,         // Can be written as just "o.Title"
+                    Status = o.IsActive,
+                    CreationDate = o.CreationDate.ToShortDateString(),
+                    Price = o.Price,         // Can be written as just "o.Price"
+                    Left = o.InStockNow,
+                    Sold = o.InStockOriginaly - o.InStockNow,
+                    Category = o.Category.CategoryName
+                })
+                .ToList();
+
+            return Json(jsonOffers);
+        }
+
+        public ActionResult Offers(bool? userActivated, bool? success)
         {
             if (userActivated != null && !(bool)userActivated)
             {
@@ -305,124 +402,7 @@ namespace ShopApp.Controllers
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
             List<Offer> offers = editUser.Offers.ToList();
 
-            ViewBag.TitleSort = ViewBag.TitleSort == null ? 0 : ViewBag.TitleSort;
-            ViewBag.StatusSort = ViewBag.StatusSort == null ? 0 : ViewBag.StatusSort;
-            ViewBag.CreationDateSort = ViewBag.CreationDateSort == null ? 0 : ViewBag.CreationDateSort;
-            ViewBag.PriceSort = ViewBag.PriceSort == null ? 0 : ViewBag.PriceSort;
-            ViewBag.LeftSort = ViewBag.LeftSort == null ? 0 : ViewBag.LeftSort;
-            ViewBag.SoldSort = ViewBag.SoldSort == null ? 0 : ViewBag.SoldSort;
-            ViewBag.CategorySort = ViewBag.CategorySort == null ? 0 : ViewBag.CategorySort;
-
-            if (sortBy != null)
-            {
-                switch (sortBy)
-                {
-                    // SORTY BY TITLE
-                    case 1:
-                        offers = offers.OrderBy(o => o.Title).ToList();
-                        ViewBag.SortBy = "Title";
-                        ViewBag.TitleSort = 1;
-                        break;
-
-                    case 2:
-                        offers = offers.OrderByDescending(o => o.Title).ToList();
-                        ViewBag.SortBy = "Title";
-                        ViewBag.TitleSort = 0;
-                        break;
-
-                    //SORT BY STATUS
-                    case 3:
-                        offers = offers.OrderByDescending(o => o.IsActive).ThenBy(o => o.Title).ToList();
-                        ViewBag.SortBy = "Status";
-                        ViewBag.StatusSort = 1;
-                        break;
-
-                    case 4:
-                        offers = offers.OrderBy(o => o.IsActive).ThenBy(o => o.Title).ToList();
-                        ViewBag.SortBy = "Status";
-                        ViewBag.StatusSort = 0;
-                        break;
-
-                    //SORT BY DATE
-                    case 5:
-                        offers = offers.OrderByDescending(o => o.CreationDate).ToList();
-                        ViewBag.SortBy = "Date";
-                        ViewBag.CreationDateSort = 1;
-                        break;
-
-                    case 6:
-                        offers = offers.OrderBy(o => o.CreationDate).ToList();
-                        ViewBag.SortBy = "Date";
-                        ViewBag.CreationDateSort = 0;
-                        break;
-
-                    // SORTY BY PRICE
-                    case 7:
-                        offers = offers.OrderBy(o => o.Price).ToList();
-                        ViewBag.SortBy = "Price";
-                        ViewBag.PriceSort = 1;
-                        break;
-
-                    case 8:
-                        offers = offers.OrderByDescending(o => o.Price).ToList();
-                        ViewBag.SortBy = "Price";
-                        ViewBag.PriceSort = 0;
-                        break;
-
-                    //SORT BY LEFT
-                    case 9:
-                        offers = offers.OrderBy(o => o.InStockNow).ToList();
-                        ViewBag.SortBy = "Left";
-                        ViewBag.LeftSort = 1;
-                        break;
-
-                    case 10:
-                        offers = offers.OrderByDescending(o => o.InStockNow).ToList();
-                        ViewBag.SortBy = "Left";
-                        ViewBag.LeftSort = 0;
-                        break;
-
-                    //SORT BY SOLD
-                    case 11:
-                        offers = offers.OrderBy(o => o.InStockOriginaly - o.InStockNow).ToList();
-                        ViewBag.SortBy = "Sold";
-                        ViewBag.SoldSort = 1;
-                        break;
-
-                    case 12:
-                        offers = offers.OrderByDescending(o => o.InStockOriginaly - o.InStockNow).ToList();
-                        ViewBag.SortBy = "Sold";
-                        ViewBag.SoldSort = 0;
-                        break;
-
-                    //SORT BY CATEGORY
-                    case 13:
-                        offers = offers.OrderBy(o => o.Category.CategoryName).ToList();
-                        ViewBag.SortBy = "Category";
-                        ViewBag.CategorySort = 1;
-                        break;
-
-                    case 14:
-                        offers = offers.OrderByDescending(o => o.Category.CategoryName).ToList();
-                        ViewBag.SortBy = "Category";
-                        ViewBag.CategorySort = 0;
-                        break;
-
-                    default:
-                        offers = offers.OrderBy(o => o.OfferID).ToList();
-                        break;
-                }
-            }
-            else
-            {
-                ViewBag.TitleSort = 0;
-                ViewBag.StatusSort = 0;
-                ViewBag.CreationDateSort = 0;
-                ViewBag.PriceSort = 0;
-                ViewBag.LeftSort = 0;
-                ViewBag.SoldSort = 0;
-                ViewBag.CategorySort = 0;
-            }
+            offers = offers.OrderBy(o => o.OfferID).ToList();
 
             return View(offers);
         }
@@ -449,6 +429,8 @@ namespace ShopApp.Controllers
         [HttpPost]
         public async Task<ActionResult> AddOffer(FormCollection collection)
         {
+            List<OfferPicture> pictures = new List<OfferPicture>();
+
             User editUser = db.Users.Where(u => u.Login == HttpContext.User.Identity.Name).FirstOrDefault();
 
             int categoryID = int.Parse(collection["Category"]);
@@ -472,48 +454,56 @@ namespace ShopApp.Controllers
             db.Offers.Add(offer);
             db.SaveChanges();
 
-            offer = db.Offers.ToList().Last(); // DO POPRAWY
+            HttpFileCollectionBase filesForOffer = null;
+            if (TempData["offerImages"] != null)
+                filesForOffer = (HttpFileCollectionBase)TempData["offerImages"];
 
-            List<OfferPicture> pictures = new List<OfferPicture>();
-
-            var files = Request.Files;
-            if (files != null && files.Count > 0)
+            if (filesForOffer != null && filesForOffer.Count > 0 && offer != null)
             {
-                try
+                var files = filesForOffer;
+
+                if (files != null && files.Count > 0)
                 {
-                    for (int i = 0; i < files.Count; i++)
+                    try
                     {
-                        var workFile = files[i];
-
-                        var fileUrl = await FileManager.UploadOfferImage(workFile, offer.OfferID, i);
-
-                        if (fileUrl != null)
+                        for (int i = 0; i < files.Count; i++)
                         {
-                            OfferPicture offerPicture = new OfferPicture() { PathToFile = fileUrl, Offer = offer };
-                            pictures.Add(offerPicture);
+                            var workFile = files[i];
+
+                            var fileUrl = await FileManager.UploadOfferImage(workFile, offer.OfferID, i);
+
+                            if (fileUrl != null)
+                            {
+                                OfferPicture offerPicture = new OfferPicture() { PathToFile = fileUrl, Offer = offer };
+                                pictures.Add(offerPicture);
+                            }
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        ViewBag.Error = "Wystąpił błąd: " + ex.Message.ToString();
+                    }
                 }
-                catch (Exception ex)
+                else if (files.Count == 0)
                 {
-                    ViewBag.Error = "Wystąpił błąd: " + ex.Message.ToString();
+                    OfferPicture offerPicture = new OfferPicture() { PathToFile = "../../Images/product.jpg", Offer = offer };
+                    pictures.Add(offerPicture);
+                }
+                else
+                {
+                    ViewBag.Error = "Brak zdjęć";
+                }
+
+                if (ViewBag.Error == null)
+                {
+                    offer.OfferPictures = pictures;
+                    db.SaveChanges();
                 }
             }
-            else if (files.Count == 0)
-            {
-                OfferPicture offerPicture = new OfferPicture() { PathToFile = "../../Images/product.jpg", Offer = offer };
-                pictures.Add(offerPicture);
-            }
-            else
-            {
-                ViewBag.Error = "Brak zdjęć";
-            }
+
 
             if (ViewBag.Error == null)
             {
-                offer.OfferPictures = pictures;
-                db.SaveChanges();
-
                 offer.Category.Offers.Add(offer);
                 db.SaveChanges();
 
@@ -526,6 +516,13 @@ namespace ShopApp.Controllers
             {
                 return RedirectToAction("AddOffer", "UserPanel", new { success = false });
             }
+        }
+
+        // DO NOT REMOVE TASK IT MAKES METHOD "UploadOfferImages" RUNS BEFORE "AddOffer(FormCollection collection)"
+        public async Task<JsonResult> UploadOfferImages()
+        {
+            TempData["offerImages"] = Request.Files;
+            return Json("Moved files to AddOffer method.");
         }
 
         public ActionResult DeactivateOffer(int? offerID)
@@ -559,7 +556,75 @@ namespace ShopApp.Controllers
             return RedirectToAction("Offers", "UserPanel");
         }
 
-        public ActionResult Bundles(bool? availableOffers, bool? addedBundle, int? sortBy)
+
+        // BUNDLES
+        [HttpPost]
+        public JsonResult SortBundles(string sortBy)
+        {
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            List<Bundle> userBundles = editUser.Bundles.ToList();
+
+            if (sortBy == null)
+                return Json("SortBy is null!");
+
+            switch (sortBy)
+            {
+                // SORTY BY TITLE
+                case "Name-Asc":
+                    userBundles = userBundles.OrderBy(o => o.Title).ToList();
+                    break;
+
+                case "Name-Dsc":
+                    userBundles = userBundles.OrderByDescending(o => o.Title).ToList();
+                    break;
+
+                // SORTY BY PRICE
+                case "Price-Asc":
+                    userBundles = userBundles.OrderBy(o => o.BundlePrice).ToList();
+                    break;
+
+                case "Price-Dsc":
+                    userBundles = userBundles.OrderByDescending(o => o.BundlePrice).ToList();
+                    break;
+
+                //SORT BY STATUS
+                case "Status-Asc":
+                    userBundles = userBundles.OrderByDescending(o => o.IsActive).ThenBy(o => o.Title).ToList();
+                    break;
+
+                case "Status-Dsc":
+                    userBundles = userBundles.OrderBy(o => o.IsActive).ThenBy(o => o.Title).ToList();
+                    break;
+
+                //SORT BY DATE
+                case "Date-Asc":
+                    userBundles = userBundles.OrderByDescending(o => o.CreationDate).ToList();
+                    break;
+
+                case "Date-Dsc":
+                    userBundles = userBundles.OrderBy(o => o.CreationDate).ToList();
+                    break;
+
+                default:
+                    userBundles = userBundles.OrderBy(o => o.BundleID).ToList();
+                    break;
+            }
+
+            var jsonBundles = userBundles
+                .Select(b => new
+                {
+                    BundleID = b.BundleID,          // Can be written as just "b.BundleID"
+                    Title = b.Title,                // Can be written as just "b.Title"
+                    Status = b.IsActive,
+                    CreationDate = b.CreationDate.ToShortDateString(),
+                    BundlePrice = b.BundlePrice,    // Can be written as just "b.BundlePrice"
+                })
+                .ToList();
+
+            return Json(jsonBundles);
+        }
+
+        public ActionResult Bundles(bool? availableOffers, bool? addedBundle)
         {
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
@@ -575,98 +640,7 @@ namespace ShopApp.Controllers
                 ViewBag.Success = "Zestaw stworzony pomyślnie!";
             }
 
-            ViewBag.TitleSort = ViewBag.TitleSort == null ? 0 : ViewBag.TitleSort;
-            ViewBag.StatusSort = ViewBag.StatusSort == null ? 0 : ViewBag.StatusSort;
-            ViewBag.CreationDateSort = ViewBag.CreationDateSort == null ? 0 : ViewBag.CreationDateSort;
-            ViewBag.PriceSort = ViewBag.PriceSort == null ? 0 : ViewBag.PriceSort;
-            //ViewBag.CategorySort = ViewBag.CategorySort == null ? 0 : ViewBag.CategorySort;
-
-            if (sortBy != null)
-            {
-                switch (sortBy)
-                {
-                    // SORTY BY TITLE
-                    case 1:
-                        userBundles = userBundles.OrderBy(o => o.Title).ToList();
-                        ViewBag.SortBy = "Title";
-                        ViewBag.TitleSort = 1;
-                        break;
-
-                    case 2:
-                        userBundles = userBundles.OrderByDescending(o => o.Title).ToList();
-                        ViewBag.SortBy = "Title";
-                        ViewBag.TitleSort = 0;
-                        break;
-
-                    // SORTY BY PRICE
-                    case 3:
-                        userBundles = userBundles.OrderBy(o => o.BundlePrice).ToList();
-                        ViewBag.SortBy = "Price";
-                        ViewBag.PriceSort = 1;
-                        break;
-
-                    case 4:
-                        userBundles = userBundles.OrderByDescending(o => o.BundlePrice).ToList();
-                        ViewBag.SortBy = "Price";
-                        ViewBag.PriceSort = 0;
-                        break;
-
-                    //SORT BY STATUS
-                    case 5:
-                        userBundles = userBundles.OrderByDescending(o => o.IsActive).ThenBy(o => o.Title).ToList();
-                        ViewBag.SortBy = "Status";
-                        ViewBag.StatusSort = 1;
-                        break;
-
-                    case 6:
-                        userBundles = userBundles.OrderBy(o => o.IsActive).ThenBy(o => o.Title).ToList();
-                        ViewBag.SortBy = "Status";
-                        ViewBag.StatusSort = 0;
-                        break;
-
-                    //SORT BY DATE
-                    case 7:
-                        userBundles = userBundles.OrderByDescending(o => o.CreationDate).ToList();
-                        ViewBag.SortBy = "Date";
-                        ViewBag.CreationDateSort = 1;
-                        break;
-
-                    case 8:
-                        userBundles = userBundles.OrderBy(o => o.CreationDate).ToList();
-                        ViewBag.SortBy = "Date";
-                        ViewBag.CreationDateSort = 0;
-                        break;
-
-
-                    ////SORT BY CATEGORY
-                    //case 13:
-                    //    userBundles = userBundles.OrderBy(o => o.Category.CategoryName).ToList();
-                    //    ViewBag.SortBy = "Category";
-                    //    ViewBag.CategorySort = 1;
-                    //    break;
-
-                    //case 14:
-                    //    userBundles = userBundles.OrderByDescending(o => o.Category.CategoryName).ToList();
-                    //    ViewBag.SortBy = "Category";
-                    //    ViewBag.CategorySort = 0;
-                    //    break;
-
-                    default:
-                        userBundles = userBundles.OrderBy(o => o.BundleID).ToList();
-                        break;
-                }
-            }
-            else
-            {
-                ViewBag.TitleSort = 0;
-                ViewBag.StatusSort = 0;
-                ViewBag.CreationDateSort = 0;
-                ViewBag.PriceSort = 0;
-                ViewBag.LeftSort = 0;
-                ViewBag.SoldSort = 0;
-                ViewBag.CategorySort = 0;
-            }
-
+            userBundles = userBundles.OrderBy(o => o.BundleID).ToList();
 
             return View(userBundles);
         }
@@ -864,20 +838,40 @@ namespace ShopApp.Controllers
             else
                 lastMessages.Sort();
 
-
-
             return View(lastMessages);
         }
+
+        //RETURN 10 USERS
+        [HttpPost]
+        public JsonResult UsersList(string userLogin)
+        {
+            Debug.WriteLine("Szukam: " + userLogin);
+            var users = db.Users.Where(u => u.Login.Contains(userLogin) && u.Login != HttpContext.User.Identity.Name).Take(10).ToList();
+
+            if (userLogin == null)
+                return Json("userLogin is null!");
+
+            var jsonUsers = users
+                .Select(u => new
+                {
+                    Login = u.Login,
+                    FirstName = u.FirstName,
+                    // LastName = u.LastName,
+                    AvatarUrl = u.AvatarImage.PathToFile
+                })
+                .ToList();
+
+            return Json(jsonUsers);
+        }
+
 
         [HttpPost]
         public ActionResult GetUserIdFromName(string userLogin)
         {
-            Debug.WriteLine("UserLogin: " + userLogin);
             User user = db.Users.Where(u => u.Login == userLogin).FirstOrDefault();
 
             if (user != null && user.AvatarImage != null)
             {
-                Debug.WriteLine("UserLogin: " + userLogin);
                 return Json(new { userID = user.UserID, userAvatarURL = user.AvatarImage.PathToFile });
             }
             else
@@ -889,9 +883,7 @@ namespace ShopApp.Controllers
         [HttpPost]
         public ActionResult SendActivationEmail(string userLogin)
         {
-            Debug.WriteLine("UserLogin: " + userLogin);
             User user = db.Users.Where(u => u.Login == userLogin).FirstOrDefault();
-
 
             if (user != null)
             {
@@ -903,16 +895,5 @@ namespace ShopApp.Controllers
                 return Json(false);
             }
         }
-
-        public ActionResult LearningJS()
-        {
-            return View();
-        }
-
-        public ActionResult LearningSignalR()
-        {
-            return View();
-        }
-
     }
 }

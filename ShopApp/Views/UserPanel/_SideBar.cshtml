@@ -2,11 +2,23 @@
     string viewPath = Request.RawUrl;
     string viewName = viewPath.Substring(viewPath.LastIndexOf('/') + 1);
 
-    string[] settingsViews = new string[] { "EditBasicInfo", "ShippingAdresses", "EditPassword", "EditAvatar" };
+    string[] settingViews = new string[] { "EditBasicInfo", "ShippingAdresses", "EditPassword", "EditAvatar" };
+    string[] offerViews = new string[] { "Offers", "AddOffer"};
+    string[] bundleViews = new string[] { "Bundles", "AddBundle" };
 
-    if (settingsViews.Contains(viewName))
+    if (settingViews.Contains(viewName))
     {
         viewName = "Settings";
+    }
+
+    if (offerViews.Contains(viewName))
+    {
+        viewName = "Offers";
+    }
+
+    if (bundleViews.Contains(viewName))
+    {
+        viewName = "Bundles";
     }
 
     Dictionary<string, string> activeView = new Dictionary<string, string>();
