@@ -194,9 +194,9 @@ namespace ShopApp.Controllers
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
             if (user != null)
             {
-                var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer.User);
+                var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer != null ? i.Offer.User : i.Bundle.User);
                 //Consider using Critical error page for below
-                if(TempData["ErrorMessage"] == "TransactionRequestError")
+                if (TempData["ErrorMessage"] == "TransactionRequestError")
                     ViewBag.NotEveryBucketCouldHaveBeenSold = "Niestety, nie udało się zakupić wszystkich przedmiotów po więcej informacji proszę skontaktować się z pomocą Zakupowo lub spróbować ponownie później";
                 if (user.ShippingAdresses.Count() == 0)
                     ViewBag.UserHasNoShippingAddress = "Przed przejściem do kasy wymagane jest ustawienie adresu dostawy";
@@ -431,7 +431,10 @@ namespace ShopApp.Controllers
                         var grouped = order.GroupBy(i => i.Offer != null ? i.Offer.User : i.Bundle.User);
                         foreach (var seller in grouped)
                         {
-                            if (!EmailManager.SendEmail(EmailManager.EmailType.TransactionRequest, seller.Key.FirstName, seller.Key.LastName, seller.Key.Email, user.Login, user.FirstName, user.LastName, seller.ToList(), collection["address-input"], Address))
+                            var message = "Jestem zainterowany zakupem wystawionego produktu proszę o odpowiedź.";
+                            if (collection[$"message-input-{seller.Key.UserID}"] != null)
+                                message = collection[$"message-input-{seller.Key.UserID}"];
+                            if (!EmailManager.SendEmail(EmailManager.EmailType.TransactionRequest, seller.Key.FirstName, seller.Key.LastName, seller.Key.Email, user.Login, user.FirstName, user.LastName, seller.ToList(), message, Address))
                                 //check that
                                 seller.ToList().ForEach(i => ItemsThatCouldntBeenSold.Add(i));
                         }

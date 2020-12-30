@@ -8,10 +8,18 @@ using ShopApp.DAL;
 
 namespace ShopApp.Models
 {
+    public enum TransactionResult
+    {
+        Declined,
+        Accepted,
+        NotChosenYet
+    }
+
     public class Transaction : IConcurrencyAwareEntity
     {
         [Key]
         public int TransactionID { get; set; }
+        public string Result { get; set; }
         public virtual User Buyer { get; set; }
         public virtual User Seller { get; set; }
         public virtual ICollection<BucketItem> BucketItems { get; set; }

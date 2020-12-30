@@ -373,6 +373,10 @@
     <Compile Include="Migrations\202012251602495_WorkingOnMessageModelV1.Designer.cs">
       <DependentUpon>202012251602495_WorkingOnMessageModelV1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202012301848377_TransactionResultInTransactionTable.cs" />
+    <Compile Include="Migrations\202012301848377_TransactionResultInTransactionTable.Designer.cs">
+      <DependentUpon>202012301848377_TransactionResultInTransactionTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
@@ -816,6 +820,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012251602495_WorkingOnMessageModelV1.resx">
       <DependentUpon>202012251602495_WorkingOnMessageModelV1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202012301848377_TransactionResultInTransactionTable.resx">
+      <DependentUpon>202012301848377_TransactionResultInTransactionTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
