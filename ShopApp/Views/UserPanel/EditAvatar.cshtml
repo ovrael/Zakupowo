@@ -18,13 +18,11 @@
 
 @Styles.Render("~/bundles/UserPanel")
 <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
-
-
 @Html.Partial("_SideBar")
 
-<div class="container p-3">
+<div class="container pl-5 pb-3">
     <div class="row">
-        <div class="col-12 pl-5">
+        <div class="col-12">
             <div class="container-accout-edit">
                 <div class="view-account">
                     <section class="module">
@@ -51,18 +49,17 @@
                                     <br><br>
                                 }
                             </div>
-                                </div>
+                        </div>
                     </section>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 <script>
     jQuery('.user-avatar-upload').on('change', function (event) {
         console.log();
         jQuery('.output').attr('src', URL.createObjectURL(event.target.files[0]));
-       
+
     });
 </script>

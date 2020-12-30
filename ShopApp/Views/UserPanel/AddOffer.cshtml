@@ -36,97 +36,97 @@
                                     <hr />
                                 </div>
 
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label" for="Name">Nazwa oferty</label>
-                                        <div class="col-md-4 col-lg-6">
-                                            <input maxlength="60" id="product_name" name="Name" placeholder="Offer name" class="form-control input-md" required type="text" />
-                                            <small id="descriptionCodeHelp" class="form-text text-muted">Maksymalnie 60 znaków</small>
-                                        </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="Name">Nazwa oferty</label>
+                                    <div class="col-md-4 col-lg-6">
+                                        <input maxlength="60" id="product_name" name="Name" placeholder="Offer name" class="form-control input-md" required type="text" />
+                                        <small id="descriptionCodeHelp" class="form-text text-muted">Maksymalnie 60 znaków</small>
                                     </div>
+                                </div>
 
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label" for="Description">Opis</label>
-                                        <div class="col-md-4 col-lg-6">
-                                            <textarea maxlength="700" id="product_name_fr" name="Description" placeholder="Description" class="form-control input-md" required></textarea>
-                                            <small id="descriptionCodeHelp" class="form-text text-muted">Maksymalnie 700 znaków</small>
-                                        </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="Description">Opis</label>
+                                    <div class="col-md-4 col-lg-6">
+                                        <textarea maxlength="700" id="product_name_fr" name="Description" placeholder="Description" class="form-control input-md" required></textarea>
+                                        <small id="descriptionCodeHelp" class="form-text text-muted">Maksymalnie 700 znaków</small>
                                     </div>
+                                </div>
 
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label" for="Category">Kategoria</label>
-                                        <div class="col-md-4 col-lg-6">
-                                            <select id="product_categorie" name="Category" class="form-control" required>
-                                                <option selected>Wybierz kategorie</option>
-                                                @{
-                                                    for (int i = 0; i < Model.Count(); i++)
-                                                    {
-                                                        <option value="@Model.ElementAt(i).CategoryID">@Model.ElementAt(i).CategoryName</option>
-                                                    }
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="Category">Kategoria</label>
+                                    <div class="col-md-4 col-lg-6">
+                                        <select id="product_categorie" name="Category" class="form-control" required>
+                                            <option selected>Wybierz kategorie</option>
+                                            @{
+                                                for (int i = 0; i < Model.Count(); i++)
+                                                {
+                                                    <option value="@Model.ElementAt(i).CategoryID">@Model.ElementAt(i).CategoryName</option>
                                                 }
-                                            </select>
-                                        </div>
+                                            }
+                                        </select>
                                     </div>
+                                </div>
 
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label" for="Quantity">Ilość produktu</label>
-                                        <div class="col-md-4 col-lg-4">
-                                            <input id="available_quantity" name="Quantity" placeholder="Product quantity" class="form-control input-md" required type="number" value="1" min="1" max="@int.MaxValue">
-                                        </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="Quantity">Ilość produktu</label>
+                                    <div class="col-md-4 col-lg-4">
+                                        <input id="available_quantity" name="Quantity" placeholder="Product quantity" class="form-control input-md" required type="number" value="1" min="1" max="@int.MaxValue">
                                     </div>
+                                </div>
 
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label" for="Price">Cena</label>
-                                        <div class="col-md-4 col-lg-4">
-                                            <input id="product_price" name="Price" placeholder="Price" class="form-control input-md" required type="text">
-                                        </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="Price">Cena</label>
+                                    <div class="col-md-4 col-lg-4">
+                                        <input id="product_price" name="Price" placeholder="Price" class="form-control input-md" required type="text">
                                     </div>
+                                </div>
 
 
 
 
 
-                                    @*KOPIA WYSYŁANIA ZDJĘĆ*@
-                                    <div id="UploadedImagesRow" class="row pl-3 ">
-                                        @*<div id="UploadOfferImageNo-0" class="col-lg-3 col-md-4 col-sm-6 imgUp mt-4">
-                    <div class="imagePreview" style="background-image:url(../../Images/product.jpg); position:relative;">
-                        <i class="fa fa-trash btn" style="float: right; margin: 5px;"></i>
+                                @*KOPIA WYSYŁANIA ZDJĘĆ*@
+                                <div id="UploadedImagesRow" class="row pl-3 ">
+                                    @*<div id="UploadOfferImageNo-0" class="col-lg-3 col-md-4 col-sm-6 imgUp mt-4">
+                                            <div class="imagePreview" style="background-image:url(../../Images/product.jpg); position:relative;">
+                                                <i class="fa fa-trash btn" style="float: right; margin: 5px;"></i>
 
 
-                        <div class="col-12 text-center" data-toggle="tooltip" title="To jest główne zdjęcie!" style="background-color:lightyellow; position:absolute; bottom:0;">
-                            <h5> Twoje główne zdjęcie</h5>
-                        </div>
+                                                <div class="col-12 text-center" data-toggle="tooltip" title="To jest główne zdjęcie!" style="background-color:lightyellow; position:absolute; bottom:0;">
+                                                    <h5> Twoje główne zdjęcie</h5>
+                                                </div>
 
-                    </div>
-                </div>*@
-
-
-                                        <div id="UploadImageDiv" class="col-lg-3 col-md-4 col-sm-6 mt-4">
-                                            <div id="UploadImageButton" class="imagePreview btn" style="background-image:url(../../Images/DodajZdjecie.png)">
-                                                <input id="UploadImageInput" type="file" multiple accept="image/*" value="Upload Photo" name="UploadOfferImage" style="opacity: 0.0; position: absolute; top: 0; left: 0; bottom: 0; right: 0; width: 100%; height:100%;" required>
                                             </div>
-                                        </div>
-
-                                    </div>
+                                        </div>*@
 
 
-                                    @*<div class="form-group" id="imageGroupTemplate" style="display: none">
-                <i class="fa fa-times del " style="display: none"></i>
-                <div class="col-sm-4 imgUp mt-4">
-                    <div class="imagePreview"></div>
-                    <label class="btn btn-outline-warning btn-lg btn-block btn-circle">
-                        <i class="fa fa-plus imgAdd"></i>
-                        <input type="file" multiple class="uploadFile img" value="Upload Photo" name="ProductImage2" style="width: 0px;height: 0px;overflow: hidden;">
-                    </label>
-                </div>
-            </div>*@
-
-
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label"></label>
-                                        <div class="col-md-4">
-                                            <button id="createOffer" type="submit" value="Dodaj oferte!" class="btn btn-outline-warning mb-3">Dodaj oferte!</button>
+                                    <div id="UploadImageDiv" class="col-lg-3 col-md-4 col-sm-6 mt-4">
+                                        <div id="UploadImageButton" class="imagePreview btn" style="background-image:url(../../Images/DodajZdjecie.png)">
+                                            <input id="UploadImageInput" type="file" multiple accept="image/*" value="Upload Photo" name="UploadOfferImage" style="opacity: 0.0; position: absolute; top: 0; left: 0; bottom: 0; right: 0; width: 100%; height:100%;" required>
                                         </div>
                                     </div>
+
+                                </div>
+
+
+                                @*<div class="form-group" id="imageGroupTemplate" style="display: none">
+                                        <i class="fa fa-times del " style="display: none"></i>
+                                        <div class="col-sm-4 imgUp mt-4">
+                                            <div class="imagePreview"></div>
+                                            <label class="btn btn-outline-warning btn-lg btn-block btn-circle">
+                                                <i class="fa fa-plus imgAdd"></i>
+                                                <input type="file" multiple class="uploadFile img" value="Upload Photo" name="ProductImage2" style="width: 0px;height: 0px;overflow: hidden;">
+                                            </label>
+                                        </div>
+                                    </div>*@
+
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"></label>
+                                    <div class="col-md-4">
+                                        <button id="createOffer" type="submit" value="Dodaj oferte!" class="btn btn-outline-warning mb-3">Dodaj oferte!</button>
+                                    </div>
+                                </div>
 
                             </fieldset>
                         </div>

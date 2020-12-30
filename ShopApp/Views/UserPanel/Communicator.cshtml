@@ -1,6 +1,10 @@
 ﻿@*MODEL IS LAST MESSAGES FROM/TO EACH USER*@
 @model IEnumerable<ShopApp.Models.Message>
 
+@Styles.Render("~/bundles/UserPanel")
+<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+@Html.Partial("_SideBar")
+
 @{
     bool lackMessages = ViewBag.LackMessages == null ? false : true;
 
@@ -13,29 +17,36 @@
     List<List<ShopApp.Models.Message>> allMessages = (List<List<ShopApp.Models.Message>>)ViewBag.AllMessages;
 }
 
-@Styles.Render("~/bundles/UserPanel")
-<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
-@Html.Partial("_SideBar")
 <div class="container pl-5">
+
     <div class="row rounded-lg overflow-hidden pl-lg-5 pl-md-4">
+        <div class="col-2 col-lg-2  pb-3 pl-4"></div>
         <div class="col-10 col-lg-3  pb-3 pl-4">
             <h4> Napisz wiadomość do: </h4>
         </div>
-            <div class="col-12 col-lg-7 pl-4 pr-5">
-                <form id="create-message-user-form " class="bg-light">
-                    <div class="input-group">
-                        <input id="create-message-user" type="text" placeholder="Login użytkownika" aria-describedby="create-message-user-btn" class="form-control rounded-0 border-0 py-4 bg-light" autocomplete="off">
-                        <div class="input-group-append">
-                            <a id="create-message-user-btn" class="btn btn-link" onclick="createMessageWindow()"><i class="fas fa-user-plus"style="color:black"></i></a>
+        <div class="col-8 col-lg-5 pl-4 pr-5">
+            <form id="create-message-user-form " class="bg-light">
+                <div class="input-group">
+                    <input id="create-message-user" type="text" placeholder="Login użytkownika" aria-describedby="create-message-user-btn" class="form-control rounded-0 border-0 py-4 bg-light" autocomplete="off">
+                    @*<div class="input-group-append">
+                            <a id="create-message-user-btn" class="btn btn-link" onclick="createMessageWindow()"><i class="fas fa-user-plus" style="color:black"></i></a>
+                        </div>*@
+                </div>
+            </form>
+            <div class="col-12" id="usersTableBody">
+                @*<a href="#" onclick="createMessageWindow()" class="user-row row" id="userLogin" style="background-color:lightblue;">
+                                <div class="col-3">
+                                    <img src="~/Images/user.jpg" alt="user" width="50" class="rounded-circle">
+                                </div>
+                                <div style="color:black" class="td-text col-9">
+                                    UserLogin - UserFirstName
                         </div>
-                    </div>
-                </form>
-
+                    </a>*@
             </div>
+
         </div>
     </div>
 
-<div class="container pl-5">
     <div class="row rounded-lg overflow-hidden pl-lg-5 pl-md-4">
 
         <!-- Users box-->

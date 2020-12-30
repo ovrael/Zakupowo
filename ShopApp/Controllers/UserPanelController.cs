@@ -841,15 +841,37 @@ namespace ShopApp.Controllers
             return View(lastMessages);
         }
 
+        //RETURN 10 USERS
+        [HttpPost]
+        public JsonResult UsersList(string userLogin)
+        {
+            Debug.WriteLine("Szukam: " + userLogin);
+            var users = db.Users.Where(u => u.Login.Contains(userLogin)).Take(10).ToList();
+
+            if (userLogin == null)
+                return Json("userLogin is null!");
+
+            var jsonUsers = users
+                .Select(u => new
+                {
+                    Login = u.Login,
+                    FirstName = u.FirstName,
+                    // LastName = u.LastName,
+                    AvatarUrl = u.AvatarImage.PathToFile
+                })
+                .ToList();
+
+            return Json(jsonUsers);
+        }
+
+
         [HttpPost]
         public ActionResult GetUserIdFromName(string userLogin)
         {
-            Debug.WriteLine("UserLogin: " + userLogin);
             User user = db.Users.Where(u => u.Login == userLogin).FirstOrDefault();
 
             if (user != null && user.AvatarImage != null)
             {
-                Debug.WriteLine("UserLogin: " + userLogin);
                 return Json(new { userID = user.UserID, userAvatarURL = user.AvatarImage.PathToFile });
             }
             else
@@ -861,9 +883,7 @@ namespace ShopApp.Controllers
         [HttpPost]
         public ActionResult SendActivationEmail(string userLogin)
         {
-            Debug.WriteLine("UserLogin: " + userLogin);
             User user = db.Users.Where(u => u.Login == userLogin).FirstOrDefault();
-
 
             if (user != null)
             {

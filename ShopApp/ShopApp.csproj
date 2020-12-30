@@ -500,6 +500,7 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="LICENSE" />
     <Content Include="Scripts\UserPanelFilters.js" />
+    <Content Include="Scripts\UserPanelManager.js" />
     <Content Include="XamarinFolder\Screenshot_1608460271.png" />
     <None Include="Properties\PublishProfiles\Zakupowo - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
