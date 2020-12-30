@@ -11,6 +11,12 @@
 
 <div class="bucket mb-2 mx-auto">
     <div class="items">
+        @if (ViewBag.NotEveryBucketCouldHaveBeenSold != null)
+        {
+            <div>
+                <p class="alert-danger m-0"> @ViewBag.NotEveryBucketCouldHaveBeenSold </p>
+            </div>
+        }
         <form method="post">
 
             @foreach (var Seller in Model)

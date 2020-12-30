@@ -248,12 +248,12 @@ namespace ShopApp.Utility
             {
                 if(item.Offer != null)
                 {
-                    message.AppendLine($"<img src=\"{ item.Offer.OfferPictures.First() }\" style = \"height:120px;width:120px;\" alt = \"25\" />");
+                    message.AppendLine($"<img src=\"{ item.Offer.OfferPictures.First() }\" style = \"height:120px;width:120px;\" alt = \"Item image\" />");
                     message.AppendLine($"{item.Offer.Title}");
                 }
                 else
                 {
-                    message.AppendLine($"<img src=\"{ item.Bundle.Offers.First().OfferPictures.First() }\" style = \"height:120px;width:120px;\" alt = \"25\" />");
+                    message.AppendLine($"<img src=\"{ item.Bundle.Offers.First().OfferPictures.First() }\" style = \"height:120px;width:120px;\" alt = \"Item image\" />");
                     message.AppendLine($"{item.Bundle.Title}");
                 }
             }
@@ -261,9 +261,9 @@ namespace ShopApp.Utility
             message.AppendLine("Dane adresowe kupującego:");
             message.AppendLine(SenderFirstName + " " + SenderLastName);
             message.AppendLine(Address.Country + " " + Address.PostalCode);
-            message.AppendLine(Address.Street + (Address.PremisesNumber != null ? "/" + Address.PremisesNumber : " " )+ "," + Address.City);
-            message.AppendLine("Check your <a href=\"http://localhost:44000/UserPanel/TransactionHistory\">transaction history</a> for more details and hopefully successful sale");
-            message.AppendLine("Please <a href=\"http://localhost:44000/Home/Contact\">contact us</a> if something is not clear or in case you don't want to receive such messages in future.<pre>");
+            message.AppendLine(Address.Street + (Address.PremisesNumber != "" ? "/" + Address.PremisesNumber : " " )+ "," + Address.City);
+            message.AppendLine("Check your <a href=\"http://zakupowo.azurewebsites.net/UserPanel/TransactionsHistory\">transaction history</a> for more details and hopefully successful sale");
+            message.AppendLine("Please <a href=\"http://zakupowo.azurewebsites.net/Home/Contact\">contact us</a> if something is not clear or in case you don't want to receive such messages in future.<pre>");
             return message.ToString();
         }
 

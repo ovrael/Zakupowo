@@ -195,6 +195,9 @@ namespace ShopApp.Controllers
             if (user != null)
             {
                 var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer.User);
+                //Consider using Critical error page for below
+                if(TempData["ErrorMessage"] == "TransactionRequestError")
+                    ViewBag.NotEveryBucketCouldHaveBeenSold = "Niestety, nie udało się zakupić wszystkich przedmiotów po więcej informacji proszę skontaktować się z pomocą Zakupowo lub spróbować ponownie później";
                 if (user.ShippingAdresses.Count() == 0)
                     ViewBag.UserHasNoShippingAddress = "Przed przejściem do kasy wymagane jest ustawienie adresu dostawy";
                 if (user?.Bucket?.BucketItems == null)
@@ -242,7 +245,10 @@ namespace ShopApp.Controllers
                                     if (BucketItemThatIsGoingToBeBought != null && SellersLogins != null && SellersLogins.Contains(BucketItemThatIsGoingToBeBought.Offer.User.Login) && int.TryParse(collection["Offer_quantity_" + BucketItemOfferID], out int OfferQuantity))
                                     {
                                         if (BucketItemThatIsGoingToBeBought.Offer.InStockNow >= OfferQuantity)
+                                        {
+                                            BucketItemThatIsGoingToBeBought.Quantity = OfferQuantity;
                                             BucketItemsListThatIsGoingToBeBought.Add(BucketItemThatIsGoingToBeBought);
+                                        }
                                         else
                                         {
                                             ViewBag.ExceedingMaxAmount = "Nie wszystkie produkty mogą zostać zakupione w podanych ilościach";
@@ -422,22 +428,21 @@ namespace ShopApp.Controllers
                     List<BucketItem> ItemsThatCouldntBeenSold = new List<BucketItem>();
                     if (order != null && Address != null)
                     {
-                        //order.ForEach(i => i.IsChosen = true);
                         var grouped = order.GroupBy(i => i.Offer != null ? i.Offer.User : i.Bundle.User);
                         foreach (var seller in grouped)
                         {
-                            if (!await EmailManager.SendEmailAsync(EmailManager.EmailType.TransactionRequest, seller.Key.FirstName, seller.Key.LastName, seller.Key.Email, user.Login, user.FirstName, user.LastName, seller.ToList(), collection["address-input"], Address))
-                              //check that
+                            if (!EmailManager.SendEmail(EmailManager.EmailType.TransactionRequest, seller.Key.FirstName, seller.Key.LastName, seller.Key.Email, user.Login, user.FirstName, user.LastName, seller.ToList(), collection["address-input"], Address))
+                                //check that
                                 seller.ToList().ForEach(i => ItemsThatCouldntBeenSold.Add(i));
                         }
                         if (ItemsThatCouldntBeenSold != null && ItemsThatCouldntBeenSold.Count() != 0)
                         {
-                            ItemsThatCouldntBeenSold.ForEach(x => x.IsChosen = false);
-                            //ViewBag.NotEveryBucketCouldHaveBeenSold = "Niestety, nie udało się zakupić wszystkich przedmiotów po więcej informacji proszę skontaktować się z pomocą Zakupowo lub spróbować ponownie później";
+                            TempData["ErrorMessage"] = "TransactionRequestError";
                         }
-                        for(int x = 0; x< user.Order.BucketItems.Count(); x++)
+                        var BucketItemsInOrderTab = user.Order.BucketItems.ToArray();
+                        for(int x = 0; x< BucketItemsInOrderTab.Count(); x++)
                         {
-                            var item = user.Order.BucketItems.ElementAt(x);
+                            var item = BucketItemsInOrderTab.ElementAt(x);
                             if (ItemsThatCouldntBeenSold != null && ItemsThatCouldntBeenSold.Count() != 0 && ItemsThatCouldntBeenSold.Contains(item))
                                 continue;
                             else
