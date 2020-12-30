@@ -28,11 +28,12 @@
         group.find(".item").each(function () {
             var price = $(this).find(".item-desc").find(".product-totalprice").text();
             var value = price.substr(0, price.indexOf(" "));
-            sum += parseInt(value);
+            value = value.replace(',', '.');
+            sum += parseFloat(value);
         })
         totalsum += sum;
-        $(this).text(sum + " zł");
+        $(this).text(sum.toFixed(2) + " zł");
     })
 
-    $(".cash-sum").text(totalsum + " zł");
+    $(".cash-sum").text(totalsum.toFixed(2) + " zł");
 });

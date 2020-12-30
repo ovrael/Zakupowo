@@ -7,11 +7,14 @@ function calculate() {
                 var pricetext = $(this).find(".item-price").find(".total-price").text();
                 var price = pricetext.substr(0, pricetext.indexOf(' '));
                 price = price.replace(',', '.');
-                sum += quantity * price;
+                if (quantity != null)
+                    sum += parseFloat(quantity) * parseFloat(price);
+                else
+                    sum += parseFloat(price);
             })
         }
     });
-    return sum;
+    return sum.toFixed(2);
 }
 $(document).ready(function () {
     var sum = calculate();

@@ -31,7 +31,7 @@ h5 {
     color: grey;
 }
 
-.items-sum {
+.items-sum, .cash-sum {
     font-size: 16px;
     font-weight: 700;
 }
@@ -39,12 +39,6 @@ h5 {
 .cash-sum-text {
     font-size: 16px;
 }
-
-.cash-sum {
-    font-size: 16px;
-    font-weight: 700;
-}
-
 .cashout-btn, .cashout-btn:focus, .cashout-btn:hover, .cashout-btn:active {
     background-color: #FFB24A !important;
     box-shadow: none;
@@ -68,5 +62,10 @@ h5 {
 
     .container-fluid {
         padding-top: 70px;
+    }
+
+    .items-sum, .cash-sum {
+        font-size: 26px;
+        font-weight: 700;
     }
 }

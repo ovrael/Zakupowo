@@ -72,7 +72,10 @@
                                     <a href="@Url.Action("Index", "Bundle", new { BundleID = item.Bundle.BundleID })">@item.Bundle.Title</a>
                                 </div>
                                 <div class="col-1 d-lg-none"></div>
-                                <div class="col-5 col-lg-3 item-price pt-3 pt-lg-0">
+                                <div class="col-5 col-lg-3 item-quantity pt-3 pt-lg-0">
+                                    ZESTAW
+                                </div>
+                                <div class="col-5 col-lg-2 item-price pt-3 pt-lg-0">
                                     <p class="total-price m-0">@item.Bundle.BundlePrice zł</p>
                                 </div>
                                 <input type="hidden" name="Bundle_quantity_@item.BucketItemID" value="1" />

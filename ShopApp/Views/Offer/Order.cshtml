@@ -38,60 +38,60 @@
         <div class="cash-offers shadow m-0 mt-2 mt-lg-4 p-3">
             @foreach (var seller in Model.GroupedBucketItems)
             {
-                <div class="items-group mt-1">
-                    <div class="row items-header">
-                        <div class="col-12 items-seller">
-                            <p class="pl-4">od: <a href="#" class="seller-name">@seller.Key.Login</a></p>
-                        </div>
-                    </div>
-                    @foreach (var item in seller)
-                    {
-                        if (item.Offer != null)
-                        {
-                            <div class="row item justify-content-center align-items-center text-center">
-                                <div class="col-6 col-lg-4 item-image">
-                                    <img class="img-fluid" src="@item.Offer.OfferPictures.First().PathToFile">
-                                </div>
-                                <div class="col-6 col-lg-4 item-desc">
-                                    <p><a class="product-name" href="#">@item.Offer.Title</a></p>
-                                    <p class="product-price">@item.Quantity x @item.Offer.Price zł</p>
-                                    <p class="product-totalprice">@(item.Quantity * item.Offer.Price) zł</p>
-                                </div>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="row item justify-content-center align-items-center text-center">
-                                <div class="col-6 col-lg-4 item-image">
-                                    <img class="img-fluid" src="@item.Bundle.Offers.First().OfferPictures.First().PathToFile">
-                                </div>
-                                <div class="col-6 col-lg-4 item-desc">
-                                    <p><a class="product-name" href="#">@item.Bundle.Title</a></p>
-                                    <p class="product-totalprice">@item.Bundle.BundlePrice zł</p>
-                                </div>
-                            </div>
-                        }
-
-                    }
-                    <hr>
-                    <div class="row items-footer text-center">
-                        <div class="col-12">
-                            <p class="items-sum">Razem: /*JS*/</p>
-                        </div>
+            <div class="items-group mt-1">
+                <div class="row items-header">
+                    <div class="col-12 items-seller">
+                        <p class="pl-4">od: <a href="#" class="seller-name">@seller.Key.Login</a></p>
                     </div>
                 </div>
-            }
-        </div>
-        <div class="row cash-message shadow m-0 mt-2 mt-lg-4 p-3">
-            <div class="col-12 mb-1 text-center"><h5>Wiadomość dla sprzedającego</h5></div>
-            <div class="col-12 mx-lg-auto col-lg-6">
-                <textarea class="form-control" id="message" name="message" rows="5"></textarea>
+                @foreach (var item in seller)
+                {
+                    if (item.Offer != null)
+                    {
+                        <div class="row item justify-content-center align-items-center text-center">
+                            <div class="col-6 col-lg-4 item-image">
+                                <img class="img-fluid" src="@item.Offer.OfferPictures.First().PathToFile">
+                            </div>
+                            <div class="col-6 col-lg-4 item-desc">
+                                <p><a class="product-name" href="#">@item.Offer.Title</a></p>
+                                <p class="product-price">@item.Quantity x @item.Offer.Price zł</p>
+                                <p class="product-totalprice">@(item.Quantity * item.Offer.Price) zł</p>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row item justify-content-center align-items-center text-center">
+                            <div class="col-6 col-lg-4 item-image">
+                                <img class="img-fluid" src="@item.Bundle.Offers.First().OfferPictures.First().PathToFile">
+                            </div>
+                            <div class="col-6 col-lg-4 item-desc">
+                                <p><a class="product-name" href="#">@item.Bundle.Title</a></p>
+                                <p class="product-totalprice">@item.Bundle.BundlePrice zł</p>
+                            </div>
+                        </div>
+                    }
+
+                }
+                <div class="row items-footer text-center">
+                    <div class="col-12 mt-4">
+                        <p class="items-sum">Razem: /*JS*/</p>
+                    </div>
+                </div>
+                <div class="row cash-message m-0 mt-4">
+                    <div class="col-12 mb-1 text-center"><h5>Wiadomość dla sprzedającego</h5></div>
+                    <div class="col-12 mx-lg-auto col-lg-6">
+                        <textarea class="form-control" id="message-input-" name="message-input-" rows="5"></textarea>
+                    </div>
+                </div>
             </div>
+                <hr>
+            }
         </div>
         <div class="row cash-summary shadow m-0 mt-2 mt-lg-4 mb-2 mb-lg-4 p-3 text-center">
             <div class="col-12"><h5>Podsumowanie zamówienia</h5></div>
             <div class="col-12">
-                <p class="cash-sum-text">Razem do zapłaty: </p>
+                <p class="cash-sum-text pb-0 mb-0">Razem do zapłaty: </p>
                 <p class="cash-sum">/*JS*/ zł</p>
             </div>
             <div class="col-12">

@@ -194,9 +194,9 @@ namespace ShopApp.Controllers
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
             if (user != null)
             {
-                var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer.User);
+                var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer != null ? i.Offer.User : i.Bundle.User);
                 //Consider using Critical error page for below
-                if(TempData["ErrorMessage"] == "TransactionRequestError")
+                if (TempData["ErrorMessage"] == "TransactionRequestError")
                     ViewBag.NotEveryBucketCouldHaveBeenSold = "Niestety, nie udało się zakupić wszystkich przedmiotów po więcej informacji proszę skontaktować się z pomocą Zakupowo lub spróbować ponownie później";
                 if (user.ShippingAdresses.Count() == 0)
                     ViewBag.UserHasNoShippingAddress = "Przed przejściem do kasy wymagane jest ustawienie adresu dostawy";
