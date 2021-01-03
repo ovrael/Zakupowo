@@ -61,7 +61,7 @@ namespace ShopApp
             bundles.Add(new StyleBundle("~/bundles/UserPanel").Include(
                       "~/Content/UserPanel.css"));
 
-            bundles.Add(new StyleBundle("~/bundles/User").Include(
+            bundles.Add(new StyleBundle("~/bundles/LoginAndRegistration").Include(
                       "~/Content/loginregister.css"));
 
             bundles.Add(new StyleBundle("~/bundles/Offer").Include(
@@ -81,6 +81,9 @@ namespace ShopApp
 
             bundles.Add(new StyleBundle("~/bundles/Order").Include(
                 "~/Content/CashOut.css"));
+
+            bundles.Add(new StyleBundle("~/bundles/UserInformation").Include(
+                "~/Content/User.css"));
 
         }
     }
