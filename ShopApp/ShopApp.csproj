@@ -679,7 +679,6 @@
     <Content Include="Views\Offer\Order.cshtml" />
     <Content Include="Views\User\UserInformation.cshtml" />
     <Content Include="Views\UserPanel\Settings.cshtml" />
-    <Content Include="Views\User\User.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
