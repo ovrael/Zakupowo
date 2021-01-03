@@ -11,15 +11,32 @@
 
     var userChatBox = document.getElementById(clickedElementID);
     if (userChatBox != undefined) {
-        userChatBox.classList.remove("undread-msg");
+
+        if (userChatBox.classList.contains("undread-msg")) {
+            userChatBox.classList.remove("undread-msg");
+            var userID = parseInt(userID, 10);
+
+            $.ajax({
+                url: "/UserPanel/ReadMessages",
+                method: 'POST',
+                dataType: 'json',
+                data: '{"userID":"' + userID + '"}',
+                contentType: 'application/json; charset=utf-8',
+                success: function (returnData) {
+                    if (returnData == true)
+                        console.log("Przeczytałem wiadomości");
+                    else
+                        console.log("NIE przeczytałem wiadomości");
+                },
+                // error handling
+            });
+        }
     }
 
 
     $(conversationID)[0].classList.add("active");
 
     $(conversationID)[0].scrollTop = $(conversationID)[0].scrollHeight;
-
-    //console.log("Zjezdzam na dół: " + $(conversationID)[0].id);
 }
 
 function createMessageWindow(userLogin) {
