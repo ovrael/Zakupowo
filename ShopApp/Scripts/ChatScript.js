@@ -362,14 +362,19 @@ function createMessageWindow(userLogin) {
             + "<img src=\"" + user.AvatarUrl + "\" alt=\"user\" width=\"50\" class=\"rounded-circle\">"
             + "</div>";
 
-        var userData = "<div style=\"color:black\" class=\"col-9\">"
+        //var userData = "<div style=\"color:black\" class=\"col-9\">"
+        var userData = "<div style=\"color:black\" class=\"col-9 pl-5\">"
             + user.Login + "-" + user.FirstName
             + "</div>";
 
-        var userTR = "<a href=\"#\" onclick=\"createMessageWindow(this.id)\" class=\"user-row row\" id=\"" + user.Login + "\" style=\"background-color:lightblue;\">"
+        //var userTR = "<a href=\"#\" onclick=\"createMessageWindow(this.id)\" class=\"user-row row\" id=\"" + user.Login + "\" style=\"background-color:lightblue;\">"
+        var userTR = "<a href=\"#\" onclick=\"createMessageWindow(this.id)\" class=\"user-row row\" id=\"" + user.Login + "\" style=\"background-color:white;padding-bottom:10px;padding-top:10px;border-bottom:solid;;border-color:lightgray;\">"
             + userAvatar
             + userData
             + "</a>";
+            
+
+     
 
         return userTR;
     }
