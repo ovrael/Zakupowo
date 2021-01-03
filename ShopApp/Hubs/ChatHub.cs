@@ -31,7 +31,8 @@ namespace ShopApp
                     Sender = sender,
                     Receiver = receiver,
                     Content = message,
-                    SentTime = DateTime.Now
+                    SentTime = DateTime.Now,
+                    IsRead = false
                 };
 
                 db.Messages.Add(sendMessage);

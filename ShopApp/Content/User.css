@@ -1,0 +1,54 @@
+﻿.user-header {
+    background-color: white;
+    word-wrap: break-word;
+}
+
+.user-name {
+    font-size: 24px;
+    color: #FFB24A;
+}
+
+.info-header {
+    font-size: 18px;
+}
+
+.user-message, .user-message:visited, .user-message:focus {
+    font-size: 14px;
+    color: black;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
+    .user-message:hover {
+        background-color: #FFB24A !important;
+        text-decoration: none;
+    }
+
+.user-attribute {
+    font-weight: 700;
+    width: 49%;
+}
+
+.user-attribute-value {
+    width: 49%;
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+}
+
+@media (min-width: 992px) {
+    .user-header {
+        width: 50%;
+    }
+
+    .container-fluid {
+        padding-top: 50px;
+    }
+
+    .avatar {
+        width: 200px;
+        height: 200px;
+    }
+}

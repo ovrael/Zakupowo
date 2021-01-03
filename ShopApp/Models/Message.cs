@@ -31,6 +31,8 @@ namespace ShopApp.Models
         [Column("SentTime", Order = 5, TypeName = "DateTime2")]
         public DateTime SentTime { get; set; }
 
+        public bool IsRead { get; set; }
+
         public byte[] RowVersion { get; set; }
 
         public int CompareTo(Message other)

@@ -31,6 +31,7 @@ namespace ShopApp.Utility
                     encryptedText = Convert.ToBase64String(ms.ToArray());
                 }
             }
+            encryptedText.Replace(" ", "+");
             return encryptedText;
         }
         public static string Decrypt(string encryptedText)
