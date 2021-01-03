@@ -377,7 +377,13 @@
     <Compile Include="Migrations\202012301848377_TransactionResultInTransactionTable.Designer.cs">
       <DependentUpon>202012301848377_TransactionResultInTransactionTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101031423394_MessageModelChanged_AddedIsReadProperty.cs" />
+    <Compile Include="Migrations\202101031423394_MessageModelChanged_AddedIsReadProperty.Designer.cs">
+      <DependentUpon>202101031423394_MessageModelChanged_AddedIsReadProperty.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="ModelsForm\UserBasicData.cs" />
+    <Compile Include="ModelsForm\UserPasswordModel.cs" />
     <Compile Include="Models\Auction.cs" />
     <Compile Include="Models\AvatarImage.cs" />
     <Compile Include="Models\Bucket.cs" />
@@ -505,6 +511,7 @@
     <Content Include="LICENSE" />
     <Content Include="Scripts\UserPanelFilters.js" />
     <Content Include="Scripts\UserPanelManager.js" />
+    <Content Include="Scripts\UserPanelSettingsManager.js" />
     <Content Include="XamarinFolder\Screenshot_1608460271.png" />
     <None Include="Properties\PublishProfiles\Zakupowo - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.0.0-vsdoc.js" />
@@ -672,6 +679,7 @@
     <Content Include="Views\Offer\Favourites.cshtml" />
     <Content Include="Views\Offer\Order.cshtml" />
     <Content Include="Views\User\UserInformation.cshtml" />
+    <Content Include="Views\UserPanel\Settings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -823,6 +831,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202012301848377_TransactionResultInTransactionTable.resx">
       <DependentUpon>202012301848377_TransactionResultInTransactionTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101031423394_MessageModelChanged_AddedIsReadProperty.resx">
+      <DependentUpon>202101031423394_MessageModelChanged_AddedIsReadProperty.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

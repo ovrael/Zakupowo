@@ -1,0 +1,364 @@
+﻿@model ShopApp.Models.User
+
+@Styles.Render("~/bundles/UserPanel")
+<script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
+@Html.Partial("_SideBar")
+
+@{
+    int activePage = 0;
+    if (ViewBag.Page != null)
+    {
+        activePage = ViewBag.Page;
+    }
+
+    string basicDataActiveClassLink = activePage == 0 ? "active" : string.Empty;
+    string basicDataActiveClassTab = activePage == 0 ? "active show" : string.Empty;
+
+    string adressesActiveClassLink = activePage == 1 ? "active" : string.Empty;
+    string adressesActiveClassTab = activePage == 1 ? "active show" : string.Empty;
+
+    string passwordActiveClassLink = activePage == 2 ? "active" : string.Empty;
+    string passwordActiveClassTab = activePage == 2 ? "active show" : string.Empty;
+
+    string avatarActiveClassLink = activePage == 3 ? "active" : string.Empty;
+    string avatarActiveClassTab = activePage == 3 ? "active show" : string.Empty;
+}
+
+<div class="container pl-5 pb-3">
+    <div class="row">
+        <div class="col-12">
+            <div class="container-accout-edit">
+                <div class="view-account">
+                    <section class="module">
+                        <div class="module-inner">
+
+                            <div class="side-bar">
+
+                                <div class="user-info">
+                                    <img src="@Model.AvatarImage.PathToFile" alt="user" width="70" class="rounded-circle" />
+                                    <br />
+                                    <br />
+                                    <h5>
+                                        @Model.FirstName @Model.LastName
+                                    </h5>
+                                </div>
+
+                                <nav class="side-menu ml-3">
+                                    <ul class="nav nav-pills nav-stacked">
+
+                                        <li class="@basicDataActiveClassLink links" id="data-li">
+                                            <a class="@basicDataActiveClassLink setting-link" data-toggle="pill" href="#data" id="data-a">
+                                                <span class="fa fa-user"></span> Dane osobowe
+                                            </a>
+                                        </li>
+
+                                        <li class="@adressesActiveClassLink links" id="adresses-li">
+                                            <a class="@adressesActiveClassLink setting-link" data-toggle="pill" href="#shippingAdresses" id="adresses-a">
+                                                <span class="fas fa-address-book"></span> Adresy wysyłki
+                                            </a>
+                                        </li>
+
+                                        <li class="@passwordActiveClassLink links" id="password-li">
+                                            <a class="@passwordActiveClassLink setting-link" data-toggle="pill" href="#password" id="password-a">
+                                                <span class="fas fa-key"></span> Zmień hasło
+                                            </a>
+                                        </li>
+
+                                        <li class="@avatarActiveClassLink links" id="avatar-li">
+                                            <a class="@avatarActiveClassLink setting-link" data-toggle="pill" href="#avatar" id="avatar-a">
+                                                <span class="fas fa-user-circle"></span> Zmień avatar
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </nav>
+
+                            </div>
+
+                            <div class="tab-content content-panel">
+
+                                @* TAB WITH BASIC DATA (OLD VIEW "EditBasicInfo) *@
+                                <div id="data" class="tab-pane fade @basicDataActiveClassTab">
+                                    <form class="form-horizontal" method="post" id="basicDataForm">
+                                        <fieldset class="fieldset">
+                                            <h3 class="fieldset-title">Dane użytkownika</h3>
+
+                                            <div class="form-group">
+                                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Imię</label>
+                                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Nazwisko</label>
+                                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">E-mail</label>
+                                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Numer telefonu</label>
+                                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                                    @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+
+                                            <hr>
+
+                                            <div class="form-group">
+                                                <div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
+                                                    <button class="btn btn-dark" value="Zmień" id="basicDataInput">Zmień</button>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+
+                                @* TAB WITH SHIPPING ADRESSES (OLD VIEW "ShippingAdresses") *@
+                                <div id="shippingAdresses" class="tab-pane fade @adressesActiveClassTab">
+                                    <div class="row">
+                                        <div class="col-10" style="display: inline-block;">
+                                            <h3>Adresy wysyłki</h3>
+                                        </div>
+                                        <div class="col-md" style="display: inline-block;">
+                                            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#newAdressModal">Dodaj adres!</button>
+                                            @*<a class="btn btn-dark" href="@Url.Action("AddShippingAdress", "UserPanel")">Dodaj adres!</a>*@
+                                        </div>
+
+                                    </div>
+
+                                    <hr style="border: 2px solid #ffb24a; border-radius: 1px" ;>
+
+                                    <div class="row" id="adressContainer">
+
+                                        @{
+                                            List<ShopApp.Models.ShippingAdress> adresses = Model.ShippingAdresses.ToList();
+                                            for (int i = 0; i < adresses.Count; i++)
+                                            {
+                                                string adressFormID = "adressForm-" + adresses[i].AdressID;
+                                                string adressInputID = "adressInput-" + adresses[i].AdressID;
+                                                string adressDeleteID = "adressDelete-" + adresses[i].AdressID;
+                                                string adressBodyID = "adressBody-" + adresses[i].AdressID;
+
+                                                <div class="col-6 adress-div" id="@adressBodyID">
+                                                    <form class="form-horizontal adress-form" method="post" id="@adressFormID">
+
+                                                        <p id="p-@i" class="adress-p"> Adres wysyłki numer: @(i+1)  </p>
+
+                                                        <input id="AdressID" name="AdressID" value="@adresses[i].AdressID" class="hidden form-control input-md" type="number" hidden>
+
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label" for="Country">Kraj</label>
+                                                            <div class="col-md-10">
+                                                                <input id="Country" name="Country" value="@adresses[i].Country" class="form-control input-md" type="text" required autofocus>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label" for="City">Miasto</label>
+                                                            <div class="col-md-10">
+                                                                <input id="City" name="City" value="@adresses[i].City" class="form-control input-md" type="text" required>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label" for="Street">Ulica</label>
+                                                            <div class="col-md-10">
+                                                                <input id="Street" name="Street" value="@adresses[i].Street" class="form-control input-md" type="text" required>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label" for="PremisesNumber">Numer lokalu*</label>
+                                                            <div class="col-md-10">
+                                                                <input id="PremisesNumber" name="PremisesNumber" value="@adresses[i].PremisesNumber" class="form-control input-md" type="text">
+                                                                <small id="premisesNumberHelp" class="form-text text-muted">Pole nie jest wymagane.</small>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label" for="PostalCode">Kod pocztowy*</label>
+                                                            <div class="col-md-10">
+                                                                <input id="PostalCode" name="PostalCode" value="@adresses[i].PostalCode" class="form-control input-md" type="text">
+                                                                <small id="postalCodeHelp" class="form-text text-muted">Pole nie jest wymagane.</small>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <div class="row">
+
+                                                                <div class="col-6">
+                                                                    <button class="btn btn-success change-adress-btn" value="Zmień" id="@adressInputID">Zmień</button>
+                                                                </div>
+
+                                                                <div class="col-6">
+                                                                    <button class="btn btn-danger delete-adress-btn" value="Usuń" id="@adressDeleteID">Usuń</button>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </form>
+                                                </div>
+
+                                                if (i % 2 == 1 && adresses.Count > 2)
+                                                {
+                                                    <div class="col-12 adress-bar">
+                                                        <hr style="border: 3px solid #ffb24a; border-radius: 3px">
+                                                    </div>
+                                                }
+                                            }
+                                        }
+                                    </div>
+                                </div>
+
+                                @* MODAL FOR CREATING NEW ADRRESS *@
+                                <div class="modal fade" id="newAdressModal" tabindex="-1" role="dialog" aria-labelledby="newAdressModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Dodaj adres wysyłki</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="use-add-product">
+
+                                                    <form method="post" id="addNewAdressForm">
+                                                        <fieldset class="add-produt">
+
+                                                            <input id="AdressID" name="AdressID" value="0" class="hidden form-control input-md" type="number" hidden>
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label" for="Country">Kraj</label>
+                                                                <div class="col-md-12">
+                                                                    <input id="Country" name="Country" placeholder="Country" class="form-control input-md" type="text" required autofocus>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label" for="City">Miasto</label>
+                                                                <div class="col-md-12">
+                                                                    <input id="City" name="City" placeholder="City" class="form-control input-md" type="text" required>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label" for="Street">Ulica</label>
+                                                                <div class="col-md-12">
+                                                                    <input id="Street" name="Street" placeholder="Street" class="form-control input-md" type="text" required>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label" for="PremisesNumber">Numer lokalu</label>
+                                                                <div class="col-md-12">
+                                                                    <input id="PremisesNumber" name="PremisesNumber" placeholder="Premises number" class="form-control input-md" type="text">
+                                                                    <small id="premisesNumberHelp" class="form-text text-muted">Pole nie jest wymagane.</small>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label" for="PostalCode">Kod pocztowy</label>
+                                                                <div class="col-md-12">
+                                                                    <input id="PostalCode" name="PostalCode" placeholder="Postal code" class="form-control input-md" type="text">
+                                                                    <small id="postalCodeHelp" class="form-text text-muted">Pole nie jest wymagane.</small>
+                                                                </div>
+                                                            </div>
+
+                                                        </fieldset>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
+                                                <button type="button" class="btn btn-success add-adress-btn" id="addNewAdressBtn">Dodaj</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @* TAB WITH CHANGING PASSWORD (OLD VIEW "EditPassword") *@
+                                <div id="password" class="tab-pane fade @passwordActiveClassTab">
+
+                                    @if (ViewBag.PswMessage != null)
+                                    {
+                                        <div class="alert alert-secondary alert-dismissible mt-3">
+                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                            <strong><i class="fas fa-info-circle"></i></strong> @ViewBag.PswMessage
+                                        </div>
+                                    }
+
+                                    <form class="form-horizontal" method="post" id="passwordForm">
+                                        <h3 class="fieldset-title">Zmiana hasła</h3>
+                                        <fieldset class="fieldset">
+
+                                            <label for="oldPasswordInput">Aktualne hasło</label>
+                                            <input type="password" id="OldPassword" name="OldPassword" class="form-control mb-2" required>
+
+                                            <label for="oldPasswordInput">Nowe hasło</label>
+                                            <input type="password" id="NewPassword" name="NewPassword" class="form-control mb-2" required>
+
+                                            <label for="oldPasswordInput">Powtórz nowe hasło</label>
+                                            <input type="password" id="NewPasswordConfirmation" name="NewPasswordConfirmation" class="form-control mb-2" required>
+
+                                        </fieldset>
+                                        <hr>
+                                        <div class="form-group">
+                                            <div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
+                                                <button class="btn btn-dark" value="Zmień hasło" id="passwordInput">Zmień hasło</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                @* TAB WITH AVATAR (OLD VIEW "EditAvatar") *@
+                                <div id="avatar" class="tab-pane fade @avatarActiveClassTab">
+
+                                    @if (ViewBag.AvatarMessage != null)
+                                    {
+                                        <div class="alert alert-secondary alert-dismissible mt-3">
+                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                            <strong><i class="fas fa-info-circle"></i></strong> @ViewBag.AvatarMessage
+                                        </div>
+                                    }
+
+                                    <h3 class="fieldset-title">Zmiana avatara</h3>
+                                    <img src="@Model.AvatarImage.PathToFile" id="userAvatar" class="img-fluid pb-3 pt-3 output" alt="User avatar" style="width:250px;border:solid; border-width:2px; border-color:lightgray">
+                                    <br><br>
+
+                                    <form class="form-horizontal" method="post" id="avatarForm">
+                                        <label for="file">Wybierz nowy avatar:</label>
+                                        <label class="btn btn-outline-dark mr-3 ml-3 ">
+                                            <i class="fas fa-upload pl-1"></i>
+                                            <input class="user-avatar-upload" type="file" name="avatarFile" id="avatarFile" style="width: 0px;height: 0px;overflow: hidden;">
+                                        </label>
+                                        <hr>
+                                        <button class="btn btn-dark" value="Zmień avatar" id="avatarInput">Zmień avatar</button>
+                                        <br><br>
+
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/Scripts/UserPanelSettingsManager.js"></script>
+}
