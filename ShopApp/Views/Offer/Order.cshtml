@@ -58,6 +58,7 @@
                                 <p class="product-totalprice">@(item.Quantity * item.Offer.Price) zł</p>
                             </div>
                         </div>
+                        <hr />
                     }
                     else
                     {
@@ -75,17 +76,17 @@
                 }
                 <div class="row items-footer text-center">
                     <div class="col-12 mt-4">
-                        <p class="items-sum">Razem: /*JS*/</p>
+                        <p class="p-0 items-sum">Razem: /*JS*/</p>
                     </div>
                 </div>
                 <div class="row cash-message m-0 mt-4">
                     <div class="col-12 mb-1 text-center"><h5>Wiadomość dla sprzedającego</h5></div>
                     <div class="col-12 mx-lg-auto col-lg-6">
-                        <textarea class="form-control" id="message-input-" name="message-input-" rows="5"></textarea>
+                        <textarea class="form-control" id="message-input-" name="message-input-@seller.Key.UserID" rows="5"></textarea>
                     </div>
                 </div>
             </div>
-                <hr>
+                <hr />
             }
         </div>
         <div class="row cash-summary shadow m-0 mt-2 mt-lg-4 mb-2 mb-lg-4 p-3 text-center">

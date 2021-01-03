@@ -194,8 +194,8 @@ namespace ShopApp.Controllers
                 {
 
                     OffersAndBundles offersAndBundles = new OffersAndBundles();
-                    var offers = db.Offers.Where(i => i.User == ViewUser).ToList();
-                    var bundles = db.Bundles.Where(i => i.User == ViewUser).ToList();
+                    var offers = db.Offers.Where(i => i.User.UserID == ViewUser.UserID).ToList();
+                    var bundles = db.Bundles.Where(i => i.User.UserID == ViewUser.UserID).ToList();
 
                     var FavouriteOffersIDs = ViewUser.FavouriteOffer?.Where(i => i.Offer != null && i.Offer.IsActive).Select(i => i.FavouriteOfferID).ToList();
                     var FavouriteBundlesIDs = ViewUser.FavouriteOffer?.Where(i => i.Bundle != null && i.Bundle.IsActive).Select(i => i.FavouriteOfferID).ToList();

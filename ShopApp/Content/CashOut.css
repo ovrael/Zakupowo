@@ -51,6 +51,14 @@ h5 {
     width: 100%;
 }
 
+.item {
+    height: 250px;
+}
+
+.item-image > img {
+    max-height: 150px;
+}
+
 @media (min-width: 992px) {
     .cash, .cash-header {
         width: 60%;

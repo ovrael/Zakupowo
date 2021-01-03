@@ -21,69 +21,69 @@
 
             @foreach (var Seller in Model)
             {
-                <div class="items-group shadow mt-3 selected" selected>
-                    <div class="row items-header p-3">
-                        <div class="col-1 my-auto bucket-items-checkbox">
-                            <input type="checkbox"
-                                   name="SelectedSeller_@Seller.Key.Login" checked />
-                        </div>
-                        <div class="col-10 items-seller">
-                            <p class="m-0">od: <a class="seller-name">@Seller.Key.Login</a></p>
-                        </div>
+            <div class="items-group shadow mt-3 selected" selected>
+                <div class="row items-header p-3">
+                    <div class="col-1 my-auto bucket-items-checkbox">
+                        <input type="checkbox"
+                               name="SelectedSeller_@Seller.Key.Login" checked />
                     </div>
-
-
-
-                    @foreach (var item in Seller)
-                    {
-                        if (item.Offer != null)
-                        {
-                            <div class="row item justify-content-around align-items-center text-center p-3">
-                                <div class="col-1 item-delete" data-id="@item.Offer.OfferID" data-type="Offer">
-                                    <i class="fas fa-times"></i>
-                                </div>
-                                <div class="col-5 col-lg-3 item-image">
-                                    <img class="img-fluid" src="@item.Offer.OfferPictures.First().PathToFile">
-                                </div>
-                                <div class="col-5 col-lg-3 item-name">
-                                    <a href="@Url.Action("Index", "Offer", new { OfferID = @item.Offer.OfferID })">@item.Offer.Title</a>
-                                </div>
-                                <div class="col-1 d-lg-none"></div>
-                                <div class="col-5 col-lg-3 item-quantity pt-3 pt-lg-0">
-                                    <input name="Offer_quantity_@item.BucketItemID" type="number" value="@item.Quantity" min="1" max="@item.Offer.InStockNow">
-                                </div>
-                                <div class="col-5 col-lg-2 item-price pt-3 pt-lg-0">
-                                    <p class="total-price m-0">@item.TotalPrice zł</p>
-                                    <p class="price m-0 d-none">@item.Offer.Price zł za sztukę</p>
-                                </div>
-                                <hr class="w-100">
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="row item justify-content-around align-items-center text-center p-3">
-                                <div class="col-1 item-delete" data-id="@item.Bundle.BundleID" data-type="Bundle">
-                                    <i class="fas fa-times"></i>
-                                </div>
-                                <div class="col-5 col-lg-3 item-image">
-                                    <img class="img-fluid" src="@item.Bundle.Offers.First().OfferPictures.First().PathToFile">
-                                </div>
-                                <div class="col-5 col-lg-3 item-name">
-                                    <a href="@Url.Action("Index", "Bundle", new { BundleID = item.Bundle.BundleID })">@item.Bundle.Title</a>
-                                </div>
-                                <div class="col-1 d-lg-none"></div>
-                                <div class="col-5 col-lg-3 item-quantity pt-3 pt-lg-0">
-                                    ZESTAW
-                                </div>
-                                <div class="col-5 col-lg-2 item-price pt-3 pt-lg-0">
-                                    <p class="total-price m-0">@item.Bundle.BundlePrice zł</p>
-                                </div>
-                                <input type="hidden" name="Bundle_quantity_@item.BucketItemID" value="1" />
-                            </div>
-                            <hr>
-                        }
-                    }
+                    <div class="col-10 items-seller">
+                        <p class="m-0">od: <a class="seller-name">@Seller.Key.Login</a></p>
+                    </div>
                 </div>
+
+
+
+                @foreach (var item in Seller)
+                {
+                    if (item.Offer != null)
+                    {
+                        <hr class="w-100">
+                        <div class="row item justify-content-around align-items-center text-center p-3 pt-0">
+                            <div class="col-1 item-delete" data-id="@item.Offer.OfferID" data-type="Offer">
+                                <i class="fas fa-times"></i>
+                            </div>
+                            <div class="col-5 col-lg-3 item-image">
+                                <img class="img-fluid" src="@item.Offer.OfferPictures.First().PathToFile">
+                            </div>
+                            <div class="col-5 col-lg-3 item-name">
+                                <a href="@Url.Action("Index", "Offer", new { OfferID = @item.Offer.OfferID })">@item.Offer.Title</a>
+                            </div>
+                            <div class="col-1 d-lg-none"></div>
+                            <div class="col-5 col-lg-3 item-quantity pt-3 pt-lg-0">
+                                <input name="Offer_quantity_@item.BucketItemID" type="number" value="@item.Quantity" min="1" max="@item.Offer.InStockNow">
+                            </div>
+                            <div class="col-5 col-lg-2 item-price pt-3 pt-lg-0">
+                                <p class="total-price m-0">@item.TotalPrice zł</p>
+                                <p class="price m-0 d-none">@item.Offer.Price zł za sztukę</p>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row item justify-content-around align-items-center text-center p-3">
+                            <div class="col-1 item-delete" data-id="@item.Bundle.BundleID" data-type="Bundle">
+                                <i class="fas fa-times"></i>
+                            </div>
+                            <div class="col-5 col-lg-3 item-image">
+                                <img class="img-fluid" src="@item.Bundle.Offers.First().OfferPictures.First().PathToFile">
+                            </div>
+                            <div class="col-5 col-lg-3 item-name">
+                                <a href="@Url.Action("Index", "Bundle", new { BundleID = item.Bundle.BundleID })">@item.Bundle.Title</a>
+                            </div>
+                            <div class="col-1 d-lg-none"></div>
+                            <div class="col-5 col-lg-3 item-quantity pt-3 pt-lg-0">
+                                ZESTAW
+                            </div>
+                            <div class="col-5 col-lg-2 item-price pt-3 pt-lg-0">
+                                <p class="total-price m-0">@item.Bundle.BundlePrice zł</p>
+                            </div>
+                            <input type="hidden" name="Bundle_quantity_@item.BucketItemID" value="1" />
+                        </div>
+                        <hr>
+                    }
+                }
+            </div>
             }
             <div class="row bucket-summary justify-content-center text-center shadow m-0 mt-4 mb-4 p-2">
                 <div class="col-12">

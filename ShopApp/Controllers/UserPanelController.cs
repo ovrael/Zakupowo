@@ -456,14 +456,15 @@ namespace ShopApp.Controllers
             int categoryID = int.Parse(collection["Category"]);
             Category offerCategory = db.Categories.Where(o => o.CategoryID == categoryID).FirstOrDefault();
 
-            string priceWithDot = collection["Price"].Contains(',') ? collection["Price"].Replace(',', '.') : collection["Price"];
+            string priceWithDot = collection["Price"].Contains('.') ? collection["Price"].Replace('.', ',') : collection["Price"];
+
 
             Offer offer = new Offer
             {
                 Title = collection["Name"],
                 Description = collection["Description"],
                 InStockOriginaly = Convert.ToDouble(collection["Quantity"]),
-                Price = Convert.ToDouble(priceWithDot),
+                Price = Double.TryParse(priceWithDot, out double result) ? result : 0, // Wczesniej proba dodania ceny w double konczyla sie errorem
                 Category = offerCategory,
                 User = editUser,
                 IsActive = true,
