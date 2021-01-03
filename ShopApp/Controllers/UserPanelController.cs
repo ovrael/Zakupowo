@@ -523,7 +523,7 @@ namespace ShopApp.Controllers
         public async Task<JsonResult> UploadOfferImages()
         {
             TempData["offerImages"] = Request.Files;
-            return Json("Moved files to AddOffer method.");
+            return  Json("Moved files to AddOffer method.");
         }
 
         public ActionResult DeactivateOffer(int? offerID)

@@ -36,6 +36,7 @@ namespace ShopApp.Models
         [Required(ErrorMessage = "To pole jest wymagane")]
         [Column("EncryptedPassword", TypeName = "nvarchar")]
         [MaxLength(200)]
+        [JsonIgnore]
         public string EncryptedPassword { get; set; }
 
         [Required]
@@ -56,22 +57,33 @@ namespace ShopApp.Models
         [Column("BirthDate", TypeName = "DateTime2")]
         public DateTime BirthDate { get; set; }
 
+
         [Column("CreationDate", TypeName = "DateTime2")]
         public DateTime CreationDate { get; set; }
+
+
         public virtual Bucket Bucket { get; set; }
         public virtual AvatarImage AvatarImage { get; set; }
+
         public virtual Order Order { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Auction> Auction { get; set; }
         public virtual ICollection<Offer> Offers { get; set; }
+       
         public virtual ICollection<Favourite> FavouriteOffer { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Bundle> Bundles { get; set; }
+        [JsonIgnore]
         public virtual ICollection<ShippingAdress> ShippingAdresses { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Transaction> Transactions { get; set; }
 
+        [JsonIgnore]
         [InverseProperty("Sender")]
         public virtual ICollection<Message> SentMessages { get; set; }
 
         [InverseProperty("Receiver")]
+        [JsonIgnore]
         public virtual ICollection<Message> ReceivedMessages { get; set; }
 
         [JsonIgnore]
@@ -87,6 +99,7 @@ namespace ShopApp.Models
             return name + " " + login + " " + email + " " + phone;
         }
 
+    
         public List<Message> AllMesseges()
         {
             List<Message> messeges = new List<Message>();

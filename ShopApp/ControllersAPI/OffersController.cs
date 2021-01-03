@@ -6,10 +6,13 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Mvc;
 using ShopApp.DAL;
 using ShopApp.Models;
+using ShopApp.Utility;
 
 namespace ShopApp.ControllersAPI
 {
@@ -47,40 +50,94 @@ namespace ShopApp.ControllersAPI
             return Ok(offerItems);
         }
 
-       
-        public IHttpActionResult AddOffer(OfferBindingModel model)
+        [System.Web.Http.Route("Add")]
+        public IHttpActionResult Add()
         {
-            User user = db.Users.Where(u => u.UserID == model.UserID).FirstOrDefault();
-
-            int categoryID = model.CategoryID;
-            Category offerCategory = db.Categories.Where(o => o.CategoryID == categoryID).FirstOrDefault();
-
-            string priceWithDot = model.Price.Contains(',') ? model.Price.Replace(',', '.') : model.Price;
-
-            Offer offer = new Offer
+            var httpRequest = HttpContext.Current.Request;
+            if (httpRequest.Files.Count > 0)
             {
-                Title = model.Title,
-                Description = model.Description,
-                InStockOriginaly = model.InStockOriginaly,
-                Price = Convert.ToDouble(priceWithDot),
-                Category = offerCategory,
-                User = user,
-                IsActive = true,
-                CreationDate = DateTime.Now
-            };
-            offer.InStockNow = offer.InStockOriginaly;
-
-            db.Offers.Add(offer);
-            db.SaveChanges();
-
-
-            if (offer != null)
-            {
-                return Ok(offer);
+                foreach (string file in httpRequest.Files)
+                {
+                }
             }
-            return BadRequest("Couldn't create offer");
+            else
+            {
+
+            }
+            //User user = db.Users.Where(u => u.UserID == model.UserID).FirstOrDefault();
+
+            //int categoryID = model.CategoryID;
+            //Category offerCategory = db.Categories.Where(o => o.CategoryID == categoryID).FirstOrDefault();
+
+            //string priceWithDot = model.Price.Contains(',') ? model.Price.Replace(',', '.') : model.Price;
+
+            //Offer offer = new Offer
+            //{
+            //    Title = model.Title,
+            //    Description = model.Description,
+            //    InStockOriginaly = model.InStockOriginaly,
+            //    Price = Convert.ToDouble(priceWithDot),
+            //    Category = offerCategory,
+            //    User = user,
+            //    IsActive = true,
+            //    CreationDate = DateTime.Now
+            //};
+            //offer.InStockNow = offer.InStockOriginaly;
+
+            //db.Offers.Add(offer);
+            //db.SaveChanges();
+
+            //List<FileResult> filesForOffer = null;
+            //if (model.files != null)
+            //    filesForOffer = model.files;
+
+            //if (filesForOffer != null && filesForOffer.Count > 0 && offer != null)
+            //{
+            //    var files = filesForOffer;
+
+            //    if (files != null && files.Count > 0)
+            //    {
+            //        try
+            //        {
+            //            for (int i = 0; i < files.Count; i++)
+            //            {
+            //                var workFile = files[i];
+
+            //                //var fileUrl = await FileManager.UploadOfferImage(workFile, offer.OfferID, i);
+
+            //                //if (fileUrl != null)
+            //                //{
+            //                //    OfferPicture offerPicture = new OfferPicture() { PathToFile = fileUrl, Offer = offer };
+            //                //    pictures.Add(offerPicture);
+            //                //}
+            //            }
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            //ViewBag.Error = "Wystąpił błąd: " + ex.Message.ToString();
+            //        }
+            //    }
+            //    else if (files.Count == 0)
+            //    {
+            //        //OfferPicture offerPicture = new OfferPicture() { PathToFile = "../../Images/product.jpg", Offer = offer };
+            //        //pictures.Add(offerPicture);
+            //    }
+
+
+            //}
+
+
+
+            ////if (offer != null)
+            ////{
+            return Ok();
+            ////}
+            ////return BadRequest("Couldn't create offer");
+          
 
         }
+
+
 
 
 
@@ -102,7 +159,9 @@ namespace ShopApp.ControllersAPI
         public int CategoryID { get; set; }
         public double InStockOriginaly { get; set; }
 
-    }
+        public List<FileResult> files { get; set; }
+
+}
 
     public class OfferItem
     {
