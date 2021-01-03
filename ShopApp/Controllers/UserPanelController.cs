@@ -456,7 +456,10 @@ namespace ShopApp.Controllers
             int categoryID = int.Parse(collection["Category"]);
             Category offerCategory = db.Categories.Where(o => o.CategoryID == categoryID).FirstOrDefault();
 
-            string priceWithDot = collection["Price"].Contains('.') ? collection["Price"].Replace('.', ',') : collection["Price"];
+            if (!double.TryParse(collection["Price"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double priceDouble) && priceDouble > 0)
+            {
+                return RedirectToAction("AddOffer", "UserPanel", new { success = false });
+            }
 
 
             Offer offer = new Offer
@@ -464,7 +467,7 @@ namespace ShopApp.Controllers
                 Title = collection["Name"],
                 Description = collection["Description"],
                 InStockOriginaly = Convert.ToDouble(collection["Quantity"]),
-                Price = Double.TryParse(priceWithDot, out double result) ? result : 0, // Wczesniej proba dodania ceny w double konczyla sie errorem
+                Price = priceDouble,
                 Category = offerCategory,
                 User = editUser,
                 IsActive = true,
@@ -521,6 +524,10 @@ namespace ShopApp.Controllers
                     db.SaveChanges();
                 }
             }
+            else
+            {
+                ViewBag.Error = "Wystąpiły problemy ze zdjęciami";
+            }
 
 
             if (ViewBag.Error == null)
@@ -539,7 +546,7 @@ namespace ShopApp.Controllers
             }
         }
 
-        // DO NOT REMOVE TASK IT MAKES METHOD "UploadOfferImages" RUNS BEFORE "AddOffer(FormCollection collection)"
+        // DO NOT REMOVE TASK<> -> IT MAKES METHOD "UploadOfferImages" RUNS BEFORE "AddOffer(FormCollection collection)"
         public async Task<JsonResult> UploadOfferImages()
         {
             TempData["offerImages"] = Request.Files;
@@ -562,17 +569,6 @@ namespace ShopApp.Controllers
 
             offerToDeactivate.Bundle.IsActive = false;
             db.SaveChanges();
-
-            //foreach (var offer in bundleToRemove.Offers)
-            //{
-            //    offer.Bundle = null;
-            //}
-            //db.SaveChanges();
-
-            //editUser.Offers.Remove(offerToDeactivate);
-            //db.SaveChanges();
-            //db.Offers.Remove(offerToDeactivate);
-            //db.SaveChanges();
 
             return RedirectToAction("Offers", "UserPanel");
         }
@@ -691,8 +687,6 @@ namespace ShopApp.Controllers
         {
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
-            Bundle newBundle = new Bundle();
-
             double offersPriceSum = 0.0;
             double bundlePrice = 0.0;
             List<Offer> bundleOffers = new List<Offer>();
@@ -717,9 +711,13 @@ namespace ShopApp.Controllers
 
             if (collection["RadioDiscount"] == "CurrencyDiscount")
             {
-                if (double.TryParse(collection["CurrencyDiscountValue"], out double discount))
+                if (double.TryParse(collection["CurrencyDiscountValue"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double discount))
                 {
                     bundlePrice = offersPriceSum - discount;
+                    if (bundlePrice <= 0)
+                    {
+                        return RedirectToAction("Bundles", "UserPanel", new { addedBundle = false });
+                    }
                 }
                 else
                 {
@@ -742,13 +740,16 @@ namespace ShopApp.Controllers
                 bundlePrice = offersPriceSum;
             }
 
-            newBundle.Title = collection["BundleTitle"];
-            newBundle.Offers = bundleOffers;
-            newBundle.OffersPriceSum = offersPriceSum;
-            newBundle.BundlePrice = bundlePrice;
-            newBundle.CreationDate = DateTime.Now;
-            newBundle.IsActive = true;
-            newBundle.User = editUser;
+            Bundle newBundle = new Bundle()
+            {
+                Title = collection["BundleTitle"],
+                Offers = bundleOffers,
+                OffersPriceSum = offersPriceSum,
+                BundlePrice = bundlePrice,
+                CreationDate = DateTime.Now,
+                IsActive = true,
+                User = editUser
+            };
 
             if (ViewBag.Error == null)
             {
