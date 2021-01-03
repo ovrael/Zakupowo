@@ -456,7 +456,9 @@ namespace ShopApp.Controllers
             int categoryID = int.Parse(collection["Category"]);
             Category offerCategory = db.Categories.Where(o => o.CategoryID == categoryID).FirstOrDefault();
 
-            if (!double.TryParse(collection["Price"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double priceDouble) && priceDouble > 0)
+            string priceWithDot = collection["Price"].Replace(',', '.');
+
+            if (!double.TryParse(priceWithDot, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double priceDouble) && priceDouble > 0)
             {
                 return RedirectToAction("AddOffer", "UserPanel", new { success = false });
             }
@@ -711,7 +713,8 @@ namespace ShopApp.Controllers
 
             if (collection["RadioDiscount"] == "CurrencyDiscount")
             {
-                if (double.TryParse(collection["CurrencyDiscountValue"], System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double discount))
+                string discountWithDot = collection["CurrencyDiscountValue"].Replace(',', '.');
+                if (double.TryParse(discountWithDot, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double discount))
                 {
                     bundlePrice = offersPriceSum - discount;
                     if (bundlePrice <= 0)
