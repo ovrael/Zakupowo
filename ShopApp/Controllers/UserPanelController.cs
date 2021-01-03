@@ -524,7 +524,7 @@ namespace ShopApp.Controllers
         public async Task<JsonResult> UploadOfferImages()
         {
             TempData["offerImages"] = Request.Files;
-            return  Json("Moved files to AddOffer method.");
+            return Json("Moved files to AddOffer method.");
         }
 
         public ActionResult DeactivateOffer(int? offerID)
@@ -1136,6 +1136,28 @@ namespace ShopApp.Controllers
             }
 
             return Json("FileManager.UploadAvatar return null");
+        }
+
+        [HttpPost]
+        public ActionResult ReadMessages(int userID)
+        {
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            User sender = db.Users.Where(i => i.UserID == userID).First();
+
+            if (editUser != null && sender != null)
+            {
+                List<Message> unreadMessages = editUser.ReceivedMessages.Where(m => m.Sender == sender && m.IsRead == false).ToList();
+
+                foreach (var msg in unreadMessages)
+                {
+                    msg.IsRead = true;
+                    db.SaveChanges();
+                }
+
+                return Json(true);
+            }
+
+            return Json(false);
         }
     }
 }

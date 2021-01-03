@@ -90,7 +90,9 @@
                                     else
                                     {
                                         if (msg.IsRead == false)
+                                        {
                                             unreadClass = "undread-msg";
+                                        }
                                     }
 
                                     if (msg.SentTime.CompareTo(DateTime.Now.AddDays(-1)) < 1)
