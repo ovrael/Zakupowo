@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using ShopApp.ViewModels;
 
 
 namespace ShopApp.Controllers
@@ -32,6 +33,51 @@ namespace ShopApp.Controllers
                 return View();
         }
 
+        [HttpGet]
+        public ActionResult User(int? UserId)
+        {
+            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+            var ViewUser = db.Users.Where(i => i.UserID == UserId).FirstOrDefault();
+
+            if(ViewUser != null)
+            {
+
+                OffersAndBundles offersAndBundles = new OffersAndBundles();
+                var offers = db.Offers.Where(i => i.User == ViewUser).ToList();
+                var bundles = db.Bundles.Where(i => i.User == ViewUser).ToList();
+
+                var FavouriteOffersIDs = ViewUser.FavouriteOffer?.Where(i => i.Offer != null && i.Offer.IsActive).Select(i => i.FavouriteOfferID).ToList();
+                var FavouriteBundlesIDs = ViewUser.FavouriteOffer?.Where(i => i.Bundle != null && i.Bundle.IsActive).Select(i => i.FavouriteOfferID).ToList();
+
+                var InBucketOffersIDs = ViewUser.Bucket?.BucketItems?.Where(i => i.Offer != null && i.Offer.IsActive).Select(i => i.BucketItemID).ToList();
+                var InBucketBundlesIDs = ViewUser.Bucket?.BucketItems?.Where(i => i.Bundle != null && i.Bundle.IsActive).Select(i => i.BucketItemID).ToList();
+
+                if (offers != null)
+                    offersAndBundles.Offers = offers;
+                if (bundles != null)
+                    offersAndBundles.Bundles = bundles;
+                if (FavouriteOffersIDs != null)
+                    offersAndBundles.FavouriteOffersIDs = FavouriteOffersIDs;
+                if (FavouriteBundlesIDs != null)
+                    offersAndBundles.FavouriteBundlesIDs = FavouriteBundlesIDs;
+                if (InBucketOffersIDs != null)
+                    offersAndBundles.InBucketOffersIDs = InBucketOffersIDs;
+                if (InBucketBundlesIDs != null)
+                    offersAndBundles.InBucketBundlesIDs = InBucketBundlesIDs;
+
+
+                ViewModels.UserViewModel UserViewModel = new ViewModels.UserViewModel()
+                {
+                    user = ViewUser,
+                    OffersAndBundles = offersAndBundles
+                };
+                if (user != null)
+                    UserViewModel.IsOwner = user == ViewUser;
+                
+                return View(UserViewModel);
+            }
+            return new HttpStatusCodeResult(404);
+        }
         //POST: Register/Create
         [HttpPost]
         public async Task<ActionResult> Register(FormCollection collection)

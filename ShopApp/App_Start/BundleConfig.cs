@@ -82,6 +82,9 @@ namespace ShopApp
             bundles.Add(new StyleBundle("~/bundles/Order").Include(
                 "~/Content/CashOut.css"));
 
+            bundles.Add(new StyleBundle("~/bundles/User").Include(
+                "~/Content/User.css"));
+
         }
     }
 }
