@@ -23,10 +23,6 @@
                 data: '{"userID":"' + userID + '"}',
                 contentType: 'application/json; charset=utf-8',
                 success: function (returnData) {
-                    if (returnData == true)
-                        console.log("Przeczytałem wiadomości");
-                    else
-                        console.log("NIE przeczytałem wiadomości");
                 },
                 // error handling
             });
