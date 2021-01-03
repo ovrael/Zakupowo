@@ -1,7 +1,6 @@
 ﻿function scrollToBottom(clickedElementID) {
 
     var userID = clickedElementID.substring(0, clickedElementID.indexOf("Conversation-tab"));
-    var mediaID = userID + "Conversation-media";
 
     var conversationID = "#" + "v-pills-" + userID + "Conversation";
     var actualChatBox = document.getElementsByClassName("chat-box active")[0];
