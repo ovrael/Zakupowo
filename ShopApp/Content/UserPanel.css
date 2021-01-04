@@ -457,8 +457,9 @@ ul.navbar-nav {
     vertical-align: middle;
 }
 /*add BUNDLES*/
-.input-group{
-    flex-wrap:unset;
+.input-group {
+    flex-wrap: unset;
+    min-width: 7rem;
 }
 .input-group .text {
         min-width: 2.5rem;

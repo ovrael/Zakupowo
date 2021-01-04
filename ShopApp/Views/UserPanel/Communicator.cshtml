@@ -52,8 +52,8 @@
     <div class="row rounded-lg overflow-hidden pl-lg-5 pl-md-4">
 
         <!-- Users box-->
-        <div class="col-3 col-lg-4 pl-lg-0 pl-md-0 pl-3 pr-0">
-            <div class="bg-white pb-4">
+        <div class="col-3 col-lg-4 col-md-2 pl-lg-0 pl-md-0 pl-3 pr-0">
+            <div class="bg-white pb-4 pb-lg-0 pb-md-0">
 
                 <div class="text-communicator bg-gray px-4 py-2 bg-light">
                     <p class="h5 mb-0 py-1 ">Najnowsze</p>
@@ -115,24 +115,24 @@
                                             <a onclick="scrollToBottom(this.id)" id="@tabID" data-toggle="pill" href="@hrefLink" role="tab" class="user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 @activeClass nav-link">
                                                 <div class="media" id="@mediaID">
                                                     <img src="@avatarURL" alt="user" width="30" class="rounded-circle img-user-box" >
-                                                    <div class="users-box-content">
-                                                        <div class="col media-body ">
-                                                                <div class="d-flex align-items-center justify-content-lg-start mb-1">
-                                                                    <h6 class="mb-0 "> @contactLogin </h6>
+                                                    <div class="users-box-content ml-3">
+                                                        <div class="media-body ">
+                                                                <div class="d-flex align-items-center mb-1">
+                                                                    <h6 class="mb-0 ml-1justify-content-lg-start"> @contactLogin </h6>
+                                                                    <small id="@dateID" class="col-10 small font-weight-bold justify-content-lg-end"> @shortSentDate </small>
                                                                 </div>
-                                                                    <small id="@dateID" class="small font-weight-bold pl-5 ml-1 ml-lg-5"> @shortSentDate </small>
                                                             <p style="color:black" id="@pID" class="font-weight-bold mb-0 text-small">@whomWrote@msg.Content</p>
                                                         </div>
                                                    </div>
                                                 </div>
                                             </a>
-                                            n++;
-                                            }
-                                            }
-                                            }
+                                    n++;
+                                }
+                            }
+                        }
 
-                                        </div>
-                                </div>
+                    </div>
+               </div>
             </div>
         </div>
 
