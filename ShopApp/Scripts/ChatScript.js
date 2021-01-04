@@ -14,19 +14,15 @@
 
         if (userChatBox.classList.contains("undread-msg")) {
             userChatBox.classList.remove("undread-msg");
-            var userID = parseInt(userID, 10);
+            var senderID = parseInt(userID, 10);
 
             $.ajax({
                 url: "/UserPanel/ReadMessages",
                 method: 'POST',
                 dataType: 'json',
-                data: '{"userID":"' + userID + '"}',
+                data: '{"senderID":"' + senderID + '"}',
                 contentType: 'application/json; charset=utf-8',
                 success: function (returnData) {
-                    if (returnData == true)
-                        console.log("Przeczytałem wiadomości");
-                    else
-                        console.log("NIE przeczytałem wiadomości");
                 },
                 // error handling
             });
@@ -225,6 +221,22 @@ function createMessageWindow(userLogin) {
         }
     });
 
+    $("#createMessageBtn").on("click", function () {
+
+        var message = $("#messageContent").val();
+        if (message != "") {
+            // var receiver = $(".receiver-label");
+            var receiver = document.getElementsByClassName("receiver-label")[0];
+            var receiverID = receiver.id.split("-")[1];
+
+            if (receiverID != null) {
+                chatHub.server.sendMessage(message, receiverID);
+            }
+        }
+        var message = $("#messageContent").val("");
+        $('#sendMessageModal').modal('hide');
+    });
+
     var createUserWindow = function (senderName, senderID, avatarImmageURL) {
         var idHelper = senderID + "Conversation";
         var tabID = idHelper + "-tab";
@@ -277,6 +289,22 @@ function createMessageWindow(userLogin) {
         var actualPickedUser = document.getElementsByClassName("user-last-msg active")[0];
         if (userChatBox != undefined && userChatBox != actualPickedUser) {
             userChatBox.classList.add("undread-msg");
+        }
+        if (userChatBox != undefined && userChatBox == actualPickedUser) {
+
+            var senderID = parseInt(senderID, 10);
+
+            $.ajax({
+                url: "/UserPanel/ReadMessages",
+                method: 'POST',
+                dataType: 'json',
+                data: '{"senderID":"' + senderID + '"}',
+                contentType: 'application/json; charset=utf-8',
+                success: function (returnData) {
+                },
+                // error handling
+            });
+
         }
 
 

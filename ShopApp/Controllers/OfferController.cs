@@ -417,7 +417,7 @@ namespace ShopApp.Controllers
         [Authorize]
         public async Task<ActionResult> Order(CashOutViewModel cashOutViewModel, FormCollection collection)
         {
-            if (collection["message"] != null && collection["address-input"] != null && int.TryParse(collection["address-input"], out int result))
+            if (collection["address-input"] != null && int.TryParse(collection["address-input"], out int result))
             {
                 var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name && i.IsActivated).FirstOrDefault();
                 //Odpowiednie errorr message dlaczego

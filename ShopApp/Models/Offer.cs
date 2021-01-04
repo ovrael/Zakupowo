@@ -8,6 +8,13 @@ using ShopApp.DAL;
 
 namespace ShopApp.Models
 {
+    public enum OfferState
+    {
+        New,
+        Used,
+        Damaged
+    }
+
     public class Offer : IConcurrencyAwareEntity
     {
         [Key]
@@ -34,6 +41,7 @@ namespace ShopApp.Models
         [Required]
         public virtual User User { get; set; }
         public virtual Category Category { get; set; }
+        public virtual OfferState OfferState { get; set; }
         public virtual Bundle Bundle { get; set; }
         public virtual ICollection<BucketItem> BucketItems { get; set; }
         public virtual ICollection<Favourite> FavouriteOffer { get; set; }

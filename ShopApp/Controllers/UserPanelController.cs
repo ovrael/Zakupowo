@@ -26,194 +26,221 @@ namespace ShopApp.Controllers
     public class UserPanelController : Controller
     {
         private ShopContext db = new ShopContext();
-        #region UserData 
 
-        // VIEW WITH BASIC INFORMATION ABOUT USER
         public ActionResult Account()
         {
             User showUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-            //FileManager.Configure();
             return View(showUser);
         }
 
-        //// VIEW WHERE USER CAN EDIT *BASIC* INFORMATION
-        //public ActionResult EditBasicInfo()
-        //{
-        //    User showUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+        #region Settings  
 
-        //    return View(showUser);
-        //}
-
-        //[HttpPost]
-        //public ActionResult EditBasicInfo(FormCollection collection)
-        //{
-        //    User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-
-        //    if (editUser != null)
-        //    {
-        //        string changedFirstName = collection["FirstName"].Trim();
-        //        string changedLastName = collection["LastName"].Trim();
-        //        string changedEmail = collection["Email"].Trim();
-        //        string changedPhoneNumber = collection["Phone"].Trim();
-
-
-        //        if (changedFirstName != editUser.FirstName && changedFirstName != null)
-        //            editUser.FirstName = changedFirstName;
-
-        //        if (changedLastName != editUser.LastName && changedLastName != null)
-        //            editUser.LastName = changedLastName;
-
-        //        if (changedEmail != editUser.Email && changedEmail != null)
-        //            editUser.Email = changedEmail;
-
-        //        if (changedPhoneNumber != editUser.Phone && changedPhoneNumber != null)
-        //            editUser.Phone = changedPhoneNumber;
-
-        //        db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
-        //        db.SaveChanges();
-        //    }
-
-        //    return RedirectToAction("EditBasicInfo", "UserPanel");
-        //}
-
-        #region ShippingAdresses
-        //// VIEW WHERE USER CAN EDIT SHIPPING ADRESSES
-        //public ActionResult ShippingAdresses()
-        //{
-        //    User showUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-
-        //    return View(showUser);
-        //}
-
-        //[HttpPost]
-        //public ActionResult ShippingAdresses(FormCollection collection)
-        //{
-        //    User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-        //    ShippingAdress shippingAdress;
-
-        //    if (editUser != null)
-        //    {
-        //        int adressNumber = int.Parse(collection["AdressNumber"].Trim());
-        //        shippingAdress = editUser.ShippingAdresses.ToList()[adressNumber];
-
-        //        string changedCountry = collection["Country"].Trim();
-        //        string changedCity = collection["City"].Trim();
-        //        string changedStreet = collection["Street"].Trim();
-        //        string changedPremisesNumber = collection["PremisesNumber"].Trim();
-        //        string changedPostalCode = collection["PostalCode"].Trim();
-
-        //        if (changedCountry != shippingAdress.Country && changedCountry != null)
-        //            shippingAdress.Country = changedCountry;
-
-        //        if (changedCity != shippingAdress.City && changedCity != null)
-        //            shippingAdress.City = changedCity;
-
-        //        if (changedStreet != shippingAdress.Street && changedStreet != null)
-        //            shippingAdress.Street = changedStreet;
-
-        //        if (changedPremisesNumber != shippingAdress.PremisesNumber && changedPremisesNumber != null)
-        //            shippingAdress.PremisesNumber = changedPremisesNumber;
-
-        //        if (changedPostalCode != shippingAdress.PostalCode && changedPostalCode != null)
-        //            shippingAdress.PostalCode = changedPostalCode;
-
-
-        //        editUser.ShippingAdresses.ToList()[adressNumber] = shippingAdress;
-
-        //        //db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
-        //        db.SaveChanges();
-        //    }
-        //    return RedirectToAction("ShippingAdresses", "UserPanel");
-        //}
-
-        public ActionResult AddShippingAdress()
+        public ActionResult Settings()
         {
-            return View();
+            User showUser = db.Users.Where(u => u.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+            return View(showUser);
+        }
+
+        [HttpGet]
+        public ActionResult Settings(int? settingPage) // 0 - Basic Data; 1 - Shipping Adresses; 2 - Password; 3 - Avatar
+        {
+            if (settingPage != null)
+            {
+                if (settingPage < 0 || settingPage > 3)
+                    ViewBag.Page = 0;
+                else
+                {
+                    ViewBag.Page = settingPage;
+                    if (settingPage == 2 && TempData["pswMessage"] != null)
+                    {
+                        ViewBag.PswMessage = TempData["pswMessage"].ToString();
+                    }
+                }
+            }
+            else
+            {
+                ViewBag.Page = 0;
+            }
+
+            User showUser = db.Users.Where(u => u.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+            return View(showUser);
         }
 
         [HttpPost]
-        public ActionResult AddShippingAdress(FormCollection collection)
+        public ActionResult EditBasicData(UserBasicData form)
+        {
+            User editUser = db.Users.Where(u => u.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+
+            if (editUser != null)
+            {
+                string changedFirstName = form.FirstName.Trim();
+                string changedLastName = form.LastName.Trim();
+                string changedEmail = form.Email.Trim();
+                string changedPhoneNumber = form.Phone.Trim();
+
+
+                if (changedFirstName != editUser.FirstName && changedFirstName != null)
+                    editUser.FirstName = changedFirstName;
+
+                if (changedLastName != editUser.LastName && changedLastName != null)
+                    editUser.LastName = changedLastName;
+
+                if (changedEmail != editUser.Email && changedEmail != null)
+                    editUser.Email = changedEmail;
+
+                if (changedPhoneNumber != editUser.Phone && changedPhoneNumber != null)
+                    editUser.Phone = changedPhoneNumber;
+
+                db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return Json("Pomyślnie zmienione podstawowe dane użytkownika!");
+        }
+
+        [HttpPost]
+        public ActionResult AddNewShippingAdress(ShippingAdress newAdress)
         {
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
-            string country = collection["Country"];
-            string city = collection["City"];
-            string street = collection["Street"];
-            string premisesNumber = collection["PremisesNumber"];
-            string postalCode = collection["PostalCode"];
-
-            ShippingAdress adress = new ShippingAdress
+            if (editUser != null && newAdress != null && newAdress.Country != null)
             {
-                Country = country,
-                City = city,
-                Street = street,
-                PremisesNumber = premisesNumber,
-                PostalCode = postalCode,
-                User = editUser
-            };
+                newAdress.User = editUser;
+                editUser.ShippingAdresses.Add(newAdress);
+                db.SaveChanges();
 
-            db.ShippingAdresses.Add(adress);
-            db.SaveChanges();
-
-            editUser.ShippingAdresses.Add(adress);
-            db.SaveChanges();
-
-            return RedirectToAction("Settings", "UserPanel", new { settingPage = 1 });
+                return Json(new
+                {
+                    newAdress.AdressID,
+                    newAdress.Country,
+                    newAdress.City,
+                    newAdress.Street,
+                    newAdress.PremisesNumber,
+                    newAdress.PostalCode
+                });
+            }
+            return Json(false);
         }
 
-        //public ActionResult DeleteShippingAdress(int? adressNumber)
-        //{
-        //    if (adressNumber == null)
-        //        return RedirectToAction("ShippingAdresses", "UserPanel");
+        [HttpPost]
+        public ActionResult EditShippingAdress(ShippingAdress form)
+        {
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            ShippingAdress shippingAdress;
+            var returnInfo = new StringBuilder("");
 
-        //    User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-        //    int userID = editUser.UserID;
+            if (editUser != null)
+            {
+                shippingAdress = editUser.ShippingAdresses.Where(a => a.AdressID == form.AdressID).FirstOrDefault();
 
-        //    ShippingAdress adressToRemove = db.ShippingAdresses.Where(u => u.User.UserID == userID).ToList()[(int)adressNumber];
+                if (shippingAdress == null)
+                    return Json("Nie znaleziono podanego adresu!");
 
-        //    editUser.ShippingAdresses.Remove(adressToRemove);
-        //    db.ShippingAdresses.Remove(adressToRemove);
-        //    db.SaveChanges();
+                if (form.Country != null && form.Country.Trim() != shippingAdress.Country)
+                    shippingAdress.Country = form.Country.Trim();
+                else if (form.Country == null)
+                    returnInfo.AppendLine("Pole \"Country\" jest puste!");
+
+                if (form.City != null && form.City.Trim() != shippingAdress.City)
+                    shippingAdress.City = form.City.Trim();
+                else if (form.City == null)
+                    returnInfo.AppendLine("Pole \"City\" jest puste!");
+
+                if (form.Street != null && form.Street.Trim() != shippingAdress.Street)
+                    shippingAdress.Street = form.Street.Trim();
+                else if (form.Street == null)
+                    returnInfo.AppendLine("Pole \"Street\" jest puste!");
+
+                if (form.PremisesNumber != null && form.PremisesNumber.Trim() != shippingAdress.PremisesNumber)
+                    shippingAdress.PremisesNumber = form.PremisesNumber.Trim();
+                else if (form.PostalCode != null && form.PremisesNumber == null)
+                    shippingAdress.PremisesNumber = null;
+                else if (form.PostalCode == null && form.PremisesNumber == null)
+                    returnInfo.AppendLine("Pole \"PremisesNumber\" nie może być puste gdy pole \"PostalCode\" również jest puste.");
 
 
-        //    return RedirectToAction("ShippingAdresses", "UserPanel");
-        //}
-        #endregion
+                if (form.PostalCode != null && form.PostalCode.Trim() != shippingAdress.PostalCode)
+                    shippingAdress.PostalCode = form.PostalCode.Trim();
+                else if (form.PostalCode == null && form.PremisesNumber != null)
+                    shippingAdress.PostalCode = null;
+                else if (form.PremisesNumber == null && form.PostalCode == null)
+                    returnInfo.AppendLine("Pole \"PostalCode\" nie może być puste gdy pole \"PremisesNumber\" również jest puste.");
 
-        // VIEW WHERE USER CAN EDIT PASSWORD
-        //public ActionResult EditPassword()
-        //{
-        //    User showUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
-        //    return View(showUser);
-        //}
+                if (returnInfo.Length < 5)
+                {
+                    db.SaveChanges();
+                    returnInfo.AppendLine("Pomyślnie zmieniono adres wysyłki!");
+                }
+                //db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
+            }
+            else
+                returnInfo.AppendLine("Nie znaleziono odpowiedniego użytkownika!");
 
-        //[HttpPost]
-        //public async Task<ActionResult> EditPassword(FormCollection collection)
-        //{
-        //    User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+            return Json(returnInfo.ToString());
+        }
 
-        //    if (editUser != null)
-        //    {
-        //        string encryptedOldPassword = Cryptographing.Encrypt(collection["OldPassword"].Trim());
-        //        string encryptedNewPassword = Cryptographing.Encrypt(collection["NewPassword"].Trim());
-        //        string encryptedNewPasswordValidation = Cryptographing.Encrypt(collection["NewPasswordValidation"].Trim());
+        [HttpPost]
+        public ActionResult DeleteShippingAdress(int adressID)
+        {
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
-        //        // If written current password is the same as current password AND written current and new passwords are not NULLs
-        //        if (encryptedOldPassword.Equals(editUser.EncryptedPassword) && encryptedOldPassword != null && encryptedNewPassword != null)
-        //        {
-        //            // If new password validates and is different from old one => CHANGE PASSWORD
-        //            if (encryptedNewPassword.Equals(encryptedNewPasswordValidation) && !encryptedNewPassword.Equals(encryptedOldPassword))
-        //            {
-        //                ViewBag.ConfirmChanges = "Potwierdź link w wysłanym mail'u by zastosować zmianę hasła.";
+            ShippingAdress adressToRemove = editUser.ShippingAdresses.Where(a => a.AdressID == adressID).FirstOrDefault();
 
-        //                await EmailManager.SendEmailAsync(EmailManager.EmailType.ChangePassword, editUser.FirstName, editUser.LastName, editUser.Email, encryptedNewPassword);
-        //            }
-        //        }
-        //    }
+            if (adressToRemove != null)
+            {
+                editUser.ShippingAdresses.Remove(adressToRemove);
+                db.ShippingAdresses.Remove(adressToRemove);
+                db.SaveChanges();
+            }
+            else
+                return Json("Nie znaleziono takiego adresu!");
 
-        //    return View(editUser);
-        //}
+            var jsonAdresses = editUser.ShippingAdresses
+                .Select(a => new
+                {
+                    a.AdressID, // == AdressID = a.AdressID  
+                    a.Country,
+                    a.City,
+                    a.Street,
+                    a.PremisesNumber,
+                    a.PostalCode
+                })
+                .ToList();
+
+            return Json(jsonAdresses);
+        }
+
+        [HttpPost]
+        public ActionResult EditPassword(UserPasswordModel form)
+        {
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+
+            Debug.WriteLine("UserPanel");
+
+            if (editUser != null)
+            {
+                string encryptedOldPassword = Cryptographing.Encrypt(form.OldPassword.Trim());
+                string encryptedNewPassword = Cryptographing.Encrypt(form.NewPassword.Trim());
+                string encryptedNewPasswordValidation = Cryptographing.Encrypt(form.NewPasswordConfirmation.Trim());
+
+                // If written current password is the same as current password AND written current and new passwords are not NULLs
+                if (encryptedOldPassword.Equals(editUser.EncryptedPassword) && encryptedOldPassword != null && encryptedNewPassword != null)
+                {
+                    // If new password validates and is different from old one => CHANGE PASSWORD
+                    if (encryptedNewPassword.Equals(encryptedNewPasswordValidation) && !encryptedNewPassword.Equals(encryptedOldPassword))
+                    {
+                        ViewBag.ConfirmChanges = "Potwierdź link w wysłanym mail'u by zastosować zmianę hasła.";
+
+                        Task.Run(() => EmailManager.SendEmailAsync(EmailManager.EmailType.ChangePassword, editUser.FirstName, editUser.LastName, editUser.Email, encryptedNewPassword));
+                        return Json("Wysłano email z potwierdzeniem zmiany hasła!");
+                    }
+                }
+            }
+
+
+            return Json("Something failed");
+        }
 
         public ActionResult PasswordChange()
         {
@@ -249,47 +276,39 @@ namespace ShopApp.Controllers
                 return RedirectToAction("Index", "Home");
         }
 
+        [HttpPost]
+        public async Task<ActionResult> EditAvatar()
+        {
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            HttpPostedFileBase file = null;
 
-        //// VIEW WHERE USER CAN EDIT AVATAR
-        //public ActionResult EditAvatar()
-        //{
-        //    User showUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            if (Request.Files.Count > 0)
+                file = Request.Files[0];
+            else
+                return Json("There is no image to set as avatar!");
 
-        //    return View(showUser);
-        //}
+            var imageUrl = await FileManager.UploadAvatar(file, editUser.UserID);
 
-        //[HttpPost]
-        //public async Task<ActionResult> EditAvatar(HttpPostedFileBase file)
-        //{
-        //    User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            if (imageUrl != null)
+            {
+                if (editUser.AvatarImage == null)
+                {
+                    AvatarImage newAvatar = new AvatarImage() { PathToFile = imageUrl, User = editUser };
+                    db.Entry(newAvatar).State = System.Data.Entity.EntityState.Added;
+                }
+                else
+                {
+                    editUser.AvatarImage.PathToFile = imageUrl;
+                    db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
+                }
+                db.SaveChanges();
+                return Json("Pomyślnie zmieniono avatar! \nZmiany mogą być widocznę dopiero po chwili.");
+            }
 
-        //    var imageUrl = await FileManager.UploadAvatar(file, editUser.UserID);
-
-        //    if (imageUrl != null)
-        //    {
-        //        if (editUser.AvatarImage == null)
-        //        {
-        //            AvatarImage newAvatar = new AvatarImage() { PathToFile = imageUrl, User = editUser };
-        //            db.Entry(newAvatar).State = System.Data.Entity.EntityState.Added;
-        //        }
-        //        else
-        //        {
-        //            editUser.AvatarImage.PathToFile = imageUrl;
-        //            db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
-        //        }
-        //        db.SaveChanges();
-        //        ViewBag.Message = "File uploaded successfully";
-        //    }
-        //    else
-        //    {
-        //        Debug.WriteLine("NIE UDAŁO SIĘ ZUPLOADOWAĆ PLIKU");
-        //    }
-
-        //    return RedirectToAction("EditAvatar", "UserPanel");
-        //}
+            return Json("FileManager.UploadAvatar return null");
+        }
 
         #endregion
-
 
         #region Offers  
         [HttpPost]
@@ -437,14 +456,20 @@ namespace ShopApp.Controllers
             int categoryID = int.Parse(collection["Category"]);
             Category offerCategory = db.Categories.Where(o => o.CategoryID == categoryID).FirstOrDefault();
 
-            string priceWithDot = collection["Price"].Contains(',') ? collection["Price"].Replace(',', '.') : collection["Price"];
+            string priceWithDot = collection["Price"].Replace(',', '.');
+
+            if (!double.TryParse(priceWithDot, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double priceDouble) && priceDouble > 0)
+            {
+                return RedirectToAction("AddOffer", "UserPanel", new { success = false });
+            }
+
 
             Offer offer = new Offer
             {
                 Title = collection["Name"],
                 Description = collection["Description"],
                 InStockOriginaly = Convert.ToDouble(collection["Quantity"]),
-                Price = Convert.ToDouble(priceWithDot),
+                Price = priceDouble,
                 Category = offerCategory,
                 User = editUser,
                 IsActive = true,
@@ -501,6 +526,10 @@ namespace ShopApp.Controllers
                     db.SaveChanges();
                 }
             }
+            else
+            {
+                ViewBag.Error = "Wystąpiły problemy ze zdjęciami";
+            }
 
 
             if (ViewBag.Error == null)
@@ -519,7 +548,7 @@ namespace ShopApp.Controllers
             }
         }
 
-        // DO NOT REMOVE TASK IT MAKES METHOD "UploadOfferImages" RUNS BEFORE "AddOffer(FormCollection collection)"
+        // DO NOT REMOVE TASK<> -> IT MAKES METHOD "UploadOfferImages" RUNS BEFORE "AddOffer(FormCollection collection)"
         public async Task<JsonResult> UploadOfferImages()
         {
             TempData["offerImages"] = Request.Files;
@@ -542,17 +571,6 @@ namespace ShopApp.Controllers
 
             offerToDeactivate.Bundle.IsActive = false;
             db.SaveChanges();
-
-            //foreach (var offer in bundleToRemove.Offers)
-            //{
-            //    offer.Bundle = null;
-            //}
-            //db.SaveChanges();
-
-            //editUser.Offers.Remove(offerToDeactivate);
-            //db.SaveChanges();
-            //db.Offers.Remove(offerToDeactivate);
-            //db.SaveChanges();
 
             return RedirectToAction("Offers", "UserPanel");
         }
@@ -671,8 +689,6 @@ namespace ShopApp.Controllers
         {
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
-            Bundle newBundle = new Bundle();
-
             double offersPriceSum = 0.0;
             double bundlePrice = 0.0;
             List<Offer> bundleOffers = new List<Offer>();
@@ -697,9 +713,14 @@ namespace ShopApp.Controllers
 
             if (collection["RadioDiscount"] == "CurrencyDiscount")
             {
-                if (double.TryParse(collection["CurrencyDiscountValue"], out double discount))
+                string discountWithDot = collection["CurrencyDiscountValue"].Replace(',', '.');
+                if (double.TryParse(discountWithDot, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double discount))
                 {
                     bundlePrice = offersPriceSum - discount;
+                    if (bundlePrice <= 0)
+                    {
+                        return RedirectToAction("Bundles", "UserPanel", new { addedBundle = false });
+                    }
                 }
                 else
                 {
@@ -722,13 +743,16 @@ namespace ShopApp.Controllers
                 bundlePrice = offersPriceSum;
             }
 
-            newBundle.Title = collection["BundleTitle"];
-            newBundle.Offers = bundleOffers;
-            newBundle.OffersPriceSum = offersPriceSum;
-            newBundle.BundlePrice = bundlePrice;
-            newBundle.CreationDate = DateTime.Now;
-            newBundle.IsActive = true;
-            newBundle.User = editUser;
+            Bundle newBundle = new Bundle()
+            {
+                Title = collection["BundleTitle"],
+                Offers = bundleOffers,
+                OffersPriceSum = offersPriceSum,
+                BundlePrice = bundlePrice,
+                CreationDate = DateTime.Now,
+                IsActive = true,
+                User = editUser
+            };
 
             if (ViewBag.Error == null)
             {
@@ -777,36 +801,15 @@ namespace ShopApp.Controllers
 
         #endregion
 
-        public ActionResult OrderHistory()
-        {
-            return View();
-        }
+        #region Communicator
 
         public ActionResult Communicator()
         {
-            //string senderName = "ovrael";
-            //string receiverName = "Jaca";
-            //User sender = db.Users.Where(i => i.Login == senderName).First();
-            //User receiver = db.Users.Where(i => i.Login == receiverName).First();
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-            //receiver = editUser;
             List<Message> lastMessages = new List<Message>();
             HashSet<User> uniqueUsers = new HashSet<User>();
 
             List<List<Message>> allMessages = new List<List<Message>>();
-            //DODAWANIE NOWEJ WIADOMOŚCI
-            //Message msg = new Message() { Sender = sender, Receiver = receiver, Content = "Wiadomość od " + sender.Login + "\t do " + receiver.Login, SentTime = DateTime.Now };
-
-            //Debug.WriteLine(msg.ToString());
-
-            //db.Messages.Add(msg);
-            //db.SaveChanges();
-
-            //receiver.ReceivedMessages.Add(msg);
-            //db.SaveChanges();
-
-            //sender.SentMessages.Add(msg);
-            //db.SaveChanges();
 
             var lastReceivedMessages = editUser.ReceivedMessages.OrderByDescending(m => m.SentTime).DistinctBy(m => m.Sender).ToList();
             var lastSentMessages = editUser.SentMessages.OrderByDescending(m => m.SentTime).DistinctBy(m => m.Receiver).ToList();
@@ -843,9 +846,30 @@ namespace ShopApp.Controllers
             return View(lastMessages);
         }
 
-        //RETURN 10 USERS
         [HttpPost]
-        public JsonResult UsersList(string userLogin)
+        public ActionResult ReadMessages(int senderID)
+        {
+            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
+            User sender = db.Users.Where(i => i.UserID == senderID).First();
+
+            if (editUser != null && sender != null)
+            {
+                List<Message> unreadMessages = editUser.ReceivedMessages.Where(m => m.Sender == sender && m.IsRead == false).ToList();
+
+                foreach (var msg in unreadMessages)
+                {
+                    msg.IsRead = true;
+                    db.SaveChanges();
+                }
+
+                return Json(true);
+            }
+
+            return Json(false);
+        }
+
+        [HttpPost]
+        public JsonResult UsersList(string userLogin) //RETURN 10 USERS
         {
             Debug.WriteLine("Szukam: " + userLogin);
             var users = db.Users.Where(u => u.Login.Contains(userLogin) && u.Login != HttpContext.User.Identity.Name).Take(10).ToList();
@@ -856,8 +880,8 @@ namespace ShopApp.Controllers
             var jsonUsers = users
                 .Select(u => new
                 {
-                    Login = u.Login,
-                    FirstName = u.FirstName,
+                    u.Login,
+                    u.FirstName,
                     // LastName = u.LastName,
                     AvatarUrl = u.AvatarImage.PathToFile
                 })
@@ -881,6 +905,13 @@ namespace ShopApp.Controllers
             }
         }
 
+        #endregion
+
+        public ActionResult OrderHistory()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult SendActivationEmail(string userLogin)
         {
@@ -895,268 +926,6 @@ namespace ShopApp.Controllers
             {
                 return Json(false);
             }
-        }
-
-        public ActionResult Settings()
-        {
-            User showUser = db.Users.Where(u => u.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-            return View(showUser);
-        }
-
-        [HttpGet]
-        public ActionResult Settings(int? settingPage) // 0 - Basic Data; 1 - Shipping Adresses; 2 - Password; 3 - Avatar
-        {
-            if (settingPage != null)
-            {
-                if (settingPage < 0 || settingPage > 3)
-                    ViewBag.Page = 0;
-                else
-                {
-                    ViewBag.Page = settingPage;
-                    if (settingPage == 2 && TempData["pswMessage"] != null)
-                    {
-                        ViewBag.PswMessage = TempData["pswMessage"].ToString();
-                    }
-                }
-            }
-            else
-            {
-                ViewBag.Page = 0;
-            }
-
-            User showUser = db.Users.Where(u => u.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-            return View(showUser);
-        }
-
-        [HttpPost]
-        public ActionResult EditBasicData(UserBasicData form)
-        {
-            User editUser = db.Users.Where(u => u.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-
-            if (editUser != null)
-            {
-                string changedFirstName = form.FirstName.Trim();
-                string changedLastName = form.LastName.Trim();
-                string changedEmail = form.Email.Trim();
-                string changedPhoneNumber = form.Phone.Trim();
-
-
-                if (changedFirstName != editUser.FirstName && changedFirstName != null)
-                    editUser.FirstName = changedFirstName;
-
-                if (changedLastName != editUser.LastName && changedLastName != null)
-                    editUser.LastName = changedLastName;
-
-                if (changedEmail != editUser.Email && changedEmail != null)
-                    editUser.Email = changedEmail;
-
-                if (changedPhoneNumber != editUser.Phone && changedPhoneNumber != null)
-                    editUser.Phone = changedPhoneNumber;
-
-                db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
-            }
-
-            return Json("Pomyślnie zmienione podstawowe dane użytkownika!");
-        }
-
-
-        [HttpPost]
-        public ActionResult AddNewShippingAdress(ShippingAdress newAdress)
-        {
-            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-
-            if (editUser != null && newAdress != null && newAdress.Country != null)
-            {
-                newAdress.User = editUser;
-                editUser.ShippingAdresses.Add(newAdress);
-                db.SaveChanges();
-
-                return Json(new
-                {
-                    newAdress.AdressID,
-                    newAdress.Country,
-                    newAdress.City,
-                    newAdress.Street,
-                    newAdress.PremisesNumber,
-                    newAdress.PostalCode
-                });
-            }
-            return Json(false);
-        }
-
-        [HttpPost]
-        public ActionResult EditShippingAdress(ShippingAdress form)
-        {
-            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-            ShippingAdress shippingAdress;
-            var returnInfo = new StringBuilder("");
-
-            if (editUser != null)
-            {
-                shippingAdress = editUser.ShippingAdresses.Where(a => a.AdressID == form.AdressID).FirstOrDefault();
-
-                if (shippingAdress == null)
-                    return Json("Nie znaleziono podanego adresu!");
-
-                if (form.Country != null && form.Country.Trim() != shippingAdress.Country)
-                    shippingAdress.Country = form.Country.Trim();
-                else if (form.Country == null)
-                    returnInfo.AppendLine("Pole \"Country\" jest puste!");
-
-                if (form.City != null && form.City.Trim() != shippingAdress.City)
-                    shippingAdress.City = form.City.Trim();
-                else if (form.City == null)
-                    returnInfo.AppendLine("Pole \"City\" jest puste!");
-
-                if (form.Street != null && form.Street.Trim() != shippingAdress.Street)
-                    shippingAdress.Street = form.Street.Trim();
-                else if (form.Street == null)
-                    returnInfo.AppendLine("Pole \"Street\" jest puste!");
-
-                if (form.PremisesNumber != null && form.PremisesNumber.Trim() != shippingAdress.PremisesNumber)
-                    shippingAdress.PremisesNumber = form.PremisesNumber.Trim();
-                else if (form.PostalCode != null && form.PremisesNumber == null)
-                    shippingAdress.PremisesNumber = null;
-                else if (form.PostalCode == null && form.PremisesNumber == null)
-                    returnInfo.AppendLine("Pole \"PremisesNumber\" nie może być puste gdy pole \"PostalCode\" również jest puste.");
-
-
-                if (form.PostalCode != null && form.PostalCode.Trim() != shippingAdress.PostalCode)
-                    shippingAdress.PostalCode = form.PostalCode.Trim();
-                else if (form.PostalCode == null && form.PremisesNumber != null)
-                    shippingAdress.PostalCode = null;
-                else if (form.PremisesNumber == null && form.PostalCode == null)
-                    returnInfo.AppendLine("Pole \"PostalCode\" nie może być puste gdy pole \"PremisesNumber\" również jest puste.");
-
-
-                if (returnInfo.Length < 5)
-                {
-                    db.SaveChanges();
-                    returnInfo.AppendLine("Pomyślnie zmieniono adres wysyłki!");
-                }
-                //db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
-            }
-            else
-                returnInfo.AppendLine("Nie znaleziono odpowiedniego użytkownika!");
-
-            return Json(returnInfo.ToString());
-        }
-
-        [HttpPost]
-        public ActionResult DeleteShippingAdress(int adressID)
-        {
-            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-
-            ShippingAdress adressToRemove = editUser.ShippingAdresses.Where(a => a.AdressID == adressID).FirstOrDefault();
-
-            if (adressToRemove != null)
-            {
-                editUser.ShippingAdresses.Remove(adressToRemove);
-                db.ShippingAdresses.Remove(adressToRemove);
-                db.SaveChanges();
-            }
-            else
-                return Json("Nie znaleziono takiego adresu!");
-
-            var jsonAdresses = editUser.ShippingAdresses
-                .Select(a => new
-                {
-                    a.AdressID, // == AdressID = a.AdressID  
-                    a.Country,
-                    a.City,
-                    a.Street,
-                    a.PremisesNumber,
-                    a.PostalCode
-                })
-                .ToList();
-
-            return Json(jsonAdresses);
-        }
-
-        [HttpPost]
-        public ActionResult EditPassword(UserPasswordModel form)
-        {
-            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-
-            Debug.WriteLine("UserPanel");
-
-            if (editUser != null)
-            {
-                string encryptedOldPassword = Cryptographing.Encrypt(form.OldPassword.Trim());
-                string encryptedNewPassword = Cryptographing.Encrypt(form.NewPassword.Trim());
-                string encryptedNewPasswordValidation = Cryptographing.Encrypt(form.NewPasswordConfirmation.Trim());
-
-                // If written current password is the same as current password AND written current and new passwords are not NULLs
-                if (encryptedOldPassword.Equals(editUser.EncryptedPassword) && encryptedOldPassword != null && encryptedNewPassword != null)
-                {
-                    // If new password validates and is different from old one => CHANGE PASSWORD
-                    if (encryptedNewPassword.Equals(encryptedNewPasswordValidation) && !encryptedNewPassword.Equals(encryptedOldPassword))
-                    {
-                        ViewBag.ConfirmChanges = "Potwierdź link w wysłanym mail'u by zastosować zmianę hasła.";
-
-                        Task.Run(() => EmailManager.SendEmailAsync(EmailManager.EmailType.ChangePassword, editUser.FirstName, editUser.LastName, editUser.Email, encryptedNewPassword));
-                        return Json("Wysłano email z potwierdzeniem zmiany hasła!");
-                    }
-                }
-            }
-
-
-            return Json("Something failed");
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> EditAvatar()
-        {
-            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-            HttpPostedFileBase file = null;
-
-            if (Request.Files.Count > 0)
-                file = Request.Files[0];
-            else
-                return Json("There is no image to set as avatar!");
-
-            var imageUrl = await FileManager.UploadAvatar(file, editUser.UserID);
-
-            if (imageUrl != null)
-            {
-                if (editUser.AvatarImage == null)
-                {
-                    AvatarImage newAvatar = new AvatarImage() { PathToFile = imageUrl, User = editUser };
-                    db.Entry(newAvatar).State = System.Data.Entity.EntityState.Added;
-                }
-                else
-                {
-                    editUser.AvatarImage.PathToFile = imageUrl;
-                    db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
-                }
-                db.SaveChanges();
-                return Json("Pomyślnie zmieniono avatar! \nZmiany mogą być widocznę dopiero po chwili.");
-            }
-
-            return Json("FileManager.UploadAvatar return null");
-        }
-
-        [HttpPost]
-        public ActionResult ReadMessages(int userID)
-        {
-            User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-            User sender = db.Users.Where(i => i.UserID == userID).First();
-
-            if (editUser != null && sender != null)
-            {
-                List<Message> unreadMessages = editUser.ReceivedMessages.Where(m => m.Sender == sender && m.IsRead == false).ToList();
-
-                foreach (var msg in unreadMessages)
-                {
-                    msg.IsRead = true;
-                    db.SaveChanges();
-                }
-
-                return Json(true);
-            }
-
-            return Json(false);
         }
     }
 }

@@ -52,7 +52,6 @@
 
                     var adressDiv = createAdressDiv(returnData, (adressNumber + 1));
                     $("#adressContainer").eq(0).append(adressDiv);
-                    alert("Dodaje adress!");
                 }
                 else {
                     alert("Nie udało się dodać adresu.");
@@ -87,8 +86,6 @@
         e.preventDefault();
 
         var formID = this.id.split("-")[1];
-
-        console.log("CHCE usunąć adres o ID: " + formID);
 
         $.ajax({
             url: "/UserPanel/DeleteShippingAdress",

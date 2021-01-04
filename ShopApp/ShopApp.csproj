@@ -378,6 +378,10 @@
     <Compile Include="Migrations\202101031423394_MessageModelChanged_AddedIsReadProperty.Designer.cs">
       <DependentUpon>202101031423394_MessageModelChanged_AddedIsReadProperty.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101041631194_OfferModelChanged_AddedOfferStateEnum.cs" />
+    <Compile Include="Migrations\202101041631194_OfferModelChanged_AddedOfferStateEnum.Designer.cs">
+      <DependentUpon>202101041631194_OfferModelChanged_AddedOfferStateEnum.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelsForm\UserBasicData.cs" />
     <Compile Include="ModelsForm\UserPasswordModel.cs" />
@@ -643,11 +647,11 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\UserPanel\EditBasicInfo.cshtml" />
+    <Content Include="Views\UserPanel\EditBasicInfo_UNUSED.cshtml" />
     <Content Include="Views\UserPanel\OrderHistory.cshtml" />
     <Content Include="Views\UserPanel\Communicator.cshtml" />
-    <Content Include="Views\UserPanel\EditPassword.cshtml" />
-    <Content Include="Views\UserPanel\ShippingAdresses.cshtml" />
+    <Content Include="Views\UserPanel\EditPassword_UNUSED.cshtml" />
+    <Content Include="Views\UserPanel\ShippingAdresses_UNUSED.cshtml" />
     <Content Include="Views\Database\AddCategory.cshtml" />
     <Content Include="Views\Database\AddToBundle.cshtml" />
     <Content Include="Views\Database\BucketIndex.cshtml" />
@@ -663,14 +667,14 @@
     <Content Include="Views\UserPanelJonak\AddOrEdit.cshtml" />
     <Content Include="Views\UserPanelJonak\Index.cshtml" />
     <Content Include="Views\UserPanel\_SideBar.cshtml" />
-    <Content Include="Views\UserPanel\AddShippingAdress.cshtml" />
+    <Content Include="Views\UserPanel\AddShippingAdress_UNUSED.cshtml" />
     <Content Include="Views\UserPanel\_SettingsSideBar.cshtml" />
-    <Content Include="Views\UserPanel\EditAvatar.cshtml" />
+    <Content Include="Views\UserPanel\EditAvatar_UNUSED.cshtml" />
     <Content Include="Views\Offer\Index.cshtml" />
     <Content Include="Views\Home\Kat.cshtml" />
     <Content Include="Views\Offer\Bucket.cshtml" />
     <Content Include="Views\User\ActivateAccount.cshtml" />
-    <Content Include="Views\UserPanel\PasswordChange.cshtml" />
+    <Content Include="Views\UserPanel\PasswordChange_UNUSED.cshtml" />
     <Content Include="Views\Offer\SuccesfulShopping.cshtml" />
     <Content Include="Views\UserPanel\Offers.cshtml" />
     <Content Include="Views\UserPanel\Bundles.cshtml" />
@@ -833,6 +837,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101031423394_MessageModelChanged_AddedIsReadProperty.resx">
       <DependentUpon>202101031423394_MessageModelChanged_AddedIsReadProperty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101041631194_OfferModelChanged_AddedOfferStateEnum.resx">
+      <DependentUpon>202101041631194_OfferModelChanged_AddedOfferStateEnum.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

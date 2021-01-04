@@ -248,16 +248,18 @@ namespace ShopApp.Utility
             {
                 if(item.Offer != null)
                 {
-                    message.AppendLine($"<img src=\"{ item.Offer.OfferPictures.First() }\" style = \"height:120px;width:120px;\" alt = \"Item image\" />");
+                    message.AppendLine($"<img src=\"{ item.Offer.OfferPictures.First().PathToFile }\" style = \"height:120px;width:120px;\" alt = \"Item image\" />");
                     message.AppendLine($"{item.Offer.Title}");
+                    message.AppendLine($"W ilości: {item.Offer.Title}");
                 }
                 else
                 {
-                    message.AppendLine($"<img src=\"{ item.Bundle.Offers.First().OfferPictures.First() }\" style = \"height:120px;width:120px;\" alt = \"Item image\" />");
+                    message.AppendLine($"<img src=\"{ item.Bundle.Offers.First().OfferPictures.First().PathToFile }\" style = \"height:120px;width:120px;\" alt = \"Item image\" />");
                     message.AppendLine($"{item.Bundle.Title}");
                 }
             }
-            message.Append(message);
+            message.AppendLine("Wiaomość od kupującego:");
+            message.AppendLine(Message);
             message.AppendLine("Dane adresowe kupującego:");
             message.AppendLine(SenderFirstName + " " + SenderLastName);
             message.AppendLine(Address.Country + " " + Address.PostalCode);

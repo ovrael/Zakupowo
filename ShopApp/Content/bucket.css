@@ -67,6 +67,14 @@
     cursor: pointer;
 }
 
+.item {
+    height: 300px;
+}
+
+.item-image > img {
+max-height: 200px;
+}
+
 @media (min-width: 992px) {
     .bucket, .bucket-header {
         width: 60%;
