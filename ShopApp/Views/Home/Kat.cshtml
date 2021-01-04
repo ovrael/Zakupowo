@@ -50,7 +50,10 @@
     <div class="row offers-header text-center mx-auto">
         <div class="col-12">
             <h1 class="my-lg-4 mt-lg-2 mt-2">
-                Kategoria
+                @if (ViewBag.CategoryName != null)
+                {
+                    @ViewBag.CategoryName
+                }
             </h1>
             <hr>
         </div>
@@ -91,8 +94,9 @@
                     <button class="btn btn-primary filter-button w-100">Filtry</button>
                 </div>
             </div>
-            @if (Model.Offers != null)
+            @if (Model.Offers != null && Model.Offers.Count() > 0)
             {
+                int Counter = 1;
                 foreach (var item in Model.Offers)
                 {
                     string pictureUrl = string.Empty;
@@ -103,90 +107,99 @@
                     else
                     {
                         pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
+                        pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
                     }
 
-            <div class="row offer item-row p-2 m-0 mt-1">
-            <hr class="w-100">
-            <div class="col-12 col-lg-4 text-center offer-img my-auto">
-                <img class="img-fluid" src="@pictureUrl">
-            </div>
-            <div class="col-12 col-lg-8 offer-desc p-0">
-                <h3><a class="product-name" href="@Url.Action("Index","Offer",new { OfferID = item.OfferID})">@item.Title</a></h3>
-                <p class="seller d-none d-lg-block mb-3">Sprzedawca: <a class="seller-name" href="@Url.Action("UserInformation","User",new { userID = item.User.UserID})">@item.User.Login</a></p>
-                <h3 class="product-price mb-3">@item.Price zł</h3>
-                <p class="offer-count d-none d-lg-block mb-5">Dostępne: @item.InStockNow</p>
-                <br>
-                @if (HttpContext.Current.User.Identity.IsAuthenticated)
-                {
-                    if (Model.InBucketOffersIDs != null && Model.InBucketOffersIDs.Contains(item.OfferID))
-                    {
-                        <a class="addToBucket in-bucket" data-type="Offer" id="@item.OfferID">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
-                    }
-                    else
-                    {
-                        <a class="addToBucket" data-type="Offer" id="@item.OfferID">DODAJ DO KOSZYKA</a>
-                    }
-                    if (Model.FavouriteOffersIDs != null && Model.FavouriteOffersIDs.Contains(item.OfferID))
-                    {
-                        <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Offer" id="@item.OfferID"></i>
-                    }
-                    else
-                    {
-                        <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Offer" id="@item.OfferID"></i>
-                    }
-                }
-                else
-                {
-                    <a class="addToBucket not-logged">DODAJ DO KOSZYKA</a>
-                    <i class="fas fa-heart fa-fw product-fav not-logged"></i>
-                }
-            </div>
-        </div>
-
+                    <div class="row offer item-row p-2 m-0 mt-1">
+                        @if (Counter != 1)
+                        {
+                            <hr class="w-100">
+                        }
+                        <div class="col-12 col-lg-4 text-center offer-img my-auto">
+                            <img class="img-fluid" src="@pictureUrl">
+                        </div>
+                        <div class="col-12 col-lg-8 offer-desc p-0">
+                            <h3><a class="product-name" href="@Url.Action("Index","Offer",new { OfferID = item.OfferID})">@item.Title</a></h3>
+                            <p class="seller d-none d-lg-block mb-3">Sprzedawca: <a class="seller-name" href="@Url.Action("UserInformation","User",new { userID = item.User.UserID})">@item.User.Login</a></p>
+                            <h3 class="product-price mb-3">@item.Price zł</h3>
+                            <p class="offer-count d-none d-lg-block mb-5">Dostępne: @item.InStockNow</p>
+                            <br>
+                            @if (HttpContext.Current.User.Identity.IsAuthenticated)
+                            {
+                                if (Model.InBucketOffersIDs != null && Model.InBucketOffersIDs.Contains(item.OfferID))
+                                {
+                                    <a class="addToBucket in-bucket" data-type="Offer" id="@item.OfferID">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
+                                }
+                                else
+                                {
+                                    <a class="addToBucket" data-type="Offer" id="@item.OfferID">DODAJ DO KOSZYKA</a>
+                                }
+                                if (Model.FavouriteOffersIDs != null && Model.FavouriteOffersIDs.Contains(item.OfferID))
+                                {
+                                    <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Offer" id="@item.OfferID"></i>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Offer" id="@item.OfferID"></i>
+                                }
+                            }
+                            else
+                            {
+                                <a class="addToBucket not-logged">DODAJ DO KOSZYKA</a>
+                                <i class="fas fa-heart fa-fw product-fav not-logged"></i>
+                            }
+                        </div>
+                    </div>
+                    Counter++;
                 }
             }
-            @if (Model.Bundles != null)
-            {
-                foreach (var item in Model.Bundles)
+            @if (Model.Bundles != null && Model.Bundles.Count() > 0)
+                    {
+                        int Counter = 1; 
+                        foreach (var item in Model.Bundles)
+                        {
+                    <div class="row offer bundle-row d-none p-2 mt-1">
+                        @if (Counter != 1)
                 {
-        <div class="row offer bundle-row d-none p-2 mt-1">
-            <hr class="w-100">
-            <div class="col-12 col-lg-4 text-center my-auto">
-                @*Looking for last offer in bundle becuase it has been ordered by descending creation date*@
-                <img class="img-fluid" src="@item.Offers.Last().OfferPictures.First().PathToFile">
-            </div>
-            <div class="col-12 col-lg-8 offer-desc p-0">
-                <h3><a class="product-name" href="@Url.Action("Index","Offer",new { BundleID = item.BundleID})">@item.Title</a></h3>
-                <p class="seller d-none d-lg-block mb-3">Sprzedawca: <a class="seller-name" href="@Url.Action("UserInformation","User",new { userID = item.User.UserID})">@item.User.Login</a></p>
-                <s><h3 class="product-price mb-1" style="text-decoration: line-through;">@item.OffersPriceSum zł</h3></s>
-                <h3 class="product-price mb-5">@item.BundlePrice zł</h3>
-                <br>
-                @if (HttpContext.Current.User.Identity.IsAuthenticated)
-                {
-                    if (Model.InBucketBundlesIDs.Contains(item.BundleID))
-                    {
-                        <a class="addToBucket in-bucket" data-type="Bundle" id="@item.BundleID">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
-                    }
-                    else
-                    {
-                        <a class="addToBucket" data-type="Bundle" id="@item.BundleID">DODAJ DO KOSZYKA</a>
-                    }
-                    if (Model.FavouriteBundlesIDs != null && Model.FavouriteBundlesIDs.Contains(item.BundleID))
-                    {
-                        <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Bundle" id="@item.BundleID."></i>
-                    }
-                    else
-                    {
-                        <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Bundle" id="@item.BundleID"></i>
-                    }
-                }
-                else
-                {
-                    <a class="addToBucket not-logged">DODAJ DO KOSZYKA</a>
-                    <i class="fas fa-heart fa-fw product-fav not-logged"></i>
-                }
-            </div>
-        </div>
+                            <hr class="w-100">
+                        }
+                        <div class="col-12 col-lg-4 text-center my-auto">
+                            @*Looking for last offer in bundle becuase it has been ordered by descending creation date*@
+                            <img class="img-fluid" src="@item.Offers.Last().OfferPictures.First().PathToFile">
+                        </div>
+                        <div class="col-12 col-lg-8 offer-desc p-0">
+                            <h3><a class="product-name" href="@Url.Action("Index","Offer",new { BundleID = item.BundleID})">@item.Title</a></h3>
+                            <p class="seller d-none d-lg-block mb-3">Sprzedawca: <a class="seller-name" href="@Url.Action("UserInformation","User",new { userID = item.User.UserID})">@item.User.Login</a></p>
+                            <s><h3 class="product-price mb-1" style="text-decoration: line-through;">@item.OffersPriceSum zł</h3></s>
+                            <h3 class="product-price mb-5">@item.BundlePrice zł</h3>
+                            <br>
+                            @if (HttpContext.Current.User.Identity.IsAuthenticated)
+                            {
+                                if (Model.InBucketBundlesIDs.Contains(item.BundleID))
+                                {
+                                    <a class="addToBucket in-bucket" data-type="Bundle" id="@item.BundleID">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
+                                }
+                                else
+                                {
+                                    <a class="addToBucket" data-type="Bundle" id="@item.BundleID">DODAJ DO KOSZYKA</a>
+                                }
+                                if (Model.FavouriteBundlesIDs != null && Model.FavouriteBundlesIDs.Contains(item.BundleID))
+                                {
+                                    <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Bundle" id="@item.BundleID."></i>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Bundle" id="@item.BundleID"></i>
+                                }
+                            }
+                            else
+                            {
+                                <a class="addToBucket not-logged">DODAJ DO KOSZYKA</a>
+                                <i class="fas fa-heart fa-fw product-fav not-logged"></i>
+                            }
+                        </div>
+                    </div>
+                    Counter++;
                 }
 
             }

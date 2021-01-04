@@ -76,6 +76,11 @@ namespace ShopApp.Controllers
             }
             else
                 ViewBag.Message = "Brak zestawów dla podanych filtrów";
+
+            var Category = db.Categories.Where(i => i.CategoryID == KatID).Select(i => i.CategoryName).FirstOrDefault();
+            if(Category !=null && Category.Length > 0)
+            ViewBag.CategoryName = Category;
+
             return View(offersAndBundles);
         }
         [HttpPost]
