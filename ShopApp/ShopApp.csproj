@@ -411,6 +411,7 @@
     <Compile Include="Utility\FileManager.cs" />
     <Compile Include="Utility\Utilities.cs" />
     <Compile Include="ViewModels\CashOutViewModel.cs" />
+    <Compile Include="ViewModels\CreateOfferModel.cs" />
     <Compile Include="ViewModels\OfferIndexViewModel.cs" />
     <Compile Include="ViewModels\OffersAndBundles.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />

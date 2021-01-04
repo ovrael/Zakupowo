@@ -10,9 +10,9 @@ namespace ShopApp.Models
 {
     public enum OfferState
     {
-        New,
-        Used,
-        Damaged
+        Nowy,
+        Używany,
+        Uszkodzony
     }
 
     public class Offer : IConcurrencyAwareEntity
