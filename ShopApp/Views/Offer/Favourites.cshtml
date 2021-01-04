@@ -59,7 +59,7 @@
             }
             catch (Exception ex)
             {
-                new RedirectToRouteResult(new RouteValueDictionary(new { Controller = "Home", Action = "Index" }));
+               Response.Redirect("~/Error/NotFound");
             }
 
         }
