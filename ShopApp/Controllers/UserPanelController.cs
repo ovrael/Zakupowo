@@ -847,10 +847,10 @@ namespace ShopApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult ReadMessages(int userID)
+        public ActionResult ReadMessages(int senderID)
         {
             User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
-            User sender = db.Users.Where(i => i.UserID == userID).First();
+            User sender = db.Users.Where(i => i.UserID == senderID).First();
 
             if (editUser != null && sender != null)
             {
