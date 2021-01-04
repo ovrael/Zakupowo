@@ -411,7 +411,6 @@
     <Compile Include="Utility\FileManager.cs" />
     <Compile Include="Utility\Utilities.cs" />
     <Compile Include="ViewModels\CashOutViewModel.cs" />
-    <Compile Include="ViewModels\CreateOfferModel.cs" />
     <Compile Include="ViewModels\OfferIndexViewModel.cs" />
     <Compile Include="ViewModels\OffersAndBundles.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
@@ -497,6 +496,7 @@
     <Content Include="Scripts\esm\popper.js" />
     <Content Include="Scripts\esm\popper.min.js" />
     <Content Include="Scripts\fav.js" />
+    <Content Include="Scripts\HomeFilterScript.js" />
     <Content Include="Scripts\index.js.flow" />
     <Content Include="Scripts\esm\popper.min.js.map" />
     <Content Include="Scripts\esm\popper.js.map" />
