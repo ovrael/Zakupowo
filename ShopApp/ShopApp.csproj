@@ -378,6 +378,10 @@
     <Compile Include="Migrations\202101031423394_MessageModelChanged_AddedIsReadProperty.Designer.cs">
       <DependentUpon>202101031423394_MessageModelChanged_AddedIsReadProperty.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101041631194_OfferModelChanged_AddedOfferStateEnum.cs" />
+    <Compile Include="Migrations\202101041631194_OfferModelChanged_AddedOfferStateEnum.Designer.cs">
+      <DependentUpon>202101041631194_OfferModelChanged_AddedOfferStateEnum.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelsForm\UserBasicData.cs" />
     <Compile Include="ModelsForm\UserPasswordModel.cs" />
@@ -833,6 +837,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101031423394_MessageModelChanged_AddedIsReadProperty.resx">
       <DependentUpon>202101031423394_MessageModelChanged_AddedIsReadProperty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101041631194_OfferModelChanged_AddedOfferStateEnum.resx">
+      <DependentUpon>202101041631194_OfferModelChanged_AddedOfferStateEnum.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
