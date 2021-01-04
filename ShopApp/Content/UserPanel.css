@@ -432,6 +432,9 @@ ul.navbar-nav {
     .img-user-box{
         width:24px;
     }
+    .text-communicator p {
+        font-size: 0px !important;
+    }
 }
 
 /* TABLES FOR OFFERS AND BUNDLES */

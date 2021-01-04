@@ -17,7 +17,7 @@
     List<List<ShopApp.Models.Message>> allMessages = (List<List<ShopApp.Models.Message>>)ViewBag.AllMessages;
 }
 
-<div class="container pl-5">
+<div class="container pl-5 pr-1">
 
     <div class="row rounded-lg overflow-hidden pl-lg-5 pl-md-4">
         <div class="col-2 col-lg-2  pb-3 pl-4"></div>
@@ -52,11 +52,11 @@
     <div class="row rounded-lg overflow-hidden pl-lg-5 pl-md-4">
 
         <!-- Users box-->
-        <div class="col-2 col-lg-4 pl-lg-0 pl-md-0 pl-3 pr-0">
-            <div class="bg-white">
+        <div class="col-3 col-lg-4 pl-lg-0 pl-md-0 pl-3 pr-0">
+            <div class="bg-white pb-4">
 
                 <div class="text-communicator bg-gray px-4 py-2 bg-light">
-                    <p class="h5 mb-0 py-1">Najnowsze</p>
+                    <p class="h5 mb-0 py-1 ">Najnowsze</p>
                 </div>
 
                 <div class="messages-box">
@@ -116,21 +116,14 @@
                                                 <div class="media" id="@mediaID">
                                                     <img src="@avatarURL" alt="user" width="30" class="rounded-circle img-user-box" >
                                                     <div class="users-box-content">
-                                                        <div class="media-body ml-4">
-                                                     
-                                                                <div class="d-flex align-items-center justify-content-end mb-1">
-                                                                    <h6 class="mb-0 pr-lg-4"> @contactLogin </h6><small id="@dateID" class="small font-weight-bold pl-5 ml-1 ml-lg-5"> @shortSentDate </small>
+                                                        <div class="col media-body ">
+                                                                <div class="d-flex align-items-center justify-content-lg-start mb-1">
+                                                                    <h6 class="mb-0 "> @contactLogin </h6>
                                                                 </div>
+                                                                    <small id="@dateID" class="small font-weight-bold pl-5 ml-1 ml-lg-5"> @shortSentDate </small>
                                                             <p style="color:black" id="@pID" class="font-weight-bold mb-0 text-small">@whomWrote@msg.Content</p>
-                                                        
                                                         </div>
-
-                                    <a onclick="scrollToBottom(this.id)" id="@tabID" data-toggle="pill" href="@hrefLink" role="tab" class="user-last-msg @activeClass @unreadClass list-group-item list-group-item-action list-group-item-light rounded-0 nav-link">
-                                        <div class="media" id="@mediaID">
-                                            <img src="@avatarURL" alt="user" width="50" class="rounded-circle">
-                                            <div class="media-body ml-4">
-                                                <div class="d-flex align-items-center justify-content-between mb-1">
-                                                    <h6 class="mb-0"> @contactLogin </h6><small id="@dateID" class="small font-weight-bold"> @shortSentDate </small>
+                                                   </div>
                                                 </div>
                                             </a>
                                             n++;
@@ -146,7 +139,7 @@
         <!-- Chat Box-->
        
 
-        <div class="col-10 col-lg-7 px-0 pb-3">
+        <div class="col-9 col-lg-7 px-0 pb-3">
             <div id="div-chat-boxes" class="col-12 tab-content p-0">
                 @{
                     if (!lackMessages)
@@ -163,10 +156,7 @@
 
 
                                 <div class="px-3 py-3 chat-box bg-white tab-pane @activeClass" id="@conversationID" role="tabpanel" aria-labelledby="@ariaLabelled">
-                                  <div class="left-icon">
-                                    <i class="fas fa-angle-left fa-2x pb-4"> </i>
-
-                                  </div>
+                                  
                                     @{
                                         string customSentDate = string.Empty;
                                         foreach (var message in messagesList)
