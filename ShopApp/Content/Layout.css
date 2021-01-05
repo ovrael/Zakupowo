@@ -122,17 +122,21 @@ body {
     position: absolute;
 }
 
-.download, .github, .university {
+.footer-link {
     color: white;
 }
 
-.download:hover, .github:hover, .university:hover {
-   color: white !important;
+ .footer-link:hover, .footer-link:hover i{
+    color: white !important;
 }
 
 .fa-mobile-alt, .fa-github, .fa-graduation-cap {
     color: #6684A1;
     font-size: 26px;
+}
+
+.fa-mobile-alt:hover, .fa-github:hover, .fa-graduation-cap:hover {
+    color: white;
 }
 /* ANIMATIONS */
 .animate {
@@ -211,7 +215,7 @@ body {
 
     .container-fluid {
         padding-top: 60px;
-        min-height: calc(100vh - 35px);
+        min-height: calc(100vh - 75px);
     }
 
     .navbar-main > .navbar-brand {
