@@ -354,7 +354,11 @@ ul.navbar-nav {
     font-size: 0.9rem;
 }
 
-.messages-box,
+.messages-box{
+    height: 510px;
+   
+}
+
 .chat-box {
     height: 510px;
     overflow-y: scroll;
@@ -378,7 +382,6 @@ ul.navbar-nav {
 }
 
 @media screen and (min-width:1200px) {
-
     .row-offer {
         margin-left: 100px;
     }
@@ -391,8 +394,8 @@ ul.navbar-nav {
 }
 
 /*ADD-BUNDLE*/
-.text-footer{
-    padding-left:48px;
+.text-footer {
+    padding-left: 48px;
 }
 
 .has-search .form-control {
@@ -418,14 +421,25 @@ ul.navbar-nav {
 
 @keyframes blinking {
     from {
-        background-color: #002447;
+        background-color: #FFB24A;
     }
-    to { background-color: #FFB24A; }
+    to { background-color: white; }
+}
+@media screen and (max-width: 768px) {
+    .users-box-content {
+        display: none;
+    }
+    .img-user-box{
+        width:24px;
+    }
+    .text-communicator p {
+        font-size: 0px !important;
+    }
 }
 
 /* TABLES FOR OFFERS AND BUNDLES */
-.td-text{
-    text-align: center; 
+.td-text {
+    text-align: center;
     vertical-align: middle;
 }
 
@@ -442,3 +456,11 @@ ul.navbar-nav {
 .td-v-center{
     vertical-align: middle;
 }
+/*add BUNDLES*/
+.input-group {
+    flex-wrap: unset;
+    min-width: 7rem;
+}
+.input-group .text {
+        min-width: 2.5rem;
+  }

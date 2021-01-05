@@ -28,6 +28,10 @@ namespace ShopApp.Controllers
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
             OffersAndBundles offersAndBundles = new OffersAndBundles();
 
+            var chosenCategory = db.Categories.Where(c => c.CategoryID == KatID).FirstOrDefault();
+            if (chosenCategory != null)
+                ViewBag.CategoryName = chosenCategory.CategoryName;
+
             var Offers = db.Offers.Where(i => i.Category.CategoryID == KatID && i.IsActive).ToList();
 
             if (Offers != null)
@@ -52,6 +56,7 @@ namespace ShopApp.Controllers
             }
             else
                 ViewBag.Message = "Brak ofert dla podanych filtrów";
+
             var Bundles = db.Bundles.Where(i => i.Offers.Where(x => x.Category.CategoryID == KatID).Any() && i.IsActive).ToList();
 
             if (Bundles != null)
@@ -77,15 +82,15 @@ namespace ShopApp.Controllers
             else
                 ViewBag.Message = "Brak zestawów dla podanych filtrów";
 
-            var Category = db.Categories.Where(i => i.CategoryID == KatID).Select(i => i.CategoryName).FirstOrDefault();
-            if(Category !=null && Category.Length > 0)
-            ViewBag.CategoryName = Category;
-
             return View(offersAndBundles);
         }
         [HttpPost]
         public ActionResult Kat(FormCollection collection, int KatID = 1)//We come here from
         {
+            var chosenCategory = db.Categories.Where(c => c.CategoryID == KatID).FirstOrDefault();
+            if (chosenCategory != null)
+                ViewBag.CategoryName = chosenCategory.CategoryName;
+
             //Filters logic
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
             OffersAndBundles offersAndBundles = new OffersAndBundles();
@@ -97,30 +102,73 @@ namespace ShopApp.Controllers
 
             int Page = int.TryParse(collection["page"], out int page) && page > 0 ? page : 1;
 
-            string firstPriceFilterSection = "";
-            string secondPriceFilterSection = "";
+            #region PRICE FILTER
+            string lowestPrice = "";
+            string highestPrice = "";
 
-            if (collection["price"] != null && collection["price"].Contains('-') && (collection["price"].Split('-').Count() == 2))
+            if (collection["price"] != null)
             {
-                firstPriceFilterSection = collection["price"].Split('-')[0];
-                secondPriceFilterSection = collection["price"].Split('-')[1];
+                string[] range = collection["price"].Replace(" ", "").Split('-');
+                lowestPrice = range[0].Replace("zł", "");
+                highestPrice = range[1].Replace("zł", "");
             }
 
-            int startingPriceFilter = int.TryParse(firstPriceFilterSection, out int startingPrice) ? startingPrice : 1;
-            int endingPriceFilter = int.TryParse(secondPriceFilterSection, out int endingPrice) ? endingPrice : 100;
+            int startingPriceFilter = int.TryParse(lowestPrice, out int startingPrice) ? startingPrice : 0;
+            int endingPriceFilter = int.TryParse(highestPrice, out int endingPrice) ? endingPrice : 1000;
+            #endregion
 
+            #region STATE FILTER
+
+            foreach (var key in collection.AllKeys)
+            {
+                var value = collection[key];
+                Debug.WriteLineIf(value != null, "Kolejna wartość dla: " + key + "\t to:" + value);
+            }
+
+            List<OfferState> possibleStates = new List<OfferState>();
+
+            if (!string.IsNullOrEmpty(collection["stateNew"]))
+            {
+                string isNewString = collection["stateNew"];
+                Debug.WriteLine("StateNew nie jest NULL " + isNewString);
+                if (Convert.ToBoolean(isNewString))
+                    possibleStates.Add(OfferState.Nowy);
+            }
+
+            if (!string.IsNullOrEmpty(collection["stateUsed"]))
+            {
+                string isUsedString = collection["stateUsed"];
+                Debug.WriteLine("StateUsed nie jest NULL! " + isUsedString);
+                if (Convert.ToBoolean(isUsedString))
+                    possibleStates.Add(OfferState.Używany);
+            }
+
+            if (!string.IsNullOrEmpty(collection["stateDamaged"]))
+            {
+                string isDamagedString = collection["stateDamaged"];
+                Debug.WriteLine("StateDamaged nie jest NULL! " + isDamagedString);
+
+                if (Convert.ToBoolean(isDamagedString))
+                    possibleStates.Add(OfferState.Uszkodzony);
+            }
+
+            Debug.WriteLine("Tyle chce stanów: " + possibleStates.Count);
+
+            #endregion
 
             var Offers = db.Offers.Where(i => i.Category.CategoryID == KatID && i.IsActive).ToList();
 
             if (Offers != null)
             {
                 var OffersFiltered = Offers
-                    .Where(i => i.Price > startingPrice && i.Price < endingPrice)
+                    .Where(i => i.Price > startingPrice && i.Price < endingPrice && possibleStates.Contains(i.OfferState))
                     .OrderByDescending(i => i.CreationDate)
                     .Skip(20 * (Page - 1))
                     .Take(20)
                     .ToList();
+
                 offersAndBundles.Offers = OffersFiltered;
+
                 if (user != null)
                 {
                     var FavouriteOffers = user.FavouriteOffer.Where(i => i.Offer != null).Select(i => i.Offer).ToList();
@@ -135,13 +183,16 @@ namespace ShopApp.Controllers
                 }
             }
             else
-                ViewBag.Message = "Brak ofert dla podanych filtrów";
+                ViewBag.Message = "Brak ofert dla podanych filtrów.\n";
+
             var Bundles = db.Bundles.Where(i => i.Offers.Where(x => x.Category.CategoryID == KatID).Any() && i.IsActive).ToList();
+
             var BundlesFiltered = Bundles.Where(i => i.BundlePrice > startingPrice && i.BundlePrice < endingPrice)
                                     .OrderByDescending(i => i.CreationDate)
                                     .Skip(20 * (page - 1))
                                     .Take(20)
                                     .ToList();
+
             if (BundlesFiltered != null)
             {
                 offersAndBundles.Bundles = BundlesFiltered;
@@ -160,8 +211,9 @@ namespace ShopApp.Controllers
                 }
             }
             else
-                ViewBag.Message = "Brak zestawów dla podanych filtrów";
+                ViewBag.Message += "Brak zestawów dla podanych filtrów.\n";
+
             return View(offersAndBundles);
-        }        
+        }
     }
 }

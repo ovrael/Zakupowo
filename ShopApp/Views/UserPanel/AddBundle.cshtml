@@ -62,7 +62,7 @@
                         </div>
                     </div>
 
-                    <div class="table-responsive">
+                    <div class="table-responsive-sm">
                         <table class="table table-fixed">
                             <tbody>
                                 @foreach (var offer in Model)
@@ -71,11 +71,10 @@
                                     string id = "Offer_" + offer.OfferID.ToString();
                                     string offerQuantity = "OffersQuantity_" + offer.OfferID.ToString();
 
-
                                     <tr class="offer-row">
 
                                         @*ADD TO BUNDLE CHECKBOX*@
-                                        <td class="col-sm-1" style="width: 10%; vertical-align: middle;">
+                                        <td colspan="1" >
                                             <div class="form-check-inline">
                                                 <input type="checkbox" class="form-check-input" id="@id" name="OffersInBundle" value="@offer.OfferID">
                                                 <label class="form-check-label" style="white-space: nowrap;" for="@id">Dodaj do zestawu</label>
@@ -83,22 +82,22 @@
                                         </td>
 
                                         @*OFFER PICTURE*@
-                                        <td class="col-sm-2" style="width: 10%; vertical-align: middle;">
-                                            <img src="@offer.OfferPictures.ToList()[0].PathToFile" class="rounded" style="width: 70px" alt="offerPicture">
+                                        <td colspan="1">
+                                            <img src="@offer.OfferPictures.ToList()[0].PathToFile" class="rounded" style="width: 55px" alt="offerPicture">
                                         </td>
 
                                         @*OFFER TITLE*@
-                                        <td class="col-sm-2" style="width: 20%; text-align: center; vertical-align: middle;">
+                                        <td colspan="1" >
                                             @offer.Title
                                         </td>
 
                                         @*OFFER QUANTITY*@
-                                        <td class="col-sm-2" style="width: 20%; vertical-align: middle;">
-                                            <input id="available_quantity" name="@offerQuantity" value="1" min="1" max="@offer.InStockNow" placeholder="Offer quantity" class="form-control input-group-sm" required type="number">
+                                        <td colspan="4" >
+                                            <input id="available_quantity" name="@offerQuantity" value="1" min="1" max="@offer.InStockNow" placeholder="Offer quantity" class="form-control input-group-sm" style="width: 50px; flex-wrap:unset" required type="number">
                                         </td>
 
                                         @*OFFER PRICE*@
-                                        <td class="col-sm-10" style="width: 15%; text-align: center; vertical-align: middle;">
+                                        <td colspan="1">
                                             @offer.Price zł
                                         </td>
                                     </tr>
@@ -109,9 +108,9 @@
                     <hr />
 
                     <div class="row row-offer mr-1 ml-0 pb-4 pt-4">
-                        <div class="col-8 p-0"> </div>
-                        <div class="col-1 p-0 pl-lg-5 pl-2 ml-lg-5 text-black font-weight-bold mr-4 " style="font-size:18px;">Suma: </div>
-                        <div class="col-1 p-0 text-success font-weight-bold" style="font-size:18px;"> CENA $$$ </div>
+                        
+                        <div class="col-8 p-0 pl-lg-5 pl-2 ml-lg-5 text-black font-weight-bold mr-4 " style="font-size:18px;">Suma: </div>
+                        <div class="col-3 p-0 text-success font-weight-bold" style="font-size:18px;"> CENA $$$ </div>
                     </div>
 
 

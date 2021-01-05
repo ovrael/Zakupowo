@@ -122,7 +122,7 @@
             </div>
             <p class="seller d-block m-0 p-0"> Sprzedawca: <a class="seller-name" href="@Url.Action("UserInformation","User",new { userID = Model.Offer.User.UserID})">@Model.Offer.User.Login</a></p>
             <p class="product-condition d-block m-0 p-0"> Status: @czyAktywna</p>
-            <p class="product-condition m-0 p-0">Stan: nowy</p>
+            <p class="product-condition m-0 p-0">Stan: @Model.Offer.OfferState</p>
             <hr class="mb-2" />
             <h3 class="product-price">@Model.Offer.Price</h3>
             <p class="product-price-wdeliver">z dostawą: 115 zł ?cena + cena wybranego dostawcy? </p>

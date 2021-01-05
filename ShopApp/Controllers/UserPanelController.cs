@@ -463,6 +463,11 @@ namespace ShopApp.Controllers
                 return RedirectToAction("AddOffer", "UserPanel", new { success = false });
             }
 
+            if (!int.TryParse(collection["State"], out int offerStateInt))
+            {
+                return RedirectToAction("AddOffer", "UserPanel", new { success = false });
+            }
+
 
             Offer offer = new Offer
             {
@@ -470,6 +475,7 @@ namespace ShopApp.Controllers
                 Description = collection["Description"],
                 InStockOriginaly = Convert.ToDouble(collection["Quantity"]),
                 Price = priceDouble,
+                OfferState = (OfferState)offerStateInt,
                 Category = offerCategory,
                 User = editUser,
                 IsActive = true,
