@@ -26,9 +26,9 @@ body {
 .container-fluid {
     padding-top: 90px;
     position: relative;
-    /*min-height: calc(100vh - 35px);*/
-    min-height:96vh;
-}
+    min-height: calc(100vh - 30px);
+/*    min-height:96vh;
+*/}
 
 /* NAVBAR */
 .navbar-main {
@@ -202,6 +202,7 @@ body {
 
     .container-fluid {
         padding-top: 60px;
+        min-height: calc(100vh - 35px);
     }
 
     .navbar-main > .navbar-brand {

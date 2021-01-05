@@ -38,13 +38,13 @@
                     if (i > 0)
                         mainPhoto = "";
 
-                    var deleteID = image.name.toLowerCase();
-                    deleteID = deleteID.replace(" ", "");
+                    var imageName = image.name.toLowerCase();
+                    imageName = imageName.replace(" ", "");
 
                     $("#UploadedImagesRow").append(
-                        "<div id=\"UploadOfferImageNo-" + imageCounter + "\" class=\"col-lg-3 col-md-4 col-sm-6 imgUp mt-4\">"
+                        "<div id=\"UploadOfferImageNo-" + imageCounter + "\" class=\"col-lg-3 col-md-4 col-sm-6 imgUp mt-4\" title=\"" + imageName + "\">"
                         + "<div class=\"imagePreview offerImage\" style=\"background-image:url(" + this.result + ")\">"
-                        + "<i id=\"" + deleteID + "\" class=\"fa fa-trash btn delete-image\" style=\"float: right; margin: 5px;\"></i>"
+                        + "<i id=\"" + imageName + "\" class=\"fa fa-trash btn delete-image\" style=\"float: right; margin: 5px;\"></i>"
                         + "</div>"
                         + "</div>"
                     );
