@@ -382,6 +382,10 @@
     <Compile Include="Migrations\202101041631194_OfferModelChanged_AddedOfferStateEnum.Designer.cs">
       <DependentUpon>202101041631194_OfferModelChanged_AddedOfferStateEnum.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101051758479_AddingResultsInTracsaction.cs" />
+    <Compile Include="Migrations\202101051758479_AddingResultsInTracsaction.Designer.cs">
+      <DependentUpon>202101051758479_AddingResultsInTracsaction.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelsForm\UserBasicData.cs" />
     <Compile Include="ModelsForm\UserPasswordModel.cs" />
@@ -841,6 +845,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101041631194_OfferModelChanged_AddedOfferStateEnum.resx">
       <DependentUpon>202101041631194_OfferModelChanged_AddedOfferStateEnum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101051758479_AddingResultsInTracsaction.resx">
+      <DependentUpon>202101051758479_AddingResultsInTracsaction.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

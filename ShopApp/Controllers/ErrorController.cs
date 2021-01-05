@@ -15,5 +15,10 @@ namespace ShopApp.Controllers
         {
             return View();
         }
+        [HandleError]
+        public ActionResult InternalServerError()
+        {
+            return View();
+        }
     }
 }

@@ -11,11 +11,15 @@
 
 <div class="bucket mb-2 mx-auto">
     <div class="items">
-        @if (ViewBag.NotEveryBucketCouldHaveBeenSold != null)
+        @if (ViewBag.NotEveryBucketCouldHaveBeenSold != null && ViewBag.PleaseContactWithSupport != null)
         {
-            <div>
-                <p class="alert-danger m-0"> @ViewBag.NotEveryBucketCouldHaveBeenSold </p>
-            </div>
+        <div>
+            <p class="alert-danger m-0 p-2 text-center"> 
+            @ViewBag.NotEveryBucketCouldHaveBeenSold
+            <br />
+            @ViewBag.PleaseContactWithSupport
+            </p>
+        </div>
         }
         <form method="post">
 
