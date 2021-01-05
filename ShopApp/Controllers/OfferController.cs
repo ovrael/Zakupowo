@@ -197,7 +197,10 @@ namespace ShopApp.Controllers
                 var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer != null ? i.Offer.User : i.Bundle.User);
                 //Consider using Critical error page for below
                 if (TempData["ErrorMessage"] == "TransactionRequestError")
-                    ViewBag.NotEveryBucketCouldHaveBeenSold = "Niestety, nie udało się zakupić wszystkich przedmiotów po więcej informacji proszę skontaktować się z pomocą Zakupowo lub spróbować ponownie później";
+                {
+                    ViewBag.NotEveryBucketCouldHaveBeenSold = "Niestety, nie udało się zakupić wszystkich przedmiotów.";
+                    ViewBag.PleaseContactWithSupport = "Po więcej informacji proszę skontaktować się z pomocą Zakupowo lub spróbować ponownie później.";
+                }
                 if (user.ShippingAdresses.Count() == 0)
                     ViewBag.UserHasNoShippingAddress = "Przed przejściem do kasy wymagane jest ustawienie adresu dostawy";
                 if (user?.Bucket?.BucketItems == null)
@@ -300,7 +303,7 @@ namespace ShopApp.Controllers
 
             User user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
 
-            if ((type == "Offer" || type == "Bundle") && user != null && id != null)
+            if ((type == "Offer" || type == "Bundle") && user != null && id != null && user.Offers.Where(i => i.OfferID == id).FirstOrDefault() == null)
             {
                 BucketItem NewBucketItem = new BucketItem();
                 if (type == "Offer")
