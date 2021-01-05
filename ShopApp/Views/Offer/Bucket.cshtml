@@ -4,18 +4,22 @@
 
 <div class="row bucket-header text-center mx-auto">
     <div class="col-12">
-        <h1 class="my-lg-4 my-2">Twój koszyk</h1>
+        <h1 class="my-lg-4 my-2 mt-4">Twój koszyk</h1>
         <hr />
     </div>
 </div>
 
 <div class="bucket mb-2 mx-auto">
     <div class="items">
-        @if (ViewBag.NotEveryBucketCouldHaveBeenSold != null)
+        @if (ViewBag.NotEveryBucketCouldHaveBeenSold != null && ViewBag.PleaseContactWithSupport != null)
         {
-            <div>
-                <p class="alert-danger m-0"> @ViewBag.NotEveryBucketCouldHaveBeenSold </p>
-            </div>
+        <div>
+            <p class="alert-danger m-0 p-2 text-center"> 
+            @ViewBag.NotEveryBucketCouldHaveBeenSold
+            <br />
+            @ViewBag.PleaseContactWithSupport
+            </p>
+        </div>
         }
         <form method="post">
 
