@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using ShopApp.Models;
 
-namespace ShopApp.ViewModels.User
+namespace ShopApp.ViewModels
 {
     public class BundleViewModel
     {
@@ -12,5 +12,7 @@ namespace ShopApp.ViewModels.User
             public IEnumerable<Offer> OffersList { get; set; }
             public bool IsInBucket { get; set; }
             public bool IsInFavourite { get; set; }
+            
+            public IEnumerable<OfferPicture> MainPictures { get; set; }
     }
 }

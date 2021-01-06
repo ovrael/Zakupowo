@@ -421,7 +421,7 @@
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\User\AccountViewModel.cs" />
     <Compile Include="ViewModels\UserCache.cs" />
-    <Compile Include="ViewModels\User\BundleViewModel.cs" />
+    <Compile Include="ViewModels\BundleViewModel.cs" />
     <Compile Include="ViewModels\User\ShippingAdressViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
