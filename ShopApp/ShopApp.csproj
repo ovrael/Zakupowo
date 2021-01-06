@@ -417,6 +417,7 @@
     <Compile Include="ViewModels\CashOutViewModel.cs" />
     <Compile Include="ViewModels\OfferIndexViewModel.cs" />
     <Compile Include="ViewModels\OffersAndBundles.cs" />
+    <Compile Include="ViewModels\OrderHistoryViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\User\AccountViewModel.cs" />
     <Compile Include="ViewModels\UserCache.cs" />
