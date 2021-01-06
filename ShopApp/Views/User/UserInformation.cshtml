@@ -50,9 +50,19 @@
         {
             foreach (var offer in Model.OffersAndBundles.Offers)
             {
+                string pictureUrl = string.Empty;
+                if (offer.OfferPictures.Count > 0)
+                {
+                    pictureUrl = offer.OfferPictures.First().PathToFile;
+                }
+                else
+                {
+                    pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
+                }
+
                 <div class="row offer item-row p-2 m-0">
                     <div class="col-12 col-lg-4 text-center offer-img my-auto text-center">
-                        <img class="img-fluid" src="@offer.OfferPictures.First().PathToFile" />
+                        <img class="img-fluid" src="@pictureUrl" />
                     </div>
                     <div class="col-12 col-lg-8 offer-desc">
                         <h3><a class="product-name" href="@Url.Action("Index","Offer",new { OfferID = offer.OfferID})">@offer.Title</a></h3>
