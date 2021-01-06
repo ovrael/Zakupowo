@@ -46,6 +46,12 @@ namespace ShopApp.Controllers
             }
         }
 
+        public ActionResult Bundle()
+        {
+            return View();
+        }
+
+
 
         #region Favourites
 
