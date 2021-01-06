@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using ShopApp.Utility;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using ShopApp.ViewModels;
 
 namespace ShopApp.Controllers
 {
@@ -46,9 +47,40 @@ namespace ShopApp.Controllers
             }
         }
 
-        public ActionResult Bundle()
+        public ActionResult Bundle(int? BundleID)
         {
-            return View();
+            if(BundleID != null || BundleID < 0)
+            {
+                var bundle = db.Bundles.Where(i => i.BundleID == BundleID).FirstOrDefault();
+                var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+                if (user != null && bundle != null && bundle.Offers != null && bundle.Offers.Count() > 0)
+                {
+                    bool? isinbucket = user.Bucket.BucketItems?.Where(i => i.Offer == null).Select(i => i.Bundle).ToList().Contains(bundle);
+                    bool? isinfavourite = user.FavouriteOffer?.Where(i => i.Offer == null).Select(i => i.Bundle).ToList().Contains(bundle);
+
+                    List<OfferPicture> MainPictures = new List<OfferPicture>();
+                    foreach( var offer in bundle.Offers)
+                    {
+                        MainPictures.Add(offer.OfferPictures.First());
+                    }
+
+                    BundleViewModel BundleViewModel = new BundleViewModel()
+                    {
+                        Bundle = bundle,
+                        OffersList = bundle.Offers.ToList(),
+                        IsInFavourite = isinfavourite ?? false,
+                        IsInBucket = isinbucket ?? false,
+                        MainPictures = MainPictures
+                    };
+
+                    return View(BundleViewModel);
+
+                }
+                else
+                    return new HttpStatusCodeResult(500);
+            }
+            else
+                return new HttpStatusCodeResult(404);
         }
 
 

@@ -1,16 +1,9 @@
-﻿@model ShopApp.ViewModels.OfferIndexViewModel
+﻿@model ShopApp.ViewModels.BundleViewModel
 
 @Styles.Render("~/bundles/Offer")
 
 @{
-    string czyAktywna = Model.Offer.IsActive ? "Aktywna" : "Nieaktywna";
-}
-
-@if (ViewBag.BucketItem != null)
-{
-    <div class="messages-box h5">
-        <div class="alert alert-danger">@ViewBag.BucketItem</div>
-    </div>
+    string czyAktywna = Model.Bundle.IsActive ? "Aktywna" : "Nieaktywna";
 }
 
 @{
@@ -20,36 +13,31 @@
 
                 <ol class="carousel-indicators">
                     <li data-target="#carousel-offer" data-slide-to="0" class="active"></li>
-                    @for (int i = 1; i < Model.Offer.OfferPictures.Count; i++)
+                    @if (Model.MainPictures != null && Model.MainPictures.Count() > 0)
                     {
-                        <li data-target="#carousel-offer" data-slide-to="@i"></li>
+                        for (int i = 1; i < Model.MainPictures.Count(); i++)
+                        {
+                            <li data-target="#carousel-offer" data-slide-to="@i"></li>
+                        }
                     }
+                    else
+                    {
+                        Response.Redirect("~/Error/NotFound");
+                    }
+                    @*exception*@
                 </ol>
+
                 <div class="carousel-inner">
-                    @{
-                        string pictureUrl = string.Empty;
-                        if (Model.Offer.OfferPictures != null && Model.Offer.OfferPictures.Count > 0)
-                        {
-                            List<ShopApp.Models.OfferPicture> pictures = Model.Offer.OfferPictures.ToList();
 
-                            <div class="carousel-item active">
-                                <img src="@pictures[0].PathToFile" alt="1. offer picture" class="d-block">
-                            </div>
+                    <div class="carousel-item active">
+                        <img src="@Model.Bundle.Offers.First().OfferPictures.First().PathToFile" alt="1. offer picture" class="d-block">
+                    </div>
 
-                            for (int i = 1; i < pictures.Count; i++)
-                            {
-                                <div class="carousel-item">
-                                    <img src="@pictures[i].PathToFile" alt="@(i+1).offer picture" class="d-block">
-                                </div>
-                            }
-                        }
-                        else
-                        {
-                            <div class="carousel-item active">
-                                <img src="..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg" alt="Default offer picture" class="d-block w-100">
-                            </div>
-                            pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
-                        }
+                    @for (int i = 1; i < Model.MainPictures.Count(); i++)
+                    {
+                        <div class="carousel-item">
+                            <img src="@Model.MainPictures.ElementAt(i).PathToFile" alt="@(i+1).offer picture" class="d-block">
+                        </div>
                     }
                 </div>
                 <a class="carousel-control-prev" href="#carousel-offer" role="button" data-slide="prev">
@@ -64,16 +52,16 @@
         </div>
         <div class="col-12 col-lg-4 offer-info p-2 p-lg-0 m-lg-4 d-block">
             <div class="row justify-content-between align-items-center m-0">
-                <h3 class="product-name">@Model.Offer.Title</h3>
+                <h3 class="product-name">@Model.Bundle.Title</h3>
 
                 @{
                     if (Model.IsInFavourite && HttpContext.Current.User.Identity.IsAuthenticated)
                     {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" data-type="Offer" id="@Model.Offer.OfferID"></i>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" data-type="Bundle" id="@Model.Bundle.BundleID"></i>
                     }
                     else if (HttpContext.Current.User.Identity.IsAuthenticated)
                     {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-unActive" data-type="Offer" id="@Model.Offer.OfferID"></i>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-unActive" data-type="Bundle" id="@Model.Bundle.BundleID"></i>
                     }
                     else
                     {
@@ -82,31 +70,23 @@
                 }
 
             </div>
-            <p class="seller d-block m-0 p-0"> Sprzedawca: <a class="seller-name" href="@Url.Action("UserInformation","User",new { userID = Model.Offer.User.UserID})">@Model.Offer.User.Login</a></p>
+            <p class="seller d-block m-0 p-0"> Sprzedawca: <a class="seller-name" href="@Url.Action("UserInformation","User",new { userID = Model.Bundle.User.UserID})">@Model.Bundle.User.Login</a></p>
             <p class="product-condition d-block m-0 p-0"> Status: @czyAktywna</p>
-            <p class="product-condition m-0 p-0">Stan: @Model.Offer.OfferState</p>
             <hr class="mb-2" />
-            <h3 class="product-price">@Model.Offer.Price</h3>
-            <p class="product-price-wdeliver">z dostawą: 115 zł ?cena + cena wybranego dostawcy? </p>
+            <s><h3 class="product-price">@Model.Bundle.OffersPriceSum zł</h3></s>
+            <h3 class="product-price">@Model.Bundle.BundlePrice zł</h3>
             <hr class="mb-2" />
-            <p class="buyer-counter mb-1"></p>
-            <label for="quantity-input">Pozostało: @Model.Offer.InStockNow</label>
-            <input type="number" step="1" max="@Model.Offer.InStockNow" min="1" value="1" id="quantity" class="quantity-field w-25">
-            <input type="hidden">
             @if (Model.IsInBucket)
             {
                 <button class="offer-button w-100 p-3 mt-2 in-bucket addToBucket">OFERTA ZNAJDUJE SIĘ W KOSZYKU</button>
             }
             else
             {
-                <button data-id="@Model.Offer.OfferID" data-type="Offer" data-quantity="" class="offer-button w-100 p-3 mt-2 addToBucket">DODAJ DO KOSZYKA</button>
+                <button data-id="@Model.Bundle.BundleID" data-type="Bundle" data-quantity="" class="offer-button w-100 p-3 mt-2 addToBucket">DODAJ DO KOSZYKA</button>
             }
         </div>
-        <div class="col-12 col-lg-10 offer-desc w-100 m-0 p-0">
-            <hr />
-            <h3>Opis produktu</h3>
-            <p> @Model.Offer.Description </p>
-        </div>
+
+        @* ZESTAW ZAWIERA { WYŚWIETLANIE OFERT } *@
     </div>
     @Scripts.Render("~/bundles/BucketAndFavjs")
     @Scripts.Render("~/bundles/Offerjs")

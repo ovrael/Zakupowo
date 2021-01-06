@@ -171,7 +171,7 @@
                                 <img class="img-fluid" src="@item.Offers.Last().OfferPictures.First().PathToFile">
                             </div>
                             <div class="col-12 col-lg-8 offer-desc p-0">
-                                <h3><a class="product-name" href="@Url.Action("Index","Offer",new { BundleID = item.BundleID})">@item.Title</a></h3>
+                                <h3><a class="product-name" href="@Url.Action("Bundle","Offer",new { BundleID = item.BundleID})">@item.Title</a></h3>
                                 <p class="seller d-none d-lg-block mb-3">Sprzedawca: <a class="seller-name" href="@Url.Action("UserInformation","User",new { userID = item.User.UserID})">@item.User.Login</a></p>
                                 <s><h3 class="product-price mb-1" style="text-decoration: line-through;">@item.OffersPriceSum zł</h3></s>
                                 <h3 class="product-price mb-5">@item.BundlePrice zł</h3>
@@ -188,7 +188,7 @@
                                     }
                                     if (Model.FavouriteBundlesIDs != null && Model.FavouriteBundlesIDs.Contains(item.BundleID))
                                     {
-                                        <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Bundle" id="@item.BundleID."></i>
+                                        <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Bundle" id="@item.BundleID"></i>
                                     }
                                     else
                                     {
