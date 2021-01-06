@@ -333,7 +333,7 @@
                                     }
 
                                     <h3 class="fieldset-title">Zmiana avatara</h3>
-                                    <img src="@Model.AvatarImage.PathToFile" id="userAvatar" class="img-fluid pb-3 pt-3 output" alt="User avatar" style="width:250px;border:solid; border-width:2px; border-color:lightgray">
+                                    <img src="@Model.AvatarImage.PathToFile" id="userAvatar" class="img-fluid pb-3 pt-3 output" alt="User avatar" style="width:250px; max-width: 100%;">
                                     <br><br>
 
                                     <form class="form-horizontal" method="post" id="avatarForm">
@@ -348,6 +348,31 @@
 
                                     </form>
                                 </div>
+
+                                <div class="modal" tabindex="-1" role="dialog" id="uploadimageModal">
+                                    <div class="modal-dialog" role="document" style="min-width: 700px">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Dopasuj swój avatar!</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-md-12 text-center">
+                                                        <div id="image_demo"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-success crop_image">Przytnij i zapisz</button>
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
 
                         </div>

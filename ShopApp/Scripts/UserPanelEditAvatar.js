@@ -1,44 +1,59 @@
-﻿(function () {
+﻿$(document).ready(function () {
 
-    $('#avatarInput').click(function (e) {
-        e.preventDefault();
-
-        var input = document.getElementById("avatarFile");
-        var files = input.files;
-        var fileData = new FormData();
-
-        for (var i = 0; i != files.length; i++) {
-            fileData.append("files", files[i]);
+    var image_crop = $('#image_demo').croppie({
+        viewport: {
+            width: 200,
+            height: 200,
+            type: 'square'
+        },
+        boundary: {
+            width: 450,
+            height: 450
         }
+    });
 
+    $('#avatarFile').on('change', function () {
+        var reader = new FileReader();
+        reader.onload = function (event) {
+            image_crop.croppie('bind', {
+                url: event.target.result,
+            });
+        }
+        reader.readAsDataURL(this.files[0]);
+        $('#uploadimageModal').modal('show');
+    });
+
+    $('.crop_image').click(function (event) {
+        var formData = new FormData();
+        image_crop.croppie('result', { type: 'blob', format: 'png' }).then(function (blob) {
+
+            formData.append('croppedImage', blob, 'newAvatar.jpg');
+            console.log(blob);
+
+            ajaxFormPost(formData);
+        });
+        $('#uploadimageModal').modal('hide');
+    });
+
+    /// Ajax Function
+    function ajaxFormPost(formData) {
         $.ajax({
             url: "/UserPanel/EditAvatar",
-            data: fileData,
+            type: 'POST',
+            data: formData,
+            cache: false,
+            async: true,
             processData: false,
             contentType: false,
-            type: "POST",
-            success: function (returnData) {
-                alert(returnData);
+            timeout: 5000,
+            beforeSend: function () {
             },
-            // error handling
+            success: function (response) {
+                alert(response);
+            },
+            complete: function () {
+            }
         });
-    });
+    }
 
-    $(document).on("change", "#avatarFile", function () {
-
-        var files = this.files != null ? this.files : [];
-        if (files.length <= 0 || window.FileReader == null) return;
-
-
-        newAvatar = files[0];
-
-        var reader = new FileReader();
-        reader.readAsDataURL(newAvatar);
-
-        reader.onloadend = function () {
-            document.getElementsByClassName("output")[0].setAttribute("src", this.result);
-            $('.output').croppie();
-        }
-    });
-
-})()
+});
