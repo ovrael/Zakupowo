@@ -158,8 +158,6 @@ namespace ShopApp.ControllersAPI
                 {
                     file.Delete();
                 }
-            
-
 
             }
 
