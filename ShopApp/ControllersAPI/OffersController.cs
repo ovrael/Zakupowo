@@ -179,6 +179,8 @@ namespace ShopApp.ControllersAPI
         }
     }
 
+
+
     public class OfferBindingModel
     {
         public string Title { get; set; }
