@@ -22,6 +22,12 @@
 
     string avatarActiveClassLink = activePage == 3 ? "active" : string.Empty;
     string avatarActiveClassTab = activePage == 3 ? "active show" : string.Empty;
+
+    //USER CAN HAVE MAX X ADRESSES
+    const int maxAdresses = 4;
+    string disabledButton = Model.ShippingAdresses.Count == maxAdresses ? "disabled" : "";
+    string disabledTitle = Model.ShippingAdresses.Count == maxAdresses ? "Nie możesz posiadać więcej niż 4 adresy!" : "";
+
 }
 
 <div class="container pl-5 pb-3">
@@ -35,7 +41,7 @@
                             <div class="side-bar">
 
                                 <div class="user-info">
-                                    <img src="@Model.AvatarImage.PathToFile" alt="user" width="70" class="rounded-circle" />
+                                    <img src="@Model.AvatarImage.PathToFile" alt="user" width="70" />
                                     <br />
                                     <br />
                                     <h5>
@@ -129,8 +135,7 @@
                                             <h3>Adresy wysyłki</h3>
                                         </div>
                                         <div class="col-md" style="display: inline-block;">
-                                            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#newAdressModal">Dodaj adres!</button>
-                                            @*<a class="btn btn-dark" href="@Url.Action("AddShippingAdress", "UserPanel")">Dodaj adres!</a>*@
+                                            <button type="button" class="btn btn-dark" title="@disabledTitle" data-toggle="modal" data-target="#newAdressModal" @disabledButton>Dodaj adres!</button>
                                         </div>
 
                                     </div>
@@ -147,6 +152,13 @@
                                                 string adressInputID = "adressInput-" + adresses[i].AdressID;
                                                 string adressDeleteID = "adressDelete-" + adresses[i].AdressID;
                                                 string adressBodyID = "adressBody-" + adresses[i].AdressID;
+
+                                                if (i % 2 == 0 && i > 1)
+                                                {
+                                                    <div class="col-12 adress-bar">
+                                                        <hr style="border: 3px solid #ffb24a; border-radius: 3px">
+                                                    </div>
+                                                }
 
                                                 <div class="col-6 adress-div" id="@adressBodyID">
                                                     <form class="form-horizontal adress-form" method="post" id="@adressFormID">
@@ -208,13 +220,6 @@
 
                                                     </form>
                                                 </div>
-
-                                                if (i % 2 == 1 && adresses.Count > 2)
-                                                {
-                                                    <div class="col-12 adress-bar">
-                                                        <hr style="border: 3px solid #ffb24a; border-radius: 3px">
-                                                    </div>
-                                                }
                                             }
                                         }
                                     </div>
@@ -333,7 +338,7 @@
                                     }
 
                                     <h3 class="fieldset-title">Zmiana avatara</h3>
-                                    <img src="@Model.AvatarImage.PathToFile" id="userAvatar" class="img-fluid pb-3 pt-3 output" alt="User avatar" style="width:250px;border:solid; border-width:2px; border-color:lightgray">
+                                    <img src="@Model.AvatarImage.PathToFile" id="userAvatar" class="img-fluid output" alt="User avatar" style="width:250px; max-width: 100%; border: 2px solid #FFB24A;">
                                     <br><br>
 
                                     <form class="form-horizontal" method="post" id="avatarForm">
@@ -347,7 +352,32 @@
                                         <br><br>
 
                                     </form>
+
+                                    <div class="modal" tabindex="-1" role="dialog" id="uploadimageModal">
+                                        <div class="modal-dialog" role="document" style="min-width: 700px">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Dopasuj swój avatar!</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12 text-center">
+                                                            <div id="image_demo"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-success crop_image">Przytnij i zapisz</button>
+                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Anuluj</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+
                             </div>
 
                         </div>
@@ -358,7 +388,12 @@
     </div>
 </div>
 
+@*<link rel="stylesheet" href="~/Content/jquery.Jcrop.css" type="text/css" />*@
+<link rel="stylesheet" href="~/Content/croppie.css" />
 @section scripts
 {
     <script src="~/Scripts/UserPanelSettingsManager.js"></script>
+    @*<script src="~/Scripts/jquery.Jcrop.min.js"></script>*@
+    <script src="~/Scripts/croppie.js"></script>
+    <script src="~/Scripts/UserPanelEditAvatar.js"></script>
 }

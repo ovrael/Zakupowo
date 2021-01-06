@@ -50,6 +50,7 @@
                     );
 
                     imagesToUpload.push(image);
+                    //console.log(image);
                     imageCounter += 1;
 
                     if (i == files.length - 1) {

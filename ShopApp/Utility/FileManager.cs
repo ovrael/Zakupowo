@@ -12,7 +12,7 @@ namespace ShopApp.Utility
 {
     public class FileManager
     {
-        static readonly string[] imageValidExtensions = new string[] { "jpg", "png", "jpeg" };
+        static readonly string[] imageValidExtensions = new string[] { "jpg", "png", "jpeg, blob" };
         static readonly string[] documentValidFileExtensions = new string[] { "pdf", "doc", "docx" };
 
         public static async Task<string> UploadAvatar(HttpPostedFileBase file, int userID)
@@ -27,9 +27,9 @@ namespace ShopApp.Utility
             try
             {
                 string fileName = string.Empty;
-                string fileExtenstion = file.FileName.Substring(file.FileName.LastIndexOf('.') + 1);
+                string fileExtension = file.FileName.Substring(file.FileName.LastIndexOf('.') + 1);
 
-                if (!imageValidExtensions.Contains(fileExtenstion.ToLower()))
+                if (!imageValidExtensions.Contains(fileExtension.ToLower()))
                     throw new Exception("The file extension is invalid!");
 
 
@@ -42,7 +42,7 @@ namespace ShopApp.Utility
                 fileNameBuilder.Append('_');
                 fileNameBuilder.Append(userID);
                 fileNameBuilder.Append('.');
-                fileNameBuilder.Append(fileExtenstion);
+                fileNameBuilder.Append(fileExtension);
 
                 fileName = fileNameBuilder.ToString();
 

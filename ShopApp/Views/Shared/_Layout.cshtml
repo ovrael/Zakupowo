@@ -14,6 +14,11 @@
     @Styles.Render("~/bundles/Layout")
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script type="text/javascript" src="~/Scripts/Scripts.js"></script>
+
+    @*<link rel="stylesheet" href="https://unpkg.com/jcrop/dist/jcrop.css">
+        <script src="https://unpkg.com/jcrop"></script>
+
+        <link rel="stylesheet" href="~/Content/jquery.Jcrop.css" type="text/css" />*@
     <!--FontAwesomeCDN-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
     <!--GoogleFonts-->
@@ -112,29 +117,29 @@
             <div class="col-lg-3 col-12 text-center p-2">
                 <a class="footer-link" href="#">
                     <i class="fas fa-mobile-alt p-2"></i>
-                    </br>
+                    <br>
                     Darmowa aplikacja na twój telefon
                 </a>
             </div>
             <div class="col-lg-3 col-12 text-center p-2">
                 <a class="footer-link" href="https://github.com/kamreo/Zakupowo" target="_blank">
                     <i class="fab fa-github p-2"></i>
-                    </br>
+                    <br>
                     Github
                 </a>
             </div>
             <div class="col-lg-3 col-12 text-center p-2">
                 <a class="footer-link" href="https://www.ue.katowice.pl/" target="_blank">
                     <i class="fas fa-graduation-cap p-2"></i>
-                    </br>
+                    <br>
                     Uniwersytet Ekonomiczny w Katowicach
                 </a>
             </div>
             <div class="col-lg-3 col-12 p-2">
-                ©2021 Aplikacja stworzona w celach edukacyjnych przez studentów informatyki Uniwerystetu Ekonomicznego w Katowicach
+                ©@DateTime.Now.Year Aplikacja stworzona w celach edukacyjnych przez studentów informatyki Uniwerystetu Ekonomicznego w Katowicach
             </div>
         </div>
-</footer>
+    </footer>
 
 </body>
 </html>
