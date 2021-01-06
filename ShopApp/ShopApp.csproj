@@ -421,6 +421,7 @@
     <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="ViewModels\User\AccountViewModel.cs" />
     <Compile Include="ViewModels\UserCache.cs" />
+    <Compile Include="ViewModels\User\BundleViewModel.cs" />
     <Compile Include="ViewModels\User\ShippingAdressViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -683,6 +684,7 @@
     <Content Include="Views\Offer\Order.cshtml" />
     <Content Include="Views\User\UserInformation.cshtml" />
     <Content Include="Views\UserPanel\Settings.cshtml" />
+    <Content Include="Views\Offer\Bundle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
