@@ -918,7 +918,28 @@ namespace ShopApp.Controllers
 
         public ActionResult OrderHistory()
         {
-            return View();
+            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+            if (user != null)
+            {
+                var Sellings = db.Transactions.Where(i => i.Buyer.UserID == user.UserID).ToList();
+                var Purchases = db.Transactions.Where(i => i.Seller.UserID == user.UserID).ToList();
+                if (Sellings != null && Purchases != null)
+                {
+                    OrderHistoryViewModel OHVM = new OrderHistoryViewModel()
+                    {
+                        Sellings = Sellings,
+                        Purchases = Purchases
+                    };
+                    if (OHVM != null)
+                        return View(OHVM);
+                    else
+                        return new HttpStatusCodeResult(500);
+                }
+                else
+                    return new HttpStatusCodeResult(500);
+            }
+            else
+                return new HttpStatusCodeResult(404);
         }
 
         [HttpPost]

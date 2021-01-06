@@ -13,10 +13,22 @@
             </div>
 
             <div>
-                <label>@ViewBag.DateMessage</label>
-                <label>@ViewBag.AgeMessage</label>
-                <label>@ViewBag.EmailMessage</label>
-                <label>@ViewBag.LoginMessage</label>
+                @if (ViewBag.DateMessage != null)
+                {
+                    <label>@ViewBag.DateMessage</label>
+                }
+                @if (ViewBag.AgeMessage != null)
+                {
+                    <label>@ViewBag.AgeMessage</label>
+                }
+                @if (ViewBag.EmailMessage != null)
+                {
+                    <label>@ViewBag.EmailMessage</label>
+                }
+                @if (ViewBag.LoginMessage != null)
+                {
+                    <label>@ViewBag.LoginMessage</label>
+                }
             </div>
 
             <br>

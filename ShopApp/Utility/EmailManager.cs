@@ -167,7 +167,6 @@ namespace ShopApp.Utility
 
         public static bool SendEmail(EmailType emailType, string receiverFirstName, string receiverLastName, string receiverEmail, string SenderLogin, string SenderFirstName, string SenderLastName, List<BucketItem> PurchaseList, string Message, ShippingAdress Address)
         {
-            return false;
             bool result = false;
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("Zakupowo Team", "zakupowo2020@gmail.com"));

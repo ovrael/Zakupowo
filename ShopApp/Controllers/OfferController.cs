@@ -440,6 +440,21 @@ namespace ShopApp.Controllers
                             if (!EmailManager.SendEmail(EmailManager.EmailType.TransactionRequest, seller.Key.FirstName, seller.Key.LastName, seller.Key.Email, user.Login, user.FirstName, user.LastName, seller.ToList(), message, Address))
                                 //check that
                                 seller.ToList().ForEach(i => ItemsThatCouldntBeenSold.Add(i));
+                            else
+                            {
+                                Transaction transaction = new Transaction()
+                                {
+                                    Buyer = user,
+                                    BucketItems = seller.ToList(),
+                                    Seller = seller.Key,
+                                    IsAccepted = false,
+                                    IsChosen = false
+                                };
+                                db.Transactions.Add(transaction);
+                                ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                            }
+                                
+
                         }
                         if (ItemsThatCouldntBeenSold != null && ItemsThatCouldntBeenSold.Count() != 0)
                         {
@@ -456,6 +471,8 @@ namespace ShopApp.Controllers
                                 await RemoveFromBucket(item.Offer != null ? "Offer" : "Bundle", item.Offer != null ? item.Offer.OfferID : item.Bundle.BundleID);
                             }
                         }
+                        
+
                         user.Order.BucketItems.Clear();
                         ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
                     }
