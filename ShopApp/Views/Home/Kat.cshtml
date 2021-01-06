@@ -96,6 +96,7 @@
 
                 @if (Model.Offers != null)
                 {
+                    int Counter = 1;
                     foreach (var item in Model.Offers)
                     {
                         string pictureUrl = string.Empty;
@@ -109,8 +110,10 @@
                         }
 
                         <div class="row offer item-row p-2 m-0 mt-1">
-                            <hr class="w-100">
-                            <div class="col-12 col-lg-4 text-center offer-img my-auto">
+                            @if (Counter != 1)
+                            {
+                                <hr class="w-100">
+                            }                            <div class="col-12 col-lg-4 text-center offer-img my-auto">
                                 <img class="img-fluid" src="@pictureUrl">
                             </div>
                             <div class="col-12 col-lg-8 offer-desc p-0">
@@ -146,6 +149,8 @@
                             </div>
                         </div>
 
+                        Counter++;
+
                     }
                 }
             </div>
@@ -153,10 +158,14 @@
             <div id="bundlesContainer">
                 @if (Model.Bundles != null)
                 {
+                    int Counter = 1;
                     foreach (var item in Model.Bundles)
                     {
                         <div class="row offer bundle-row d-none p-2 mt-1">
-                            <hr class="w-100">
+                            @if (Counter != 1)
+                            {
+                                <hr class="w-100">
+                            }
                             <div class="col-12 col-lg-4 text-center my-auto">
                                 @*Looking for last offer in bundle becuase it has been ordered by descending creation date*@
                                 <img class="img-fluid" src="@item.Offers.Last().OfferPictures.First().PathToFile">
@@ -193,6 +202,7 @@
                                 }
                             </div>
                         </div>
+                        Counter++;
                     }
 
                 }
@@ -207,8 +217,3 @@
 
 @Scripts.Render("~/bundles/BucketAndFavjs")
 @Scripts.Render("~/bundles/Katjs")
-
-@section scripts
-{
-    <script src="~/Scripts/HomeFilterScript.js"></script>
-}

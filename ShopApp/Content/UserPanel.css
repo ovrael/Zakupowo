@@ -149,7 +149,8 @@ body {
 @media (min-width: 576px)
 {
     .view-account .content-panel {
-        max-height: 568px;
+        /* max-height: 568px; */
+        height:fit-content;
         margin-bottom: 2.5rem;
     }
 }

@@ -192,7 +192,9 @@ function createMessageWindow(userLogin) {
         .done(function () {
             console.log("Hub connected!");
         })
-        .fail(function () { alert("ERROR"); })
+        .fail(function () {
+            console.log("Can't connect to hub!");
+        })
 
     $("#send-message-btn").on("click", function () {
 
@@ -416,9 +418,9 @@ function createMessageWindow(userLogin) {
             + userAvatar
             + userData
             + "</a>";
-            
 
-     
+
+
 
         return userTR;
     }
