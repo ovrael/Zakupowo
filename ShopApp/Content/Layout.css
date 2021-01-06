@@ -119,12 +119,25 @@ body {
     background-color: #002447;
     color: white;
     width: 100%;
-    height: 2.5rem;
-   position: absolute;
-
-   
+    position: absolute;
 }
 
+.footer-link {
+    color: white;
+}
+
+ .footer-link:hover, .footer-link:hover i{
+    color: white !important;
+}
+
+.fa-mobile-alt, .fa-github, .fa-graduation-cap {
+    color: #6684A1;
+    font-size: 26px;
+}
+
+.fa-mobile-alt:hover, .fa-github:hover, .fa-graduation-cap:hover {
+    color: white;
+}
 /* ANIMATIONS */
 .animate {
     animation-duration: 0.4s;
@@ -202,7 +215,7 @@ body {
 
     .container-fluid {
         padding-top: 60px;
-        min-height: calc(100vh - 35px);
+        min-height: calc(100vh - 75px);
     }
 
     .navbar-main > .navbar-brand {

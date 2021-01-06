@@ -283,9 +283,12 @@ namespace ShopApp.Controllers
             HttpPostedFileBase file = null;
 
             if (Request.Files.Count > 0)
+            {
                 file = Request.Files[0];
+            }
             else
                 return Json("There is no image to set as avatar!");
+
 
             var imageUrl = await FileManager.UploadAvatar(file, editUser.UserID);
 

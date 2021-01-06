@@ -14,6 +14,11 @@
     @Styles.Render("~/bundles/Layout")
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script type="text/javascript" src="~/Scripts/Scripts.js"></script>
+
+    @*<link rel="stylesheet" href="https://unpkg.com/jcrop/dist/jcrop.css">
+        <script src="https://unpkg.com/jcrop"></script>
+
+        <link rel="stylesheet" href="~/Content/jquery.Jcrop.css" type="text/css" />*@
     <!--FontAwesomeCDN-->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
     <!--GoogleFonts-->
@@ -49,10 +54,7 @@
         <div class="collapse navbar-collapse col-lg-4 order-lg-8" id="navbarSupportedContent">
             <ul class="navbar-nav w-100 justify-content-end">
                 <li class="nav-item">
-                    <a class="nav-link main-nav-link mx-4" id="chatLink" href="@Url.Action("Communicator", "UserPanel")">
-                        <i class="fas fa-envelope fa-fw mx-auto"></i>
-                        <p class="d-inline-block d-lg-none ml-1">Wiadomości</p>
-                    </a>
+                    <a class="nav-link main-nav-link mx-4" id="chatLink" href="@Url.Action("Communicator", "UserPanel")"><i class="fas fa-envelope fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Wiadomości</p></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link main-nav-link mx-4" id="favouriteLink" href="@Url.Action("Favourites", "Offer")"><i class="fas fa-heart fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Ulubione</p></a>
@@ -68,7 +70,7 @@
                         @{
                             if (userLogged)
                             {
-                                <img src="@avatarUrl" id="imgProfile" style="width: 100px; height: 100px" class="img-thumbnail" />
+                                <img src="@avatarUrl" id="imgProfile" style="width: 100px; height: 100px" class="img-thumbnail m-2 mb-4 mb-lg-2" />
                                 <p class="p-2 d-none d-lg-block">
                                     Witaj @HttpContext.Current.User.Identity.Name! Przejrzyj najciekawsze oferty i ciesz się zakupami!
                                 </p>
@@ -111,11 +113,30 @@
     </div>
 
     <footer>
-        <div class="footer text-center">
-            <div class="col-12 p-0 my-auto">
-                <div class="text-footer">
-                    ©2020 website created for educational purpose
-                </div>
+        <div class="footer m-0 p-0 row text-center align-items-center">
+            <div class="col-lg-3 col-12 text-center p-2">
+                <a class="footer-link" href="#">
+                    <i class="fas fa-mobile-alt p-2"></i>
+                    <br>
+                    Darmowa aplikacja na twój telefon
+                </a>
+            </div>
+            <div class="col-lg-3 col-12 text-center p-2">
+                <a class="footer-link" href="https://github.com/kamreo/Zakupowo" target="_blank">
+                    <i class="fab fa-github p-2"></i>
+                    <br>
+                    Github
+                </a>
+            </div>
+            <div class="col-lg-3 col-12 text-center p-2">
+                <a class="footer-link" href="https://www.ue.katowice.pl/" target="_blank">
+                    <i class="fas fa-graduation-cap p-2"></i>
+                    <br>
+                    Uniwersytet Ekonomiczny w Katowicach
+                </a>
+            </div>
+            <div class="col-lg-3 col-12 p-2">
+                ©@DateTime.Now.Year Aplikacja stworzona w celach edukacyjnych przez studentów informatyki Uniwerystetu Ekonomicznego w Katowicach
             </div>
         </div>
     </footer>
