@@ -260,7 +260,7 @@ body {
 
 ul.navbar-nav {
     width: 3rem;
-    margin-top: 1rem;
+   
 }
 
 .side-nav {
@@ -281,7 +281,7 @@ ul.navbar-nav {
 }
 
 .container-fluid {
-    min-height: calc(100vh - 98px)!important;
+   /* min-height: calc(100vh - 98px)!important;*/
    
     padding-top: 16px;
 }
@@ -289,20 +289,19 @@ ul.navbar-nav {
 .links i {
     color: white;
 }
-/*.links .icon :hover{
-    color: #002447;
-}*/
-/*.links .title :hover {
-    color: #002447;
-}*/
 
-.links :hover {
+/*.side-nav .links :hover {
     color: #002447;
+}**/
+.side-nav .links:hover {
+    background-color: #002447;
 }
 
-.sidebar-active-element i {
-    color: #002447;
-}
+
+
+    .sidebar-active-element i {
+        color: #002447;
+    }
 .sidebar-active-element .title {
     color: #002447;
 }
@@ -394,8 +393,8 @@ ul.navbar-nav {
 }
 
 /*ADD-BUNDLE*/
-.text-footer {
-    padding-left: 48px;
+.footer {
+    padding-left: 35px !important;
 }
 
 .has-search .form-control {
@@ -415,6 +414,9 @@ ul.navbar-nav {
 }
 
 /* COMMUNICATOR */
+.media{
+    flex:none;
+}
 .undread-msg{
   animation: blinking 2s alternate infinite;
 }

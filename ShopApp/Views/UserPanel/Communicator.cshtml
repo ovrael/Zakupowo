@@ -111,27 +111,31 @@
                                         System.Diagnostics.Debug.WriteLine("Użytkownik: " + msg.Sender.Login + " nie ma avatara.");
                                         msg.Sender.AvatarImage.PathToFile = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg";
                                     }
-                                
-                                            <a onclick="scrollToBottom(this.id)" id="@tabID" data-toggle="pill" href="@hrefLink" role="tab" class="user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 @activeClass nav-link">
-                                                <div class="media" id="@mediaID">
-                                                    <img src="@avatarURL" alt="user" width="30" class="rounded-circle img-user-box" >
+                                    //<a onclick="scrollToBottom(this.id)" id="@tabID" data-toggle="pill" href="@hrefLink" role="tab" class="user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 @activeClass nav-link">
+                                        <a onclick="scrollToBottom(this.id)" id="@tabID" data-toggle="pill" href="@hrefLink" role="tab" class="user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 @activeClass nav-link ">
+                                            @*<div class="media" id="@mediaID">*@
+                                                <div class="" id="@mediaID">
+                                                    <img src="@avatarURL" alt="user" width="30" class="rounded-circle img-user-box">
                                                     <div class="users-box-content ml-3">
                                                         <div class="media-body ">
-                                                                <div class="d-flex align-items-center mb-1">
-                                                                    <h6 class="mb-0 ml-1justify-content-lg-start"> @contactLogin </h6>
-                                                                    <small id="@dateID" class="col-10 small font-weight-bold justify-content-lg-end"> @shortSentDate </small>
-                                                                </div>
-                                                            <p style="color:black" id="@pID" class="font-weight-bold mb-0 text-small">@whomWrote@msg.Content</p>
-                                                        </div>
-                                                   </div>
-                                                </div>
-                                            </a>
-                                    n++;
-                                }
-                            }
-                        }
+                                                            <div class="d-flex align-items-center mb-1">
+                                                                <h6 class="mb-0 ml-1justify-content-lg-start"> @contactLogin </h6>
+                                                                <small id="@dateID" class="col-10 small font-weight-bold justify-content-lg-end"> @shortSentDate </small>
+                                                            </div>
+                                                            <div class="col-2">
+                                                                <div style="color:black" id="@pID" class="font-weight-bold mb-0 text-small">@whomWrote@msg.Content</div>
 
-                    </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+</a>
+                                        n++;
+                                        }
+                                        }
+                                        }
+
+                                </div>
                </div>
             </div>
         </div>
@@ -156,7 +160,7 @@
 
 
                                 <div class="px-3 py-3 chat-box bg-white tab-pane @activeClass" id="@conversationID" role="tabpanel" aria-labelledby="@ariaLabelled">
-                                  
+
                                     @{
                                         string customSentDate = string.Empty;
                                         foreach (var message in messagesList)
@@ -174,7 +178,15 @@
                                             if (message.Sender == user)
                                             {
 
-                                                <div class="media w-50 mb-3 message">
+                                                                        @*<div class="media w-50 mb-3 message">
+                                                <img src="@user.AvatarImage.PathToFile" alt="user" width="30" class="rounded-circle">
+                                                <div class="media-body ml-3">
+                                                    <div class="bg-light rounded py-2 px-3 mb-2" data-toggle="tooltip" title="@customSentDate">
+                                                        <p class="text-small mb-0 text-muted">@message.Content</p>
+                                                    </div>
+                                                </div>
+                                            </div>*@
+                                                <div class="w-50 mb-3 message">
                                                     <img src="@user.AvatarImage.PathToFile" alt="user" width="30" class="rounded-circle">
                                                     <div class="media-body ml-3">
                                                         <div class="bg-light rounded py-2 px-3 mb-2" data-toggle="tooltip" title="@customSentDate">
@@ -186,7 +198,7 @@
 
                                             if (message.Sender.Login == HttpContext.Current.User.Identity.Name)
                                             {
-                                                <div class="media w-50 ml-auto mb-3 message">
+                                                <div class=" w-50 ml-auto mb-3 message">
                                                     <div class="media-body">
                                                         <div class="bg-primary rounded py-2 px-3 mb-2" data-toggle="tooltip" title="@customSentDate">
                                                             <p class="text-small mb-0 text-white">@message.Content</p>
