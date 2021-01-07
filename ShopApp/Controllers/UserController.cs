@@ -194,6 +194,7 @@ namespace ShopApp.Controllers
             //collection["new-password"]
             return View();
         }
+
         //Logout method 
         [Authorize]
         public ActionResult Logout()

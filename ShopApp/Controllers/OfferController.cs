@@ -9,7 +9,6 @@ using System.Web.Mvc;
 using ShopApp.Utility;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using ShopApp.ViewModels;
 
 namespace ShopApp.Controllers
 {
@@ -47,34 +46,60 @@ namespace ShopApp.Controllers
             }
         }
 
+        [HttpGet]
         public ActionResult Bundle(int? BundleID)
         {
-            if(BundleID != null || BundleID < 0)
+            if (BundleID != null || BundleID < 0)
             {
                 var bundle = db.Bundles.Where(i => i.BundleID == BundleID).FirstOrDefault();
-                var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-                if (user != null && bundle != null && bundle.Offers != null && bundle.Offers.Count() > 0)
+                if (bundle != null && bundle.Offers != null && bundle.Offers.Count() > 0)
                 {
-                    bool? isinbucket = user.Bucket.BucketItems?.Where(i => i.Offer == null).Select(i => i.Bundle).ToList().Contains(bundle);
-                    bool? isinfavourite = user.FavouriteOffer?.Where(i => i.Offer == null).Select(i => i.Bundle).ToList().Contains(bundle);
-
                     List<OfferPicture> MainPictures = new List<OfferPicture>();
-                    foreach( var offer in bundle.Offers)
+                    foreach (var offer in bundle.Offers)
                     {
                         MainPictures.Add(offer.OfferPictures.First());
                     }
-
                     BundleViewModel BundleViewModel = new BundleViewModel()
                     {
                         Bundle = bundle,
                         OffersList = bundle.Offers.ToList(),
-                        IsInFavourite = isinfavourite ?? false,
-                        IsInBucket = isinbucket ?? false,
                         MainPictures = MainPictures
                     };
 
-                    return View(BundleViewModel);
+                    var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+                
+                    if(user != null)
+                    {
+                        bool? isinbucket = user.Bucket.BucketItems?.Where(i => i.Offer == null).Select(i => i.Bundle).ToList().Contains(bundle);
+                        bool? isinfavourite = user.FavouriteOffer?.Where(i => i.Offer == null).Select(i => i.Bundle).ToList().Contains(bundle);
 
+                        List<int> InFavouriteOffersIDs = new List<int>();
+                        List<int> InBucketOffersIDs = new List<int>();
+
+                        foreach (var favOffer in user.FavouriteOffer)
+                        {
+                            if (favOffer != null && favOffer.Offer != null)
+                            {
+                                InFavouriteOffersIDs.Add(favOffer.Offer.OfferID);
+                            }
+                        }
+
+                        foreach (var BucketItem in user.Bucket.BucketItems)
+                        {
+                            if (BucketItem != null && BucketItem.Offer != null)
+                            {
+                                InFavouriteOffersIDs.Add(BucketItem.Offer.OfferID);
+                            }
+                        }
+
+                        BundleViewModel.InFavouriteOffersIDs = InFavouriteOffersIDs;
+                        BundleViewModel.InBucketOffersIDs = InBucketOffersIDs;
+                        BundleViewModel.IsInFavourite = isinfavourite ?? false;
+                        BundleViewModel.IsInBucket = isinbucket ?? false;
+                    }
+
+
+                    return View(BundleViewModel);
                 }
                 else
                     return new HttpStatusCodeResult(500);
@@ -498,7 +523,7 @@ namespace ShopApp.Controllers
                             TempData["ErrorMessage"] = "TransactionRequestError";
                         }
                         var BucketItemsInOrderTab = user.Order.BucketItems.ToArray();
-                        for(int x = 0; x< BucketItemsInOrderTab.Count(); x++)
+                        for (int x = 0; x < BucketItemsInOrderTab.Count(); x++)
                         {
                             var item = BucketItemsInOrderTab.ElementAt(x);
                             if (ItemsThatCouldntBeenSold != null && ItemsThatCouldntBeenSold.Count() != 0 && ItemsThatCouldntBeenSold.Contains(item))
@@ -508,7 +533,7 @@ namespace ShopApp.Controllers
                                 await RemoveFromBucket(item.Offer != null ? "Offer" : "Bundle", item.Offer != null ? item.Offer.OfferID : item.Bundle.BundleID);
                             }
                         }
-                        
+
 
                         user.Order.BucketItems.Clear();
                         ConcurencyHandling.SaveChangesWithConcurencyHandling(db);

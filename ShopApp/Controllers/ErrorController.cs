@@ -20,7 +20,6 @@ namespace ShopApp.Controllers
 
         public ActionResult NotFound()
         {
-            Debug.WriteLine(Response.StatusCode);
             return View();
         }
     }

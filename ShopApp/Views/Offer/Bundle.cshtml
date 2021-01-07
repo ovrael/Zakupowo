@@ -6,7 +6,6 @@
     string czyAktywna = Model.Bundle.IsActive ? "Aktywna" : "Nieaktywna";
 }
 
-@{
     <div class="row offer m-0 mx-lg-auto mb-4 mt-4 shadow justify-content-center">
         <div class="offer-carousel col-12 col-lg-6 p-0 m-0">
             <div id="carousel-offer" class="carousel slide" data-ride="carousel" data-interval="false">
@@ -24,7 +23,7 @@
                     {
                         Response.Redirect("~/Error/NotFound");
                     }
-                    @*exception*@
+
                 </ol>
 
                 <div class="carousel-inner">
@@ -92,39 +91,62 @@
                 <h2 class="p-2 m-2">Zestaw zawiera</h2>
             </div>
         </div>
-        <div class="row bundle-offer m-0 p-0">
-            <hr class="w-100" />
-            <div class="col-12 col-lg-6 text-center bundle-offer-img my-auto">
-                <img class="img-fluid" src="@Model.Bundle.Offers.First().OfferPictures.First().PathToFile">
-            </div>
-            <div class="col-12 col-lg-6 offer-desc">
-                <h3><a class="bundle-product-name" href="#">Nazwa produktu</a></h3>
-                <p class="bundle-seller d-none d-lg-block mb-2">sprzedawca: <a class="seller-name" href="#">Janek</a></p>
-                <h3 class="bundle-product-price mb">200 zł</h3>
-                <p class="offer-count d-none d-lg-block pb-3">dostępne: 5 z 10</p>
-                <br>
-                <a class="bundle-addToBucket" data-type="Offer" id="">DODAJ DO KOSZYKA</a>
-                <i class="fas fa-heart fa-fw bundle-product-fav fav-active" data-type="Offer" id=""></i>
-            </div>
-        </div>
-        <div class="row bundle-offer m-0 p-0">
-            <hr class="w-100" />
-            <div class="col-12 col-lg-6 text-center bundle-offer-img my-auto text-center">
-                <img class="img-fluid" src="@Model.Bundle.Offers.First().OfferPictures.First().PathToFile">
-            </div>
-            <div class="col-12 col-lg-6 text-left offer-desc">
-                <h3><a class="bundle-product-name" href="#">Nazwa produktu</a></h3>
-                <p class="bundle-seller d-none d-lg-block mb-2">sprzedawca: <a class="seller-name" href="#">Janek</a></p>
-                <h3 class="bundle-product-price mb">200 zł</h3>
-                <p class="offer-count d-none d-lg-block pb-3">dostępne: 5 z 10</p>
-                <br>
-                <a class="bundle-addToBucket" data-type="Offer" id="">DODAJ DO KOSZYKA</a>
-                <i class="fas fa-heart fa-fw bundle-product-fav fav-active" data-type="Offer" id=""></i>
-            </div>
-        </div>
+
+        @if (Model.OffersList != null && Model.OffersList.Count() > 0)
+        {
+            try
+            {
+                foreach (var item in Model.OffersList)
+                {
+                    <div class="row bundle-offer m-0 p-0">
+                        <hr class="w-100" />
+                        <div class="col-12 col-lg-6 text-center bundle-offer-img my-auto text-center">
+                            <img class="img-fluid" src="@item.OfferPictures.First().PathToFile">
+                        </div>
+                        <div class="col-12 col-lg-6 text-left offer-desc">
+                            <h3><a class="bundle-product-name" href="@Url.Action("Index", "Home", new { OfferID = item.OfferID })">@item.Title</a></h3>
+                            <p class="bundle-seller d-none d-lg-block mb-2">sprzedawca: <a class="seller-name" href="@Url.Action("UserInformation","User",new { UserID = item.User.UserID })"> @item.User.Login</a></p>
+                            <h3 class="bundle-product-price mb">@item.Price</h3>
+                            <p class="offer-count d-none d-lg-block pb-3">dostępne: @item.InStockNow z @item.InStockOriginaly</p>
+                            <br>
+                            if (HttpContext.Current.User.Identity.IsAuthenticated)
+                            {
+                                if (Model.InBucketOffersIDs != null && Model.InBucketOffersIDs.Contains(item.OfferID))
+                                {
+                                    <a class="addToBucket in-bucket" data-type="Offer" id="@item.OfferID">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
+                                }
+                                else
+                                {
+                                    <a class="addToBucket" data-type="Offer" id="@item.OfferID">DODAJ DO KOSZYKA</a>
+                                }
+                                if (Model.InFavouriteOffersIDs != null && Model.InFavouriteOffersIDs.Contains(item.OfferID))
+                                {
+                                    <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Offer" id="@item.OfferID"></i>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-heart fa-fw bundle-product-fav fav-unActive" data-type="Offer" id="@item.OfferID"></i>
+                                }
+
+                            }
+                            else
+                            { 
+                                <a class="addToBucket not-logged" data-type="Offer" id="@item.OfferID">DODAJ DO KOSZYKA</a>
+                                <i class="fas fa-heart fa-fw product-fav not-logged"></i>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+            }
+        }
+
+
+
     </div>
-        @* ZESTAW ZAWIERA { WYŚWIETLANIE OFERT } *@
 
     @Scripts.Render("~/bundles/BucketAndFavjs")
     @Scripts.Render("~/bundles/Offerjs")
-}
