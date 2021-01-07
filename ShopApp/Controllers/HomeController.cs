@@ -24,6 +24,8 @@ namespace ShopApp.Controllers
         [HttpGet]
         public ActionResult Kat(int KatID = 1)//We come here from
         {
+            if (KatID < 1 || KatID > 12)
+                return new HttpStatusCodeResult(404);
             //Filters logic
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
             OffersAndBundles offersAndBundles = new OffersAndBundles();
@@ -87,6 +89,9 @@ namespace ShopApp.Controllers
         [HttpPost]
         public ActionResult Kat(FormCollection collection, int KatID = 1)//We come here from
         {
+            //ErrorController EC = new ErrorController();
+            //return EC.NotFound();
+            return new HttpStatusCodeResult(500);
             var chosenCategory = db.Categories.Where(c => c.CategoryID == KatID).FirstOrDefault();
             if (chosenCategory != null)
                 ViewBag.CategoryName = chosenCategory.CategoryName;

@@ -4,20 +4,23 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Diagnostics;
 
 namespace ShopApp.Controllers
 {
+    [HandleError]
     public class ErrorController : Controller
     {
         // GET: Error
-        [HandleError]
-        public ActionResult NotFound()
+        
+        public ActionResult InternalServerError()
         {
             return View();
         }
-        [HandleError]
-        public ActionResult InternalServerError()
+
+        public ActionResult NotFound()
         {
+            Debug.WriteLine(Response.StatusCode);
             return View();
         }
     }

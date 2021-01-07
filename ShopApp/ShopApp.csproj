@@ -685,12 +685,13 @@
     <Content Include="Views\User\UserInformation.cshtml" />
     <Content Include="Views\UserPanel\Settings.cshtml" />
     <Content Include="Views\Offer\Bundle.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\InternalServerError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="App_Files\Other\" />
     <Folder Include="fonts\" />
-    <Folder Include="Views\Error\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>

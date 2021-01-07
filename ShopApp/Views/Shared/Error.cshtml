@@ -1,52 +1,14 @@
-﻿@model System.Web.Mvc.HandleErrorInfo
-@{
-    ViewBag.Title = "BŁąd";
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>Błąd</title>
-    <!-- CUSTOM CSS -->
-    @Styles.Render("~/bundles/Error")
 </head>
-@if (Model.ActionName == "NotFound" || Response.StatusCode == 404)
-{
-    <body>
-        <div class="row justify-content-center align-items-center m-4 text-center error-container">
-            <div class="col-6 col-md-3 col-lg-2 error-img">
-                <img class="img-fluid" src="~/Images/404ErrorImage.svg">
-            </div>
-            <div class="col-12 col-md-4 col-lg-4 error-info">
-                <h1>404</h1>
-                <h2>Ups... coś poszło nie tak!</h2>
-                <p>Zgubiłeś się?</p>
-                <a href="~/Home/Index" class="btn btn-primary">Powróć na stronę główną</a>
-            </div>
-        </div>
-    </body>
-}
-else if (Model.ActionName == "InternalServerError" || Response.StatusCode == 500)
-{
-    <body>
-        <div class="row justify-content-center align-items-center m-4 text-center error-container">
-            <div class="col-6 col-md-3 col-lg-2 error-img">
-                <img class="img-fluid" src="~/Images/404ErrorImage.svg">
-            </div>
-            <div class="col-12 col-md-4 col-lg-4 error-info">
-                <h1>404</h1>
-                <h2>Ups... coś poszło nie tak!</h2>
-                <p>Zgubiłeś się?</p>
-                <a href="~/Home/Index" class="btn btn-primary">Powróć na stronę główną</a>
-            </div>
-        </div>
-    </body>
-}
-else
-{
-
-}
-
-
+<body>
+    <hgroup>
+        <h1>Błąd.</h1>
+        <h2>Wystąpił błąd podczas przetwarzania żądania.</h2>
+    </hgroup>
+</body>
 </html>
