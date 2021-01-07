@@ -250,7 +250,7 @@ namespace ShopApp.Utility
                 {
                     message.AppendLine($"<img src=\"{ item.Offer.OfferPictures.First().PathToFile }\" style = \"height:120px;width:120px;\" alt = \"Item image\" />");
                     message.AppendLine($"{item.Offer.Title}");
-                    message.AppendLine($"W ilości: {item.Offer.Title}");
+                    message.AppendLine($"W ilości: {item.Quantity}");
                 }
                 else
                 {
