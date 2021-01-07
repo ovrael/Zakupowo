@@ -1,74 +1,107 @@
-﻿@model ShopApp.Models.User
+﻿@model ShopApp.ViewModels.OrderHistoryViewModel
+
+@{ 
+    foreach (var item in Model.Sold)
+    {
+        System.Diagnostics.Debug.WriteLine("ID: " + item.TransactionID);
+        System.Diagnostics.Debug.WriteLine("Seller: " + item.Seller.Login);
+        System.Diagnostics.Debug.WriteLine("Buyer: " + item.Buyer.Login);
+        System.Diagnostics.Debug.WriteLine("BucketItemsCount: " + item.BucketItems.Count);
+    }
+
+    foreach (var item in Model.Bought)
+    {
+        System.Diagnostics.Debug.WriteLine("ID: " + item.TransactionID);
+        System.Diagnostics.Debug.WriteLine("Seller: " + item.Seller.Login);
+        System.Diagnostics.Debug.WriteLine("Buyer: " + item.Buyer.Login);
+        System.Diagnostics.Debug.WriteLine("BucketItemsCount: " + item.BucketItems.Count);
+    }
+}
 
 @Styles.Render("~/bundles/UserPanel")
 <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 @Html.Partial("_SideBar")
 
 <div class="container pl-1">
+
     <div class=" row justify-content-center">
         <div class="btn-group btn-group-toggle pb-3 pl-4 ml-5" data-toggle="buttons">
             <label class="btn btn-outline-warning active">
-                <input type="radio" name="options" id="option1" autocomplete="off" checked> Zakup
+                <input type="radio" name="options" id="boughtPage" autocomplete="off" checked> Zakup
             </label>
             <label class="btn btn-outline-warning">
-                <input type="radio" name="options" id="option2" autocomplete="off"> Sprzedaż
+                <input type="radio" name="options" id="soldPage" autocomplete="off"> Sprzedaż
             </label>
         </div>
     </div>
+
     <div class=" row-offer mb-4 mr-1 pl-4">
-        <div class="row pl-3 pt-2">
-            <h4>Zakupione oferty</h4>
+
+        @* BOUGHT TRANSACTIONS *@
+        <div id="boughtDiv">
+
+            <div class="row pl-3 pt-2">
+                <h4>Kupiono</h4>
+            </div>
+            <hr>
+            @{
+                foreach (var boughtTransaction in Model.Bought)
+                {
+                    <div class="row">
+                        <div class="col-3 pl-2">
+                            @boughtTransaction.TransactionID
+                        </div>
+                        <div class="col-3">
+                            Sprzedający: @boughtTransaction.Seller.Login
+                        </div>
+                        <div class="col-3 p-0">Ilość x Cena</div>
+                        <div class="col-3">Suma</div>
+                    </div>
+                }
+            }
         </div>
-        <hr>
-        <div class="row pb-3">
-            <div class="col-3 pl-2">
-                Numer zamówienia
+
+        <hr><br><hr>
+
+        @* SOLD TRANSACTIONS *@
+        <div id="soldDiv">
+
+            <div class="row pl-3 pt-4">
+                <h4>Sprzedano</h4>
             </div>
-            <div class="col-3">
-                NAZWA
-            </div>
-            <div class="col-3 p-0">Ilość x Cena</div>
-            <div class="col-3">Suma</div>
+            <hr>
+
+            @{
+                foreach (var soldTransaction in Model.Sold)
+                {
+                    <div class="row pb-3">
+                        <div class="col-3 pl-2">
+                            @soldTransaction.TransactionID
+                        </div>
+                        <div class="col-3">
+                            Kupujący: @soldTransaction.Buyer.Login
+                        </div>
+                        <div class="col-3 p-0">Ilość x Cena</div>
+                        <div class="col-3">Suma</div>
+                    </div>
+                }
+            }
+
 
         </div>
-        <div class="row">
-            <div class="col-3 pl-2">
-                Numer zamówienia
-            </div>
-            <div class="col-3">
-                NAZWA
-            </div>
-            <div class="col-3 p-0">Ilość x Cena</div>
-            <div class="col-3">Suma</div>
 
-        </div>
-        <div class="row pl-3 pt-4">
-            <h4>Zakupione zestwy</h4>
-        </div>
-        <hr>
-        <div class="row pb-3">
-            <div class="col-3 pl-2">
-                Numer zamówienia
-            </div>
-            <div class="col-3">
-                NAZWA
-            </div>
-            <div class="col-3 p-0">Ilość x Cena</div>
-            <div class="col-3">Suma</div>
-
-        </div>
+        @*
         <hr>
         <div class="row pl-5 pt-4">
             <div class="col-10 d-flex justify-content-end ">
-            <h4>SUMA</h4>
-
+                <h4>SUMA</h4>
             </div>
         </div>
         <div class="col-12 d-flex justify-content-end">
             <a class="btn" data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapseExample"><i class="fas fa-caret-down"></i></a>
         </div>
         <div class="collapse" id="collapse">
-           
+
             <div class="row pl-2">
                 <div class="col-6 col-sm-3 ">
                     <h5>Dane odbiorcy</h5>
@@ -109,10 +142,9 @@
                 </div>
             </div>
 
-        </div>
+        </div>*@
 
     </div>
 
-  
 </div>
 
