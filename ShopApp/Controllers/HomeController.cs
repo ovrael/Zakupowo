@@ -24,7 +24,7 @@ namespace ShopApp.Controllers
         [HttpGet]
         public ActionResult Kat(int KatID = 1)//We come here from
         {
-            if (KatID < 1 || KatID > 12)
+            if (KatID < 1 || KatID > 14)
                 return new HttpStatusCodeResult(404);
             //Filters logic
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
