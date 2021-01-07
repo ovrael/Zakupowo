@@ -106,7 +106,7 @@
         }
         else
         {
-            <p>Użytkownik nie posiada jeszcze żadnej oferty</p>
+            <div class="row offer item-row p-2 m-0"><p>Użytkownik nie posiada jeszcze żadnej oferty</p></div>
         }
         @if (Model.OffersAndBundles != null && Model.OffersAndBundles.Bundles != null && Model.OffersAndBundles.Bundles.Count() != 0)
         {
@@ -156,7 +156,7 @@
         }
         else
         {
-            <p>Użytkownik nie posiada jeszcze żadnego zestawu</p>
+            <div class="row bundle-row offer p-2 m-0 d-none"><p>Użytkownik nie posiada jeszcze żadnego zestawu</p></div>
         }
 
     </div>
@@ -190,6 +190,7 @@
 
 
 @Scripts.Render("~/bundles/BucketAndFavjs")
+@Scripts.Render("~/bundles/UserInformationjs")
 
 @section scripts
 {
