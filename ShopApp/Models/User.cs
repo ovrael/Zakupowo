@@ -70,14 +70,20 @@ namespace ShopApp.Models
         public virtual ICollection<Auction> Auction { get; set; }
         [JsonIgnore]
         public virtual ICollection<Offer> Offers { get; set; }
-       
+
         public virtual ICollection<Favourite> FavouriteOffer { get; set; }
         [JsonIgnore]
         public virtual ICollection<Bundle> Bundles { get; set; }
 
         public virtual ICollection<ShippingAdress> ShippingAdresses { get; set; }
+
         [JsonIgnore]
-        public virtual ICollection<Transaction> Transactions { get; set; }
+        [InverseProperty("Buyer")]
+        public virtual ICollection<Transaction> BoughtTransactions { get; set; }
+
+        [JsonIgnore]
+        [InverseProperty("Seller")]
+        public virtual ICollection<Transaction> SoldTransactions { get; set; }
 
         [JsonIgnore]
         [InverseProperty("Sender")]
@@ -100,7 +106,7 @@ namespace ShopApp.Models
             return name + " " + login + " " + email + " " + phone;
         }
 
-   
+
         public List<Message> AllMesseges()
         {
             List<Message> messeges = new List<Message>();

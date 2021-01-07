@@ -390,6 +390,10 @@
     <Compile Include="Migrations\202101071658271_AddingTransactionCollectionToBucketItems.Designer.cs">
       <DependentUpon>202101071658271_AddingTransactionCollectionToBucketItems.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101071830506_ChangeUserModel_AddedTwoTransactionsList.cs" />
+    <Compile Include="Migrations\202101071830506_ChangeUserModel_AddedTwoTransactionsList.Designer.cs">
+      <DependentUpon>202101071830506_ChangeUserModel_AddedTwoTransactionsList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelsForm\UserBasicData.cs" />
     <Compile Include="ModelsForm\UserPasswordModel.cs" />
@@ -856,6 +860,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101071658271_AddingTransactionCollectionToBucketItems.resx">
       <DependentUpon>202101071658271_AddingTransactionCollectionToBucketItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101071830506_ChangeUserModel_AddedTwoTransactionsList.resx">
+      <DependentUpon>202101071830506_ChangeUserModel_AddedTwoTransactionsList.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

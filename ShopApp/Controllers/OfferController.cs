@@ -497,7 +497,7 @@ namespace ShopApp.Controllers
                         var grouped = order.GroupBy(i => i.Offer != null ? i.Offer.User : i.Bundle.User);
                         foreach (var seller in grouped)
                         {
-                            var message = "Jestem zainterowany zakupem wystawionego produktu proszę o odpowiedź.";
+                            var message = "Jestem zainteresowany zakupem wystawionego produktu proszę o odpowiedź.";
                             if (collection[$"message-input-{seller.Key.UserID}"] != null)
                                 message = collection[$"message-input-{seller.Key.UserID}"];
                             if (!EmailManager.SendEmail(EmailManager.EmailType.TransactionRequest, seller.Key.FirstName, seller.Key.LastName, seller.Key.Email, user.Login, user.FirstName, user.LastName, seller.ToList(), message, Address))
@@ -513,8 +513,13 @@ namespace ShopApp.Controllers
                                     IsAccepted = false,
                                     IsChosen = false
                                 };
-
                                 db.Transactions.Add(transaction);
+                                ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+
+                                foreach (var offer in seller.ToList())
+                                {
+                                    offer.Transaction.Add(transaction);
+                                }
                                 ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
                             }
                         }

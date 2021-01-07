@@ -8,7 +8,7 @@ namespace ShopApp.ViewModels
 {
     public class OrderHistoryViewModel
     {
-        public IEnumerable<Transaction> Sellings { get; set; }
-        public IEnumerable<Transaction> Purchases { get; set; }
+        public IEnumerable<Transaction> Sold { get; set; }
+        public IEnumerable<Transaction> Bought { get; set; }
     }
 }
