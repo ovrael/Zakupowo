@@ -549,6 +549,14 @@ namespace ShopApp.Controllers
                 editUser.Offers.Add(offer);
                 db.SaveChanges();
 
+                if (offer.OfferPictures.Count == 0)
+                {
+                    OfferPicture offerPicture = new OfferPicture() { PathToFile = "../../Images/product.jpg", Offer = offer };
+                    offer.OfferPictures.Add(offerPicture);
+
+                    db.SaveChanges();
+                }
+
                 return RedirectToAction("Offers", "UserPanel", new { success = true });
             }
             else

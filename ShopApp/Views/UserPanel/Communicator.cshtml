@@ -27,9 +27,6 @@
             <form id="create-message-user-form " class="bg-light">
                 <div class="input-group">
                     <input id="create-message-user" type="text" placeholder="Login użytkownika" aria-describedby="create-message-user-btn" class="form-control rounded-0 border-0 py-4 bg-light" autocomplete="off">
-                    @*<div class="input-group-append">
-            <a id="create-message-user-btn" class="btn btn-link" onclick="createMessageWindow()"><i class="fas fa-user-plus" style="color:black"></i></a>
-        </div>*@
                     <i class="fas fa-user-plus pt-3 pr-2" style="color:black"></i>
                 </div>
             </form>
@@ -80,7 +77,8 @@
                                     string contactLogin = msg.Sender.Login;
                                     string whomWrote = string.Empty;
                                     string avatarURL = msg.Sender.AvatarImage.PathToFile;
-                                    string unreadClass = "";
+                                    string unreadClass = string.Empty;
+                                    string messageContent = msg.Content;
 
                                     if (msg.Sender.Login == HttpContext.Current.User.Identity.Name) // IT MEANS WE  WRITE TO SOMEONE AND WITHOUT RESPONSE
                                     {
