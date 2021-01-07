@@ -106,40 +106,40 @@
 
     <div class="container-fluid">
         @RenderBody()
+
+        <footer>
+            <div class="footer m-0 p-0 row text-center align-items-center">
+                <div class="col-lg-3 col-12 text-center p-2">
+                    <a class="footer-link" href="#">
+                        <i class="fas fa-mobile-alt p-2"></i>
+                        <br>
+                        Darmowa aplikacja na twój telefon
+                    </a>
+                </div>
+                <div class="col-lg-3 col-12 text-center p-2">
+                    <a class="footer-link" href="https://github.com/kamreo/Zakupowo" target="_blank">
+                        <i class="fab fa-github p-2"></i>
+                        <br>
+                        Github
+                    </a>
+                </div>
+                <div class="col-lg-3 col-12 text-center p-2">
+                    <a class="footer-link" href="https://www.ue.katowice.pl/" target="_blank">
+                        <i class="fas fa-graduation-cap p-2"></i>
+                        <br>
+                        Uniwersytet Ekonomiczny w Katowicach
+                    </a>
+                </div>
+                <div class="col-lg-3 col-12 p-2">
+                    ©@DateTime.Now.Year Aplikacja stworzona w celach edukacyjnych przez studentów informatyki Uniwerystetu Ekonomicznego w Katowicach
+                </div>
+            </div>
+        </footer>
     </div>
 
     <div class="hidden" hidden>
         @RenderSection("scripts", required: false);
     </div>
-
-    <footer>
-        <div class="footer m-0 p-0 row text-center align-items-center">
-            <div class="col-lg-3 col-12 text-center p-2">
-                <a class="footer-link" href="#">
-                    <i class="fas fa-mobile-alt p-2"></i>
-                    <br>
-                    Darmowa aplikacja na twój telefon
-                </a>
-            </div>
-            <div class="col-lg-3 col-12 text-center p-2">
-                <a class="footer-link" href="https://github.com/kamreo/Zakupowo" target="_blank">
-                    <i class="fab fa-github p-2"></i>
-                    <br>
-                    Github
-                </a>
-            </div>
-            <div class="col-lg-3 col-12 text-center p-2">
-                <a class="footer-link" href="https://www.ue.katowice.pl/" target="_blank">
-                    <i class="fas fa-graduation-cap p-2"></i>
-                    <br>
-                    Uniwersytet Ekonomiczny w Katowicach
-                </a>
-            </div>
-            <div class="col-lg-3 col-12 p-2">
-                ©@DateTime.Now.Year Aplikacja stworzona w celach edukacyjnych przez studentów informatyki Uniwerystetu Ekonomicznego w Katowicach
-            </div>
-        </div>
-    </footer>
 
 </body>
 </html>
