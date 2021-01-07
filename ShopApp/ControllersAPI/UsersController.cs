@@ -25,31 +25,32 @@ namespace ShopApp.Controllers
 
         // GET: api/Users/Avatar/5
         [Route("Avatar")]
-        
+
         public IHttpActionResult GetAvatarURI(int userID)
         {
             User user = null;
             try
             {
                 user = db.Users.Where(i => i.UserID == userID).First();
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
 
             }
-           
-               
+
+
             if (user == null)
             {
                 return BadRequest("Couldn't find user!");
             }
-        
+
             var avatarImage = user.AvatarImage;
             var uriBase = "http://192.168.0.103:45455/../";
             var uri = uriBase + "App_Files/Images/UserAvatars/DefaultAvatar.jpg";
-            if (avatarImage != null) uri = uriBase  +  avatarImage.PathToFile;
+            if (avatarImage != null) uri = uriBase + avatarImage.PathToFile;
             return Ok(uri);
         }
-       
+
         //POST api/Users/Register
         [AllowAnonymous]
         [Route("Register")]
@@ -140,17 +141,45 @@ namespace ShopApp.Controllers
                 db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
             }
-            if (editUser != null) {
+            if (editUser != null)
+            {
                 return Ok(editUser);
             }
             else
             {
                 return Ok();
             }
-  
+
         }
 
 
+        [HttpPost]
+        [Route("DeleteAddress")]
+        public IHttpActionResult DeleteAddress(ShippingAdressBindingModel model)
+        {
+
+            ShippingAdress editAddress = db.ShippingAdresses.Where(u => u.AdressID == model.AdressID).FirstOrDefault();
+            int userId = editAddress.User.UserID;
+            User editUser = db.Users.Where(u => u.UserID == userId).FirstOrDefault();
+
+            if (editUser != null && editAddress != null)
+            {
+
+                editUser.ShippingAdresses.Remove(editAddress);
+                db.ShippingAdresses.Remove(editAddress);
+                db.SaveChanges();
+            }
+            if (editUser != null)
+            {
+                return Ok(editUser);
+            }
+            else
+            {
+                return Ok();
+            }
+
+        }
+        [HttpPost]
         [Route("ChangeAddressData")]
         public IHttpActionResult ChangeAddressData(ShippingAdressBindingModel model)
         {
@@ -166,7 +195,7 @@ namespace ShopApp.Controllers
 
             if (editAddress != null)
             {
-   
+
                 if (country != null)
                     editAddress.Country = country;
                 if (city != null)
@@ -191,22 +220,32 @@ namespace ShopApp.Controllers
             }
 
         }
-        [Route("DeleteAddress")]
-        public IHttpActionResult DeleteAddress(ShippingAdressBindingModel model)
+        [HttpPost]
+        [Route("AddAddress")]
+        public IHttpActionResult AddAddress(ShippingAdressBindingModel model)
         {
+            string country = model.Country;
+            string city = model.City;
+            string street = model.Street;
+            string postal = model.PostalCode;
+            string premises = model.PremisesNumber;
 
-
-            int userId = db.ShippingAdresses.Where(u => u.AdressID == model.AdressID).FirstOrDefault().User.UserID;
-            ShippingAdress editAddress = db.ShippingAdresses.Where(u => u.AdressID == model.AdressID).FirstOrDefault();
-            User editUser = db.Users.Where(u => u.UserID == userId).FirstOrDefault();
-
-            if (editUser != null && editAddress !=null)
+            User editUser = db.Users.Where(u => u.UserID == model.AdressID).FirstOrDefault();
+            ShippingAdress shippingAdress = new ShippingAdress
             {
+                Country = country,
+                City = city,
+                Street = street,
+                PostalCode = postal,
+                PremisesNumber = premises,
+                User = editUser
+            };
 
-                editUser.ShippingAdresses.Remove(editAddress);
-                db.ShippingAdresses.Remove(editAddress);
-                db.SaveChanges();
-            }
+            db.ShippingAdresses.Add(shippingAdress);
+            db.SaveChanges();
+            editUser.ShippingAdresses.Add(shippingAdress);
+            db.SaveChanges();
+
             if (editUser != null)
             {
                 return Ok(editUser);
@@ -218,19 +257,11 @@ namespace ShopApp.Controllers
 
         }
 
-
     }
-
+      
 
 }
   
-
-
-
-
-   
-
-
 public class ShippingAdressBindingModel
     {
        
