@@ -490,8 +490,6 @@ namespace ShopApp.Controllers
                                 };
 
                                 db.Transactions.Add(transaction);
-                                //seller.Key.Transactions.Add(transaction);
-                                //user.Transactions.Add(transaction);
                                 ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
                             }
                                 

@@ -386,6 +386,10 @@
     <Compile Include="Migrations\202101051758479_AddingResultsInTracsaction.Designer.cs">
       <DependentUpon>202101051758479_AddingResultsInTracsaction.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101071658271_AddingTransactionCollectionToBucketItems.cs" />
+    <Compile Include="Migrations\202101071658271_AddingTransactionCollectionToBucketItems.Designer.cs">
+      <DependentUpon>202101071658271_AddingTransactionCollectionToBucketItems.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelsForm\UserBasicData.cs" />
     <Compile Include="ModelsForm\UserPasswordModel.cs" />
@@ -520,6 +524,7 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="LICENSE" />
+    <Content Include="Scripts\UserInformation.js" />
     <Content Include="Scripts\UserPanelEditAvatar.js" />
     <Content Include="Scripts\UserPanelFilters.js" />
     <Content Include="Scripts\UserPanelSettingsManager.js" />
@@ -846,6 +851,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101051758479_AddingResultsInTracsaction.resx">
       <DependentUpon>202101051758479_AddingResultsInTracsaction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101071658271_AddingTransactionCollectionToBucketItems.resx">
+      <DependentUpon>202101071658271_AddingTransactionCollectionToBucketItems.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -17,6 +17,7 @@ namespace ShopApp.Models
 		public virtual Bundle Bundle { get; set; }
 		public virtual Bucket Bucket { get; set; }
 		public virtual ICollection<Order> Order { get; set; }
-        public byte[] RowVersion { get ; set ; }
+		public virtual ICollection<Transaction> Transaction { get; set; }
+		public byte[] RowVersion { get ; set ; }
     }
 }
