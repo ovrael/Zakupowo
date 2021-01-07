@@ -22,6 +22,7 @@ namespace ShopApp.Utility
                 }
                 catch (DbUpdateException ex)
                 {
+                    Debug.WriteLine("ERR: " + ex.Message);
                     foreach (var entry in ex.Entries)
                     {
                         var proposedValues = entry.CurrentValues;

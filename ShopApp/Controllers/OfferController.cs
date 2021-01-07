@@ -508,7 +508,8 @@ namespace ShopApp.Controllers
                                 Transaction transaction = new Transaction()
                                 {
                                     Buyer = user,
-                                    BucketItems = seller.ToList(),
+                                    //BucketItems = seller.ToList(), // NIE PRZYPISUJE ALE NIE WYWALA BŁĘDU??
+                                    //BucketItems = (ICollection<BucketItem>)seller, // DOBRZE PRZYPISUJE, ALE WYWALA BŁĄD ŻĄDANIA
                                     Seller = seller.Key,
                                     IsAccepted = false,
                                     IsChosen = false
@@ -516,6 +517,10 @@ namespace ShopApp.Controllers
                                 db.Transactions.Add(transaction);
                                 ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
 
+                                user.BoughtTransactions.Add(transaction);
+                                ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+
+                                user.BoughtTransactions.Add(transaction);
                                 WyswietlanieTransakcji();
 
                                 foreach (var offer in seller.ToList())
@@ -523,6 +528,11 @@ namespace ShopApp.Controllers
                                     offer.Transaction.Add(transaction);
                                 }
                                 ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                                //foreach (var offer in seller.ToList())
+                                //{
+                                //    offer.Transaction.Add(transaction);
+                                //}
+                                //ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
                             }
                         }
                         if (ItemsThatCouldntBeenSold != null && ItemsThatCouldntBeenSold.Count() != 0)
