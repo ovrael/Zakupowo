@@ -516,6 +516,8 @@ namespace ShopApp.Controllers
                                 db.Transactions.Add(transaction);
                                 ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
 
+                                WyswietlanieTransakcji();
+
                                 foreach (var offer in seller.ToList())
                                 {
                                     offer.Transaction.Add(transaction);
@@ -550,6 +552,29 @@ namespace ShopApp.Controllers
                 //Dodawanie i usuwanie z bucketa musza miec walidacje na transakcje
             }
             return RedirectToAction("Bucket");
+        }
+
+        private void WyswietlanieTransakcji()
+        {
+            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+
+            var transactions = db.Transactions.Where(i => i.Buyer.Login == user.Login).ToList();
+            foreach(var transaction in transactions)
+            {
+            Debug.WriteLine(transaction.BucketItems.Count());
+            Debug.WriteLine(transaction.TransactionID);
+
+                foreach(var item in transaction.BucketItems)
+                {
+                        Debug.WriteLine(item.Quantity);
+                        Debug.WriteLine(item.TotalPrice);
+                        Debug.WriteLine(item.BucketItemID);
+                        Debug.WriteLine(item.Offer != null ? item.Offer.Title : item.Bundle.Title);
+                        Debug.WriteLine("------ WEWN FOREACH ------");
+                }
+                Debug.WriteLine("------ ZEWN FOREACH ------");
+            }
+
         }
 
         #endregion
