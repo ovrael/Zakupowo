@@ -85,9 +85,46 @@
                 <button data-id="@Model.Bundle.BundleID" data-type="Bundle" data-quantity="" class="offer-button w-100 p-3 mt-2 addToBucket">DODAJ DO KOSZYKA</button>
             }
         </div>
-
-        @* ZESTAW ZAWIERA { WYŚWIETLANIE OFERT } *@
     </div>
+    <div class="bundle-offers m-0 mx-lg-auto mb-4 mt-4 shadow">
+        <div class="row bundle-offers-header">
+            <div class="col-12 text-center">
+                <h2 class="p-2 m-2">Zestaw zawiera</h2>
+            </div>
+        </div>
+        <div class="row bundle-offer m-0 p-0">
+            <hr class="w-100" />
+            <div class="col-12 col-lg-6 text-center bundle-offer-img my-auto">
+                <img class="img-fluid" src="@Model.Bundle.Offers.First().OfferPictures.First().PathToFile">
+            </div>
+            <div class="col-12 col-lg-6 offer-desc">
+                <h3><a class="bundle-product-name" href="#">Nazwa produktu</a></h3>
+                <p class="bundle-seller d-none d-lg-block mb-2">sprzedawca: <a class="seller-name" href="#">Janek</a></p>
+                <h3 class="bundle-product-price mb">200 zł</h3>
+                <p class="offer-count d-none d-lg-block pb-3">dostępne: 5 z 10</p>
+                <br>
+                <a class="bundle-addToBucket" data-type="Offer" id="">DODAJ DO KOSZYKA</a>
+                <i class="fas fa-heart fa-fw bundle-product-fav fav-active" data-type="Offer" id=""></i>
+            </div>
+        </div>
+        <div class="row bundle-offer m-0 p-0">
+            <hr class="w-100" />
+            <div class="col-12 col-lg-6 text-center bundle-offer-img my-auto text-center">
+                <img class="img-fluid" src="@Model.Bundle.Offers.First().OfferPictures.First().PathToFile">
+            </div>
+            <div class="col-12 col-lg-6 text-left offer-desc">
+                <h3><a class="bundle-product-name" href="#">Nazwa produktu</a></h3>
+                <p class="bundle-seller d-none d-lg-block mb-2">sprzedawca: <a class="seller-name" href="#">Janek</a></p>
+                <h3 class="bundle-product-price mb">200 zł</h3>
+                <p class="offer-count d-none d-lg-block pb-3">dostępne: 5 z 10</p>
+                <br>
+                <a class="bundle-addToBucket" data-type="Offer" id="">DODAJ DO KOSZYKA</a>
+                <i class="fas fa-heart fa-fw bundle-product-fav fav-active" data-type="Offer" id=""></i>
+            </div>
+        </div>
+    </div>
+        @* ZESTAW ZAWIERA { WYŚWIETLANIE OFERT } *@
+
     @Scripts.Render("~/bundles/BucketAndFavjs")
     @Scripts.Render("~/bundles/Offerjs")
 }

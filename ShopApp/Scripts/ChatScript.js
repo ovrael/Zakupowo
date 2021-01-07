@@ -83,15 +83,28 @@ function createMessageWindow(userLogin) {
                 if (actualUserBox != undefined) {
                     actualUserBox.classList.remove("active");
                 }
+                //$("#div-user-boxes").append(
+                //    "<a onclick=\"scrollToBottom(this.id)\" id=\"" + tabID + "\" data-toggle=\"pill\" href=\"" + hrefLink + "\" role=\tab\" class=\"user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 active nav-link\">"
+                //    + "<div class=\"media\">"
+                //    + "<img src=\"" + data.userAvatarURL + "\" alt=\"user\" width=\"50\" class=\"rounded-circle\">"
+                //    + "<div class=\"media-body ml-4\">"
+                //    + "<div class=\"d-flex align-items-center justify-content-between mb-1\">"
+                //    + "<h6 class=\"mb-0\">" + userLogin + "</h6><small id=\"" + dateID + "\" class=\"small font-weight-bold\"></small>"
+                //    + "</div>"
+                //    + "<p style=\"color:lightskyblue\" id=\"" + pID + "\" class=\"font-italic mb-0 text-small\"></p>"
+                //    + "</div>"
+                //    + "</div>"
+                //    + "</a>"
+                //);
                 $("#div-user-boxes").append(
                     "<a onclick=\"scrollToBottom(this.id)\" id=\"" + tabID + "\" data-toggle=\"pill\" href=\"" + hrefLink + "\" role=\tab\" class=\"user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 active nav-link\">"
-                    + "<div class=\"media\">"
-                    + "<img src=\"" + data.userAvatarURL + "\" alt=\"user\" width=\"50\" class=\"rounded-circle\">"
-                    + "<div class=\"media-body ml-4\">"
-                    + "<div class=\"d-flex align-items-center justify-content-between mb-1\">"
-                    + "<h6 class=\"mb-0\">" + userLogin + "</h6><small id=\"" + dateID + "\" class=\"small font-weight-bold\"></small>"
+                    + "<div class=\"users-box-content ml-3\">"
+                    + "<div class=\"row media-body\">"
+                    + "<div class=\"d-flex align-items-center mb-1\">"
+                    + "<img src=\"" + data.userAvatarURL + "\" alt=\"user\" width=\"40\" class=\"rounded-circle\">"
+                    + "<h6 class=\"mb-0 pl-3 ml-1justify-content-lg-start\">" + userLogin + "</h6><small font-weight-bold justify-content-lg-end id=\"" + dateID + "\" class=\"small font-weight-bold\"></small>"
                     + "</div>"
-                    + "<p style=\"color:lightskyblue\" id=\"" + pID + "\" class=\"font-italic mb-0 text-small\"></p>"
+                    + "<div style=\"color:black;overflow:hidden\" id=\"" + pID + "\" class=\"col-10 short-ms pl-5 font-italic mb-0 text-small\"></div>"
                     + "</div>"
                     + "</div>"
                     + "</a>"
@@ -247,15 +260,28 @@ function createMessageWindow(userLogin) {
         var conversationID = "v-pills-" + idHelper;
         var hrefLink = "#" + conversationID;
 
-        $("#div-user-boxes").prepend(
-            "<a onclick=\"scrollToBottom(this.id)\" id=\"" + tabID + "\" data-toggle=\"pill\" href=\"" + hrefLink + "\" role=\tab\" class=\"user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 nav-link\">"
-            + "<div class=\"media\">"
-            + "<img src=\"" + avatarImmageURL + "\" alt=\"user\" width=\"50\" class=\"rounded-circle\">"
-            + "<div class=\"media-body ml-4\">"
-            + "<div class=\"d-flex align-items-center justify-content-between mb-1\">"
-            + "<h6 class=\"mb-0\">" + senderName + "</h6><small id=\"" + dateID + "\" class=\"small font-weight-bold\"></small>"
+        //$("#div-user-boxes").prepend(
+        //    "<a onclick=\"scrollToBottom(this.id)\" id=\"" + tabID + "\" data-toggle=\"pill\" href=\"" + hrefLink + "\" role=\tab\" class=\"user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 nav-link\">"
+        //    + "<div class=\"media\">"
+        //    + "<img src=\"" + avatarImmageURL + "\" alt=\"user\" width=\"50\" class=\"rounded-circle\">"
+        //    + "<div class=\"media-body ml-4\">"
+        //    + "<div class=\"d-flex align-items-center justify-content-between mb-1\">"
+        //    + "<h6 class=\"mb-0\">" + senderName + "</h6><small id=\"" + dateID + "\" class=\"small font-weight-bold\"></small>"
+        //    + "</div>"
+        //    + "<p style=\"color:lightskyblue\" id=\"" + pID + "\" class=\"font-italic mb-0 text-small\"></p>"
+        //    + "</div>"
+        //    + "</div>"
+        //    + "</a>"
+        //);
+        $("#div-user-boxes").append(
+            "<a onclick=\"scrollToBottom(this.id)\" id=\"" + tabID + "\" data-toggle=\"pill\" href=\"" + hrefLink + "\" role=\tab\" class=\"user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 active nav-link\">"
+            + "<div class=\"users-box-content ml-3\">"
+            + "<div class=\"row media-body\">"
+            + "<div class=\"d-flex align-items-center mb-1\">"
+            + "<img src=\"" + avatarImmageURL + "\" alt=\"user\" width=\"40\" class=\"rounded-circle\">"
+            + "<h6 class=\"mb-0 pl-3 ml-1 justify-content-lg-start\">" + userLogin + "</h6><small font-weight-bold justify-content-lg-end id=\"" + dateID + "\" class=\"small font-weight-bold\"></small>"
             + "</div>"
-            + "<p style=\"color:lightskyblue\" id=\"" + pID + "\" class=\"font-italic mb-0 text-small\"></p>"
+            + "<div style=\"color:black;overflow:hidden\" id=\"" + pID + "\" class=\"col-10 short-ms pl-5 font-italic mb-0 text-small\"></div>"
             + "</div>"
             + "</div>"
             + "</a>"
@@ -312,9 +338,9 @@ function createMessageWindow(userLogin) {
 
         $(conversationID).append(
             "<div class=\"media w-50 mb-3 message\">"
-            + "<img src=\"" + avatarImageUrl + "\" alt=\"user\" width=\"30\" class=\"rounded-circle\">"
+            + "<img src=\"" + avatarImageUrl + "\" alt=\"user\" width=\"20\" class=\"rounded-circle\">"
             + "<div class=\"media-body ml-3\">"
-            + "<div class=\"bg-light rounded py-2 px-3 mb-2\" data-toggle=\"tooltip\" title=\""
+            + "<div class=\"bg-light rounded py-2 px-3 mb-2\" style=\"word-break:break-all\" data-toggle=\"tooltip\" title=\""
             + hours + ":" + minutes
             + "\">"
             + "<p class=\"text-small mb-0 text-muted\">" + message + "</p>"
@@ -322,6 +348,7 @@ function createMessageWindow(userLogin) {
             + "</div>"
             + "</div>"
         );
+  
 
         if (actualChatBox != undefined && receivedMessageChatBox != undefined && actualChatBox.id == receivedMessageChatBox.id) {
             receivedMessageChatBox.scrollTop = receivedMessageChatBox.scrollHeight;
@@ -349,7 +376,7 @@ function createMessageWindow(userLogin) {
         $(conversationID).append(
             "<div class=\"media w-50 ml-auto mb-3 message\">"
             + "<div class=\"media-body\">"
-            + "<div class=\"bg-primary rounded py-2 px-3 mb-2\" data-toggle=\"tooltip\" title=\""
+            + "<div class=\"bg-primary rounded py-2 px-3 mb-2\" style=\"word-break:break-all\" data-toggle=\"tooltip\" title=\""
             + hours + ":" + minutes
             + "\">"
             + "<p class=\"text-small mb-0 text-white\">" + message + "</p>"
@@ -404,21 +431,21 @@ function createMessageWindow(userLogin) {
 
     function createUserTR(user) {
 
-        var userAvatar = "<div class=\"col-3\">"
+        var userAvatar = "<div class=\"col-3 pl-4\">"
             + "<img src=\"" + user.AvatarUrl + "\" alt=\"user\" width=\"50\" class=\"rounded-circle\">"
             + "</div>";
 
         //var userData = "<div style=\"color:black\" class=\"col-9\">"
-        var userData = "<div style=\"color:black\" class=\"col-9 pl-5\">"
+        var userData = "<div style=\"color:black\" class=\"col-10 pl-4 pb-2 mr-5\">"
             + user.Login + "-" + user.FirstName
             + "</div>";
 
         //var userTR = "<a href=\"#\" onclick=\"createMessageWindow(this.id)\" class=\"user-row row\" id=\"" + user.Login + "\" style=\"background-color:lightblue;\">"
-        var userTR = "<a href=\"#\" onclick=\"createMessageWindow(this.id)\" class=\"user-row row\" id=\"" + user.Login + "\" style=\"background-color:white;padding-bottom:10px;padding-top:10px;border-bottom:solid;;border-color:lightgray;\">"
+        var userTR = "<a href=\"#\" onclick=\"createMessageWindow(this.id)\" class=\"user-row row\" id=\"" + user.Login + "\" style=\"background-color:white;padding-bottom:10px;padding-top:10px;border:solid;border-width:thin;border-color:lightgray;\">"
             + userAvatar
             + userData
             + "</a>";
-
+         
 
 
 

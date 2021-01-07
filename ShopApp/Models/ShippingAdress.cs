@@ -5,12 +5,14 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using Newtonsoft.Json;
 using ShopApp.DAL;
 
 namespace ShopApp.Models
 {
     public class ShippingAdress : IConcurrencyAwareEntity
     {
+        [JsonIgnore]
         public static string ErrorMessage { get; set; }
 
         [Key]
@@ -41,7 +43,10 @@ namespace ShopApp.Models
 
         [Required]
         [Column("UserID")]
+        [JsonIgnore]
         public virtual User User { get; set; }
+
+        [JsonIgnore]
         public byte[] RowVersion { get ; set ; }
     }
 }

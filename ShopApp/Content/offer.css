@@ -78,6 +78,66 @@
         left: 50%;
         transform: translate(-50%, -50%);
     }
+
+/* BUNDLE OFFERS */
+.bundle-offers {
+    background-color: white;
+}
+.bundle-product-name {
+    color: black;
+    font-size: 18px;
+}
+
+.bundle-product-price {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.bundle-seller-name {
+    color: #FFB24A;
+    font-weight: 700;
+}
+
+.bundle-seller-name:hover, .seller-name:visited {
+        color: #FFB24A;
+}
+
+.bundle-product-name:hover, .product-name:active {
+    color: #6684A1;
+}
+
+.bundle-product-fav {
+    font-size: 14px;
+    transition: 0.4s;
+    color: grey;
+    float: right;
+    clear: both;
+}
+
+.bundle-fav-active {
+    color: red !important;
+}
+
+.bundle-addToBucket {
+    color: #FFB24A;
+    letter-spacing: 1px;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.bundle-addToBucket:hover, .addToBucket:visited {
+    color: #FFB24A;
+}
+
+.bundle-offer {
+    height: 300px;
+}
+
+.bundle-offer-img > img {
+    max-height: 200px;
+}
+
 /* RESPONSIVE BREAKPOINTS */
 @media (min-width: 576px) { 
   #carousel-offer > .carousel-inner {
@@ -86,6 +146,12 @@
 }
 
 @media (min-width: 992px) {
+  .offer {
+      width: 60%;
+  }
+  .bundle-offers {
+    width: 60%;
+  }
   #carousel-offer > .carousel-inner {
     height: 620px !important;
   }
@@ -106,6 +172,21 @@
 
    .offer-button {
     width: 100%;
-  }
+   }
 
+    .bundle-product-name {
+        font-size: 26px;
+    }
+
+    .bundle-product-price {
+        font-size: 22px;
+    }
+
+    .bundle-product-fav {
+        font-size: 22px;
+    }
+
+    .bundle-addToBucket {
+        font-size: 16px;
+    }
 }

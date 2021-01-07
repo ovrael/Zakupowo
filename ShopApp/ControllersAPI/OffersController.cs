@@ -158,8 +158,6 @@ namespace ShopApp.ControllersAPI
                 {
                     file.Delete();
                 }
-            
-
 
             }
 
@@ -180,6 +178,8 @@ namespace ShopApp.ControllersAPI
             return db.Offers.Count(e => e.OfferID == id) > 0;
         }
     }
+
+
 
     public class OfferBindingModel
     {

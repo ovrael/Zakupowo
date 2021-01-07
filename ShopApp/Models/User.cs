@@ -68,12 +68,13 @@ namespace ShopApp.Models
         public virtual Order Order { get; set; }
         [JsonIgnore]
         public virtual ICollection<Auction> Auction { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Offer> Offers { get; set; }
        
         public virtual ICollection<Favourite> FavouriteOffer { get; set; }
         [JsonIgnore]
         public virtual ICollection<Bundle> Bundles { get; set; }
-        [JsonIgnore]
+
         public virtual ICollection<ShippingAdress> ShippingAdresses { get; set; }
         [JsonIgnore]
         public virtual ICollection<Transaction> Transactions { get; set; }
@@ -99,7 +100,7 @@ namespace ShopApp.Models
             return name + " " + login + " " + email + " " + phone;
         }
 
-    
+   
         public List<Message> AllMesseges()
         {
             List<Message> messeges = new List<Message>();

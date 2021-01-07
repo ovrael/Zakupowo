@@ -215,7 +215,7 @@ body {
 
     .container-fluid {
         padding-top: 60px;
-        min-height: calc(100vh - 75px);
+        /*min-height: calc(100vh - 75px);*/
     }
 
     .navbar-main > .navbar-brand {
