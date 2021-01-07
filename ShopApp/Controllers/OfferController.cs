@@ -488,8 +488,13 @@ namespace ShopApp.Controllers
                                     IsAccepted = false,
                                     IsChosen = false
                                 };
-
                                 db.Transactions.Add(transaction);
+                                ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+
+                                foreach (var offer in seller.ToList())
+                                {
+                                    offer.Transaction.Add(transaction);
+                                }
                                 ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
                             }
                         }
