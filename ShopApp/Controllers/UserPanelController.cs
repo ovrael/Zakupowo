@@ -927,11 +927,11 @@ namespace ShopApp.Controllers
         public ActionResult OrderHistory()
         {
 
-            foreach (var transaction in db.Transactions)
-            {
-                Debug.WriteLine("Transakcja " + transaction.TransactionID + " ma tyle bucket itemów: " + transaction.BucketItems.Count);
-                Debug.WriteLine("Buyer: " + transaction.Buyer.Login + " Seller: " + transaction.Seller.Login);
-            }
+            //foreach (var transaction in db.Transactions)
+            //{
+            //    Debug.WriteLine("Transakcja " + transaction.TransactionID + " ma tyle bucket itemów: " + transaction.BucketItems.Count);
+            //    Debug.WriteLine("Buyer: " + transaction.Buyer.Login + " Seller: " + transaction.Seller.Login);
+            //}
 
 
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
@@ -943,9 +943,9 @@ namespace ShopApp.Controllers
 
                 if (sold != null && bought != null)
                 {
-                    Debug.WriteLine("sold i bought to nie nulle");
-                    Debug.WriteLine("sold: " + sold.Count);
-                    Debug.WriteLine("bought: " + bought.Count);
+                    //Debug.WriteLine("sold i bought to nie nulle");
+                    //Debug.WriteLine("sold: " + sold.Count);
+                    //Debug.WriteLine("bought: " + bought.Count);
                     OrderHistoryViewModel OHVM = new OrderHistoryViewModel()
                     {
                         Sold = sold,

@@ -17,6 +17,7 @@ namespace ShopApp.Models
         public virtual User Buyer { get; set; }
         public virtual User Seller { get; set; }
         public virtual ICollection<BucketItem> BucketItems { get; set; }
+        // public DateTime CreationDate {get; set; }
         public byte[] RowVersion { get; set; }
     }
 }
