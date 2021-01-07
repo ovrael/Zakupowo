@@ -4,7 +4,7 @@
 
 
 <div class="row justify-content-center text-center">
-    <div class="col-12 col-md-8 col-lg-5 col-xl-4 absolute">
+    <div class="col-12 col-md-8 col-lg-5 col-xl-4 absolute m-5 m-lg-0">
         <form id="signinForm" name="signinForm" method="post" class="signinForm shadow p-5 m-2 bg-white rounded">
             <i class="fas fa-shopping-bag formlogo mb-2"></i>
             <h2 class="mb-4">
@@ -20,8 +20,8 @@
             @*<div>  @Html.ValidationMessageFor(Model => Model.EncryptedPassword)</div>*@
 
 
-
             <label><input type="checkbox" id="rememberMeInput" name="rememberMeInput" value="rememberMe"> Zapamiętaj mnie</label>
+            <hr class="mt-1" />
             <input type="submit" name="signinInput" value="Zaloguj się" class="bt btn-lg btn-primary btn-block mt-1 mb-1">
 
             <a href="@Url.Action("PreRestorePassword","User")">Zapomniałeś hasła?</a>
