@@ -429,14 +429,20 @@ ul.navbar-nav {
     to { background-color: white; }
 }
 @media screen and (max-width: 768px) {
-    .users-box-content {
+    .users-box-content h6, small {
         display: none;
     }
-    .img-user-box{
-        width:24px;
+    .short-ms {
+        display: none;
+    }
+    .img-user-box {
+        width: 24px;
     }
     .text-communicator p {
         font-size: 0px !important;
+    }
+    .userTable {
+        overflow-x: scroll;
     }
 }
 
