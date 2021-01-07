@@ -89,9 +89,6 @@ namespace ShopApp.Controllers
         [HttpPost]
         public ActionResult Kat(FormCollection collection, int KatID = 1)//We come here from
         {
-            //ErrorController EC = new ErrorController();
-            //return EC.NotFound();
-            return new HttpStatusCodeResult(500);
             var chosenCategory = db.Categories.Where(c => c.CategoryID == KatID).FirstOrDefault();
             if (chosenCategory != null)
                 ViewBag.CategoryName = chosenCategory.CategoryName;

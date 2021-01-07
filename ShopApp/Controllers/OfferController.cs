@@ -492,8 +492,6 @@ namespace ShopApp.Controllers
                                 db.Transactions.Add(transaction);
                                 ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
                             }
-                                
-
                         }
                         if (ItemsThatCouldntBeenSold != null && ItemsThatCouldntBeenSold.Count() != 0)
                         {
@@ -526,13 +524,6 @@ namespace ShopApp.Controllers
 
         #endregion
 
-
-        [NonAction]
-        //Send a transaction request via mail to the seller
-        public ActionResult SendTransactionRequest()
-        {
-            return Content("");
-        }
 
 
 
