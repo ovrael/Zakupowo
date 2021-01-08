@@ -25,6 +25,7 @@
             @{
                 foreach (var boughtTransaction in Model.Bought)
                 {
+                    string transactionStatus = boughtTransaction.IsAccepted ? "Potwierdzona" : "Niepotwierdzona";
                     double transactionSum = 0;
                     foreach (var item in boughtTransaction.BucketItems)
                     {
@@ -34,28 +35,31 @@
                     <div class="col-12 bought-row">
                         <div class="row">
 
-                            <div class="col-2 pl-2">
-                                ID transakcji: @boughtTransaction.TransactionID
+                            <div class="col-1 pl-2">
+                                ID: @boughtTransaction.TransactionID
                             </div>
-                            <div class="col-4">
-                                Data transakcji: @boughtTransaction.CreationDate
+                            <div class="col-2" data-placement="top" title="Dokładna data: @boughtTransaction.CreationDate">
+                                Data: @boughtTransaction.CreationDate.ToShortDateString()
                             </div>
-                            <div class="col-3">
+                            <div class="col-2">
                                 Sprzedający: @boughtTransaction.Seller.Login
                             </div>
                             <div class="col-3">Suma: @transactionSum zł</div>
+                            <div class="col-3">Status: @transactionStatus</div>
+                            <div class="col-1"><i class="fas fa-chevron-down"></i></div>
+
 
                         </div>
 
                         <div class="row">
 
-                            <div class="col-4 pl-2">
+                            <div class="col-3 pl-2">
                                 Produkt
                             </div>
-                            <div class="col-4">
+                            <div class="col-2">
                                 Zakupiona ilość
                             </div>
-                            <div class="col-4">
+                            <div class="col-3">
                                 Cena
                             </div>
 
@@ -70,13 +74,13 @@
                                     string itemTitle = boughtItem.Offer != null ? boughtItem.Offer.Title : boughtItem.Bundle.Title;
                                 }
 
-                                <div class="col-4 pl-2">
+                                <div class="col-3 pl-2">
                                     @itemTitle
                                 </div>
-                                <div class="col-4">
+                                <div class="col-2">
                                     @boughtItem.Quantity
                                 </div>
-                                <div class="col-4">
+                                <div class="col-3">
                                     @itemPrice.ToString("N2") zł
                                 </div>
 
@@ -103,16 +107,25 @@
                     <div class="col-12 sold-row">
                         <div class="row">
 
-                            <div class="col-2 pl-2">
-                                ID transakcji: @soldTransaction.TransactionID
+                            <div class="col-1 pl-2">
+                                ID: @soldTransaction.TransactionID
                             </div>
-                            <div class="col-4">
-                                Data transakcji: @soldTransaction.CreationDate
+                            <div class="col-2" data-placement="top" title="Dokładna data: @soldTransaction.CreationDate">
+                                Data: @soldTransaction.CreationDate.ToShortDateString()
                             </div>
                             <div class="col-3">
                                 Kupujący: @soldTransaction.Seller.Login
                             </div>
                             <div class="col-3">Suma: @transactionSum zł</div>
+                            <div class="col-1">
+                                <button class="btn btn-success"> Akceptuj </button>
+                            </div>
+                            <div class="col-1">
+                                <button class="btn btn-danger"> Odrzuć </button>
+                            </div>
+
+                            <div class="col-1"><i class="fas fa-chevron-down"></i></div>
+
 
                         </div>
 
