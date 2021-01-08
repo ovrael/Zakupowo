@@ -38,6 +38,11 @@
     height: 100px;
 }
 
+#createMessageBtn {
+    background-color: #FFB24A !important;
+    border-color: #FFB24A;
+}
+
 @media (min-width: 992px) {
     .user-header {
         width: 50%;

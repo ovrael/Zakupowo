@@ -48,7 +48,16 @@ $(document).ready(function () {
 
         }
         if (jQuery(this).hasClass("not-logged")) {
-            alert("Muszisz być zalogowany żeby dodawać do swojej listy ulubionych!");
+            $.alert({
+                title: 'Zaloguj się',
+                content: 'Musisz być zalogowany, by móc dodać ofertę do ulubionych',
+                buttons: {
+                    ok: {
+                        text: 'ok',
+                        btnClass: 'btn-popout'
+                    }
+                }
+            });    
         }
     }),
 
@@ -60,7 +69,16 @@ $(document).ready(function () {
             var quantity = jQuery(this).attr('data-quantity');
             var element = this;
             if (jQuery(this).hasClass("not-logged")) {
-                alert("Muszisz być zalogowany żeby dodawać do swojego koszyka!");
+                $.alert({
+                    title: 'Zaloguj się',
+                    content: 'Musisz być zalogowany, by móc dodać ofertę do koszyka',
+                    buttons: {
+                        ok: {
+                            text: 'ok',
+                            btnClass: 'btn-popout'
+                        }
+                    }
+                });    
             }
             if (!jQuery(this).hasClass('in-bucket')) {
                 $.ajax({

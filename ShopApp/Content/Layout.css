@@ -202,6 +202,11 @@ body {
     display: none;
 }
 
+.btn-popout {
+    background-color: #FFB24A !important;
+    border: 1px solid black;
+}
+
 /* RESPONSIVE BREAKPOINTS */
 @media (min-width: 1200px) {
     html {

@@ -60,11 +60,11 @@
     outline: none;
 }
 
-.in-bucket, .in-bucket:active, .in-bucket:hover, .in-bucket:focus {
-    background-color: grey;
-    cursor: not-allowed !important;
-    border: none !important;
-    outline: none;
+.offer-button.in-bucket, .offer-button.in-bucket:active, .offer-button.in-bucket:hover, .offer-button.in-bucket:focus {
+        background-color: grey;
+        cursor: not-allowed !important;
+        border: none !important;
+        outline: none;
 }
 
 .carousel-item {
@@ -136,6 +136,13 @@
 
 .bundle-offer-img > img {
     max-height: 200px;
+}
+
+.bundle-addToBucket.in-bucket, .bundle-addToBucket.offer-button.in-bucket:active, .bundle-addToBucket.offer-button.in-bucket:hover, .bundle-addToBucket.offer-button.in-bucket:focus {
+    color: grey;
+    cursor: not-allowed !important;
+    border: none !important;
+    outline: none;
 }
 
 /* RESPONSIVE BREAKPOINTS */
