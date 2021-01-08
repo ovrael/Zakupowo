@@ -51,6 +51,8 @@
 
 .selected {
     outline: solid 2px #FFB24A;
+    -moz-outline: solid 2px #FFB24A;
+    -webkit-outline: solid 2px #FFB24A;
 }
 
 .bucket-summary {

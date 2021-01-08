@@ -19,9 +19,9 @@
 
 <div class="container pl-5 pr-1 pb-5">
 
-        <div class="col-12 col-lg-3  pb-3 pl-4">
-            <h4> Napisz wiadomość do: </h4>
-        </div>
+    <div class="col-12 col-lg-3  pb-3 pl-4">
+        <h4> Napisz wiadomość do: </h4>
+    </div>
     <div class="row rounded-lg overflow-hidden pl-lg-4 pl-md-4 mr-5">
         <div class="col-12 col-lg-5 pl-4 pr-5 pb-4">
             <form id="create-message-user-form " class="bg-light">
@@ -105,9 +105,14 @@
 
                                     if (msg.Sender.AvatarImage == null)
                                     {
-                                        System.Diagnostics.Debug.WriteLine("Użytkownik: " + msg.Sender.Login + " nie ma avatara.");
                                         msg.Sender.AvatarImage.PathToFile = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg";
                                     }
+
+                                    if (messageContent.Length > 35)
+                                    {
+                                        messageContent = messageContent.Substring(0, 30) + "...";
+                                    }
+
                                     //<a onclick="scrollToBottom(this.id)" id="@tabID" data-toggle="pill" href="@hrefLink" role="tab" class="user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 @activeClass nav-link">
                                         <a onclick="scrollToBottom(this.id)" id="@tabID" data-toggle="pill" href="@hrefLink" role="tab" class="user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 @activeClass nav-link ">
                                             @*<div class="media" id="@mediaID">*@
@@ -123,20 +128,23 @@
                                                             <div style="color:black;overflow:hidden" id="@pID" class="col-10 short-ms pl-4 ml-5 font-weight-bold mb-0 text-small">@whomWrote@msg.Content</div>
                                                         </div>
                                                     </div>
+                                                    <div style="color:black;" id="@pID" class="col-10 short-ms pl-5 font-weight-bold mb-0 text-small">@whomWrote@messageContent</div>
                                                 </div>
-                                        </a>
-                                        n++;
-                                        }
-                                        }
-                                        }
+                                            </div>
+                                        </div>
+                                    </a>
+                                    n++;
+                                }
+                            }
+                        }
 
-                                </div>
-               </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Chat Box-->
-       
+
 
         <div class="col-9 col-lg-7 px-0 pb-3">
             <div id="div-chat-boxes" class="col-12 tab-content p-0">
@@ -154,56 +162,56 @@
                             string activeClass = user == lastUser ? "active" : string.Empty;
 
 
-                                <div class="px-3 py-3 chat-box bg-white tab-pane @activeClass" id="@conversationID" role="tabpanel" aria-labelledby="@ariaLabelled">
+                            <div class="px-3 py-3 chat-box bg-white tab-pane @activeClass" id="@conversationID" role="tabpanel" aria-labelledby="@ariaLabelled">
 
-                                    @{
-                                        string customSentDate = string.Empty;
-                                        foreach (var message in messagesList)
+                                @{
+                                    string customSentDate = string.Empty;
+                                    foreach (var message in messagesList)
+                                    {
+
+                                        if (message.SentTime.CompareTo(DateTime.Now.AddDays(-1)) < 1)
+                                        {
+                                            customSentDate = message.SentTime.ToString();
+                                        }
+                                        else
+                                        {
+                                            customSentDate = message.SentTime.ToShortTimeString();
+                                        }
+
+                                        if (message.Sender == user)
                                         {
 
-                                            if (message.SentTime.CompareTo(DateTime.Now.AddDays(-1)) < 1)
-                                            {
-                                                customSentDate = message.SentTime.ToString();
-                                            }
-                                            else
-                                            {
-                                                customSentDate = message.SentTime.ToShortTimeString();
-                                            }
-
-                                            if (message.Sender == user)
-                                            {
-
-                                                                        @*<div class="media w-50 mb-3 message">
-                                                <img src="@user.AvatarImage.PathToFile" alt="user" width="30" class="rounded-circle">
-                                                <div class="media-body ml-3">
-                                                    <div class="bg-light rounded py-2 px-3 mb-2" data-toggle="tooltip" title="@customSentDate">
-                                                        <p class="text-small mb-0 text-muted">@message.Content</p>
-                                                    </div>
-                                                </div>
-                                            </div>*@
-                                                <div class=" media w-50 mb-3 message">
-                                                    <img src="@user.AvatarImage.PathToFile" alt="user" width="20" class="rounded-circle">
+                                            @*<div class="media w-50 mb-3 message">
+                                                    <img src="@user.AvatarImage.PathToFile" alt="user" width="30" class="rounded-circle">
                                                     <div class="media-body ml-3">
-                                                        <div class="bg-light rounded py-2 px-3 mb-2" data-toggle="tooltip" style="word-break:break-all" title="@customSentDate">
+                                                        <div class="bg-light rounded py-2 px-3 mb-2" data-toggle="tooltip" title="@customSentDate">
                                                             <p class="text-small mb-0 text-muted">@message.Content</p>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            }
-
-                                            if (message.Sender.Login == HttpContext.Current.User.Identity.Name)
-                                            {
-                                                <div class="media w-50 ml-auto mb-3 message">
-                                                    <div class="media-body">
-                                                        <div class="bg-primary rounded py-2 px-3 mb-2" style="word-break:break-all" data-toggle="tooltip" title="@customSentDate">
-                                                            <p class="text-small mb-0 text-white">@message.Content</p>
-                                                        </div>
+                                                </div>*@
+                                            <div class=" media w-50 mb-3 message">
+                                                <img src="@user.AvatarImage.PathToFile" alt="user" width="20" class="rounded-circle">
+                                                <div class="media-body ml-3">
+                                                    <div class="bg-light rounded py-2 px-3 mb-2" data-toggle="tooltip" style="word-break:break-all" title="@customSentDate">
+                                                        <p class="text-small mb-0 text-muted">@message.Content</p>
                                                     </div>
                                                 </div>
-                                            }
+                                            </div>
+                                        }
+
+                                        if (message.Sender.Login == HttpContext.Current.User.Identity.Name)
+                                        {
+                                            <div class="media w-50 ml-auto mb-3 message">
+                                                <div class="media-body">
+                                                    <div class="bg-primary rounded py-2 px-3 mb-2" style="word-break:break-all" data-toggle="tooltip" title="@customSentDate">
+                                                        <p class="text-small mb-0 text-white">@message.Content</p>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         }
                                     }
-                                </div>
+                                }
+                            </div>
 
                             k++;
                         }
@@ -216,18 +224,18 @@
 
             </div>
             <div class="typing-area">
-            <div class="col-13">
+                <div class="col-13">
 
-                <!-- Typing area -->
-                <form id="message-send-form" class="bg-light">
-                    <div class="input-group">
-                        <input id="message-content" type="text" placeholder="Napisz wiadomość" aria-describedby="send-message-btn" class="form-control rounded-0 border-0 py-4 bg-light" autocomplete="off">
-                        <div class="input-group-append">
-                            <a id="send-message-btn" class="btn btn-link"> <i class="fa fa-paper-plane"></i></a>
+                    <!-- Typing area -->
+                    <form id="message-send-form" class="bg-light">
+                        <div class="input-group">
+                            <input id="message-content" type="text" placeholder="Napisz wiadomość" aria-describedby="send-message-btn" class="form-control rounded-0 border-0 py-4 bg-light" autocomplete="off">
+                            <div class="input-group-append">
+                                <a id="send-message-btn" class="btn btn-link"> <i class="fa fa-paper-plane"></i></a>
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
+                    </form>
+                </div>
 
             </div>
         </div>

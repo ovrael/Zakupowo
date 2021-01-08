@@ -9,7 +9,6 @@ using System.Web.Mvc;
 using ShopApp.Utility;
 using System.Threading.Tasks;
 using System.Diagnostics;
-using ShopApp.ViewModels;
 
 namespace ShopApp.Controllers
 {
@@ -22,6 +21,7 @@ namespace ShopApp.Controllers
         //Displaying particular offer
         public ActionResult Index(int? OfferID)
         {
+            WyswietlanieTransakcji();
             var offer = db.Offers.Where(i => i.OfferID == OfferID && i.IsActive).FirstOrDefault();
             if (offer != null)
             {
@@ -47,34 +47,60 @@ namespace ShopApp.Controllers
             }
         }
 
+        [HttpGet]
         public ActionResult Bundle(int? BundleID)
         {
-            if(BundleID != null || BundleID < 0)
+            if (BundleID != null || BundleID < 0)
             {
                 var bundle = db.Bundles.Where(i => i.BundleID == BundleID).FirstOrDefault();
-                var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-                if (user != null && bundle != null && bundle.Offers != null && bundle.Offers.Count() > 0)
+                if (bundle != null && bundle.Offers != null && bundle.Offers.Count() > 0)
                 {
-                    bool? isinbucket = user.Bucket.BucketItems?.Where(i => i.Offer == null).Select(i => i.Bundle).ToList().Contains(bundle);
-                    bool? isinfavourite = user.FavouriteOffer?.Where(i => i.Offer == null).Select(i => i.Bundle).ToList().Contains(bundle);
-
                     List<OfferPicture> MainPictures = new List<OfferPicture>();
-                    foreach( var offer in bundle.Offers)
+                    foreach (var offer in bundle.Offers)
                     {
                         MainPictures.Add(offer.OfferPictures.First());
                     }
-
                     BundleViewModel BundleViewModel = new BundleViewModel()
                     {
                         Bundle = bundle,
                         OffersList = bundle.Offers.ToList(),
-                        IsInFavourite = isinfavourite ?? false,
-                        IsInBucket = isinbucket ?? false,
                         MainPictures = MainPictures
                     };
 
-                    return View(BundleViewModel);
+                    var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
 
+                    if (user != null)
+                    {
+                        bool? isinbucket = user.Bucket.BucketItems?.Where(i => i.Offer == null).Select(i => i.Bundle).ToList().Contains(bundle);
+                        bool? isinfavourite = user.FavouriteOffer?.Where(i => i.Offer == null).Select(i => i.Bundle).ToList().Contains(bundle);
+
+                        List<int> InFavouriteOffersIDs = new List<int>();
+                        List<int> InBucketOffersIDs = new List<int>();
+
+                        foreach (var favOffer in user.FavouriteOffer)
+                        {
+                            if (favOffer != null && favOffer.Offer != null)
+                            {
+                                InFavouriteOffersIDs.Add(favOffer.Offer.OfferID);
+                            }
+                        }
+
+                        foreach (var BucketItem in user.Bucket.BucketItems)
+                        {
+                            if (BucketItem != null && BucketItem.Offer != null)
+                            {
+                                InFavouriteOffersIDs.Add(BucketItem.Offer.OfferID);
+                            }
+                        }
+
+                        BundleViewModel.InFavouriteOffersIDs = InFavouriteOffersIDs;
+                        BundleViewModel.InBucketOffersIDs = InBucketOffersIDs;
+                        BundleViewModel.IsInFavourite = isinfavourite ?? false;
+                        BundleViewModel.IsInBucket = isinbucket ?? false;
+                    }
+
+
+                    return View(BundleViewModel);
                 }
                 else
                     return new HttpStatusCodeResult(500);
@@ -472,7 +498,7 @@ namespace ShopApp.Controllers
                         var grouped = order.GroupBy(i => i.Offer != null ? i.Offer.User : i.Bundle.User);
                         foreach (var seller in grouped)
                         {
-                            var message = "Jestem zainterowany zakupem wystawionego produktu proszę o odpowiedź.";
+                            var message = "Jestem zainteresowany zakupem wystawionego produktu proszę o odpowiedź.";
                             if (collection[$"message-input-{seller.Key.UserID}"] != null)
                                 message = collection[$"message-input-{seller.Key.UserID}"];
                             if (!EmailManager.SendEmail(EmailManager.EmailType.TransactionRequest, seller.Key.FirstName, seller.Key.LastName, seller.Key.Email, user.Login, user.FirstName, user.LastName, seller.ToList(), message, Address))
@@ -483,34 +509,79 @@ namespace ShopApp.Controllers
                                 Transaction transaction = new Transaction()
                                 {
                                     Buyer = user,
-                                    BucketItems = seller.ToList(),
                                     Seller = seller.Key,
+                                    BucketItems = seller.ToList(), // NIE PRZYPISUJE ALE NIE WYWALA BŁĘDU??
+                                    //BucketItems = (ICollection<BucketItem>)seller, // DOBRZE PRZYPISUJE, ALE WYWALA BŁĄD ŻĄDANIA
+                                    CreationDate = DateTime.UtcNow,
                                     IsAccepted = false,
                                     IsChosen = false
                                 };
 
                                 db.Transactions.Add(transaction);
-                                ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
-                            }
-                                
+                                db.SaveChanges();
 
+                                user.BoughtTransactions.Add(transaction);
+                                db.SaveChanges();
+
+                                seller.Key.SoldTransactions.Add(transaction);
+                                db.SaveChanges();
+                                //ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+
+                                //foreach (var item in seller)
+                                //{
+                                //    item.Transaction.Add(transaction);
+                                //    ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                                //}
+
+                                //ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                                //WyswietlanieTransakcji(transaction);
+
+                                //foreach (var offer in seller.ToList())
+                                //{
+                                //    offer.Transaction.Add(transaction);
+                                //}
+                                //ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                                //foreach (var offer in seller.ToList())
+                                //{
+                                //    offer.Transaction.Add(transaction);
+                                //}
+                                //ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                            }
                         }
                         if (ItemsThatCouldntBeenSold != null && ItemsThatCouldntBeenSold.Count() != 0)
                         {
                             TempData["ErrorMessage"] = "TransactionRequestError";
                         }
                         var BucketItemsInOrderTab = user.Order.BucketItems.ToArray();
-                        for(int x = 0; x< BucketItemsInOrderTab.Count(); x++)
+                        for (int x = 0; x < BucketItemsInOrderTab.Count(); x++)
                         {
                             var item = BucketItemsInOrderTab.ElementAt(x);
                             if (ItemsThatCouldntBeenSold != null && ItemsThatCouldntBeenSold.Count() != 0 && ItemsThatCouldntBeenSold.Contains(item))
                                 continue;
                             else
                             {
-                                await RemoveFromBucket(item.Offer != null ? "Offer" : "Bundle", item.Offer != null ? item.Offer.OfferID : item.Bundle.BundleID);
+                                try
+                                {
+                                    user.Bucket.BucketItems.Remove(item);
+                                    db.SaveChanges();
+
+                                    //Offer itemOffer = item.Offer;
+                                    //itemOffer.BucketItems.Remove(item);
+                                    //db.SaveChanges();
+
+                                    //db.Entry(item).State = System.Data.Entity.EntityState.Deleted;
+                                    //db.SaveChanges();
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    Debug.WriteLine("--------------------- ERROR: " + ex.InnerException.Message);
+                                }
+
+                                //db.BucketItems.Remove(item);
+                                //await RemoveFromBucket(item.Offer != null ? "Offer" : "Bundle", item.Offer != null ? item.Offer.OfferID : item.Bundle.BundleID);
                             }
                         }
-                        
 
                         user.Order.BucketItems.Clear();
                         ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
@@ -524,15 +595,43 @@ namespace ShopApp.Controllers
             return RedirectToAction("Bucket");
         }
 
+        private void WyswietlanieTransakcji()
+        {
+            var transactions = db.Transactions.ToList();
+            foreach (var transaction in transactions)
+            {
+                Debug.WriteLine(transaction.BucketItems.Count());
+                Debug.WriteLine(transaction.TransactionID);
+
+                foreach (var item in transaction.BucketItems)
+                {
+                    Debug.WriteLine(item.Quantity);
+                    Debug.WriteLine(item.TotalPrice);
+                    Debug.WriteLine(item.BucketItemID);
+                    Debug.WriteLine(item.Offer != null ? item.Offer.Title : item.Bundle.Title);
+                    Debug.WriteLine("------ WEWN FOREACH ------");
+                }
+                Debug.WriteLine("------ ZEWN FOREACH ------");
+            }
+
+        }
+
+        private void WyswietlanieTransakcji(Transaction transaction)
+        {
+            Debug.WriteLine("TransactionID: " + transaction.TransactionID);
+            Debug.WriteLine("Transaction Bucket items count: " + transaction.BucketItems.Count());
+
+            foreach (var item in transaction.BucketItems)
+            {
+                Debug.WriteLine("BucketItem ID: " + item.BucketItemID);
+                Debug.WriteLine("BucketItem title: " + item.Offer != null ? item.Offer.Title : item.Bundle.Title);
+                Debug.WriteLine("BucketItem quantity: " + item.Quantity);
+                Debug.WriteLine("BucketItem total price: " + item.TotalPrice);
+            }
+        }
+
         #endregion
 
-
-        [NonAction]
-        //Send a transaction request via mail to the seller
-        public ActionResult SendTransactionRequest()
-        {
-            return Content("");
-        }
 
 
 

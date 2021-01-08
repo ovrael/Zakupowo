@@ -390,6 +390,14 @@
     <Compile Include="Migrations\202101071658271_AddingTransactionCollectionToBucketItems.Designer.cs">
       <DependentUpon>202101071658271_AddingTransactionCollectionToBucketItems.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101071830506_ChangeUserModel_AddedTwoTransactionsList.cs" />
+    <Compile Include="Migrations\202101071830506_ChangeUserModel_AddedTwoTransactionsList.Designer.cs">
+      <DependentUpon>202101071830506_ChangeUserModel_AddedTwoTransactionsList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101072024567_AddingCreationTime.cs" />
+    <Compile Include="Migrations\202101072024567_AddingCreationTime.Designer.cs">
+      <DependentUpon>202101072024567_AddingCreationTime.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelsForm\UserBasicData.cs" />
     <Compile Include="ModelsForm\UserPasswordModel.cs" />
@@ -524,6 +532,7 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="LICENSE" />
+    <Content Include="Scripts\OrderHistoryScript.js" />
     <Content Include="Scripts\UserInformation.js" />
     <Content Include="Scripts\UserPanelEditAvatar.js" />
     <Content Include="Scripts\UserPanelFilters.js" />
@@ -692,6 +701,8 @@
     <Content Include="Views\Offer\Bundle.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Error\InternalServerError.cshtml" />
+    <Content Include="Views\User\PreRestorePassword.cshtml" />
+    <Content Include="Views\User\RestorePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -854,6 +865,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101071658271_AddingTransactionCollectionToBucketItems.resx">
       <DependentUpon>202101071658271_AddingTransactionCollectionToBucketItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101071830506_ChangeUserModel_AddedTwoTransactionsList.resx">
+      <DependentUpon>202101071830506_ChangeUserModel_AddedTwoTransactionsList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101072024567_AddingCreationTime.resx">
+      <DependentUpon>202101072024567_AddingCreationTime.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

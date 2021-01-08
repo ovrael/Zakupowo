@@ -26,9 +26,9 @@ body {
 .container-fluid {
     padding-top: 90px;
     position: relative;
-    min-height: calc(100vh - 30px);
-/*    min-height:96vh;
-*/}
+    min-height: 100vh;
+    padding-bottom: 280px;
+}
 
 /* NAVBAR */
 .navbar-main {
@@ -120,6 +120,8 @@ body {
     color: white;
     width: 100%;
     position: absolute;
+    right: 0;
+    bottom: 0;
 }
 
 .footer-link {
@@ -200,13 +202,6 @@ body {
     display: none;
 }
 
-.absolute {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
 /* RESPONSIVE BREAKPOINTS */
 @media (min-width: 1200px) {
     html {
@@ -215,7 +210,7 @@ body {
 
     .container-fluid {
         padding-top: 60px;
-        /*min-height: calc(100vh - 75px);*/
+        padding-bottom: 100px
     }
 
     .navbar-main > .navbar-brand {
@@ -227,8 +222,8 @@ body {
     }
 
     .main-nav-link > i {
-            font-size: 20px;
-        }
+        font-size: 20px;
+    }
 
     .dropdown-menu {
         min-width: 350px;
@@ -237,6 +232,13 @@ body {
     .slideIn {
         -webkit-animation-name: none;
         animation-name: none;
+    }
+
+    .absolute {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 }
 

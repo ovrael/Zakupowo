@@ -168,6 +168,33 @@ namespace ShopApp.Controllers
             ViewBag.ErrorMessage = "Nieprawidłowe dane logowania";
             return View();
         }
+
+        [HttpGet]
+        public ActionResult PreRestorePassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult PreRestorePassword(FormCollection collection)
+        {
+            //collection["email"]
+            //wysylamy maila
+            return View();
+        }
+        [HttpGet]
+        public ActionResult RestorePassword()
+        {
+            //wyswietlanie pola do wpisania kodu kodu
+            return View();
+        }
+        [HttpPost]
+        public ActionResult RestorePassword(FormCollection collection)
+        {
+            //collection["restore-code"]
+            //collection["new-password"]
+            return View();
+        }
+
         //Logout method 
         [Authorize]
         public ActionResult Logout()

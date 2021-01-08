@@ -9,10 +9,11 @@ namespace ShopApp.ViewModels
     public class BundleViewModel
     {
             public Bundle Bundle { get; set; }
-            public IEnumerable<Offer> OffersList { get; set; }
             public bool IsInBucket { get; set; }
             public bool IsInFavourite { get; set; }
-            
             public IEnumerable<OfferPicture> MainPictures { get; set; }
+            public IEnumerable<Offer> OffersList { get; set; }
+            public IEnumerable<int> InBucketOffersIDs { get; set; }
+            public IEnumerable<int> InFavouriteOffersIDs { get; set; }
     }
 }

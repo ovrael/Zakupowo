@@ -1,118 +1,167 @@
-﻿@model ShopApp.Models.User
+﻿@model ShopApp.ViewModels.OrderHistoryViewModel
 
 @Styles.Render("~/bundles/UserPanel")
+@Styles.Render("~/bundles/Kat")
+
 <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 @Html.Partial("_SideBar")
 
 <div class="container pl-1">
+
     <div class=" row justify-content-center">
-        <div class="btn-group btn-group-toggle pb-3 pl-4 ml-5" data-toggle="buttons">
-            <label class="btn btn-outline-warning active">
-                <input type="radio" name="options" id="option1" autocomplete="off" checked> Zakup
-            </label>
-            <label class="btn btn-outline-warning">
-                <input type="radio" name="options" id="option2" autocomplete="off"> Sprzedaż
-            </label>
+        <div class="col-12 mb-2 text-center">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn switch switch-bought btn-primary on">Kupione</button>
+                <button type="button" class="btn switch switch-sold btn-secondary">Sprzedane</button>
+            </div>
         </div>
     </div>
+
     <div class=" row-offer mb-4 mr-1 pl-4">
-        <div class="row pl-3 pt-2">
-            <h4>Zakupione oferty</h4>
-        </div>
-        <hr>
-        <div class="row pb-3">
-            <div class="col-3 pl-2">
-                Numer zamówienia
-            </div>
-            <div class="col-3">
-                NAZWA
-            </div>
-            <div class="col-3 p-0">Ilość x Cena</div>
-            <div class="col-3">Suma</div>
 
-        </div>
-        <div class="row">
-            <div class="col-3 pl-2">
-                Numer zamówienia
-            </div>
-            <div class="col-3">
-                NAZWA
-            </div>
-            <div class="col-3 p-0">Ilość x Cena</div>
-            <div class="col-3">Suma</div>
+        @* BOUGHT TRANSACTIONS *@
+        <div id="boughtDiv" class="">
+            <br />
+            @{
+                foreach (var boughtTransaction in Model.Bought)
+                {
+                    double transactionSum = 0;
+                    foreach (var item in boughtTransaction.BucketItems)
+                    {
+                        transactionSum += item.TotalPrice * item.Quantity;
+                    }
 
-        </div>
-        <div class="row pl-3 pt-4">
-            <h4>Zakupione zestwy</h4>
-        </div>
-        <hr>
-        <div class="row pb-3">
-            <div class="col-3 pl-2">
-                Numer zamówienia
-            </div>
-            <div class="col-3">
-                NAZWA
-            </div>
-            <div class="col-3 p-0">Ilość x Cena</div>
-            <div class="col-3">Suma</div>
+                    <div class="col-12 bought-row">
+                        <div class="row">
 
-        </div>
-        <hr>
-        <div class="row pl-5 pt-4">
-            <div class="col-10 d-flex justify-content-end ">
-            <h4>SUMA</h4>
+                            <div class="col-2 pl-2">
+                                ID transakcji: @boughtTransaction.TransactionID
+                            </div>
+                            <div class="col-4">
+                                Data transakcji: @boughtTransaction.CreationDate
+                            </div>
+                            <div class="col-3">
+                                Sprzedający: @boughtTransaction.Seller.Login
+                            </div>
+                            <div class="col-3">Suma: @transactionSum zł</div>
 
-            </div>
-        </div>
-        <div class="col-12 d-flex justify-content-end">
-            <a class="btn" data-toggle="collapse" href="#collapse" aria-expanded="false" aria-controls="collapseExample"><i class="fas fa-caret-down"></i></a>
-        </div>
-        <div class="collapse" id="collapse">
-           
-            <div class="row pl-2">
-                <div class="col-6 col-sm-3 ">
-                    <h5>Dane odbiorcy</h5>
-                </div>
+                        </div>
 
-                <div class="col-6 col-sm-3">
-                    <h5>Adres wysyłki</h5>
-                </div>
-                <div class="w-100"></div>
-                <div class="col-6 col-sm-3">Jan</div>
-                <div class="col-6 col-sm-3">Kurier DHL</div>
-                <div class="w-100"></div>
-                <div class="col-6 col-sm-3">Kowalski</div>
-                <div class="col-6 col-sm-3">3 maja 3/17a</div>
-                <div class="w-100"></div>
-                <div class="col-6 col-sm-3">3 maja 3/17a</div>
-                <div class="col-6 col-sm-3">Kraków 11-123</div>
-                <div class="w-100"></div>
-                <div class="col-6 col-sm-3">Kraków 11-123</div>
-                <div class="w-100"></div>
-                <div class="col-6 col-sm-3">111222333</div>
+                        <div class="row">
 
-            </div>
+                            <div class="col-4 pl-2">
+                                Produkt
+                            </div>
+                            <div class="col-4">
+                                Zakupiona ilość
+                            </div>
+                            <div class="col-4">
+                                Cena
+                            </div>
 
-            <div class="row pl-2 pt-2 pb-3">
-                <div class="col-6 col-sm-3 ">
-                    <h5>Data</h5>
-                </div>
-                <div class="col-6 col-sm-3 ">
-                    <h5>Rodzaj transakcji</h5>
-                </div>
-                <div class="w-100"></div>
-                <div class="col-6 col-sm-3 ">
-                    12-11-2020
-                </div>
-                <div class="col-6 col-sm-3 ">
-                    Zakup
-                </div>
-            </div>
+                        </div>
 
+                        @foreach (var boughtItem in boughtTransaction.BucketItems)
+                        {
+                            <div class="row">
+
+                                @{
+                                    double itemPrice = boughtItem.Offer != null ? boughtItem.Offer.Price : boughtItem.Bundle.BundlePrice;
+                                    string itemTitle = boughtItem.Offer != null ? boughtItem.Offer.Title : boughtItem.Bundle.Title;
+                                }
+
+                                <div class="col-4 pl-2">
+                                    @itemTitle
+                                </div>
+                                <div class="col-4">
+                                    @boughtItem.Quantity
+                                </div>
+                                <div class="col-4">
+                                    @itemPrice.ToString("N2") zł
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+                    <br />
+                }
+            }
         </div>
 
+        @* SOLD TRANSACTIONS *@
+        <div id="soldDiv" class="d-none">
+            <br />
+            @{
+                foreach (var soldTransaction in Model.Sold)
+                {
+                    double transactionSum = 0;
+                    foreach (var item in soldTransaction.BucketItems)
+                    {
+                        transactionSum += item.TotalPrice * item.Quantity;
+                    }
+
+                    <div class="col-12 sold-row">
+                        <div class="row">
+
+                            <div class="col-2 pl-2">
+                                ID transakcji: @soldTransaction.TransactionID
+                            </div>
+                            <div class="col-4">
+                                Data transakcji: @soldTransaction.CreationDate
+                            </div>
+                            <div class="col-3">
+                                Kupujący: @soldTransaction.Seller.Login
+                            </div>
+                            <div class="col-3">Suma: @transactionSum zł</div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-4 pl-2">
+                                Produkt
+                            </div>
+                            <div class="col-4">
+                                Zakupiona ilość
+                            </div>
+                            <div class="col-4">
+                                Cena
+                            </div>
+
+                        </div>
+
+                        @foreach (var soldItem in soldTransaction.BucketItems)
+                        {
+                            <div class="row">
+
+                                @{
+                                    double itemPrice = soldItem.Offer != null ? soldItem.Offer.Price : soldItem.Bundle.BundlePrice;
+                                    string itemTitle = soldItem.Offer != null ? soldItem.Offer.Title : soldItem.Bundle.Title;
+                                }
+
+                                <div class="col-4 pl-2">
+                                    @itemTitle
+                                </div>
+                                <div class="col-4">
+                                    @soldItem.Quantity
+                                </div>
+                                <div class="col-4">
+                                    @itemPrice.ToString("N2") zł
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+                    <br />
+                }
+            }
+        </div>
     </div>
-
-  
 </div>
 
+
+
+@section scripts
+{
+    <script src="~/Scripts/OrderHistoryScript.js"></script>
+}

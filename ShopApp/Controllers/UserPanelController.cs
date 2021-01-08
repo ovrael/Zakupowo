@@ -927,16 +927,18 @@ namespace ShopApp.Controllers
         public ActionResult OrderHistory()
         {
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+
             if (user != null)
             {
-                var Sellings = db.Transactions.Where(i => i.Buyer.UserID == user.UserID).ToList();
-                var Purchases = db.Transactions.Where(i => i.Seller.UserID == user.UserID).ToList();
-                if (Sellings != null && Purchases != null)
+                var sold = user.SoldTransactions.ToList();
+                var bought = user.BoughtTransactions.ToList();
+
+                if (sold != null && bought != null)
                 {
                     OrderHistoryViewModel OHVM = new OrderHistoryViewModel()
                     {
-                        Sellings = Sellings,
-                        Purchases = Purchases
+                        Sold = sold,
+                        Bought = bought
                     };
                     if (OHVM != null)
                         return View(OHVM);
@@ -948,6 +950,29 @@ namespace ShopApp.Controllers
             }
             else
                 return new HttpStatusCodeResult(404);
+        }
+
+        private void WyswietlanieTransakcji()
+        {
+            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+
+            var transactions = db.Transactions.Where(i => i.Buyer.Login == user.Login).ToList();
+            foreach (var transaction in transactions)
+            {
+                Debug.WriteLine(transaction.BucketItems.Count());
+                Debug.WriteLine(transaction.TransactionID);
+
+                foreach (var item in transaction.BucketItems)
+                {
+                    Debug.WriteLine(item.Quantity);
+                    Debug.WriteLine(item.TotalPrice);
+                    Debug.WriteLine(item.BucketItemID);
+                    Debug.WriteLine(item.Offer != null ? item.Offer.Title : item.Bundle.Title);
+                    Debug.WriteLine("------ WEWN FOREACH ------");
+                }
+                Debug.WriteLine("------ ZEWN FOREACH ------");
+            }
+
         }
 
         [HttpPost]
