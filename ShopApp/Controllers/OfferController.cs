@@ -21,6 +21,7 @@ namespace ShopApp.Controllers
         //Displaying particular offer
         public ActionResult Index(int? OfferID)
         {
+            WyswietlanieTransakcji();
             var offer = db.Offers.Where(i => i.OfferID == OfferID && i.IsActive).FirstOrDefault();
             if (offer != null)
             {
@@ -67,8 +68,8 @@ namespace ShopApp.Controllers
                     };
 
                     var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-                
-                    if(user != null)
+
+                    if (user != null)
                     {
                         bool? isinbucket = user.Bucket.BucketItems?.Where(i => i.Offer == null).Select(i => i.Bundle).ToList().Contains(bundle);
                         bool? isinfavourite = user.FavouriteOffer?.Where(i => i.Offer == null).Select(i => i.Bundle).ToList().Contains(bundle);
@@ -508,26 +509,38 @@ namespace ShopApp.Controllers
                                 Transaction transaction = new Transaction()
                                 {
                                     Buyer = user,
-                                    //BucketItems = seller.ToList(), // NIE PRZYPISUJE ALE NIE WYWALA BŁĘDU??
-                                    //BucketItems = (ICollection<BucketItem>)seller, // DOBRZE PRZYPISUJE, ALE WYWALA BŁĄD ŻĄDANIA
                                     Seller = seller.Key,
+                                    BucketItems = seller.ToList(), // NIE PRZYPISUJE ALE NIE WYWALA BŁĘDU??
+                                    //BucketItems = (ICollection<BucketItem>)seller, // DOBRZE PRZYPISUJE, ALE WYWALA BŁĄD ŻĄDANIA
+                                    CreationDate = DateTime.UtcNow,
                                     IsAccepted = false,
                                     IsChosen = false
                                 };
+
                                 db.Transactions.Add(transaction);
-                                ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                                db.SaveChanges();
 
                                 user.BoughtTransactions.Add(transaction);
-                                ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                                db.SaveChanges();
 
-                                user.BoughtTransactions.Add(transaction);
-                                WyswietlanieTransakcji();
+                                seller.Key.SoldTransactions.Add(transaction);
+                                db.SaveChanges();
+                                //ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
 
-                                foreach (var offer in seller.ToList())
-                                {
-                                    offer.Transaction.Add(transaction);
-                                }
-                                ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                                //foreach (var item in seller)
+                                //{
+                                //    item.Transaction.Add(transaction);
+                                //    ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                                //}
+
+                                //ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                                //WyswietlanieTransakcji(transaction);
+
+                                //foreach (var offer in seller.ToList())
+                                //{
+                                //    offer.Transaction.Add(transaction);
+                                //}
+                                //ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
                                 //foreach (var offer in seller.ToList())
                                 //{
                                 //    offer.Transaction.Add(transaction);
@@ -547,10 +560,28 @@ namespace ShopApp.Controllers
                                 continue;
                             else
                             {
-                                await RemoveFromBucket(item.Offer != null ? "Offer" : "Bundle", item.Offer != null ? item.Offer.OfferID : item.Bundle.BundleID);
+                                try
+                                {
+                                    user.Bucket.BucketItems.Remove(item);
+                                    db.SaveChanges();
+
+                                    //Offer itemOffer = item.Offer;
+                                    //itemOffer.BucketItems.Remove(item);
+                                    //db.SaveChanges();
+
+                                    //db.Entry(item).State = System.Data.Entity.EntityState.Deleted;
+                                    //db.SaveChanges();
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    Debug.WriteLine("--------------------- ERROR: " + ex.InnerException.Message);
+                                }
+
+                                //db.BucketItems.Remove(item);
+                                //await RemoveFromBucket(item.Offer != null ? "Offer" : "Bundle", item.Offer != null ? item.Offer.OfferID : item.Bundle.BundleID);
                             }
                         }
-
 
                         user.Order.BucketItems.Clear();
                         ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
@@ -566,25 +597,37 @@ namespace ShopApp.Controllers
 
         private void WyswietlanieTransakcji()
         {
-            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-
-            var transactions = db.Transactions.Where(i => i.Buyer.Login == user.Login).ToList();
-            foreach(var transaction in transactions)
+            var transactions = db.Transactions.ToList();
+            foreach (var transaction in transactions)
             {
-            Debug.WriteLine(transaction.BucketItems.Count());
-            Debug.WriteLine(transaction.TransactionID);
+                Debug.WriteLine(transaction.BucketItems.Count());
+                Debug.WriteLine(transaction.TransactionID);
 
-                foreach(var item in transaction.BucketItems)
+                foreach (var item in transaction.BucketItems)
                 {
-                        Debug.WriteLine(item.Quantity);
-                        Debug.WriteLine(item.TotalPrice);
-                        Debug.WriteLine(item.BucketItemID);
-                        Debug.WriteLine(item.Offer != null ? item.Offer.Title : item.Bundle.Title);
-                        Debug.WriteLine("------ WEWN FOREACH ------");
+                    Debug.WriteLine(item.Quantity);
+                    Debug.WriteLine(item.TotalPrice);
+                    Debug.WriteLine(item.BucketItemID);
+                    Debug.WriteLine(item.Offer != null ? item.Offer.Title : item.Bundle.Title);
+                    Debug.WriteLine("------ WEWN FOREACH ------");
                 }
                 Debug.WriteLine("------ ZEWN FOREACH ------");
             }
 
+        }
+
+        private void WyswietlanieTransakcji(Transaction transaction)
+        {
+            Debug.WriteLine("TransactionID: " + transaction.TransactionID);
+            Debug.WriteLine("Transaction Bucket items count: " + transaction.BucketItems.Count());
+
+            foreach (var item in transaction.BucketItems)
+            {
+                Debug.WriteLine("BucketItem ID: " + item.BucketItemID);
+                Debug.WriteLine("BucketItem title: " + item.Offer != null ? item.Offer.Title : item.Bundle.Title);
+                Debug.WriteLine("BucketItem quantity: " + item.Quantity);
+                Debug.WriteLine("BucketItem total price: " + item.TotalPrice);
+            }
         }
 
         #endregion

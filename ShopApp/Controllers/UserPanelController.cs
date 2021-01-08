@@ -926,26 +926,15 @@ namespace ShopApp.Controllers
 
         public ActionResult OrderHistory()
         {
-
-            //foreach (var transaction in db.Transactions)
-            //{
-            //    Debug.WriteLine("Transakcja " + transaction.TransactionID + " ma tyle bucket itemów: " + transaction.BucketItems.Count);
-            //    Debug.WriteLine("Buyer: " + transaction.Buyer.Login + " Seller: " + transaction.Seller.Login);
-            //}
-
-
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
 
             if (user != null)
             {
-                var sold = db.Transactions.Where(i => i.Seller.UserID == user.UserID).ToList();
-                var bought = db.Transactions.Where(i => i.Buyer.UserID == user.UserID).ToList();
+                var sold = user.SoldTransactions.ToList();
+                var bought = user.BoughtTransactions.ToList();
 
                 if (sold != null && bought != null)
                 {
-                    //Debug.WriteLine("sold i bought to nie nulle");
-                    //Debug.WriteLine("sold: " + sold.Count);
-                    //Debug.WriteLine("bought: " + bought.Count);
                     OrderHistoryViewModel OHVM = new OrderHistoryViewModel()
                     {
                         Sold = sold,
@@ -961,6 +950,29 @@ namespace ShopApp.Controllers
             }
             else
                 return new HttpStatusCodeResult(404);
+        }
+
+        private void WyswietlanieTransakcji()
+        {
+            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+
+            var transactions = db.Transactions.Where(i => i.Buyer.Login == user.Login).ToList();
+            foreach (var transaction in transactions)
+            {
+                Debug.WriteLine(transaction.BucketItems.Count());
+                Debug.WriteLine(transaction.TransactionID);
+
+                foreach (var item in transaction.BucketItems)
+                {
+                    Debug.WriteLine(item.Quantity);
+                    Debug.WriteLine(item.TotalPrice);
+                    Debug.WriteLine(item.BucketItemID);
+                    Debug.WriteLine(item.Offer != null ? item.Offer.Title : item.Bundle.Title);
+                    Debug.WriteLine("------ WEWN FOREACH ------");
+                }
+                Debug.WriteLine("------ ZEWN FOREACH ------");
+            }
+
         }
 
         [HttpPost]
