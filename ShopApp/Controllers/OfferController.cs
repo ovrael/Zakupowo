@@ -361,39 +361,57 @@ namespace ShopApp.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult> AddToBucket(string type, int? id, int quantity = 1)
+        public async Task<ActionResult> AddToBucket(string type, int? id, string quantity)
         {
-            List<string> errors = new List<string>();
+            string error = null;
 
             User user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
 
-            if ((type == "Offer" || type == "Bundle") && user != null && id != null && user.Offers.Where(i => i.OfferID == id).FirstOrDefault() == null)
+            if ((type == "Offer" || type == "Bundle") && user != null && id != null)
             {
                 BucketItem NewBucketItem = new BucketItem();
                 if (type == "Offer")
                 {
-                    NewBucketItem.Offer = db.Offers.Where(i => i.OfferID == id && i.IsActive).FirstOrDefault();
-                    if (NewBucketItem.Offer != null)//We chceck if user called for existing and active offer
+                    var Offer = db.Offers.Where(i => i.OfferID == id && i.IsActive).FirstOrDefault();
+                    if (Offer != null)//We chceck if user called for existing and active offer
                     {
-                        var OffersThatAreAlreadyInUsersBucket = user.Bucket?.BucketItems?.Where(i => i.Offer != null).ToList();
-                        if (OffersThatAreAlreadyInUsersBucket != null && !OffersThatAreAlreadyInUsersBucket.Where(i => i.Offer.OfferID == NewBucketItem.Offer.OfferID).Any())//We check if user has already that offer in bucket.
+                        NewBucketItem.Offer = Offer;
+                        var UserBucketOffers = user.Bucket?.BucketItems?.Where(i => i.Offer != null).ToList();
+                        if (UserBucketOffers != null && !UserBucketOffers.Where(i => i.Offer.OfferID == NewBucketItem.Offer.OfferID).Any())//We check if user has already that offer in bucket.
                         {
-                            NewBucketItem.Quantity = NewBucketItem.Offer.InStockNow >= (int)quantity ? (int)quantity : 1;
-                            NewBucketItem.TotalPrice = NewBucketItem.Quantity * NewBucketItem.Offer.Price;
-                            db.BucketItems.Add(NewBucketItem);
-                            user.Bucket.BucketItems.Add(NewBucketItem);
-                            NewBucketItem.Bucket = user.Bucket;
-                            ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                            if (int.TryParse(quantity, out int QuantityAsInt))
+                            {
+                                if (NewBucketItem.Offer.InStockNow < QuantityAsInt)
+                                {
+                                    error = "Przekroczono dostępną ilość danego prodtu.";
+                                }
+                                else
+                                {
+                                    NewBucketItem.Quantity = QuantityAsInt;
+                                    NewBucketItem.TotalPrice = NewBucketItem.Quantity * NewBucketItem.Offer.Price;
+                                    db.BucketItems.Add(NewBucketItem);
+                                    user.Bucket.BucketItems.Add(NewBucketItem);
+                                    NewBucketItem.Bucket = user.Bucket;
+                                    ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                                }
+                            }
+                            else
+                                error = "Ilość musi być liczbą!";                            
                         }
+                        else
+                            error = "Już posiadasz tę ofertę";
                     }
+                    else
+                        error = "Nie znaleziono takiej oferty";
                 }
                 else
                 {
-                    NewBucketItem.Bundle = db.Bundles.Where(i => i.BundleID == id && i.IsActive).FirstOrDefault();
-                    if (NewBucketItem.Bundle != null)//We chceck if user called for existing and active bundle
+                    var Bundle = db.Bundles.Where(i => i.BundleID == id && i.IsActive).FirstOrDefault();
+                    if (Bundle != null)//We chceck if user called for existing and active Bundle
                     {
-                        var BundlesThatAreAlreadyInUsersBucket = user.Bucket.BucketItems.Where(i => i.Bundle != null).ToList();
-                        if (NewBucketItem.Bundle != null && !BundlesThatAreAlreadyInUsersBucket.Where(i => i.Bundle.BundleID == NewBucketItem.Bundle.BundleID).Any())//We check if user has already that bundle in bucket.
+                        NewBucketItem.Bundle = Bundle;
+                        var UserBucketBundles = user.Bucket?.BucketItems?.Where(i => i.Bundle != null).ToList();
+                        if (UserBucketBundles != null && !UserBucketBundles.Where(i => i.Bundle.BundleID == NewBucketItem.Bundle.BundleID).Any())//We check if user has already that bundle in bucket.
                         {
                             NewBucketItem.Quantity = 1;
                             NewBucketItem.TotalPrice = NewBucketItem.Bundle.BundlePrice;
@@ -402,11 +420,16 @@ namespace ShopApp.Controllers
                             NewBucketItem.Bucket = user.Bucket;
                             ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
                         }
+                        else
+                            error = "Już posiadasz ten zestaw";
                     }
+                    else
+                        error = "Nie znaleziono takiego zesatwu";
                 }
             }
-
-            return Json(errors, JsonRequestBehavior.AllowGet);
+            else
+                error = "Wprowadzone dane są niepoprawne.";
+            return Json(error);
         }
 
         [HttpPost]

@@ -131,16 +131,20 @@
             <label for="quantity-input">Pozostało: @Model.Offer.InStockNow</label>
             <input type="number" step="1" max="@Model.Offer.InStockNow" min="1" value="1" id="quantity" class="quantity-field w-25">
             <input type="hidden">
-            @if (Model.IsInBucket)
+            @if (Model.IsInBucket && HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                <button class="offer-button w-100 p-3 mt-2 in-bucket addToBucket">OFERTA ZNAJDUJE SIĘ W KOSZYKU</button>
+                <button class="offer-button w-100 p-3 mt-2 in-bucket addToBucket" data-id="@Model.Offer.OfferID" data-quantity="1">OFERTA ZNAJDUJE SIĘ W KOSZYKU</button>
+            }
+            else if (HttpContext.Current.User.Identity.IsAuthenticated)
+            {
+                <button class="offer-button w-100 p-3 mt-2 addToBucket" data-id="@Model.Offer.OfferID" data-type="Offer" data-quantity="1">DODAJ DO KOSZYKA</button>
             }
             else
             {
-                <button data-id="@Model.Offer.OfferID" data-type="Offer" data-quantity="" class="offer-button w-100 p-3 mt-2 addToBucket">DODAJ DO KOSZYKA</button>
+                <button class="offer-button w-100 p-3 mt-2 addToBucket not-logged" >DODAJ DO KOSZYKA</button>
             }
             @*
-                Tutaj nie będzie formularza, wszystko powinno być na Ajaxie
+        Tutaj nie będzie formularza, wszystko powinno być na Ajaxie
 
             *@
         </div>

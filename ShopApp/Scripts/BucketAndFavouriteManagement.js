@@ -15,12 +15,14 @@ $(document).ready(function () {
                     id: id
                 },
                 success: function (data) {
-                    if (data.length == 0)// No errors
+                    if (data.text == null)// No errors
                     {
                         $(element).addClass("fav-unActive");
                         $(element).removeClass("fav-active");
                     }
-
+                    else {
+                        console.log(data);
+                    }
                 },
             });
 
@@ -35,11 +37,14 @@ $(document).ready(function () {
                     id: id
                 },
                 success: function (data) {
-                    if (data.length == 0)// No errors
+                    if (data.text == null)// No errors
                     {
                         $(element).addClass("fav-active");
                         $(element).removeClass("fav-unActive");
-
+                    }
+                    else
+                    {
+                        console.log(data);
                     }
 
                 },
@@ -55,7 +60,7 @@ $(document).ready(function () {
 
 
         $(".addToBucket").on("click", function () {
-            var id = jQuery(this).attr('id');
+            var id = jQuery(this).attr('data-id');
             var type = jQuery(this).attr('data-type');
             var quantity = jQuery(this).attr('data-quantity');
             var element = this;
@@ -72,10 +77,14 @@ $(document).ready(function () {
                         quantity: quantity
                     },
                     success: function (data) {
-                        if (data.length == 0)// No errors
+                        if (data.text == null)// No errors
                         {
                             $(element).addClass("in-bucket");
                             $(element).text("OFERTA ZNAJDUJE SIĘ W KOSZYKU");
+                        }
+                        else
+                        {
+                            console.log(data.text);
                         }
 
                     },
@@ -101,21 +110,14 @@ $(document).ready(function () {
                 }
             });
 
-            if (!jQuery(this).hasClass('item-deleted')) {
-                $.ajax({
-                    url: '/Offer/RemoveFromBucket',
-                    type: 'POST',
-                    data: {
-                        type: type,
-                        id: id
-                    },
-                    success: function (data) {
-                        if (data.length == 0)// No errors
-                        {
-                        }
-                    },
-                });
-            }
+            $.ajax({
+                url: '/Offer/RemoveFromBucket',
+                type: 'POST',
+                data: {
+                    type: type,
+                    id: id
+                },
+            });
         })
 
 });
