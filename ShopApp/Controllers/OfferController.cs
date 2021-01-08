@@ -89,7 +89,7 @@ namespace ShopApp.Controllers
                         {
                             if (BucketItem != null && BucketItem.Offer != null)
                             {
-                                InFavouriteOffersIDs.Add(BucketItem.Offer.OfferID);
+                                InBucketOffersIDs.Add(BucketItem.Offer.OfferID);
                             }
                         }
 
@@ -429,7 +429,8 @@ namespace ShopApp.Controllers
             }
             else
                 error = "Wprowadzone dane są niepoprawne.";
-            return Json(error);
+
+            return Json(error, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

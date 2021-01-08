@@ -2,6 +2,7 @@
 
 @Styles.Render("~/bundles/Offer")
 
+
 @{
     string czyAktywna = Model.Offer.IsActive ? "Aktywna" : "Nieaktywna";
 }
@@ -140,12 +141,8 @@
             }
             else
             {
-                <button class="offer-button w-100 p-3 mt-2 addToBucket not-logged" >DODAJ DO KOSZYKA</button>
+                <button class="offer-button w-100 p-3 mt-2 addToBucket not-logged">DODAJ DO KOSZYKA</button>
             }
-            @*
-        Tutaj nie będzie formularza, wszystko powinno być na Ajaxie
-
-            *@
         </div>
         <div class="col-12 col-lg-10 offer-desc w-100 m-0 p-0">
             <hr />
