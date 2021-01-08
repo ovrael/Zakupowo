@@ -145,11 +145,6 @@
     color: black;
 }
 
-.btn-popout {
-    background-color: #FFB24A !important;
-    border: 1px solid black;
-}
-
 .in-bucket, .in-bucket:hover, .in-bucket:active, .in-bucket:focus {
     cursor: not-allowed;
     color: grey;

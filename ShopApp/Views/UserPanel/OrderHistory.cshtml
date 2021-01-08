@@ -6,9 +6,9 @@
 <script src="https://kit.fontawesome.com/b99e675b6e.js"></script>
 @Html.Partial("_SideBar")
 
-<div class="container pl-1">
+<div class="container pl-1 pt-0 ">
 
-    <div class=" row justify-content-center">
+    <div class=" row justify-content-center pl-5 pt-lg-0 pt-4">
         <div class="col-12 mb-2 text-center">
             <div class="btn-group" role="group">
                 <button type="button" class="btn switch switch-bought btn-primary on">Kupione</button>
@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <div class=" row-offer mb-4 mr-1 pl-4">
+    <div class=" row-offer mb-4 mr-1 pl-2 pl-lg-4">
 
         @* BOUGHT TRANSACTIONS *@
         <div id="boughtDiv" class="">
@@ -32,149 +32,161 @@
                         transactionSum += item.TotalPrice * item.Quantity;
                     }
 
-                    <div class="col-12 bought-row">
-                        <div class="row">
+                        <div class="col-12 bought-row pb-4">
+                            <div class="row justify-content-center">
 
-                            <div class="col-1 pl-2">
-                                ID: @boughtTransaction.TransactionID
+                                <div class="col-10 col-lg-2 col-md-2 pl-lg-2 pb-2">
+                                    ID: @boughtTransaction.TransactionID
+                                </div>
+                                <div class="col-10 col-lg-2 col-md-2 pb-2" data-placement="top" title="Dokładna data: @boughtTransaction.CreationDate">
+                                    Data: @boughtTransaction.CreationDate.ToShortDateString()
+                                </div>
+                                <div class="col-10 col-lg-3  col-md-2  pb-2">
+                                    Sprzedający: @boughtTransaction.Seller.Login
+                                </div>
+                                <div class="col-10 col-lg-2 col-md-2  pb-2">Suma: @transactionSum zł</div>
+                                <div class="col-10 col-lg-2 col-md-2  pb-4">Status: @transactionStatus</div>
+                                <div class="col-3 col-1-lg pb-3">
+                                    <a class="btn btn-warning" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </a>
+                                </div>
+
                             </div>
-                            <div class="col-2" data-placement="top" title="Dokładna data: @boughtTransaction.CreationDate">
-                                Data: @boughtTransaction.CreationDate.ToShortDateString()
-                            </div>
-                            <div class="col-2">
-                                Sprzedający: @boughtTransaction.Seller.Login
-                            </div>
-                            <div class="col-3">Suma: @transactionSum zł</div>
-                            <div class="col-3">Status: @transactionStatus</div>
-                            <div class="col-1"><i class="fas fa-chevron-down"></i></div>
+                            <div class="collapse" id="collapseExample2">
+                                <div class="row mr-3 mb-3 mt-5" style="border-bottom-style:solid; border-bottom-width:thin;">
+
+                                    <div class="col-4 pl-2 text-secondary font-weight-bold">
+                                        Produkt
+                                    </div>
+                                    <div class="col-4 text-secondary font-weight-bold">
+                                        Zakupiona ilość
+                                    </div>
+                                    <div class="col-4 text-secondary font-weight-bold">
+                                        Cena
+                                    </div>
+
+                                </div>
 
 
-                        </div>
+                                @foreach (var boughtItem in boughtTransaction.BucketItems)
+                                {
+                                    <div class="row pb-3">
 
-                        <div class="row">
+                                        @{
+                                            double itemPrice = boughtItem.Offer != null ? boughtItem.Offer.Price : boughtItem.Bundle.BundlePrice;
+                                            string itemTitle = boughtItem.Offer != null ? boughtItem.Offer.Title : boughtItem.Bundle.Title;
+                                        }
 
-                            <div class="col-3 pl-2">
-                                Produkt
-                            </div>
-                            <div class="col-2">
-                                Zakupiona ilość
-                            </div>
-                            <div class="col-3">
-                                Cena
-                            </div>
+                                        <div class="col-3 pl-2">
+                                            @itemTitle
+                                        </div>
+                                        <div class="col-4 pl-2">
+                                            @boughtItem.Quantity
+                                        </div>
+                                        <div class="col-4 pl-0">
+                                            @itemPrice.ToString("N2") zł
+                                        </div>
 
-                        </div>
-
-                        @foreach (var boughtItem in boughtTransaction.BucketItems)
-                        {
-                            <div class="row">
-
-                                @{
-                                    double itemPrice = boughtItem.Offer != null ? boughtItem.Offer.Price : boughtItem.Bundle.BundlePrice;
-                                    string itemTitle = boughtItem.Offer != null ? boughtItem.Offer.Title : boughtItem.Bundle.Title;
+                                    </div>
                                 }
-
-                                <div class="col-3 pl-2">
-                                    @itemTitle
-                                </div>
-                                <div class="col-2">
-                                    @boughtItem.Quantity
-                                </div>
-                                <div class="col-3">
-                                    @itemPrice.ToString("N2") zł
-                                </div>
-
                             </div>
-                        }
-                    </div>
-                    <br />
-                }
-            }
-        </div>
+                            </div>
+                            <br />
+                            }
+                            }
+                        </div>
 
-        @* SOLD TRANSACTIONS *@
-        <div id="soldDiv" class="d-none">
-            <br />
-            @{
-                foreach (var soldTransaction in Model.Sold)
-                {
-                    double transactionSum = 0;
-                    foreach (var item in soldTransaction.BucketItems)
+        
+
+
+
+             @*SOLD TRANSACTIONS*@ 
+            <div id="soldDiv" class="d-none">
+                <br />
+                @{
+                    foreach (var soldTransaction in Model.Sold)
                     {
-                        transactionSum += item.TotalPrice * item.Quantity;
-                    }
-
-                    <div class="col-12 sold-row">
-                        <div class="row">
-
-                            <div class="col-1 pl-2">
-                                ID: @soldTransaction.TransactionID
-                            </div>
-                            <div class="col-2" data-placement="top" title="Dokładna data: @soldTransaction.CreationDate">
-                                Data: @soldTransaction.CreationDate.ToShortDateString()
-                            </div>
-                            <div class="col-3">
-                                Kupujący: @soldTransaction.Seller.Login
-                            </div>
-                            <div class="col-3">Suma: @transactionSum zł</div>
-                            <div class="col-1">
-                                <button class="btn btn-success"> Akceptuj </button>
-                            </div>
-                            <div class="col-1">
-                                <button class="btn btn-danger"> Odrzuć </button>
-                            </div>
-
-                            <div class="col-1"><i class="fas fa-chevron-down"></i></div>
-
-
-                        </div>
-
-                        <div class="row">
-
-                            <div class="col-4 pl-2">
-                                Produkt
-                            </div>
-                            <div class="col-4">
-                                Zakupiona ilość
-                            </div>
-                            <div class="col-4">
-                                Cena
-                            </div>
-
-                        </div>
-
-                        @foreach (var soldItem in soldTransaction.BucketItems)
+                        double transactionSum = 0;
+                        foreach (var item in soldTransaction.BucketItems)
                         {
-                            <div class="row">
+                            transactionSum += item.TotalPrice * item.Quantity;
+                        }
 
-                                @{
-                                    double itemPrice = soldItem.Offer != null ? soldItem.Offer.Price : soldItem.Bundle.BundlePrice;
-                                    string itemTitle = soldItem.Offer != null ? soldItem.Offer.Title : soldItem.Bundle.Title;
-                                }
+                        <div class="col-12 sold-row pb-4">
+                            <div class="row justify-content-center">
 
-                                <div class="col-4 pl-2">
-                                    @itemTitle
+                                <div class="col-10 col-lg-2 col-md-2 pl-lg-2 pb-2 ">
+                                    ID: @soldTransaction.TransactionID
                                 </div>
-                                <div class="col-4">
-                                    @soldItem.Quantity
+                                <div class="col-10 col-lg-2 col-md-2  pb-2" data-placement="top" title="Dokładna data: @soldTransaction.CreationDate">
+                                    Data: @soldTransaction.CreationDate.ToShortDateString()
                                 </div>
-                                <div class="col-4">
-                                    @itemPrice.ToString("N2") zł
+                                <div class="col-10 col-lg-3  col-md-2  pb-2">
+                                    Kupujący: @soldTransaction.Seller.Login
+                                </div>
+                                <div class="col-10 col-lg-2 col-md-2  pb-4">Suma: @transactionSum zł</div>
+                                <div class="btn-group">
+                                    <button class="btn btn-success"> Akceptuj </button>
+                                    <button class="btn btn-danger"> Odrzuć </button>
+                                    <a class="btn btn-warning" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </a>
+
                                 </div>
 
                             </div>
-                        }
-                    </div>
-                    <br />
+
+                            <div class="collapse" id="collapseExample">
+                                <div class="row mr-3 mb-3 mt-5" style="border-bottom-style:solid; border-bottom-width:thin;">
+
+                                    <div class="col-4 pl-2 text-secondary font-weight-bold ">
+                                        Produkt
+                                    </div>
+                                    <div class="col-4 text-secondary font-weight-bold">
+                                        Ilość
+                                    </div>
+                                    <div class="col-4 text-secondary font-weight-bold">
+                                        Cena
+                                    </div>
+
+                                </div>
+                                @foreach (var soldItem in soldTransaction.BucketItems)
+                                {
+                                    <div class="row pb-3">
+
+                                        @{
+                                            double itemPrice = soldItem.Offer != null ? soldItem.Offer.Price : soldItem.Bundle.BundlePrice;
+                                            string itemTitle = soldItem.Offer != null ? soldItem.Offer.Title : soldItem.Bundle.Title;
+                                        }
+
+                                        <div class="col-4 pl-2">
+                                            @itemTitle
+                                        </div>
+                                        <div class="col-4">
+                                            @soldItem.Quantity
+                                        </div>
+                                        <div class="col-4 pl-0">
+                                            @itemPrice.ToString("N2") zł
+                                        </div>
+
+                                    </div>
+
+                                }
+                            </div>
+                        </div>
+
+
+                        <br />
+                    }
                 }
-            }
+            </div>
         </div>
-    </div>
-</div>
 
 
 
-@section scripts
+
+        @section scripts
 {
-    <script src="~/Scripts/OrderHistoryScript.js"></script>
-}
+            <script src="~/Scripts/OrderHistoryScript.js"></script>
+        }
