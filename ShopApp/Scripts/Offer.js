@@ -1,8 +1,10 @@
 $(document).ready(function () {
-    $("#quantity").on("change", function () {
-        var value = jQuery(this).val();
-        $('.addToBucket').data('data-quantity', value);
-    });
+    $('#quantity').on("input", function (event) {
+        $(".offer-button").attr("data-quantity", $('#quantity').val());
+    })
+    $('#quantity').on("change", function (event) {
+        $(".offer-button").attr("data-quantity", $('#quantity').val());
+    })
     // Add-to-favourites button handler
     $(".bundle-product-fav").on("click", function () {
 
