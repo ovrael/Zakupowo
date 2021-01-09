@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using Newtonsoft.Json;
 using ShopApp.DAL;
 
 namespace ShopApp.Models
@@ -43,6 +44,7 @@ namespace ShopApp.Models
         public virtual Category Category { get; set; }
         public virtual OfferState OfferState { get; set; }
         public virtual Bundle Bundle { get; set; }
+        [JsonIgnore]
         public virtual ICollection<BucketItem> BucketItems { get; set; }
         public virtual ICollection<Favourite> FavouriteOffer { get; set; }
         public virtual ICollection<OfferPicture> OfferPictures { get; set; }

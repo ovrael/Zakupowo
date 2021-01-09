@@ -178,6 +178,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="ControllersAPI\BucketController.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="ControllersAPI\CategoriesController.cs" />
     <Compile Include="ControllersAPI\DocumentUploadResponse.cs" />
@@ -663,7 +664,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\UserPanel\EditBasicInfo_UNUSED.cshtml" />
-    <Content Include="Views\UserPanel\OrderHistory.cshtml" />
+    <Content Include="Views\UserPanel\TransactionHistory.cshtml" />
     <Content Include="Views\UserPanel\Communicator.cshtml" />
     <Content Include="Views\UserPanel\EditPassword_UNUSED.cshtml" />
     <Content Include="Views\UserPanel\ShippingAdresses_UNUSED.cshtml" />
@@ -683,7 +684,7 @@
     <Content Include="Views\UserPanelJonak\Index.cshtml" />
     <Content Include="Views\UserPanel\_SideBar.cshtml" />
     <Content Include="Views\UserPanel\AddShippingAdress_UNUSED.cshtml" />
-    <Content Include="Views\UserPanel\_SettingsSideBar.cshtml" />
+    <Content Include="Views\UserPanel\_SettingsSideBar_UNUSED.cshtml" />
     <Content Include="Views\UserPanel\EditAvatar_UNUSED.cshtml" />
     <Content Include="Views\Offer\Index.cshtml" />
     <Content Include="Views\Home\Kat.cshtml" />
@@ -708,6 +709,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="App_Files\Other\" />
     <Folder Include="fonts\" />
+    <Folder Include="Views\Default\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>

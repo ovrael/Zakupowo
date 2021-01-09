@@ -20,6 +20,10 @@
                     </div>
                 </div>
                 <div class="col pb-3">
+                    <div class="row justify-content-center pl-4">
+                        <h6> W tym miejscu możesz dodawać, przeglądać, edytować oraz deaktywować swoje oferty.</h6>
+                    </div>
+                    <hr>
                     <a href="@Url.Action("AddOffer", "UserPanel")" class="btn btn-outline-warning" role="button">Dodaj ofertę!</a>
 
                     @if (ViewBag.UserNotActivated != null)
@@ -40,10 +44,7 @@
                     }
 
                     <hr>
-                    <div class="row justify-content-center pl-4">
-                        <h6> W tym miejscu możesz dodawać, przeglądać, edytować oraz deaktywować swoje oferty.</h6>
-                    </div>
-                    <hr>
+
 
                     <div class="row justify-content-center pl-2">
                         <input type="text" class="form-control" id="offerNameFilter" placeholder="Szukaj po nazwie">
