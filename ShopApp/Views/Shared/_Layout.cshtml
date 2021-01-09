@@ -1,148 +1,154 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zakupowo</title>
-    <!--BOOTSTRAP CSS & JS-->
-    @Styles.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/jquery351")
-    @Scripts.Render("~/bundles/bootstrapjs")
-    <!--CUSTOM JS-->
-    @Scripts.Render("~/bundles/Layoutjs")
-    <!--Custom CSS-->
-    @Styles.Render("~/bundles/Layout")
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/Scripts.js"></script>
-    <!--Popouts-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Zakupowo</title>
+	<!--BOOTSTRAP CSS & JS-->
+	@Styles.Render("~/bundles/bootstrap")
+	@Scripts.Render("~/bundles/jquery351")
+	@Scripts.Render("~/bundles/bootstrapjs")
+	<!--CUSTOM JS-->
+	@Scripts.Render("~/bundles/Layoutjs")
+	<!--Custom CSS-->
+	@Styles.Render("~/bundles/Layout")
+	<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+	<script type="text/javascript" src="~/Scripts/Scripts.js"></script>
+	<!--Popouts-->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 
-    @*<link rel="stylesheet" href="https://unpkg.com/jcrop/dist/jcrop.css">
-        <script src="https://unpkg.com/jcrop"></script>
+	@*<link rel="stylesheet" href="https://unpkg.com/jcrop/dist/jcrop.css">
+		<script src="https://unpkg.com/jcrop"></script>
 
-        <link rel="stylesheet" href="~/Content/jquery.Jcrop.css" type="text/css" />*@
-    <!--FontAwesomeCDN-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
-    <!--GoogleFonts-->
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Staatliches&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="~/Content/jquery.Jcrop.css" type="text/css" />*@
+	<!--FontAwesomeCDN-->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+	<!--GoogleFonts-->
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Staatliches&display=swap" rel="stylesheet">
 
-    <!--TODO: SEO-->
+	<!--TODO: SEO-->
 </head>
 
 @{
-    string avatarUrl = string.Empty;
-    bool userLogged = false;
-    if (User.Identity.IsAuthenticated)
-    {
-        userLogged = true;
-        using (var db = new ShopApp.DAL.ShopContext())
-        {
-            ShopApp.Models.User user = db.Users.Where(i => i.Login == HttpContext.Current.User.Identity.Name).FirstOrDefault();
+	string avatarUrl = string.Empty;
+	bool userLogged = false;
+	if (User.Identity.IsAuthenticated)
+	{
+		userLogged = true;
+		using (var db = new ShopApp.DAL.ShopContext())
+		{
+			ShopApp.Models.User user = db.Users.Where(i => i.Login == HttpContext.Current.User.Identity.Name).FirstOrDefault();
 
-            avatarUrl = user.AvatarImage.PathToFile;
-        }
-    }
+			avatarUrl = user.AvatarImage.PathToFile;
+		}
+	}
 }
 
 <body>
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-main fixed-top navbar-expand-lg navbar-dark bg-white justify-content-between">
-        <a class="nav-item active navbar-brand" href="@Url.Action("Index", "Home")">
-            <i class="fas fa-shopping-bag"></i> Zakupowo
-        </a>
-        <button class="col-2 navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse col-lg-4 order-lg-8" id="navbarSupportedContent">
-            <ul class="navbar-nav w-100 justify-content-end">
-                <li class="nav-item">
-                    <a class="nav-link main-nav-link mx-4" id="chatLink" href="@Url.Action("Communicator", "UserPanel")"><i class="fas fa-envelope fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Wiadomości</p></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link main-nav-link mx-4" id="favouriteLink" href="@Url.Action("Favourites", "Offer")"><i class="fas fa-heart fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Ulubione</p></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link main-nav-link mx-4" id="cartLink" href="@Url.Action("Bucket", "Offer")"><i class="fas fa-shopping-cart fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Koszyk</p></a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link main-nav-link mx-4 dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-user fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Konto</p><i class="fas fa-sort-down ml-1 ml-lg-0"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right mt-lg-2 text-center animate slideIn" aria-labelledby="navbarDropdownMenuLink">
-                        @{
-                            if (userLogged)
-                            {
-                                <img src="@avatarUrl" id="imgProfile" style="width: 100px; height: 100px" class="img-thumbnail m-2 mb-4 mb-lg-2" />
-                                <p class="p-2 d-none d-lg-block">
-                                    Witaj @HttpContext.Current.User.Identity.Name! Przejrzyj najciekawsze oferty i ciesz się zakupami!
-                                </p>
-                                <a class="dropdown-item" href="@Url.Action("Account", "UserPanel")">Panel użytkownika</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="@Url.Action("Logout", "User")">Wyloguj się</a>
-                            }
-                            else
-                            {
-                                <p class="p-2 d-none d-lg-block">
-                                    Zaloguj się i zobacz swoje zakupy, ulubione oferty oraz wiadomości. W Zakupowo zakupy są łatwe!
-                                </p>
-                                <a class="dropdown-item" id="logInItem" href="@Url.Action("Login", "User")">Zaloguj się</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="@Url.Action("Register", "User")">Zarejestruj się</a>
-                            }
-                        }
-                    </div>
-                </li>
-            </ul>
-        </div>
+	<!-- NAVBAR -->
+	<nav class="navbar navbar-main fixed-top navbar-expand-lg navbar-dark bg-white justify-content-between">
+		<a class="nav-item active navbar-brand" href="@Url.Action("Index", "Home")">
+			<i class="fas fa-shopping-bag"></i> Zakupowo
+		</a>
+		<button class="col-2 navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse col-lg-4 order-lg-8" id="navbarSupportedContent">
+			<ul class="navbar-nav w-100 justify-content-end">
+				<li class="nav-item">
+					<a class="nav-link main-nav-link mx-4" id="chatLink" href="@Url.Action("Communicator", "UserPanel")"><i class="fas fa-envelope fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Wiadomości</p></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link main-nav-link mx-4" id="favouriteLink" href="@Url.Action("Favourites", "Offer")"><i class="fas fa-heart fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Ulubione</p></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link main-nav-link mx-4" id="cartLink" href="@Url.Action("Bucket", "Offer")"><i class="fas fa-shopping-cart fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Koszyk</p></a>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link main-nav-link mx-4 dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="fas fa-user fa-fw mx-auto"></i><p class="d-inline-block d-lg-none ml-1">Konto</p><i class="fas fa-sort-down ml-1 ml-lg-0"></i>
+					</a>
+					<div class="dropdown-menu dropdown-menu-right mt-lg-2 text-center animate slideIn" aria-labelledby="navbarDropdownMenuLink">
+						@{
+							if (userLogged)
+							{
+								<img src="@avatarUrl" id="imgProfile" style="width: 100px; height: 100px" class="img-thumbnail m-2 mb-4 mb-lg-2" />
+								<p class="p-2 d-none d-lg-block">
+									Witaj @HttpContext.Current.User.Identity.Name! Przejrzyj najciekawsze oferty i ciesz się zakupami!
+								</p>
+								<a class="dropdown-item" href="@Url.Action("Account", "UserPanel")">Panel użytkownika</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="@Url.Action("Logout", "User")">Wyloguj się</a>
+							}
+							else
+							{
+								<p class="p-2 d-none d-lg-block">
+									Zaloguj się i zobacz swoje zakupy, ulubione oferty oraz wiadomości. W Zakupowo zakupy są łatwe!
+								</p>
+								<a class="dropdown-item" id="logInItem" href="@Url.Action("Login", "User")">Zaloguj się</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="@Url.Action("Register", "User")">Zarejestruj się</a>
+							}
+						}
+					</div>
+				</li>
+			</ul>
+		</div>
 
-        <!-- SEARCH FORM -->
-        <form class="form-inline col-lg-4" id="searchForm">
-            <div class="input-group mt-2 mt-lg-0 w-100">
-                <input type="search" class="form-control product-search" placeholder="Szukaj produktu..." aria-label="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" id="searchButton" type="submit"><i class="fas fa-search"></i></button>
-                </div>
-            </div>
-        </form>
-    </nav>
+		<!-- SEARCH FORM -->
+		@*<form class="form-inline col-lg-4" id="searchForm">*@
+		@using (Html.BeginForm("Search", "Home", FormMethod.Post, new { @class = "col-lg-4" }))
+		{
+			<div class="input-group mt-2 mt-lg-0 w-100">
 
-    <div class="container-fluid">
-        @RenderBody()
+				<input type="search" id="searchText" name="searchText" class="form-control product-search" placeholder="Szukaj produktu..." aria-label="Search">
+				<div class="input-group-append">
+					<button class="btn btn-outline-secondary" id="searchButton" type="submit"><i class="fas fa-search"></i></button>
+				</div>
+			</div>
 
-        <footer>
-            <div class="footer m-0 p-0 row text-center align-items-center">
-                <div class="col-lg-3 col-12 text-center p-2">
-                    <a class="footer-link" href="#">
-                        <i class="fas fa-mobile-alt p-2"></i>
-                        <br>
-                        Darmowa aplikacja na twój telefon
-                    </a>
-                </div>
-                <div class="col-lg-3 col-12 text-center p-2">
-                    <a class="footer-link" href="https://github.com/kamreo/Zakupowo" target="_blank">
-                        <i class="fab fa-github p-2"></i>
-                        <br>
-                        Github
-                    </a>
-                </div>
-                <div class="col-lg-3 col-12 text-center p-2">
-                    <a class="footer-link" href="https://www.ue.katowice.pl/" target="_blank">
-                        <i class="fas fa-graduation-cap p-2"></i>
-                        <br>
-                        Uniwersytet Ekonomiczny w Katowicach
-                    </a>
-                </div>
-                <div class="col-lg-3 col-12 p-2">
-                    ©@DateTime.Now.Year Aplikacja stworzona w celach edukacyjnych przez studentów informatyki Uniwerystetu Ekonomicznego w Katowicach
-                </div>
-            </div>
-        </footer>
-    </div>
+		}
 
-    <div class="hidden" hidden>
-        @RenderSection("scripts", required: false);
-    </div>
+		@*</form>*@
+	</nav>
+
+	<div class="container-fluid">
+		@RenderBody()
+
+		<footer>
+			<div class="footer m-0 p-0 row text-center align-items-center">
+				<div class="col-lg-3 col-12 text-center p-2">
+					<a class="footer-link" href="#">
+						<i class="fas fa-mobile-alt p-2"></i>
+						<br>
+						Darmowa aplikacja na twój telefon
+					</a>
+				</div>
+				<div class="col-lg-3 col-12 text-center p-2">
+					<a class="footer-link" href="https://github.com/kamreo/Zakupowo" target="_blank">
+						<i class="fab fa-github p-2"></i>
+						<br>
+						Github
+					</a>
+				</div>
+				<div class="col-lg-3 col-12 text-center p-2">
+					<a class="footer-link" href="https://www.ue.katowice.pl/" target="_blank">
+						<i class="fas fa-graduation-cap p-2"></i>
+						<br>
+						Uniwersytet Ekonomiczny w Katowicach
+					</a>
+				</div>
+				<div class="col-lg-3 col-12 p-2">
+					©@DateTime.Now.Year Aplikacja stworzona w celach edukacyjnych przez studentów informatyki Uniwerystetu Ekonomicznego w Katowicach
+				</div>
+			</div>
+		</footer>
+	</div>
+
+	<div class="hidden" hidden>
+		@RenderSection("scripts", required: false);
+	</div>
 
 </body>
 </html>

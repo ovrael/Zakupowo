@@ -13,209 +13,262 @@ using ShopApp.Utility;
 
 namespace ShopApp.Controllers
 {
-    [AllowAnonymous]
-    public class HomeController : Controller
-    {
-        private ShopContext db = new ShopContext();
-        public ActionResult Index()
-        {
-            return View();
-        }
-        [HttpGet]
-        public ActionResult Kat(int KatID = 1)//We come here from
-        {
-            if (KatID < 1 || KatID > 14)
-                return new HttpStatusCodeResult(404);
-            //Filters logic
-            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-            OffersAndBundles offersAndBundles = new OffersAndBundles();
+	[AllowAnonymous]
+	public class HomeController : Controller
+	{
+		private ShopContext db = new ShopContext();
+		public ActionResult Index()
+		{
+			return View();
+		}
 
-            var chosenCategory = db.Categories.Where(c => c.CategoryID == KatID).FirstOrDefault();
-            if (chosenCategory != null)
-                ViewBag.CategoryName = chosenCategory.CategoryName;
+		[HttpGet]
+		public ActionResult Kat(int KatID = 1)//We come here from
+		{
+			if (KatID < 1 || KatID > 14)
+				return new HttpStatusCodeResult(404);
+			//Filters logic
+			var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+			OffersAndBundles offersAndBundles = new OffersAndBundles();
 
-            var Offers = db.Offers.Where(i => i.Category.CategoryID == KatID && i.IsActive).ToList();
+			var chosenCategory = db.Categories.Where(c => c.CategoryID == KatID).FirstOrDefault();
+			if (chosenCategory != null)
+				ViewBag.CategoryName = chosenCategory.CategoryName;
 
-            if (Offers != null)
-            {
-                var OffersFiltered = Offers
-                    .OrderByDescending(i => i.CreationDate)
-                    .Take(20)
-                    .ToList();
-                offersAndBundles.Offers = OffersFiltered;
-                if (user != null)
-                {
-                    var FavouriteOffers = user.FavouriteOffer.Where(i => i.Offer != null).Select(i => i.Offer).ToList();
-                    offersAndBundles.FavouriteOffersIDs = FavouriteOffers
-                        .Where(i => i.IsActive && OffersFiltered.Contains(i))
-                        .Select(i => i.OfferID);
-                    if (user.Bucket.BucketItems != null)
-                    {
-                        offersAndBundles.InBucketOffersIDs = user.Bucket.BucketItems.Where(i => i.Offer != null)
-                            .Select(i => i.Offer.OfferID).ToList();
-                    }
-                }
-            }
-            else
-                ViewBag.Message = "Brak ofert dla podanych filtrów";
+			var Offers = db.Offers.Where(i => i.Category.CategoryID == KatID && i.IsActive).ToList();
 
-            var Bundles = db.Bundles.Where(i => i.Offers.Where(x => x.Category.CategoryID == KatID).Any() && i.IsActive).ToList();
+			if (Offers != null)
+			{
+				var OffersFiltered = Offers
+					.OrderByDescending(i => i.CreationDate)
+					.Take(20)
+					.ToList();
+				offersAndBundles.Offers = OffersFiltered;
+				if (user != null)
+				{
+					var FavouriteOffers = user.FavouriteOffer.Where(i => i.Offer != null).Select(i => i.Offer).ToList();
+					offersAndBundles.FavouriteOffersIDs = FavouriteOffers
+						.Where(i => i.IsActive && OffersFiltered.Contains(i))
+						.Select(i => i.OfferID);
+					if (user.Bucket.BucketItems != null)
+					{
+						offersAndBundles.InBucketOffersIDs = user.Bucket.BucketItems.Where(i => i.Offer != null)
+							.Select(i => i.Offer.OfferID).ToList();
+					}
+				}
+			}
+			else
+				ViewBag.Message = "Brak ofert dla podanych filtrów";
 
-            if (Bundles != null)
-            {
-                var BundlesFiltered = Bundles.OrderByDescending(i => i.CreationDate)
-                                    .Take(20)
-                                    .ToList();
-                offersAndBundles.Bundles = BundlesFiltered;
-                if (user != null)
-                {
-                    var FavouriteBundles = user.FavouriteOffer.Where(i => i.Bundle != null).Select(i => i.Bundle).ToList();
-                    if (FavouriteBundles != null)
-                    {
-                        offersAndBundles.FavouriteBundlesIDs = FavouriteBundles
-                            .Where(i => i.IsActive && BundlesFiltered.Contains(i))
-                            .Select(i => i.BundleID);
-                        if (user.Bucket.BucketItems != null)
-                            offersAndBundles.InBucketBundlesIDs = user.Bucket.BucketItems.Where(i => i.Bundle != null)
-                                .Select(i => i.Bundle.BundleID).ToList();
-                    }
-                }
-            }
-            else
-                ViewBag.Message = "Brak zestawów dla podanych filtrów";
+			var Bundles = db.Bundles.Where(i => i.Offers.Where(x => x.Category.CategoryID == KatID).Any() && i.IsActive).ToList();
 
-            return View(offersAndBundles);
-        }
-        [HttpPost]
-        public ActionResult Kat(FormCollection collection, int KatID = 1)//We come here from
-        {
-            var chosenCategory = db.Categories.Where(c => c.CategoryID == KatID).FirstOrDefault();
-            if (chosenCategory != null)
-                ViewBag.CategoryName = chosenCategory.CategoryName;
+			if (Bundles != null)
+			{
+				var BundlesFiltered = Bundles.OrderByDescending(i => i.CreationDate)
+									.Take(20)
+									.ToList();
+				offersAndBundles.Bundles = BundlesFiltered;
+				if (user != null)
+				{
+					var FavouriteBundles = user.FavouriteOffer.Where(i => i.Bundle != null).Select(i => i.Bundle).ToList();
+					if (FavouriteBundles != null)
+					{
+						offersAndBundles.FavouriteBundlesIDs = FavouriteBundles
+							.Where(i => i.IsActive && BundlesFiltered.Contains(i))
+							.Select(i => i.BundleID);
+						if (user.Bucket.BucketItems != null)
+							offersAndBundles.InBucketBundlesIDs = user.Bucket.BucketItems.Where(i => i.Bundle != null)
+								.Select(i => i.Bundle.BundleID).ToList();
+					}
+				}
+			}
+			else
+				ViewBag.Message = "Brak zestawów dla podanych filtrów";
 
-            //Filters logic
-            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
-            OffersAndBundles offersAndBundles = new OffersAndBundles();
+			return View(offersAndBundles);
+		}
 
-            int OffersAmount = db.Offers.Where(i => i.IsActive && i.Bundle == null).Count();
-            int BundlesAmount = db.Bundles.Where(i => i.IsActive).Count();
+		[HttpPost]
+		public ActionResult Kat(FormCollection collection, int KatID = 1)//We come here from
+		{
+			var chosenCategory = db.Categories.Where(c => c.CategoryID == KatID).FirstOrDefault();
+			if (chosenCategory != null)
+				ViewBag.CategoryName = chosenCategory.CategoryName;
 
-            offersAndBundles.MaxPage = OffersAmount > BundlesAmount ? (OffersAmount / 20) + 1 : (BundlesAmount / 20) + 1;
+			//Filters logic
+			var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+			OffersAndBundles offersAndBundles = new OffersAndBundles();
 
-            int Page = int.TryParse(collection["page"], out int page) && page > 0 ? page : 1;
+			int OffersAmount = db.Offers.Where(i => i.IsActive && i.Bundle == null).Count();
+			int BundlesAmount = db.Bundles.Where(i => i.IsActive).Count();
 
-            #region PRICE FILTER
-            string lowestPrice = "";
-            string highestPrice = "";
+			offersAndBundles.MaxPage = OffersAmount > BundlesAmount ? (OffersAmount / 20) + 1 : (BundlesAmount / 20) + 1;
 
-            if (collection["price"] != null)
-            {
-                string[] range = collection["price"].Replace(" ", "").Split('-');
-                lowestPrice = range[0].Replace("zł", "");
-                highestPrice = range[1].Replace("zł", "");
-            }
+			int Page = int.TryParse(collection["page"], out int page) && page > 0 ? page : 1;
 
-            int startingPriceFilter = int.TryParse(lowestPrice, out int startingPrice) ? startingPrice : 0;
-            int endingPriceFilter = int.TryParse(highestPrice, out int endingPrice) ? endingPrice : 1000;
-            #endregion
+			#region PRICE FILTER
+			string lowestPrice = "";
+			string highestPrice = "";
 
-            #region STATE FILTER
+			if (collection["price"] != null)
+			{
+				string[] range = collection["price"].Replace(" ", "").Split('-');
+				lowestPrice = range[0].Replace("zł", "");
+				highestPrice = range[1].Replace("zł", "");
+			}
 
-            foreach (var key in collection.AllKeys)
-            {
-                var value = collection[key];
-                Debug.WriteLineIf(value != null, "Kolejna wartość dla: " + key + "\t to:" + value);
-            }
+			int startingPriceFilter = int.TryParse(lowestPrice, out int startingPrice) ? startingPrice : 0;
+			int endingPriceFilter = int.TryParse(highestPrice, out int endingPrice) ? endingPrice : 1000;
+			#endregion
 
-            List<OfferState> possibleStates = new List<OfferState>();
+			#region STATE FILTER
 
-            if (!string.IsNullOrEmpty(collection["stateNew"]))
-            {
-                string isNewString = collection["stateNew"];
-                Debug.WriteLine("StateNew nie jest NULL " + isNewString);
-                if (Convert.ToBoolean(isNewString))
-                    possibleStates.Add(OfferState.Nowy);
-            }
+			foreach (var key in collection.AllKeys)
+			{
+				var value = collection[key];
+				Debug.WriteLineIf(value != null, "Kolejna wartość dla: " + key + "\t to:" + value);
+			}
 
-            if (!string.IsNullOrEmpty(collection["stateUsed"]))
-            {
-                string isUsedString = collection["stateUsed"];
-                Debug.WriteLine("StateUsed nie jest NULL! " + isUsedString);
-                if (Convert.ToBoolean(isUsedString))
-                    possibleStates.Add(OfferState.Używany);
-            }
+			List<OfferState> possibleStates = new List<OfferState>();
 
-            if (!string.IsNullOrEmpty(collection["stateDamaged"]))
-            {
-                string isDamagedString = collection["stateDamaged"];
-                Debug.WriteLine("StateDamaged nie jest NULL! " + isDamagedString);
+			if (!string.IsNullOrEmpty(collection["stateNew"]))
+			{
+				string isNewString = collection["stateNew"];
+				Debug.WriteLine("StateNew nie jest NULL " + isNewString);
+				if (Convert.ToBoolean(isNewString))
+					possibleStates.Add(OfferState.Nowy);
+			}
 
-                if (Convert.ToBoolean(isDamagedString))
-                    possibleStates.Add(OfferState.Uszkodzony);
-            }
+			if (!string.IsNullOrEmpty(collection["stateUsed"]))
+			{
+				string isUsedString = collection["stateUsed"];
+				Debug.WriteLine("StateUsed nie jest NULL! " + isUsedString);
+				if (Convert.ToBoolean(isUsedString))
+					possibleStates.Add(OfferState.Używany);
+			}
 
-            Debug.WriteLine("Tyle chce stanów: " + possibleStates.Count);
+			if (!string.IsNullOrEmpty(collection["stateDamaged"]))
+			{
+				string isDamagedString = collection["stateDamaged"];
+				Debug.WriteLine("StateDamaged nie jest NULL! " + isDamagedString);
 
-            #endregion
+				if (Convert.ToBoolean(isDamagedString))
+					possibleStates.Add(OfferState.Uszkodzony);
+			}
 
-            var Offers = db.Offers.Where(i => i.Category.CategoryID == KatID && i.IsActive).ToList();
+			Debug.WriteLine("Tyle chce stanów: " + possibleStates.Count);
 
-            if (Offers != null)
-            {
-                var OffersFiltered = Offers
-                    .Where(i => i.Price > startingPrice && i.Price < endingPrice && possibleStates.Contains(i.OfferState))
-                    .OrderByDescending(i => i.CreationDate)
-                    .Skip(20 * (Page - 1))
-                    .Take(20)
-                    .ToList();
+			#endregion
 
-                offersAndBundles.Offers = OffersFiltered;
+			var Offers = db.Offers.Where(i => i.Category.CategoryID == KatID && i.IsActive).ToList();
 
-                if (user != null)
-                {
-                    var FavouriteOffers = user.FavouriteOffer.Where(i => i.Offer != null).Select(i => i.Offer).ToList();
-                    offersAndBundles.FavouriteOffersIDs = FavouriteOffers
-                        .Where(i => i.IsActive && OffersFiltered.Contains(i))
-                        .Select(i => i.OfferID);
-                    if (user.Bucket.BucketItems != null)
-                    {
-                        offersAndBundles.InBucketOffersIDs = user.Bucket.BucketItems.Where(i => i.Offer != null)
-                            .Select(i => i.Offer.OfferID).ToList();
-                    }
-                }
-            }
-            else
-                ViewBag.Message = "Brak ofert dla podanych filtrów.\n";
+			if (Offers != null)
+			{
+				var OffersFiltered = Offers
+					.Where(i => i.Price > startingPrice && i.Price < endingPrice && possibleStates.Contains(i.OfferState))
+					.OrderByDescending(i => i.CreationDate)
+					.Skip(20 * (Page - 1))
+					.Take(20)
+					.ToList();
 
-            var Bundles = db.Bundles.Where(i => i.Offers.Where(x => x.Category.CategoryID == KatID).Any() && i.IsActive).ToList();
+				offersAndBundles.Offers = OffersFiltered;
 
-            var BundlesFiltered = Bundles.Where(i => i.BundlePrice > startingPrice && i.BundlePrice < endingPrice)
-                                    .OrderByDescending(i => i.CreationDate)
-                                    .Skip(20 * (page - 1))
-                                    .Take(20)
-                                    .ToList();
+				if (user != null)
+				{
+					var FavouriteOffers = user.FavouriteOffer.Where(i => i.Offer != null).Select(i => i.Offer).ToList();
+					offersAndBundles.FavouriteOffersIDs = FavouriteOffers
+						.Where(i => i.IsActive && OffersFiltered.Contains(i))
+						.Select(i => i.OfferID);
+					if (user.Bucket.BucketItems != null)
+					{
+						offersAndBundles.InBucketOffersIDs = user.Bucket.BucketItems.Where(i => i.Offer != null)
+							.Select(i => i.Offer.OfferID).ToList();
+					}
+				}
+			}
+			else
+				ViewBag.Message = "Brak ofert dla podanych filtrów.\n";
 
-            if (BundlesFiltered != null)
-            {
-                offersAndBundles.Bundles = BundlesFiltered;
-                if (user != null)
-                {
-                    var FavouriteBundles = user.FavouriteOffer.Where(i => i.Bundle != null).Select(i => i.Bundle).ToList();
-                    if (FavouriteBundles != null)
-                    {
-                        offersAndBundles.FavouriteBundlesIDs = FavouriteBundles
-                            .Where(i => i.IsActive && BundlesFiltered.Contains(i))
-                            .Select(i => i.BundleID);
-                        if (user.Bucket.BucketItems != null)
-                            offersAndBundles.InBucketBundlesIDs = user.Bucket.BucketItems.Where(i => i.Bundle != null)
-                                .Select(i => i.Bundle.BundleID).ToList();
-                    }
-                }
-            }
-            else
-                ViewBag.Message += "Brak zestawów dla podanych filtrów.\n";
+			var Bundles = db.Bundles.Where(i => i.Offers.Where(x => x.Category.CategoryID == KatID).Any() && i.IsActive).ToList();
 
-            return View(offersAndBundles);
-        }
-    }
+			var BundlesFiltered = Bundles.Where(i => i.BundlePrice > startingPrice && i.BundlePrice < endingPrice)
+									.OrderByDescending(i => i.CreationDate)
+									.Skip(20 * (page - 1))
+									.Take(20)
+									.ToList();
+
+			if (BundlesFiltered != null)
+			{
+				offersAndBundles.Bundles = BundlesFiltered;
+				if (user != null)
+				{
+					var FavouriteBundles = user.FavouriteOffer.Where(i => i.Bundle != null).Select(i => i.Bundle).ToList();
+					if (FavouriteBundles != null)
+					{
+						offersAndBundles.FavouriteBundlesIDs = FavouriteBundles
+							.Where(i => i.IsActive && BundlesFiltered.Contains(i))
+							.Select(i => i.BundleID);
+						if (user.Bucket.BucketItems != null)
+							offersAndBundles.InBucketBundlesIDs = user.Bucket.BucketItems.Where(i => i.Bundle != null)
+								.Select(i => i.Bundle.BundleID).ToList();
+					}
+				}
+			}
+			else
+				ViewBag.Message += "Brak zestawów dla podanych filtrów.\n";
+
+			return View(offersAndBundles);
+		}
+
+		[HttpPost]
+		public ActionResult Search()
+		{
+			string query = Request["searchText"];
+			User user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+
+			Debug.WriteLineIf(query != null, "Query: " + query);
+
+			OffersAndBundles searchResult = new OffersAndBundles();
+			if (query != null && query.Trim().Length > 0 && query != string.Empty)
+			{
+				Debug.WriteLine("SZUKAM OFERT I ZESTAWÓW");
+				ViewBag.QueryText = query.Trim();
+				string queryText = query.Trim().ToLower();
+
+				var foundOffers = db.Offers.Where(o => o.Title.Contains(queryText) || o.Description.Contains(queryText)).OrderByDescending(o => o.CreationDate).Take(20).ToList();
+				var foundBundles = db.Bundles.Where(b => b.Title.Contains(queryText)).OrderByDescending(o => o.CreationDate).Take(20).ToList();
+				searchResult.Offers = foundOffers;
+				searchResult.Bundles = foundBundles;
+
+				if (user != null)
+				{
+					var favouriteOffers = user.FavouriteOffer.Where(i => i.Offer != null).Select(i => i.Offer).ToList();
+					searchResult.FavouriteOffersIDs = favouriteOffers
+						.Where(i => i.IsActive && foundOffers.Contains(i))
+						.Select(i => i.OfferID);
+					if (user.Bucket.BucketItems != null)
+					{
+						searchResult.InBucketOffersIDs = user.Bucket.BucketItems.Where(i => i.Offer != null)
+							.Select(i => i.Offer.OfferID).ToList();
+					}
+
+					var favouriteBundles = user.FavouriteOffer.Where(i => i.Bundle != null).Select(i => i.Bundle).ToList();
+					if (favouriteBundles != null)
+					{
+						searchResult.FavouriteBundlesIDs = favouriteBundles
+							.Where(i => i.IsActive && foundBundles.Contains(i))
+							.Select(i => i.BundleID);
+						if (user.Bucket.BucketItems != null)
+							searchResult.InBucketBundlesIDs = user.Bucket.BucketItems.Where(i => i.Bundle != null)
+								.Select(i => i.Bundle.BundleID).ToList();
+					}
+
+				}
+			}
+
+
+			return View(searchResult);
+
+		}
+	}
 }

@@ -33,6 +33,22 @@ namespace ShopApp.Controllers
             return View(showUser);
         }
 
+        [HttpPost]
+        public ActionResult SendActivationEmail(string userLogin)
+        {
+            User user = db.Users.Where(u => u.Login == userLogin).FirstOrDefault();
+
+            if (user != null)
+            {
+                Task.Run(() => EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email));
+                return Json(new { email = user.Email });
+            }
+            else
+            {
+                return Json(false);
+            }
+        }
+
         #region Settings  
 
         public ActionResult Settings()
@@ -924,14 +940,15 @@ namespace ShopApp.Controllers
 
         #endregion
 
+        #region Transaction
         public ActionResult TransactionHistory()
         {
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
 
             if (user != null)
             {
-                var sold = user.SoldTransactions.ToList();
-                var bought = user.BoughtTransactions.ToList();
+                var sold = user.SoldTransactions.OrderByDescending(t => t.CreationDate).ToList();
+                var bought = user.BoughtTransactions.OrderByDescending(t => t.CreationDate).ToList();
 
                 if (sold != null && bought != null)
                 {
@@ -1018,20 +1035,6 @@ namespace ShopApp.Controllers
             return true;
         }
 
-        [HttpPost]
-        public ActionResult SendActivationEmail(string userLogin)
-        {
-            User user = db.Users.Where(u => u.Login == userLogin).FirstOrDefault();
-
-            if (user != null)
-            {
-                Task.Run(() => EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email));
-                return Json(new { email = user.Email });
-            }
-            else
-            {
-                return Json(false);
-            }
-        }
+        #endregion    
     }
 }

@@ -704,6 +704,7 @@
     <Content Include="Views\Error\InternalServerError.cshtml" />
     <Content Include="Views\User\PreRestorePassword.cshtml" />
     <Content Include="Views\User\RestorePassword.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
