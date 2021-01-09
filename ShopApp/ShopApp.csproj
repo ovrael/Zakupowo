@@ -178,6 +178,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="ControllersAPI\BucketController.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="ControllersAPI\CategoriesController.cs" />
     <Compile Include="ControllersAPI\DocumentUploadResponse.cs" />
@@ -708,6 +709,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="App_Files\Other\" />
     <Folder Include="fonts\" />
+    <Folder Include="Views\Default\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
   <ItemGroup>

@@ -70,7 +70,7 @@ namespace ShopApp.Models
         public virtual ICollection<Auction> Auction { get; set; }
         [JsonIgnore]
         public virtual ICollection<Offer> Offers { get; set; }
-
+        [JsonIgnore]
         public virtual ICollection<Favourite> FavouriteOffer { get; set; }
         [JsonIgnore]
         public virtual ICollection<Bundle> Bundles { get; set; }
