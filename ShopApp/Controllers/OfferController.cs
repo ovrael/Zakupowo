@@ -381,7 +381,7 @@ namespace ShopApp.Controllers
                         {
                             if (int.TryParse(quantity, out int QuantityAsInt))
                             {
-                                if (NewBucketItem.Offer.InStockNow < QuantityAsInt && QuantityAsInt > 0)
+                                if (NewBucketItem.Offer.InStockNow < QuantityAsInt || QuantityAsInt < 1)
                                 {
                                     error = "Przekroczono dostępną ilość danego produktu";
                                 }

@@ -5,7 +5,7 @@
 
 <div class="row offers-header text-center mx-auto">
     <div class="col-12">
-        <h1 class="my-lg-4 my-2 mt-4">
+        <h1 class="my-2 my-lg-4">
             Ulubione
         </h1>
         <hr>
@@ -31,7 +31,9 @@
                     <div class="row offer item-row p-2 m-0">
                         @if (Counter != 1)
                         {
-                            <hr class="w-100">
+                            <div class="col-12">
+                                <hr>
+                            </div>
                         }
                         <div class="col-12 col-lg-4 text-center offer-img my-auto text-center">
                             <img class="img-fluid" src="@item.OfferPictures.First().PathToFile">

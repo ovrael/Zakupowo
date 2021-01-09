@@ -19,6 +19,6 @@ h2 {
     margin: 6px;
 }
 
-button:focus, button:active {
+.btn-primary:focus, .btn-primary:active, .btn-primary:focus {
     background-color: #FFB24A !important;
 }

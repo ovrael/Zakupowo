@@ -85,7 +85,7 @@ $(document).ready(function () {
                     }
                 });    
             }
-            if (!jQuery(this).hasClass('in-bucket')) {
+            else if (!jQuery(this).hasClass('in-bucket')) {
                 $.ajax({
                     url: '/Offer/AddToBucket',
                     type: 'POST',
@@ -95,10 +95,21 @@ $(document).ready(function () {
                         quantity: quantity
                     },
                     success: function (ErrorMessage) {
-                        console.log("Success");
-                        console.log(ErrorMessage);
-                        $(element).addClass("in-bucket");
-                        $(element).text("OFERTA ZNAJDUJE SIĘ W KOSZYKU");
+                        if (ErrorMessage == "") {
+                            $(element).addClass("in-bucket");
+                            $(element).text("OFERTA ZNAJDUJE SIĘ W KOSZYKU");
+                        } else {
+                            $.alert({
+                                title: 'Wystąpił błąd',
+                                content: ErrorMessage,
+                                buttons: {
+                                    ok: {
+                                        text: 'ok',
+                                        btnClass: 'btn-popout'
+                                    }
+                                }
+                            });
+                        }
                     },
                 });
             }

@@ -1,4 +1,10 @@
-﻿$(document).ready(function () {
+﻿function deleteFirstHr() {
+    var FirstOffer = $(".offer").first();
+    var HrDiv = FirstOffer.find(".col-12").first();
+    if (!HrDiv.hasClass("offer-img"))
+        HrDiv.remove();
+}
+$(document).ready(function () {
     $(".product-fav").click(function (e) {
         if ($(e.target).hasClass("fav-active")) {
             $(e.target).closest(".offer").remove();
@@ -12,6 +18,7 @@
                     }
                 }
             });
+            deleteFirstHr();
         }
     })
     $(".btn-group").click(function (e) {
