@@ -24,6 +24,8 @@ namespace ShopApp.ControllersAPI
     {
         private ShopContext db = new ShopContext();
 
+
+        #region offers
         public IHttpActionResult GetOffers()
         {
             var offers = db.Offers;
@@ -54,9 +56,6 @@ namespace ShopApp.ControllersAPI
             return Ok(offerItems);
         }
 
-
-
-      
         public async System.Threading.Tasks.Task<IHttpActionResult> AddAsync()
         {
             var uploadPath = HostingEnvironment.MapPath("/") + @"/Uploads";
@@ -177,6 +176,10 @@ namespace ShopApp.ControllersAPI
         {
             return db.Offers.Count(e => e.OfferID == id) > 0;
         }
+
+        #endregion
+
+
     }
 
 
@@ -201,6 +204,7 @@ namespace ShopApp.ControllersAPI
         public int OfferID { get; set; }
 
         public string Title { get; set; }
+        public string Login { get; set; }
 
         public string Description { get; set; }
 
@@ -224,7 +228,7 @@ namespace ShopApp.ControllersAPI
 
 
 
-        public OfferItem(int offerID, string title, string description, DateTime creationDate, bool isActive, string stocking, double inStockOriginaly, double inStockNow, double price, int userID, int categoryID,  List<OfferItemPicture> offerItemPictures)
+        public OfferItem(int offerID, string title, string description, DateTime creationDate, bool isActive, string stocking, double inStockOriginaly, double inStockNow, double price, int userID, int categoryID,  List<OfferItemPicture> offerItemPictures, string login)
         {
             OfferID = offerID;
             Title = title;
@@ -236,6 +240,7 @@ namespace ShopApp.ControllersAPI
             InStockNow = inStockNow;
             Price = price;
             UserID = userID;
+            Login = login;
             CategoryID = categoryID;
             OfferPictures = offerItemPictures;
         }
@@ -251,7 +256,7 @@ namespace ShopApp.ControllersAPI
                 offerItemPictures.Add(offerItemPicture);
             }
 
-            return new OfferItem(offer.OfferID,offer.Title, offer.Description, offer.CreationDate, offer.IsActive,offer.Stocking,offer.InStockOriginaly,offer.InStockNow,offer.Price,offer.User.UserID,offer.Category.CategoryID,  offerItemPictures);
+            return new OfferItem(offer.OfferID,offer.Title, offer.Description, offer.CreationDate, offer.IsActive,offer.Stocking,offer.InStockOriginaly,offer.InStockNow,offer.Price,offer.User.UserID,offer.Category.CategoryID,  offerItemPictures, offer.User.Login);
         }
 
     }
