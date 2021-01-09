@@ -924,7 +924,7 @@ namespace ShopApp.Controllers
 
         #endregion
 
-        public ActionResult OrderHistory()
+        public ActionResult TransactionHistory()
         {
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
 
@@ -952,27 +952,70 @@ namespace ShopApp.Controllers
                 return new HttpStatusCodeResult(404);
         }
 
-        private void WyswietlanieTransakcji()
+        [HttpPost]
+        public ActionResult ManageTransaction(int transactionID, bool isAccepted)
         {
-            var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+            Transaction managedTransaction = db.Transactions.Where(t => t.TransactionID == transactionID).FirstOrDefault();
+            User user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
+            StringBuilder returnInfo = new StringBuilder();
 
-            var transactions = db.Transactions.Where(i => i.Buyer.Login == user.Login).ToList();
-            foreach (var transaction in transactions)
+            if (managedTransaction != null
+                && user != null
+                && user.SoldTransactions.Contains(managedTransaction)
+                && managedTransaction.IsChosen == false)
             {
-                Debug.WriteLine(transaction.BucketItems.Count());
-                Debug.WriteLine(transaction.TransactionID);
+                managedTransaction.IsChosen = true;
+                managedTransaction.IsAccepted = isAccepted;
+                ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
 
-                foreach (var item in transaction.BucketItems)
+                if (isAccepted)
                 {
-                    Debug.WriteLine(item.Quantity);
-                    Debug.WriteLine(item.TotalPrice);
-                    Debug.WriteLine(item.BucketItemID);
-                    Debug.WriteLine(item.Offer != null ? item.Offer.Title : item.Bundle.Title);
-                    Debug.WriteLine("------ WEWN FOREACH ------");
+                    foreach (var bucketItem in managedTransaction.BucketItems)
+                    {
+                        if (bucketItem.Offer != null)
+                        {
+                            if (!DecrementProductFromOffer(bucketItem.Offer, bucketItem.Quantity))
+                            {
+                                returnInfo.AppendLine("Brak produktu: " + bucketItem.Offer.Title);
+                            }
+                        }
+                        else if (bucketItem.Bundle != null)
+                        {
+                            foreach (var offer in bucketItem.Bundle.Offers)
+                            {
+                                if (!DecrementProductFromOffer(offer, 1))
+                                {
+                                    returnInfo.AppendLine("Brak produktu: " + offer.Title);
+                                }
+                            }
+                        }
+                    }
                 }
-                Debug.WriteLine("------ ZEWN FOREACH ------");
+
+                return Json(returnInfo.ToString());
             }
 
+            return Json("ERROR");
+        }
+
+        private bool DecrementProductFromOffer(Offer offer, double quantity)
+        {
+            double inStockNow = offer.InStockNow;
+            if (inStockNow > 1 && quantity <= inStockNow)
+            {
+                offer.InStockNow -= quantity;
+            }
+            else if (inStockNow == 1)
+            {
+                offer.InStockNow = 0;
+                offer.IsActive = false;
+            }
+            else
+            {
+                return false;
+            }
+            ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+            return true;
         }
 
         [HttpPost]

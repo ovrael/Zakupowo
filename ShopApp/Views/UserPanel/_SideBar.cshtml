@@ -26,7 +26,7 @@
     activeView.Add("Account", string.Empty);
     activeView.Add("Offers", string.Empty);
     activeView.Add("Bundles", string.Empty);
-    activeView.Add("OrderHistory", string.Empty);
+    activeView.Add("TransactionHistory", string.Empty);
     activeView.Add("Communicator", string.Empty);
     activeView.Add("Settings", string.Empty);
 
@@ -68,8 +68,8 @@
             </a>
         </li>
      
-        <li class="links @activeView["OrderHistory"]">
-            <a href="@Url.Action("OrderHistory", "UserPanel")">
+        <li class="links @activeView["TransactionHistory"]">
+            <a href="@Url.Action("TransactionHistory", "UserPanel")">
                 <div class="sidebar-elements mr-3 ml-3">
                     <div class="icon"><i class="fas fa-file-alt"></i></div>
                     <div class="title">Historia</div>

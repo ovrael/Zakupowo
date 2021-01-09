@@ -663,7 +663,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\UserPanel\EditBasicInfo_UNUSED.cshtml" />
-    <Content Include="Views\UserPanel\OrderHistory.cshtml" />
+    <Content Include="Views\UserPanel\TransactionHistory.cshtml" />
     <Content Include="Views\UserPanel\Communicator.cshtml" />
     <Content Include="Views\UserPanel\EditPassword_UNUSED.cshtml" />
     <Content Include="Views\UserPanel\ShippingAdresses_UNUSED.cshtml" />
@@ -683,7 +683,7 @@
     <Content Include="Views\UserPanelJonak\Index.cshtml" />
     <Content Include="Views\UserPanel\_SideBar.cshtml" />
     <Content Include="Views\UserPanel\AddShippingAdress_UNUSED.cshtml" />
-    <Content Include="Views\UserPanel\_SettingsSideBar.cshtml" />
+    <Content Include="Views\UserPanel\_SettingsSideBar_UNUSED.cshtml" />
     <Content Include="Views\UserPanel\EditAvatar_UNUSED.cshtml" />
     <Content Include="Views\Offer\Index.cshtml" />
     <Content Include="Views\Home\Kat.cshtml" />
