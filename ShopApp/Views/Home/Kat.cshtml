@@ -126,11 +126,11 @@
                                 {
                                     if (Model.InBucketOffersIDs != null && Model.InBucketOffersIDs.Contains(item.OfferID))
                                     {
-                                        <a class="addToBucket in-bucket" data-type="Offer" id="@item.OfferID">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
+                                        <a class="addToBucket in-bucket" data-id="@item.OfferID" data-type="Offer" data-quantity="1">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
                                     }
                                     else
                                     {
-                                        <a class="addToBucket" data-type="Offer" id="@item.OfferID">DODAJ DO KOSZYKA</a>
+                                        <a class="addToBucket" data-id="@item.OfferID" data-type="Offer" data-quantity="1">DODAJ DO KOSZYKA</a>
                                     }
                                     if (Model.FavouriteOffersIDs != null && Model.FavouriteOffersIDs.Contains(item.OfferID))
                                     {
@@ -180,11 +180,11 @@
                                 {
                                     if (Model.InBucketBundlesIDs.Contains(item.BundleID))
                                     {
-                                        <a class="addToBucket in-bucket" data-type="Bundle" id="@item.BundleID">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
+                                        <a class="addToBucket in-bucket" data-type="Bundle" data-id="@item.BundleID" data-quantity="1">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
                                     }
                                     else
                                     {
-                                        <a class="addToBucket" data-type="Bundle" id="@item.BundleID">DODAJ DO KOSZYKA</a>
+                                        <a class="addToBucket" data-type="Bundle" data-id="@item.BundleID" data-quantity="1">DODAJ DO KOSZYKA</a>
                                     }
                                     if (Model.FavouriteBundlesIDs != null && Model.FavouriteBundlesIDs.Contains(item.BundleID))
                                     {

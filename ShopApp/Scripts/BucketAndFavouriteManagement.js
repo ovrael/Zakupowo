@@ -94,17 +94,11 @@ $(document).ready(function () {
                         id: id,
                         quantity: quantity
                     },
-                    success: function (data) {
-                        if (data.text == null)// No errors
-                        {
-                            $(element).addClass("in-bucket");
-                            $(element).text("OFERTA ZNAJDUJE SIĘ W KOSZYKU");
-                        }
-                        else
-                        {
-                            console.log(data.text);
-                        }
-
+                    success: function (ErrorMessage) {
+                        console.log("Success");
+                        console.log(ErrorMessage);
+                        $(element).addClass("in-bucket");
+                        $(element).text("OFERTA ZNAJDUJE SIĘ W KOSZYKU");
                     },
                 });
             }

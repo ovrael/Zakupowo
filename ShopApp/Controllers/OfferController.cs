@@ -363,7 +363,7 @@ namespace ShopApp.Controllers
         [Authorize]
         public async Task<ActionResult> AddToBucket(string type, int? id, string quantity)
         {
-            string error = null;
+            string error = string.Empty;
 
             User user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
 
@@ -381,9 +381,9 @@ namespace ShopApp.Controllers
                         {
                             if (int.TryParse(quantity, out int QuantityAsInt))
                             {
-                                if (NewBucketItem.Offer.InStockNow < QuantityAsInt)
+                                if (NewBucketItem.Offer.InStockNow < QuantityAsInt && QuantityAsInt > 0)
                                 {
-                                    error = "Przekroczono dostępną ilość danego prodtu.";
+                                    error = "Przekroczono dostępną ilość danego produktu";
                                 }
                                 else
                                 {
@@ -429,8 +429,7 @@ namespace ShopApp.Controllers
             }
             else
                 error = "Wprowadzone dane są niepoprawne.";
-
-            return Json(error, JsonRequestBehavior.AllowGet);
+            return Json(error , JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
