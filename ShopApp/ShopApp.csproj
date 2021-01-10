@@ -178,6 +178,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="ControllersAPI\APIAuthenticationController.cs" />
     <Compile Include="ControllersAPI\BucketController.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="ControllersAPI\CategoriesController.cs" />
@@ -704,11 +705,13 @@
     <Content Include="Views\Error\InternalServerError.cshtml" />
     <Content Include="Views\User\PreRestorePassword.cshtml" />
     <Content Include="Views\User\RestorePassword.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="App_Files\Other\" />
     <Folder Include="fonts\" />
+    <Folder Include="Views\APIAuthentication\" />
     <Folder Include="Views\Default\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>

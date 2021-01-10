@@ -99,6 +99,7 @@
     border-radius: 2px;
     color: white;
     width: 100%;
+    white-space: normal;
 }
 
 .overlay > .row > .col-12 > form > .filterSubmit {
@@ -162,9 +163,6 @@
     .offers-header {
         width: 60%;
     }
-    .container-fluid {
-        padding-top: 50px;
-    }
 }
 
 @media (min-width: 1200px) {
@@ -182,9 +180,5 @@
     }
     .offers-header {
         width: 60%;
-    }
-
-    .container-fluid {
-        padding-top: 70px;
     }
 }

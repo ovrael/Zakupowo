@@ -42,8 +42,10 @@
                 {
                     if (item.Offer != null)
                     {
-                        <hr class="w-100">
-                        <div class="row item justify-content-around align-items-center text-center p-3 pt-0">
+                        <div class="row item justify-content-around align-items-baseline text-center p-3 pt-0">
+                            <div class="col-12 mt-0 pt-0">
+                                <hr>
+                            </div>
                             <div class="col-1 item-delete" data-id="@item.Offer.OfferID" data-type="Offer">
                                 <i class="fas fa-times"></i>
                             </div>
@@ -65,7 +67,10 @@
                     }
                     else
                     {
-                        <div class="row item justify-content-around align-items-center text-center p-3">
+                        <div class="row item justify-content-around align-items-baseline text-center p-3 pt-0">
+                            <div class="col-12 mt-0 pt-0">
+                                <hr>
+                            </div>
                             <div class="col-1 item-delete" data-id="@item.Bundle.BundleID" data-type="Bundle">
                                 <i class="fas fa-times"></i>
                             </div>

@@ -81,11 +81,6 @@ max-height: 200px;
     .bucket, .bucket-header {
         width: 60%;
     }
-
-    .container-fluid {
-        padding-top: 50px;
-    }
-
     .item-name > a {
         font-size: 16px;
     }
@@ -108,8 +103,5 @@ max-height: 200px;
 @media (min-width: 1200px) {
     .bucket, .bucket-header {
         width: 60%;
-    }
-    .container-fluid {
-        padding-top: 70px;
     }
 }
