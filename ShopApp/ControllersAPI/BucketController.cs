@@ -26,7 +26,6 @@ namespace ShopApp.ControllersAPI
                     list.Add(BindingBucketItem.Convert(item));
                 }
                 //Consider using Critical error page for below
-
                 if (user.ShippingAdresses.Count() == 0)
                     return Ok("Przed przejściem do kasy wymagane jest ustawienie adresu dostawy");
                 if (user?.Bucket?.BucketItems == null)
@@ -42,6 +41,7 @@ namespace ShopApp.ControllersAPI
         }
 
     }
+
     public class BindingBucketItem 
     {
         public int BucketItemID { get; set; }

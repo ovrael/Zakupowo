@@ -4,13 +4,18 @@ using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.Hosting;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Security;
+using Newtonsoft.Json;
 using ShopApp.DAL;
 using ShopApp.Models;
 using ShopApp.Utility;
@@ -257,8 +262,124 @@ namespace ShopApp.Controllers
 
         }
 
+
+        [HttpPost]
+        [Route("ChangePassword")]
+        public async Task<IHttpActionResult> ChangePasswordAsync()
+        {
+            string json = await Request.Content.ReadAsStringAsync();
+            dynamic data = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            string login = data["login"];
+            string newPassword = data["newPassword"];
+            string oldPassword = data["oldPassword"];
+
+            User editUser = db.Users.Where(i => i.Login == login).FirstOrDefault();
+
+
+            if (editUser != null)
+            {
+                string encryptedOldPassword = Cryptographing.Encrypt(oldPassword.Trim());
+                string encryptedNewPassword = Cryptographing.Encrypt(newPassword.Trim());
+
+
+                // If written current password is the same as current password AND written current and new passwords are not NULLs
+                if (encryptedOldPassword.Equals(editUser.EncryptedPassword) && encryptedOldPassword != null && encryptedNewPassword != null)
+                {
+                    // If new password validates and is different from old one => CHANGE PASSWORD
+                    if (!encryptedNewPassword.Equals(encryptedOldPassword))
+                    {
+                        await Task.Run(() => EmailManager.SendEmailAsync(EmailManager.EmailType.ChangePassword, editUser.FirstName, editUser.LastName, editUser.Email, encryptedNewPassword));
+                        return Ok("Wysłano email z potwierdzeniem zmiany hasła!");
+                    }
+                }
+            }
+
+            return BadRequest("Nie udało się zmienić hasła");
+        }
+        [HttpPost]
+        [Route("ChangeAvatar")]
+        public async Task<IHttpActionResult> ChangePassword()
+        {
+            var uploadPath = HostingEnvironment.MapPath("/") + @"/Uploads";
+            Directory.CreateDirectory(uploadPath);
+            var provider = new MultipartFormDataStreamProvider(uploadPath);
+            await Request.Content.ReadAsMultipartAsync(provider);
+
+
+            string serializedModel = "";
+            foreach (var key in provider.FormData.AllKeys)
+            {
+                foreach (var val in provider.FormData.GetValues(key))
+                {
+                    if (val != "")
+                    {
+                        serializedModel = val;
+                    }
+                }
+            }
+
+            Dictionary<string,string> model = JsonConvert.DeserializeObject<Dictionary<string,string>>(serializedModel);
+            string value = model.FirstOrDefault().Value;
+
+            try
+            {
+                User editUser = db.Users.Where(i => i.Login == value.ToString()).First();
+                if (editUser != null)
+                {
+                    var filesData = HttpContext.Current.Request.Files.Count > 0 ?
+                    HttpContext.Current.Request.Files : null;
+
+                    HttpPostedFile file = null;
+                    if (filesData != null) file = filesData[0];
+                    HttpPostedFileBase filebase = new HttpPostedFileWrapper(file);
+                    var imageUrl = await FileManager.UploadAvatar(filebase, editUser.UserID);
+
+                    if (imageUrl != null)
+                    {
+                        if (editUser.AvatarImage == null)
+                        {
+                            AvatarImage newAvatar = new AvatarImage() { PathToFile = imageUrl, User = editUser };
+                            db.Entry(newAvatar).State = System.Data.Entity.EntityState.Added;
+                        }
+                        else
+                        {
+                            editUser.AvatarImage.PathToFile = imageUrl;
+                            db.Entry(editUser).State = System.Data.Entity.EntityState.Modified;
+                        }
+
+                        System.IO.DirectoryInfo di = new DirectoryInfo(uploadPath);
+
+                        foreach (FileInfo data in di.GetFiles())
+                        {
+                            data.Delete();
+                        }
+                        db.SaveChanges();
+
+                        return Ok(editUser);
+
+                    }
+
+                    return Ok(editUser);
+
+
+                }
+
+            }
+            catch(Exception e )
+            {
+                Debug.WriteLine(e.Message);
+            }
+
+
+           
+
+            return BadRequest();
+        }
+
+
     }
-      
+   
+
 
 }
   
