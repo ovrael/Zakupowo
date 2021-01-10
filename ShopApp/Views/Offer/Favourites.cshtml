@@ -25,35 +25,30 @@
         {
             try
             {
-                int Counter = 1;
                 foreach (var item in Model.Offers)
                 {
                     <div class="row offer item-row p-2 m-0">
-                        @if (Counter != 1)
-                        {
                             <hr class="w-100">
-                        }
                         <div class="col-12 col-lg-4 text-center offer-img my-auto text-center">
                             <img class="img-fluid" src="@item.OfferPictures.First().PathToFile">
                         </div>
                         <div class="col-12 col-lg-8 offer-desc">
                             <h3><a class="product-name" href="@Url.Action("Index", "Offer", new { OfferID = item.OfferID })">@item.Title</a></h3>
-                            <p class="seller d-none d-lg-block mb-2">sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
+                            <p class="seller d-none d-lg-block mb-2">sprzedawca: <a class="seller-name" href="@Url.Action("UserInformation","User",new { UserId = item.User.UserID })">@item.User.Login</a></p>
                             <h3 class="product-price mb">@item.Price zł</h3>
                             <p class="offer-count d-none d-lg-block pb-3">dostępne: @item.InStockNow z @item.InStockOriginaly</p>
                             <br>
                             @if (Model.InBucketOffersIDs != null && Model.InBucketOffersIDs.Contains(item.OfferID))
                             {
-                                <a class="addToBucket in-bucket" data-type="Offer" id="@item.OfferID">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
+                                <a class="addToBucket in-bucket" data-type="Offer" data-id="@item.OfferID" data-quantity="1">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
                             }
                             else
                             {
-                                <a class="addToBucket" data-type="Offer" id="@item.OfferID">DODAJ DO KOSZYKA</a>
+                                <a class="addToBucket" data-type="Offer" data-id="@item.OfferID" data-quantity="1">DODAJ DO KOSZYKA</a>
                             }
-                            <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Offer" id="@item.OfferID"></i>
+                            <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Offer" data-id="@item.OfferID"></i>
                         </div>
                     </div>
-                    Counter++;
                 }
 
             }
@@ -67,42 +62,36 @@
 
         @if (Model.Bundles != null && Model.Bundles.Count() > 0)
         {
-            int Counter = 1;
-
             foreach (var item in Model.Bundles)
             {
                 try
                 {
                     <div class="row bundle-row offer p-2 m-0 d-none">
-                        @if (Counter != 1)
-                        {
                             <hr class="w-100">
-                        }
                         <div class=" col-12 col-lg-4 offer-img my-auto text-center">
                             <img class="img-fluid" src="@item.Offers.First().OfferPictures.First().PathToFile">
                         </div>
                         <div class="col-12 col-lg-8 offer-desc">
-                            <h3><a class="product-name" href="#">@item.Title</a></h3>
-                            <p class="seller d-none d-lg-block">sprzedawca: <a class="seller-name" href="#">@item.User.Login</a></p>
+                            <h3><a class="product-name" href="@Url.Action("Bundle","Offer",new { BundleId = item.BundleID })" >@item.Title</a></h3>
+                            <p class="seller d-none d-lg-block">sprzedawca: <a class="seller-name" href="@Url.Action("Bundle","Offer",new { BundleId = item.BundleID })">@item.User.Login</a></p>
                             <s><h3 class="product-price mb-1">@item.OffersPriceSum zł</h3></s>
                             <h3 class="product-price mb-4">@item.BundlePrice zł</h3>
                             <br>
                             @if (Model.InBucketOffersIDs != null && Model.InBucketOffersIDs.Contains(item.BundleID))
                             {
-                                <a class="addToBucket in-bucket" data-type="Offer" id="@item.BundleID">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
+                                <a class="addToBucket in-bucket" data-type="Bundle" data-id="@item.BundleID" data-quantity="1">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
                             }
                             else
                             {
-                                <a class="addToBucket" data-type="Offer" id="@item.BundleID">DODAJ DO KOSZYKA</a>
+                                <a class="addToBucket" data-type="Bundle" data-id="@item.BundleID" data-quantity="1">DODAJ DO KOSZYKA</a>
                             }
-                            <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Bundle" id="@item.BundleID"></i>
+                            <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Bundle" data-id="@item.BundleID"></i>
                         </div>
                     </div>
-                    Counter++;
                 }
                 catch (Exception ex)
                 {
-                    Response.Redirect("~/Error/NotFound");
+                    Response.StatusCode = 500;
                 }
             }
         }

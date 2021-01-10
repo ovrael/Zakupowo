@@ -79,19 +79,19 @@
                         {
                             if (Model.OffersAndBundles.InBucketOffersIDs != null && Model.OffersAndBundles.InBucketOffersIDs.Contains(offer.OfferID))
                             {
-                                <a class="addToBucket in-bucket" data-type="Offer" id="@offer.OfferID">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
+                                <a class="addToBucket in-bucket" data-type="Offer" data-id="@offer.OfferID" data-quantity="1">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
                             }
                             else
                             {
-                                <a class="addToBucket" data-type="Offer" id="@offer.OfferID">DODAJ DO KOSZYKA</a>
+                                <a class="addToBucket" data-type="Offer" data-id="@offer.OfferID" data-quantity="1">DODAJ DO KOSZYKA</a>
                             }
                             if (Model.OffersAndBundles.FavouriteOffersIDs != null && Model.OffersAndBundles.FavouriteOffersIDs.Contains(offer.OfferID))
                             {
-                                <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Offer" id="@offer.OfferID."></i>
+                                <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Offer" data-id="@offer.OfferID"></i>
                             }
                             else
                             {
-                                <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Offer" id="@offer.OfferID"></i>
+                                <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Offer" data-id="@offer.OfferID"></i>
                             }
                         }
                         else
@@ -117,38 +117,37 @@
                         <img class="img-fluid" src="@bundle.Offers.First().OfferPictures.First().PathToFile" />
                     </div>
                     <div class="col-8 offer-desc">
-                        <h3><a class="product-name" href="#">@bundle.Title</a></h3>
+                        <h3><a class="product-name" href="@Url.Action("Bundle", "Offer", new { BundleId = bundle.BundleID })">@bundle.Title</a></h3>
                         <h3 class="product-price mb-1"><s>@bundle.OffersPriceSum zł</s></h3>
                         <h3 class="product-price mb-4">@bundle.BundlePrice zł</h3>
                         <br />
-                        @if (Model.IsOwner)
-                        {
+                            @if (Model.IsOwner){}
 
-                        }
-                        else if (HttpContext.Current.User.Identity.IsAuthenticated)
-                        {
+                            else if (HttpContext.Current.User.Identity.IsAuthenticated)
+                            {
                             if (Model.OffersAndBundles.InBucketBundlesIDs != null && Model.OffersAndBundles.InBucketBundlesIDs.Contains(bundle.BundleID))
                             {
-                                <a class="addToBucket in-bucket" data-type="Bundle" id="@bundle.BundleID">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
+                            <a class="addToBucket in-bucket" data-type="Bundle" data-id="@bundle.BundleID" data-quantity="1">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
                             }
                             else
                             {
-                                <a class="addToBucket" data-type="Bundle" id="@bundle.BundleID">DODAJ DO KOSZYKA</a>
+                            <a class="addToBucket" data-type="Bundle" data-id="@bundle.BundleID" data-quantity="1">DODAJ DO KOSZYKA</a>
                             }
                             if (Model.OffersAndBundles.FavouriteBundlesIDs != null && Model.OffersAndBundles.FavouriteBundlesIDs.Contains(bundle.BundleID))
                             {
-                                <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Bundle" id="@bundle.BundleID."></i>
+                            <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Bundle" data-id="@bundle.BundleID."></i>
                             }
                             else
                             {
-                                <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Bundle" id="@bundle.BundleID"></i>
+                            <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Bundle" data-id="@bundle.BundleID"></i>
                             }
-                        }
-                        else
-                        {
+                            }
+                            else
+                            {
                             <a class="addToBucket not-logged">DODAJ DO KOSZYKA</a>
                             <i class="fas fa-heart fa-fw product-fav not-logged"></i>
-                        }
+                            }
+
                     </div>
                     <hr class="w-100" />
                 </div>

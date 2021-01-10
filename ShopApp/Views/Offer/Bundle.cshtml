@@ -56,11 +56,11 @@
                 @{
                     if (Model.IsInFavourite && HttpContext.Current.User.Identity.IsAuthenticated)
                     {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" data-type="Bundle" id="@Model.Bundle.BundleID"></i>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" data-type="Bundle" data-id="@Model.Bundle.BundleID"></i>
                     }
                     else if (HttpContext.Current.User.Identity.IsAuthenticated)
                     {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-unActive" data-type="Bundle" id="@Model.Bundle.BundleID"></i>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-unActive" data-type="Bundle" data-id="@Model.Bundle.BundleID"></i>
                     }
                     else
                     {
@@ -77,11 +77,11 @@
             <hr class="mb-2" />
             @if (Model.IsInBucket)
             {
-                <button class="offer-button w-100 p-3 mt-2 in-bucket addToBucket">OFERTA ZNAJDUJE SIĘ W KOSZYKU</button>
+                <button class="offer-button w-100 p-3 mt-2 in-bucket addToBucket" data-id="@Model.Bundle.BundleID" data-type="Bundle" data-quantity="1">OFERTA ZNAJDUJE SIĘ W KOSZYKU</button>
             }
             else
             {
-                <button data-id="@Model.Bundle.BundleID" data-type="Bundle" data-quantity="" class="offer-button w-100 p-3 mt-2 addToBucket">DODAJ DO KOSZYKA</button>
+                <button data-id="@Model.Bundle.BundleID" data-type="Bundle" data-quantity="1" class="offer-button w-100 p-3 mt-2 addToBucket">DODAJ DO KOSZYKA</button>
             }
         </div>
     </div>
@@ -113,27 +113,27 @@
                             {
                                 if (Model.InBucketOffersIDs != null && Model.InBucketOffersIDs.Contains(item.OfferID))
                                 {
-                                    <a class="bundle-addToBucket in-bucket" data-type="Offer" id="@item.OfferID">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
+                                    <a class="bundle-addToBucket in-bucket" data-type="Offer" data-id="@item.OfferID" data-quantity="1">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
                                 }
                                 else
                                 {
-                                    <a class="bundle-addToBucket" data-type="Offer" id="@item.OfferID">DODAJ DO KOSZYKA</a>
+                                    <a class="bundle-addToBucket" data-type="Offer" data-id="@item.OfferID" data-quantity="1" >DODAJ DO KOSZYKA</a>
                                 }
 
                                 if (Model.InFavouriteOffersIDs != null && Model.InFavouriteOffersIDs.Contains(item.OfferID))
                                 {
-                                    <i class="fas fa-heart fa-fw bundle-product-fav fav-active" data-type="Offer" id="@item.OfferID"></i>
+                                    <i class="fas fa-heart fa-fw bundle-product-fav fav-active" data-type="Offer" data-id="@item.OfferID"></i>
                                 }
                                 else
                                 {
-                                    <i class="fas fa-heart fa-fw bundle-product-fav fav-unActive" data-type="Offer" id="@item.OfferID"></i>
+                                    <i class="fas fa-heart fa-fw bundle-product-fav fav-unActive" data-type="Offer" data-id="@item.OfferID"></i>
                                 }
 
                             }
                             else
                             { 
-                                <a class="bundle-addToBucket not-logged" data-type="Offer" id="@item.OfferID">DODAJ DO KOSZYKA</a>
-                                <i class="fas fa-heart fa-fw bundle-product-fav not-logged"></i>
+                                <a class="bundle-addToBucket not-logged" >DODAJ DO KOSZYKA</a>
+                                <i class="fas fa-heart fa-fw bundle-product-fav not-logged" ></i>
                             }
                         </div>
                     </div>

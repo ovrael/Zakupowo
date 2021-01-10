@@ -49,8 +49,6 @@
                 <div class="carousel-inner">
 
                     @{
-
-                        string pictureUrl = string.Empty;
                         if (Model.Offer.OfferPictures != null && Model.Offer.OfferPictures.Count > 0)
                         {
                             List<ShopApp.Models.OfferPicture> pictures = Model.Offer.OfferPictures.ToList();
@@ -62,7 +60,7 @@
                             for (int i = 1; i < pictures.Count; i++)
                             {
                                 <div class="carousel-item">
-                                    <img src="@pictures[i].PathToFile" alt="@(i+1).offer picture" class="d-block">
+                                    <img src="@pictures[i].PathToFile" alt="@(i+1). offer picture" class="d-block">
                                 </div>
                             }
                         }
@@ -71,7 +69,6 @@
                             <div class="carousel-item active">
                                 <img src="..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg" alt="Default offer picture" class="d-block w-100">
                             </div>
-                            pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
                         }
                     }
 
@@ -108,11 +105,11 @@
                 @{
                     if (Model.IsInFavourite && HttpContext.Current.User.Identity.IsAuthenticated)
                     {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" data-type="Offer" id="@Model.Offer.OfferID"></i>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" data-type="Offer" data-id="@Model.Offer.OfferID"></i>
                     }
                     else if (HttpContext.Current.User.Identity.IsAuthenticated)
                     {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-unActive" data-type="Offer" id="@Model.Offer.OfferID"></i>
+                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-unActive" data-type="Offer" data-id="@Model.Offer.OfferID"></i>
                     }
                     else
                     {
@@ -130,10 +127,9 @@
             <p class="buyer-counter mb-1"></p>
             <label for="quantity-input">Pozostało: @Model.Offer.InStockNow</label>
             <input type="number" step="1" max="@Model.Offer.InStockNow" min="1" value="1" id="quantity" class="quantity-field w-25">
-            <input type="hidden">
             @if (Model.IsInBucket && HttpContext.Current.User.Identity.IsAuthenticated)
             {
-                <button class="offer-button w-100 p-3 mt-2 in-bucket addToBucket" data-id="@Model.Offer.OfferID" data-quantity="1">OFERTA ZNAJDUJE SIĘ W KOSZYKU</button>
+                <button class="offer-button w-100 p-3 mt-2 in-bucket addToBucket" data-id="@Model.Offer.OfferID" data-type="Offer" data-quantity="1">OFERTA ZNAJDUJE SIĘ W KOSZYKU</button>
             }
             else if (HttpContext.Current.User.Identity.IsAuthenticated)
             {

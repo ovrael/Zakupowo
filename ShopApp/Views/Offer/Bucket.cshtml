@@ -32,7 +32,7 @@
                                name="SelectedSeller_@Seller.Key.Login" checked />
                     </div>
                     <div class="col-10 items-seller">
-                        <p class="m-0">od: <a class="seller-name">@Seller.Key.Login</a></p>
+                        <p class="m-0">od: <a href="@Url.Action("UserInformation","User", new { UserId = Seller.Key.UserID})" class="seller-name">@Seller.Key.Login</a></p>
                     </div>
                 </div>
 
@@ -73,7 +73,7 @@
                                 <img class="img-fluid" src="@item.Bundle.Offers.First().OfferPictures.First().PathToFile">
                             </div>
                             <div class="col-5 col-lg-3 item-name">
-                                <a href="@Url.Action("Index", "Bundle", new { BundleID = item.Bundle.BundleID })">@item.Bundle.Title</a>
+                                <a href="@Url.Action("Bundle", "Offer", new { BundleID = item.Bundle.BundleID })">@item.Bundle.Title</a>
                             </div>
                             <div class="col-1 m-1 d-lg-none"></div>
                             <div class="col-5 col-lg-3 item-quantity pt-3 pt-lg-0">

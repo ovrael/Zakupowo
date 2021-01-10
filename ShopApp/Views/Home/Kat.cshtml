@@ -96,7 +96,6 @@
 
                 @if (Model.Offers != null)
                 {
-                    int Counter = 1;
                     foreach (var item in Model.Offers)
                     {
                         string pictureUrl = string.Empty;
@@ -110,10 +109,8 @@
                         }
 
                         <div class="row offer item-row p-2 m-0 mt-1">
-                            @if (Counter != 1)
-                            {
                                 <hr class="w-100">
-                            }                            <div class="col-12 col-lg-4 text-center offer-img my-auto">
+                            <div class="col-12 col-lg-4 text-center offer-img my-auto">
                                 <img class="img-fluid" src="@pictureUrl">
                             </div>
                             <div class="col-12 col-lg-8 offer-desc p-0">
@@ -134,11 +131,11 @@
                                     }
                                     if (Model.FavouriteOffersIDs != null && Model.FavouriteOffersIDs.Contains(item.OfferID))
                                     {
-                                        <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Offer" id="@item.OfferID"></i>
+                                        <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Offer" data-id="@item.OfferID"></i>
                                     }
                                     else
                                     {
-                                        <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Offer" id="@item.OfferID"></i>
+                                        <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Offer" data-id="@item.OfferID"></i>
                                     }
                                 }
                                 else
@@ -148,9 +145,6 @@
                                 }
                             </div>
                         </div>
-
-                        Counter++;
-
                     }
                 }
             </div>
@@ -158,14 +152,10 @@
             <div id="bundlesContainer">
                 @if (Model.Bundles != null)
                 {
-                    int Counter = 1;
                     foreach (var item in Model.Bundles)
                     {
                         <div class="row offer bundle-row d-none p-2 m-0 mt-1">
-                            @if (Counter != 1)
-                            {
                                 <hr class="w-100">
-                            }
                             <div class="col-12 col-lg-4 text-center my-auto">
                                 @*Looking for last offer in bundle becuase it has been ordered by descending creation date*@
                                 <img class="img-fluid" src="@item.Offers.Last().OfferPictures.First().PathToFile">
@@ -173,7 +163,7 @@
                             <div class="col-12 col-lg-8 offer-desc p-0">
                                 <h3><a class="product-name" href="@Url.Action("Bundle","Offer",new { BundleID = item.BundleID})">@item.Title</a></h3>
                                 <p class="seller d-none d-lg-block mb-3">Sprzedawca: <a class="seller-name" href="@Url.Action("UserInformation","User",new { userID = item.User.UserID})">@item.User.Login</a></p>
-                                <s><h3 class="product-price mb-1" style="text-decoration: line-through;">@item.OffersPriceSum zł</h3></s>
+                                <h3 class="product-price mb-1" style="text-decoration: line-through;">@item.OffersPriceSum zł</h3>
                                 <h3 class="product-price mb-5">@item.BundlePrice zł</h3>
                                 <br>
                                 @if (HttpContext.Current.User.Identity.IsAuthenticated)
@@ -188,11 +178,11 @@
                                     }
                                     if (Model.FavouriteBundlesIDs != null && Model.FavouriteBundlesIDs.Contains(item.BundleID))
                                     {
-                                        <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Bundle" id="@item.BundleID"></i>
+                                        <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Bundle" data-id="@item.BundleID"></i>
                                     }
                                     else
                                     {
-                                        <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Bundle" id="@item.BundleID"></i>
+                                        <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Bundle" data-id="@item.BundleID"></i>
                                     }
                                 }
                                 else
@@ -202,7 +192,6 @@
                                 }
                             </div>
                         </div>
-                        Counter++;
                     }
 
                 }

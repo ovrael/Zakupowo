@@ -21,7 +21,6 @@ namespace ShopApp.Controllers
         //Displaying particular offer
         public ActionResult Index(int? OfferID)
         {
-            WyswietlanieTransakcji();
             var offer = db.Offers.Where(i => i.OfferID == OfferID && i.IsActive).FirstOrDefault();
             if (offer != null)
             {
@@ -165,83 +164,130 @@ namespace ShopApp.Controllers
         #region FavouriteOfferManagement
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult> Fav(string type, int id)
+        public async Task<ActionResult> Fav(string type, int? id)
         {
-            List<string> errors = new List<string>(); // You might want to return an error if something wrong happened
+            string error = string.Empty;
 
             User User = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
 
-            if ((type == "Offer" || type == "Bundle") && User != null)
+            if ((type == "Offer" || type == "Bundle") && User != null && id != null)
             {
-                Favourite Fv = new Favourite();
+                Favourite Favourite = new Favourite();
                 if (type == "Offer")
                 {
-                    Fv.Offer = db.Offers.Where(i => i.OfferID == id).FirstOrDefault();
-                    var OfferList = User.FavouriteOffer.Where(i => i.Offer != null).ToList();
-                    if (Fv.Offer != null && !OfferList.Where(i => i.Offer.OfferID == Fv.Offer.OfferID).Any())
+                    var Offer = db.Offers.Where(i => i.OfferID == id && i.IsActive).FirstOrDefault();
+                    if (Offer != null)
                     {
-                        Fv.User = User;
-                        db.Favourites.Add(Fv);
-                        Fv.Offer.FavouriteOffer.Add(Fv);
-                        Fv.User.FavouriteOffer.Add(Fv);
-                        ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                        bool? AlreadyInFav = User.FavouriteOffer?.Where(i => i.Offer != null && i.Offer.OfferID == id).Any();
+                        if (AlreadyInFav == false)
+                        {
+                            bool? IsOwner = User.Offers?.Where(i => i.OfferID == id).Any();
+                            if (IsOwner == false)
+                            {
+                                Favourite.Offer = Offer;
+                                Favourite.User = User;
+                                db.Favourites.Add(Favourite);
+                                Favourite.Offer.FavouriteOffer.Add(Favourite);
+                                Favourite.User.FavouriteOffer.Add(Favourite);
+                                ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                            }
+                            else
+                                error = "Ta oferta należy do Ciebie";
+                        }
+                        else
+                            error = "Już posiadasz tę ofertę w ulubionych";
                     }
+                    else
+                        error = "Podana oferta nie istnieje lub jest nieaktywna";
                 }
                 else
                 {
-                    Fv.Bundle = db.Bundles.Where(i => i.BundleID == id).FirstOrDefault();
-                    var BundleList = User.FavouriteOffer.Where(i => i.Bundle != null).ToList();
-                    if (Fv.Bundle != null && !BundleList.Where(i => i.Bundle.BundleID == Fv.Bundle.BundleID).Any())
+                    var Bundle = db.Bundles.Where(i => i.BundleID == id && i.IsActive).FirstOrDefault();
+                    if (Bundle != null)
                     {
-                        Fv.User = User;
-                        db.Favourites.Add(Fv);
-                        Fv.Bundle.Favourites.Add(Fv);
-                        Fv.User.FavouriteOffer.Add(Fv);
-                        ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                        bool? AlreadyInFav = User.FavouriteOffer?.Where(i => i.Bundle != null && i.Bundle.BundleID == id && i.Bundle.IsActive).Any();
+                        if (AlreadyInFav == false)
+                        {
+                            bool? IsOwner = User.Bundles?.Where(i => i.BundleID == id).Any();
+                            if (IsOwner == false)
+                            {
+                                Favourite.Bundle = Bundle;
+                                Favourite.User = User;
+                                db.Favourites.Add(Favourite);
+                                Favourite.Bundle.Favourites.Add(Favourite);
+                                Favourite.User.FavouriteOffer.Add(Favourite);
+                                ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                            }
+                            else
+                                error = "Ten zestaw należy do Ciebie";
+                        }
+                        else
+                            error = "Już posiadasz ten zestaw w ulubionych";
                     }
+                    else
+                        error = "Podany zestaw nie istnieje lub jest nieaktywny";
                 }
             }
+            else
+                error = "Wprowadzone dane są nieprawidłowe";
 
-            return Json(errors, JsonRequestBehavior.AllowGet);
+            return Json(error, JsonRequestBehavior.AllowGet);
         }
+
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult> UnFav(string type, int id)
+        public async Task<ActionResult> UnFav(string type, int? id)
         {
-            List<string> errors = new List<string>(); // You might want to return an error if something wrong happened
+            string error = string.Empty;
 
             User User = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
 
-            if ((type == "Offer" || type == "Bundle") && User != null)
+            if ((type == "Offer" || type == "Bundle") && User != null && id != null && id > 0)
             {
                 if (type == "Offer")
                 {
-                    Favourite Fv = User.FavouriteOffer.Where(i => i.Offer != null && i.Offer.OfferID == id).FirstOrDefault();
-
-                    if (Fv != null)
+                    var Offer = db.Offers.Where(i => i.OfferID == id).FirstOrDefault(); //Offer might not necessarily be active
+                    if (Offer != null)
                     {
-                        User.FavouriteOffer.Remove(Fv);
-                        var offer = db.Offers.Where(i => i.OfferID == id).First();
-                        offer.FavouriteOffer.Remove(Fv);
-                        db.Favourites.Remove(Fv);
-                        ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                        Favourite Favourite = User.FavouriteOffer?.Where(i => i.Offer != null && i.Offer.OfferID == id).FirstOrDefault();
+                        if (Favourite != null)
+                        {
+                            //Not checking if hes an owner because he wouldn't been able to add to fav in the first place.
+                            User.FavouriteOffer.Remove(Favourite);
+                            Offer.FavouriteOffer.Remove(Favourite);
+                            db.Favourites.Remove(Favourite);
+                            ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                        }
+                        else
+                            error = "Nie posiadasz takiej oferty w ulubionych";
                     }
+                    else
+                        error = "Podana oferta nie istnieje";
                 }
                 else
                 {
-                    Favourite Fv = User.FavouriteOffer.Where(i => i.Bundle != null && i.Bundle.BundleID == id).FirstOrDefault();
-                    if (Fv != null)
+                    var Bundle = db.Bundles?.Where(i => i.BundleID == id).FirstOrDefault(); //Bundle might not necessarily be active
+                    if (Bundle != null)
                     {
-                        User.FavouriteOffer.Remove(Fv);
-                        var offer = db.Bundles.Where(i => i.BundleID == id).First();
-                        offer.Favourites.Remove(Fv);
-                        db.Favourites.Remove(Fv);
-                        ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                        Favourite Favourite = User.FavouriteOffer.Where(i => i.Bundle != null && i.Bundle.BundleID == id).FirstOrDefault();
+                        if (Favourite != null)
+                        {
+                            User.FavouriteOffer.Remove(Favourite);
+                            Bundle.Favourites.Remove(Favourite);
+                            db.Favourites.Remove(Favourite);
+                            ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                        }
+                        else
+                            error = "Nie posiadasz takiego zestawu w ulubionych";
                     }
+                    else
+                        error = "Podany zestaw nie istnieje";
                 }
             }
+            else
+                error = "Wprowadzone dane są nieprawidłowe";
 
-            return Json(errors, JsonRequestBehavior.AllowGet);
+            return Json(error, JsonRequestBehavior.AllowGet);
         }
         #endregion
 
@@ -260,6 +306,7 @@ namespace ShopApp.Controllers
             {
                 var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer != null ? i.Offer.User : i.Bundle.User);
                 //Consider using Critical error page for below
+                //Consinder deleting 0 quant items;
                 if (TempData["ErrorMessage"] == "TransactionRequestError")
                 {
                     ViewBag.NotEveryBucketCouldHaveBeenSold = "Niestety, nie udało się zakupić wszystkich przedmiotów.";
@@ -271,6 +318,7 @@ namespace ShopApp.Controllers
                     ViewBag.BucketItemsCountZero = "Żeby przejść do kasy musisz mieć jakieś przedmioty w swoim koszyku.";
                 if ((bool)!user?.IsActivated)
                     ViewBag.UserIsNotActivated = "Aby dokonać zakupu konto musi być aktywowane";
+
                 return View(BucketItems);
             }
             else
@@ -282,6 +330,8 @@ namespace ShopApp.Controllers
         [Authorize]
         public ActionResult Bucket(FormCollection collection)
         {
+            Stopwatch watcher = new Stopwatch();
+            watcher.Start();
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
             if (user != null)
             {
@@ -289,65 +339,89 @@ namespace ShopApp.Controllers
                     return RedirectToAction("Bucket");
                 if (collection != null)
                 {
-                    var bucketItems = user?.Bucket?.BucketItems?.ToList();
-                    if (bucketItems != null)
+                    var UsersBucketItems = user?.Bucket?.BucketItems?.ToList();
+                    if (UsersBucketItems != null)
                     {
-                        var ActiveOffersInBucket = bucketItems.Where(i => i.Offer != null && i.Offer.IsActive).ToList();
-                        var ActiveBundlesInBucket = bucketItems.Where(i => i.Bundle != null && i.Bundle.IsActive).ToList();
-                        var CollectionSellers = collection.AllKeys.Where(i => i.StartsWith("SelectedSeller_")).Select(i => i.Substring(i.LastIndexOf("_") + 1).ToList());
+                        var InBucketOffers = UsersBucketItems.Where(i => i.Offer != null && i.Offer.IsActive).ToList();
+                        var InBucketBundles = UsersBucketItems.Where(i => i.Bundle != null && i.Bundle.IsActive).ToList();
+                        var SellersLogins = collection.AllKeys.Where(i => i.StartsWith("SelectedSeller_")).Select(i => i.Substring(i.LastIndexOf("_") + 1)).ToList();
 
-                        List<string> SellersLogins = new List<string>();
-
-                        foreach (var item in CollectionSellers)
-                            SellersLogins.Add(new string(item.ToArray()));
-
-                        List<BucketItem> BucketItemsListThatIsGoingToBeBought = new List<BucketItem>();
+                        List<BucketItem> BucketItemsListToBuy = new List<BucketItem>();
                         if (SellersLogins != null)
                         {
                             foreach (var item in collection.AllKeys)
                             {
                                 if (item.StartsWith("Offer_quantity_") && int.TryParse(item.Substring(item.LastIndexOf("_") + 1), out int BucketItemOfferID))
                                 {
-                                    var BucketItemThatIsGoingToBeBought = ActiveOffersInBucket?.Where(i => i.BucketItemID == BucketItemOfferID).FirstOrDefault();
-                                    if (BucketItemThatIsGoingToBeBought != null && SellersLogins != null && SellersLogins.Contains(BucketItemThatIsGoingToBeBought.Offer.User.Login) && int.TryParse(collection["Offer_quantity_" + BucketItemOfferID], out int OfferQuantity))
+                                    var SelectedBucketItemOffer = InBucketOffers?.Where(i => i.BucketItemID == BucketItemOfferID).FirstOrDefault();
+                                    if (SelectedBucketItemOffer != null && SellersLogins.Contains(SelectedBucketItemOffer.Offer.User.Login) && int.TryParse(collection["Offer_quantity_" + BucketItemOfferID], out int BucketItemOfferQuantity))
                                     {
-                                        if (BucketItemThatIsGoingToBeBought.Offer.InStockNow >= OfferQuantity)
+                                        if (SelectedBucketItemOffer.Offer.InStockNow >= BucketItemOfferQuantity)
                                         {
-                                            BucketItemThatIsGoingToBeBought.Quantity = OfferQuantity;
-                                            BucketItemsListThatIsGoingToBeBought.Add(BucketItemThatIsGoingToBeBought);
+                                            SelectedBucketItemOffer.Quantity = BucketItemOfferQuantity;
+                                            BucketItemsListToBuy.Add(SelectedBucketItemOffer);
                                         }
-                                        else
-                                        {
-                                            ViewBag.ExceedingMaxAmount = "Nie wszystkie produkty mogą zostać zakupione w podanych ilościach";
-                                            return View("CriticalWarningPage");
-                                        }
+
+                                        //else
+                                        //{
+                                        //    ViewBag.ExceedingMaxAmount = "Nie wszystkie produkty mogą zostać zakupione w podanych ilościach";
+                                        //    return View("CriticalErrorView");
+                                        //}
+                                        // -----
+                                        //Check saved time
                                     }
                                 }
                                 else if (item.StartsWith("Bundle_quantity_") && int.TryParse(item.Substring(item.LastIndexOf("_") + 1), out int BucketItemBundleID))
                                 {
-                                    var BucketItemThatIsGoingToBeBought = ActiveBundlesInBucket?.Where(i => i.BucketItemID == BucketItemBundleID).FirstOrDefault();
-                                    if (BucketItemThatIsGoingToBeBought != null && SellersLogins != null && SellersLogins.Contains(BucketItemThatIsGoingToBeBought.Bundle.User.Login))
+                                    var SelecetedBucketItemBundle = InBucketBundles?.Where(i => i.BucketItemID == BucketItemBundleID).FirstOrDefault();
+                                    if (SelecetedBucketItemBundle != null && SellersLogins != null && SellersLogins.Contains(SelecetedBucketItemBundle.Bundle.User.Login))
                                     {
-                                        BucketItemsListThatIsGoingToBeBought.Add(BucketItemThatIsGoingToBeBought);
+                                        BucketItemsListToBuy.Add(SelecetedBucketItemBundle);
                                     }
                                 }
                             }
                         }
+                        Debug.WriteLine("Przed ifem " + watcher.ElapsedMilliseconds);
 
                         //If collection offers bundles and sellers all were valid => View if not => Redirect
-                        if (BucketItemsListThatIsGoingToBeBought.Count() > 0)
+                        if (BucketItemsListToBuy.Count() > 0)
                         {
-                            //Not sure what happens if we delete the bucketitems in between operations
-                            foreach (var item in user.Order.BucketItems)
-                                item.Order.Remove(user.Order);
-                            user.Order.BucketItems.Clear();
-                            db.SaveChanges();
-                            user.Order.BucketItems = BucketItemsListThatIsGoingToBeBought;
-                            db.SaveChanges();
-                            foreach (var item in user.Order.BucketItems)
-                                item.Order.Add(user.Order);
+                            try
+                            {
+                                ////Not sure what happens if we delete the bucketitems in between operations
+                                foreach (var item in user.Order.BucketItems)
+                                    if (item != null && item.Order.Contains(user.Order))
+                                        item.Order.Remove(user.Order);
+
+                                Debug.WriteLine("1 " + watcher.ElapsedMilliseconds);
+
+
+                                //user.Order.BucketItems.Clear();
+                                //ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+
+                                user.Order.BucketItems = BucketItemsListToBuy;
+
+                                Debug.WriteLine("2 " + watcher.ElapsedMilliseconds);
+
+
+                                foreach (var item in user.Order.BucketItems)
+                                    item.Order.Add(user.Order);
+
+                                ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+
+
+                                Debug.WriteLine("3 " + watcher.ElapsedMilliseconds);
+
+                            }
+                            catch (Exception e)
+                            {
+                                Debug.WriteLine(e.StackTrace);
+                                return new HttpStatusCodeResult(500);
+                            }
 
                             TempData["RedirectedFrom"] = "Bucket";
+                            Debug.WriteLine("Przed stopem " + watcher.ElapsedMilliseconds);
+                            watcher.Stop();
                             return RedirectToAction("Order");
                         }
                         return RedirectToAction("Bucket");
@@ -367,7 +441,7 @@ namespace ShopApp.Controllers
 
             User user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
 
-            if ((type == "Offer" || type == "Bundle") && user != null && id != null)
+            if ((type == "Offer" || type == "Bundle") && user != null && id != null && quantity != null)
             {
                 BucketItem NewBucketItem = new BucketItem();
                 if (type == "Offer")
@@ -375,28 +449,36 @@ namespace ShopApp.Controllers
                     var Offer = db.Offers.Where(i => i.OfferID == id && i.IsActive).FirstOrDefault();
                     if (Offer != null)//We chceck if user called for existing and active offer
                     {
-                        NewBucketItem.Offer = Offer;
-                        var UserBucketOffers = user.Bucket?.BucketItems?.Where(i => i.Offer != null).ToList();
-                        if (UserBucketOffers != null && !UserBucketOffers.Where(i => i.Offer.OfferID == NewBucketItem.Offer.OfferID).Any())//We check if user has already that offer in bucket.
+                        bool? AlreadyInBucket = user.Bucket?.BucketItems?.Where(i => i.Offer != null && i.Offer.OfferID == id).Any();
+                        if (AlreadyInBucket == false)
                         {
-                            if (int.TryParse(quantity, out int QuantityAsInt))
+                            bool? IsOwner = user.Offers?.Where(i => i.OfferID == id).Any();
+                            if (IsOwner == false)
                             {
-                                if (NewBucketItem.Offer.InStockNow < QuantityAsInt && QuantityAsInt > 0)
+                                if (int.TryParse(quantity, out int QuantityAsInt))
                                 {
-                                    error = "Przekroczono dostępną ilość danego produktu";
+                                    if (Offer.InStockNow < QuantityAsInt || QuantityAsInt < 1)
+                                    {
+                                        error = "Przekroczono dostępną ilość danego produktu";
+                                    }
+                                    else
+                                    {
+                                        NewBucketItem.Offer = Offer;
+                                        NewBucketItem.Quantity = QuantityAsInt;
+                                        NewBucketItem.TotalPrice = QuantityAsInt * Offer.Price;
+                                        db.BucketItems.Add(NewBucketItem);
+
+                                        user.Bucket.BucketItems.Add(NewBucketItem);
+                                        NewBucketItem.Bucket = user.Bucket;
+                                        Offer.BucketItems.Add(NewBucketItem);
+                                        ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                                    }
                                 }
                                 else
-                                {
-                                    NewBucketItem.Quantity = QuantityAsInt;
-                                    NewBucketItem.TotalPrice = NewBucketItem.Quantity * NewBucketItem.Offer.Price;
-                                    db.BucketItems.Add(NewBucketItem);
-                                    user.Bucket.BucketItems.Add(NewBucketItem);
-                                    NewBucketItem.Bucket = user.Bucket;
-                                    ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
-                                }
+                                    error = "Ilość musi być liczbą";
                             }
                             else
-                                error = "Ilość musi być liczbą!";                            
+                                error = "Nie możesz dodać do koszyka swojej oferty";
                         }
                         else
                             error = "Już posiadasz tę ofertę";
@@ -409,16 +491,24 @@ namespace ShopApp.Controllers
                     var Bundle = db.Bundles.Where(i => i.BundleID == id && i.IsActive).FirstOrDefault();
                     if (Bundle != null)//We chceck if user called for existing and active Bundle
                     {
-                        NewBucketItem.Bundle = Bundle;
-                        var UserBucketBundles = user.Bucket?.BucketItems?.Where(i => i.Bundle != null).ToList();
-                        if (UserBucketBundles != null && !UserBucketBundles.Where(i => i.Bundle.BundleID == NewBucketItem.Bundle.BundleID).Any())//We check if user has already that bundle in bucket.
+                        bool? AlreadyInBucket = user.Bucket?.BucketItems?.Where(i => i.Bundle != null && i.Bundle.BundleID == id).Any();
+                        if (AlreadyInBucket == false)
                         {
-                            NewBucketItem.Quantity = 1;
-                            NewBucketItem.TotalPrice = NewBucketItem.Bundle.BundlePrice;
-                            db.BucketItems.Add(NewBucketItem);
-                            user.Bucket.BucketItems.Add(NewBucketItem);
-                            NewBucketItem.Bucket = user.Bucket;
-                            ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                            bool? IsOwner = user.Bundles?.Where(i => i.BundleID == id).Any();
+                            if (IsOwner == false)
+                            {
+                                NewBucketItem.Quantity = 1;
+                                NewBucketItem.TotalPrice = Bundle.BundlePrice;
+                                NewBucketItem.Bundle = Bundle;
+                                db.BucketItems.Add(NewBucketItem);
+
+                                user.Bucket.BucketItems.Add(NewBucketItem);
+                                NewBucketItem.Bucket = user.Bucket;
+                                Bundle.BucketItems.Add(NewBucketItem);
+                                ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                            }
+                            else
+                                error = "Nie możesz dodać do koszyka swojego zestawu";
                         }
                         else
                             error = "Już posiadasz ten zestaw";
@@ -428,49 +518,65 @@ namespace ShopApp.Controllers
                 }
             }
             else
-                error = "Wprowadzone dane są niepoprawne.";
-            return Json(error , JsonRequestBehavior.AllowGet);
+                error = "Wprowadzone dane są niepoprawne";
+            return Json(error, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         [Authorize]
         public async Task<ActionResult> RemoveFromBucket(string type, int? id)
         {
-            List<string> errors = new List<string>(); // You might want to return an error if something wrong happened
+            string error = string.Empty;
 
             User User = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
 
-            if ((type == "Offer" || type == "Bundle") && User != null)
+            if ((type == "Offer" || type == "Bundle") && User != null && id != null && id > 0)
             {
                 if (type == "Offer")
                 {
-                    BucketItem UsersBucketItemThatIsMeantToBeRemoved = User?.Bucket?.BucketItems?.Where(i => i.Offer != null && i.Offer.OfferID == id).FirstOrDefault();
-
-                    if (UsersBucketItemThatIsMeantToBeRemoved != null)
+                    var Offer = db.Offers.Where(i => i.OfferID == id).FirstOrDefault();
+                    if (Offer != null)
                     {
-                        User.Bucket.BucketItems.Remove(UsersBucketItemThatIsMeantToBeRemoved);
-                        Offer BucketItemsOFfer = UsersBucketItemThatIsMeantToBeRemoved.Offer;
-                        BucketItemsOFfer.BucketItems.Remove(UsersBucketItemThatIsMeantToBeRemoved);
-                        db.BucketItems.Remove(UsersBucketItemThatIsMeantToBeRemoved);
-                        ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                        BucketItem BucketItemToRemove = User.Bucket?.BucketItems?.Where(i => i.Offer != null && i.Offer.OfferID == id).FirstOrDefault();
+                        if (BucketItemToRemove != null)//We chceck if user called for existing and active offer
+                        {
+                            User.Bucket.BucketItems.Remove(BucketItemToRemove);
+                            Offer.BucketItems.Remove(BucketItemToRemove);
+                            db.BucketItems.Remove(BucketItemToRemove);
+                            ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                        }
+                        else
+                            error = "Nie posiadasz tej oferty w swoim koszyku";
                     }
+                    else
+                        error = "Wybrana oferta nie istnieje";
                 }
                 else
                 {
-                    BucketItem UsersBucketItemThatIsMeantToBeRemoved = User?.Bucket?.BucketItems?.Where(i => i.Bundle != null && i.Bundle.BundleID == id).FirstOrDefault();
-                    if (UsersBucketItemThatIsMeantToBeRemoved != null)
+                    var Bundle = db.Bundles.Where(i => i.BundleID == id && i.IsActive).FirstOrDefault();
+                    if (Bundle != null)
                     {
-                        User.Bucket.BucketItems.Remove(UsersBucketItemThatIsMeantToBeRemoved);
-                        Bundle BucketItemsBundle = UsersBucketItemThatIsMeantToBeRemoved.Bundle;
-                        BucketItemsBundle.BucketItems.Remove(UsersBucketItemThatIsMeantToBeRemoved);
-                        db.BucketItems.Remove(UsersBucketItemThatIsMeantToBeRemoved);
-                        ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                        BucketItem BucketItemToRemove = User?.Bucket?.BucketItems?.Where(i => i.Bundle != null && i.Bundle.BundleID == id).FirstOrDefault();
+                        if (BucketItemToRemove != null)
+                        {
+                            User.Bucket.BucketItems.Remove(BucketItemToRemove);
+                            Bundle.BucketItems.Remove(BucketItemToRemove);
+                            db.BucketItems.Remove(BucketItemToRemove);
+                            ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                        }
+                        else
+                            error = "Nie posiadasz takiego zestawu w koszyku";
                     }
+                    else
+                        error = "Wybrany zestaw nie istnieje";
                 }
             }
+            else
+                error = "Wprowadzone dane są niepoprawne";
 
-            return Json(errors, JsonRequestBehavior.AllowGet);
+            return Json(error, JsonRequestBehavior.AllowGet);
         }
+
         #endregion
 
         #endregion
@@ -534,7 +640,7 @@ namespace ShopApp.Controllers
                                     Buyer = user,
                                     Seller = seller.Key,
                                     BucketItems = seller.ToList(), // NIE PRZYPISUJE ALE NIE WYWALA BŁĘDU??
-                                    //BucketItems = (ICollection<BucketItem>)seller, // DOBRZE PRZYPISUJE, ALE WYWALA BŁĄD ŻĄDANIA
+                                                                   //BucketItems = (ICollection<BucketItem>)seller, // DOBRZE PRZYPISUJE, ALE WYWALA BŁĄD ŻĄDANIA
                                     CreationDate = DateTime.UtcNow,
                                     IsAccepted = false,
                                     IsChosen = false
