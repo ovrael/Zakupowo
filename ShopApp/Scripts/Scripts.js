@@ -88,56 +88,33 @@ $(document).ready(function () {
         $('#profilePicture').val('');
         // }
     });
+
+    //SEARCH FEATURE
+    $("#searchButton").on("click", function (e) {
+
+
+        var query = $("#searchText").val();
+        var trimmedQuery = query.trim();
+
+        if (trimmedQuery == "") {
+            e.preventDefault();
+            console.log("Same spacje/taby?");
+        }
+        else {
+            console.log("szukam:" + trimmedQuery + ";");
+
+            // $.ajax({
+            //     url: "/Home/Search",
+            //     method: 'POST',
+            //     dataType: 'json',
+            //     data: '{"query":"' + trimmedQuery + '"}',
+            //     contentType: 'application/json; charset=utf-8',
+            //     success: function (returnData) {
+            //     },
+            //     // error handling
+            // });
+        }
+
+    });
+
 });
-
-
-// //IMAGE ADD OFFER
-// $(".imgAdd").click(function () {
-
-//     $(this).closest(".row").find('.imgAdd').before('<div class="form-group"> <div class= "col-sm-4 imgUp mt-4" ><div class="imagePreview"></div> <label class="btn btn-outline-warning btn-lg btn-block btn-circle"> <i class="fa fa-plus imgAdd"></i> <input type="file" class="uploadFile img" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;"> </label></div>');
-
-// });
-// $(document).on("click", "i.del", function () {
-//     $(this).parent().remove();
-// });
-// $(function () {
-//     $(document).on("change", ".uploadFile", function () {
-//         var uploadFile = $(this);
-//         var files = !!this.files ? this.files : [];
-//         if (!files.length || !window.FileReader) return; 
-
-//         if (/^image/.test(files[0].type)) { 
-//             var reader = new FileReader(); 
-//             reader.readAsDataURL(files[0]); 
-
-//             reader.onloadend = function () { 
-//                 uploadFile.closest(".imgUp").find('.imagePreview').css("background-image", "url(" + this.result + ")");
-
-//                 const imageGroup = $("#imageGroupTemplate").clone();
-//                 imageGroup.removeAttr('id');
-//                 uploadFile.closest(".form-group").find(".del").show();
-//                 uploadFile.closest(".form-group").find(".btn-circle").hide();
-//                 $("#imageGroupTemplate").before(imageGroup);
-//                 imageGroup.show();
-
-//                 $('.uploadFile').each(function (i) {
-//                     $(this).attr('name', `ProductImage${i+1}`);
-//                 });
-
-//             }
-//         }
-
-//     });
-// });
-
-
-//     $(document).ready(function(){
-//         $("#myInput").on("keyup", function () {
-//             var value = $(this).val().toLowerCase();
-//             $("#myList li").filter(function () {
-//                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-//             });
-//         });
-// });
-
-
