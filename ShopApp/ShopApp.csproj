@@ -425,6 +425,7 @@
     <Compile Include="Models\Offer.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utility\EmailDesigner\EmailDesigner.cs" />
     <Compile Include="Utility\EmailManager.cs" />
     <Compile Include="Utility\FileManager.cs" />
     <Compile Include="Utility\Utilities.cs" />
@@ -539,6 +540,8 @@
     <Content Include="Scripts\UserPanelEditAvatar.js" />
     <Content Include="Scripts\UserPanelFilters.js" />
     <Content Include="Scripts\UserPanelSettingsManager.js" />
+    <Content Include="Utility\EmailDesigner\TransactionRequestEmail.html" />
+    <Content Include="Utility\EmailDesigner\Email2.html" />
     <Content Include="XamarinFolder\Screenshot_1608460271.png" />
     <None Include="Properties\PublishProfiles\Zakupowo - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
