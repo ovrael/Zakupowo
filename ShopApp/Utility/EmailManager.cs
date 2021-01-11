@@ -245,22 +245,22 @@ namespace ShopApp.Utility
         {
             StringBuilder message = new StringBuilder();
             message.AppendLine(ShopApp.Utility.EmailDesigner.EmailDesigner.PreTransactionRequestHTML);
-            message.AppendLine($" <tr> <td colspan=\"8\"> <p><span style=\"color: #ffb24a; font-weight:700;\">{SenderLogin}</span> wysłał Ci ofertę kupna</p> </td> </tr> <!-- HEADER TABLE ROW --> <tr style=\"font-weight: 700;\"><td></td><td colspan=\"3\" style=\"border: 1px solid #9e9e9d; padding: 5px;\"><p>NAZWA OFERTY</p></td> <td style=\"border: 1px solid #9e9e9d; padding: 5px;\"><p>ILOŚĆ</p></td> <td style=\"border: 1px solid #9e9e9d; padding: 5px;\"><p>CENA ZA SZTUKĘ</p></td> <td style=\" border: 1px solid #9e9e9d;padding: 5px;\"><p>RAZEM</p></td></tr>");
+            message.AppendLine($" <tr> <td colspan=\"8\"> <p><span style=\"color: #ffb24a; font-weight:700;\">{SenderLogin}</span> wysłał Ci ofertę kupna</p> </td> </tr> <!-- HEADER TABLE ROW --> <tr style=\"font-weight: 700;\"><td colspan=\"2\" style=\"border: 1px solid #9e9e9d; padding: 5px;\"><p>NAZWA OFERTY</p></td> <td colspan=\"2\" style=\"border: 1px solid #9e9e9d; padding: 5px;\"><p>ILOŚĆ</p></td> <td colspan=\"2\" style=\"border: 1px solid #9e9e9d; padding: 5px;\"><p>CENA ZA SZTUKĘ</p></td> <td colspan=\"2\" style=\" border: 1px solid #9e9e9d;padding: 5px;\"><p>RAZEM</p></td></tr>");
 
             foreach(var item in PurchaseList)
             {
                 if(item.Offer != null)
                 {
-                    message.AppendLine($"<tr> <td></td> <td colspan=\"3\" style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p>{item.Offer.Title}</p> </td> <td style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p>{item.Quantity}</p> </td>");
-                    message.AppendLine($" <td style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p>{item.Offer.Price} zł</p> </td> <td style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p> {item.TotalPrice} zł</p> </td> <td></td> </tr>");
+                    message.AppendLine($"<tr> <td colspan=\"2\" style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p>{item.Offer.Title}</p> </td> <td colspan=\"2\" style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p>{item.Quantity}</p> </td>");
+                    message.AppendLine($" <td colspan=\"2\" style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p>{item.Offer.Price} zł</p> </td> <td colspan=\"2\" style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p> {item.TotalPrice} zł</p> </td> </tr>");
                     //message.AppendLine($"<img src=\"{ item.Offer.OfferPictures.First().PathToFile }\" style = \"height:120px;width:120px;\" alt = \"Item image\" />");
                     //message.AppendLine($"{item.Offer.Title}");
                     //message.AppendLine($"W ilości: {item.Quantity}");
                 }
                 else
                 {
-                    message.AppendLine($"<tr> <td></td> <td colspan=\"3\" style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p>{item.Bundle.Title}</p> </td> <td style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p>Zestaw</p> </td>");
-                    message.AppendLine($"<td style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p>{item.Bundle.BundlePrice} zł</p> </td> <td style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p> {item.TotalPrice} zł</p> </td> <td></td> </tr>");
+                    message.AppendLine($"<tr> <td colspan=\"2\" style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p>{item.Bundle.Title}</p> </td> <td colspan=\"2\" style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p>Zestaw</p> </td>");
+                    message.AppendLine($"<td colspan=\"2\" style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p>{item.Bundle.BundlePrice} zł</p> </td> <td colspan=\"2\" style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p> {item.TotalPrice} zł</p> </td> </tr>");
                     //message.AppendLine($"<img src=\"{ item.Bundle.Offers.First().OfferPictures.First().PathToFile }\" style = \"height:120px;width:120px;\" alt = \"Item image\" />");
                     //message.AppendLine($"{item.Bundle.Title}");
                 }

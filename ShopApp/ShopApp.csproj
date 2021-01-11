@@ -540,6 +540,7 @@
     <Content Include="Scripts\UserPanelEditAvatar.js" />
     <Content Include="Scripts\UserPanelFilters.js" />
     <Content Include="Scripts\UserPanelSettingsManager.js" />
+    <Content Include="Utility\EmailDesigner\RegistrationEmail.html" />
     <Content Include="Utility\EmailDesigner\TransactionRequestEmail.html" />
     <Content Include="Utility\EmailDesigner\Email2.html" />
     <Content Include="XamarinFolder\Screenshot_1608460271.png" />
