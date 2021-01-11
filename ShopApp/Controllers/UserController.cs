@@ -172,12 +172,18 @@ namespace ShopApp.Controllers
         [HttpGet]
         public ActionResult PreRestorePassword()
         {
+
             return View();
         }
         [HttpPost]
         public ActionResult PreRestorePassword(FormCollection collection)
         {
-            //collection["email"]
+
+            //if (collection != null)
+            //{
+
+            //} collection["email-input"]
+
             //wysylamy maila
             return View();
         }
