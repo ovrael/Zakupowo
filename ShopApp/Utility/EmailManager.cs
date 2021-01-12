@@ -20,7 +20,8 @@ namespace ShopApp.Utility
         {
             Registration,
             ChangePassword,
-            TransactionRequest
+            TransactionRequest,
+            PasswordReset
         }
 
         // Return true if email was successfuly sent to receiver
@@ -230,7 +231,7 @@ namespace ShopApp.Utility
         private static string ChangePasswordText(string encryptedEmail, string encryptedNewPassword)
         {
             StringBuilder message = new StringBuilder();
-            message.AppendLine("<pre>Have you just tried to change your password?");
+            message.AppendLine(@"<pre>Have you just tried to change your password?");
             message.AppendLine("<a href=\"http://zakupowo.azurewebsites.net/UserPanel/ConfirmPasswordChange?email=" + encryptedEmail + "&psw=" + encryptedNewPassword + "\">Click here</a> to confirm the change.");
             message.AppendLine();
             message.AppendLine();
@@ -243,29 +244,35 @@ namespace ShopApp.Utility
         private static string TransactionRequestText(string SenderLogin, string SenderFirstName, string SenderLastName, List<BucketItem> PurchaseList, string Message, ShippingAdress Address)
         {
             StringBuilder message = new StringBuilder();
-            message.AppendLine($"<pre> {SenderLogin} sent you a transaction request to buy your stuff:");
+            message.AppendLine(ShopApp.Utility.EmailDesigner.EmailDesigner.PreTransactionRequestHTML);
+            message.AppendLine($" <tr> <td colspan=\"8\"> <p><span style=\"color: #ffb24a; font-weight:700;\">{SenderLogin}</span> wysłał Ci ofertę kupna</p> </td> </tr> <!-- HEADER TABLE ROW --> <tr style=\"font-weight: 700;\"><td></td><td colspan=\"3\" style=\"border: 1px solid #9e9e9d; padding: 5px;\"><p>NAZWA OFERTY</p></td> <td style=\"border: 1px solid #9e9e9d; padding: 5px;\"><p>ILOŚĆ</p></td> <td style=\"border: 1px solid #9e9e9d; padding: 5px;\"><p>CENA ZA SZTUKĘ</p></td> <td style=\" border: 1px solid #9e9e9d;padding: 5px;\"><p>RAZEM</p></td></tr>");
+
             foreach(var item in PurchaseList)
             {
                 if(item.Offer != null)
                 {
-                    message.AppendLine($"<img src=\"{ item.Offer.OfferPictures.First().PathToFile }\" style = \"height:120px;width:120px;\" alt = \"Item image\" />");
-                    message.AppendLine($"{item.Offer.Title}");
-                    message.AppendLine($"W ilości: {item.Quantity}");
+                    message.AppendLine($"<tr> <td></td> <td colspan=\"3\" style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p>{item.Offer.Title}</p> </td> <td style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p>{item.Quantity}</p> </td>");
+                    message.AppendLine($" <td style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p>{item.Offer.Price} zł</p> </td> <td style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p> {item.TotalPrice} zł</p> </td> <td></td> </tr>");
+                    //message.AppendLine($"<img src=\"{ item.Offer.OfferPictures.First().PathToFile }\" style = \"height:120px;width:120px;\" alt = \"Item image\" />");
+                    //message.AppendLine($"{item.Offer.Title}");
+                    //message.AppendLine($"W ilości: {item.Quantity}");
                 }
                 else
                 {
-                    message.AppendLine($"<img src=\"{ item.Bundle.Offers.First().OfferPictures.First().PathToFile }\" style = \"height:120px;width:120px;\" alt = \"Item image\" />");
-                    message.AppendLine($"{item.Bundle.Title}");
+                    message.AppendLine($"<tr> <td></td> <td colspan=\"3\" style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p>{item.Bundle.Title}</p> </td> <td style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p>Zestaw</p> </td>");
+                    message.AppendLine($"<td style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p>{item.Bundle.BundlePrice} zł</p> </td> <td style=\"border: 1px solid #9e9e9d; padding: 5px;\"> <p> {item.TotalPrice} zł</p> </td> <td></td> </tr>");
+                    //message.AppendLine($"<img src=\"{ item.Bundle.Offers.First().OfferPictures.First().PathToFile }\" style = \"height:120px;width:120px;\" alt = \"Item image\" />");
+                    //message.AppendLine($"{item.Bundle.Title}");
                 }
             }
-            message.AppendLine("Wiaomość od kupującego:");
-            message.AppendLine(Message);
-            message.AppendLine("Dane adresowe kupującego:");
-            message.AppendLine(SenderFirstName + " " + SenderLastName);
-            message.AppendLine(Address.Country + " " + Address.PostalCode);
-            message.AppendLine(Address.Street + (Address.PremisesNumber != "" ? "/" + Address.PremisesNumber : " " )+ "," + Address.City);
-            message.AppendLine("Check your <a href=\"http://zakupowo.azurewebsites.net/UserPanel/TransactionsHistory\">transaction history</a> for more details and hopefully successful sale");
-            message.AppendLine("Please <a href=\"http://zakupowo.azurewebsites.net/Home/Contact\">contact us</a> if something is not clear or in case you don't want to receive such messages in future.<pre>");
+
+            message.AppendLine("<tr> <td> <p></p> </td> </tr> <tr style=\"border-top: 1px solid #9e9e9d;\"> <td colspan=\"8\" style=\"width: 100%; font-weight: 700;\"> <p>Dane adresowe kupującego</p> </td> </tr>");
+            message.AppendLine($"<tr><td colspan=\"8\" style=\"width: 100%;\"> <p style=\"margin-top: 5px;\">{SenderFirstName} {SenderLastName}</p> </td> </tr> <tr> <td colspan=\"8\" style=\"width: 100%;\"> <p style=\"margin-top: 5px;\">ul. {Address.City} {Address.PremisesNumber ?? '/' + Address.PremisesNumber}</p> </td> </tr>");
+            message.AppendLine($"<tr><td colspan=\"8\" style=\"width: 100%;\"> <p style=\"margin-top: 5px;\">{Address.PostalCode} {Address.City}</p> </td> </tr> <tr> <td colspan=\"8\" style=\"width: 100%;\"> <p style=\"margin-top: 5px;\">{Address.Country}</p> </td> </tr>");
+            message.AppendLine($"<tr style=\"border-top: 1px solid #9e9e9d;\"> <td colspan=\"8\" style=\"width: 100%; font-weight: 700;\"> <p>Wiadomość od kupującego</p> </td> </tr><tr><td style=\"border-bottom: 1px solid #9e9e9d;\"></td> <td colspan=\"6\" style=\"width: 100%; padding: 5px;\"> <p style=\"margin: 5px\">{Message}</p> </td> <td></td> </tr>");
+
+            message.AppendLine(ShopApp.Utility.EmailDesigner.EmailDesigner.PostTransactionRequestHTML);
+
             return message.ToString();
         }
 

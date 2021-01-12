@@ -628,7 +628,7 @@ namespace ShopApp.Controllers
                         foreach (var seller in grouped)
                         {
                             var message = "Jestem zainteresowany zakupem wystawionego produktu proszę o odpowiedź.";
-                            if (collection[$"message-input-{seller.Key.UserID}"] != null)
+                            if (collection[$"message-input-{seller.Key.UserID}"] != null && collection[$"message-input-{seller.Key.UserID}"].Length != 0)
                                 message = collection[$"message-input-{seller.Key.UserID}"];
                             if (!EmailManager.SendEmail(EmailManager.EmailType.TransactionRequest, seller.Key.FirstName, seller.Key.LastName, seller.Key.Email, user.Login, user.FirstName, user.LastName, seller.ToList(), message, Address))
                                 //check that

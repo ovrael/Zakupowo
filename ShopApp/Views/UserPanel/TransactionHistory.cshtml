@@ -23,120 +23,126 @@
         <div id="boughtDiv" class="">
             <br />
             @{
-                <div class="row mr-3 mb-3 mt-1 pb-4 pl-3" style="border-bottom-style:solid; border-bottom-width:thin;">
-                    <div class="col-1 pl-2 text-secondary font-weight-bold ">
+                
+       
+
+            foreach (var boughtTransaction in Model.Bought)
+            {
+            string collapseID = "boughtCollapse-" + boughtTransaction.TransactionID;
+            string transactionStatus = string.Empty;
+            string transactionStatusColor = string.Empty;
+            //string transactionStatus = boughtTransaction.IsAccepted ? "Potwierdzona" : "Niepotwierdzona";
+            //transactionStatus = boughtTransaction.IsChosen ? transactionStatus : "Oczekuje na potwierdzenie";
+            //string transactionStatusColor = boughtTransaction.IsAccepted ? "green" : "red";
+            double transactionSum = 0;
+            foreach (var item in boughtTransaction.BucketItems)
+            {
+            transactionSum += item.TotalPrice * item.Quantity;
+            }
+
+            if (boughtTransaction.IsChosen)
+            {
+            if(boughtTransaction.IsAccepted)
+            {
+            transactionStatus = "Potwierdzona";
+            transactionStatusColor = "green";
+            }
+            else
+            {
+            transactionStatus = "Odrzucona";
+            transactionStatusColor = "red";
+            }
+            }
+            else
+            {
+            transactionStatus = "Oczekuje na potwierdzenie";
+            transactionStatusColor = "black";
+            }
+
+            <div class="col-12 bought-row pb-4">
+                <div class="row">
+                    <div class="col-4 col-lg-1 col-md-1 p-lg-0 text-secondary font-weight-bold ">
                         ID
                     </div>
-                    <div class="col-2 text-secondary font-weight-bold">
+                    <div class="col-5 col-lg-1 col-md-1 pb-2">
+                        @boughtTransaction.TransactionID
+                    </div>
+                    <div class="col-4 col-lg-1 col-md-1 text-secondary font-weight-bold">
                         Data
                     </div>
-                    <div class="col-3 text-secondary font-weight-bold">
+                    <div class="col-5 col-lg-1 mr-1 col-md-1 pb-2" data-toggle="tooltip" data-placement="top" title="Dokładna data: @boughtTransaction.CreationDate">
+                        @boughtTransaction.CreationDate.ToShortDateString()
+                    </div>
+                    <div class="col-4 col-lg-1 col-md-1 mr-0 mr-lg-3 mr-md-4 ml-md-4 text-secondary font-weight-bold">
                         Sprzedający
                     </div>
-                    <div class="col-2 text-secondary font-weight-bold">
-                        Suma
+                    <div class="col-5 col-lg-1  col-md-1 pb-2 mr-md-4">
+                        @boughtTransaction.Seller.Login
                     </div>
-                    <div class="col-3 text-secondary font-weight-bold">
+                    
+                    <div class="col-4 col-lg-1 col-md-1 text-secondary font-weight-bold">
                         Status
                     </div>
+                    <div class="col-5 col-lg-3 col-md-3  pb-4" style="color:@transactionStatusColor">Status: @transactionStatus</div>
+                    <div class="col-1 col-1-lg pb-3">
+                        <a class="btn btn-warning" data-toggle="collapse" href="#@collapseID" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                    </div>
+
                 </div>
-                foreach (var boughtTransaction in Model.Bought)
-                {
-                    string collapseID = "boughtCollapse-" + boughtTransaction.TransactionID;
-                    string transactionStatus = string.Empty;
-                    string transactionStatusColor = string.Empty;
-                    //string transactionStatus = boughtTransaction.IsAccepted ? "Potwierdzona" : "Niepotwierdzona";
-                    //transactionStatus = boughtTransaction.IsChosen ? transactionStatus : "Oczekuje na potwierdzenie";
-                    //string transactionStatusColor = boughtTransaction.IsAccepted ? "green" : "red";
-                    double transactionSum = 0;
-                    foreach (var item in boughtTransaction.BucketItems)
-                    {
-                        transactionSum += item.TotalPrice * item.Quantity;
-                    }
+                <div class="collapse" id="@collapseID">
+                    <div class="row mr-3 mb-3 mt-3" style="border-bottom-style:solid; border-bottom-width:thin;">
 
-                    if (boughtTransaction.IsChosen)
-                    {
-                        if(boughtTransaction.IsAccepted)
-                        {
-                            transactionStatus = "Potwierdzona";
-                            transactionStatusColor = "green";
-                        }
-                        else
-                        {
-                            transactionStatus = "Odrzucona";
-                            transactionStatusColor = "red";
-                        }
-                    }
-                    else
-                    {
-                        transactionStatus = "Oczekuje na potwierdzenie";
-                        transactionStatusColor = "black";
-                    }
+                        <div class="col-4 pl-2 text-secondary font-weight-bold">
+                            Produkt
+                        </div>
+                        <div class="col-4 text-secondary font-weight-bold">
+                            Zakupiona ilość
+                        </div>
+                        <div class="col-4 text-secondary font-weight-bold">
+                            Cena
+                        </div>
 
-                    <div class="col-12 bought-row pb-4">
-                        <div class="row">
+                    </div>
 
-                            <div class="col-md-1 col-sm-10">
-                                @boughtTransaction.TransactionID
+
+                    @foreach (var boughtItem in boughtTransaction.BucketItems)
+                    {
+                        <div class="row pb-3">
+
+                            @{
+                                double itemPrice = boughtItem.Offer != null ? boughtItem.Offer.Price : boughtItem.Bundle.BundlePrice;
+                                string itemTitle = boughtItem.Offer != null ? boughtItem.Offer.Title : boughtItem.Bundle.Title;
+                            }
+
+                            <div class="col-4 pl-2">
+                                @itemTitle
                             </div>
-                            <div class="col-10 col-lg-2 col-md-2 pb-2" data-toggle="tooltip" data-placement="top" title="Dokładna data: @boughtTransaction.CreationDate">
-                                @boughtTransaction.CreationDate.ToShortDateString()
+                            <div class="col-4 pl-2">
+                                @boughtItem.Quantity
                             </div>
-                            <div class="col-10 col-lg-3  col-md-2  pb-2">
-                                @boughtTransaction.Seller.Login
+                            <div class="col-4 pl-0">
+                                @itemPrice.ToString("N2") zł
                             </div>
-                            <div class="col-10 col-lg-2 col-md-2  pb-2">
+
+                        </div>
+                        <hr />
+                        <div class="d-flex flex-row-reverse">
+
+                            <div class="col-5 col-lg-2 col-md-2  pb-4">
                                 @transactionSum zł
                             </div>
-                            <div class="col-10 col-lg-3 col-md-3  pb-4" style="color:@transactionStatusColor">Status: @transactionStatus</div>
-                            <div class="col-1 col-1-lg pb-3">
-                                <a class="btn btn-warning" data-toggle="collapse" href="#@collapseID" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                    <i class="fas fa-chevron-down"></i>
-                                </a>
+                            <div class="col-4 col-lg-2 text-secondary font-weight-bold">
+                                Suma
                             </div>
 
                         </div>
-                        <div class="collapse" id="@collapseID">
-                            <div class="row mr-3 mb-3 mt-3" style="border-bottom-style:solid; border-bottom-width:thin;">
-
-                                <div class="col-4 pl-2 text-secondary font-weight-bold">
-                                    Produkt
-                                </div>
-                                <div class="col-4 text-secondary font-weight-bold">
-                                    Zakupiona ilość
-                                </div>
-                                <div class="col-4 text-secondary font-weight-bold">
-                                    Cena
-                                </div>
-
-                            </div>
-
-
-                            @foreach (var boughtItem in boughtTransaction.BucketItems)
-                            {
-                                <div class="row pb-3">
-
-                                    @{
-                                        double itemPrice = boughtItem.Offer != null ? boughtItem.Offer.Price : boughtItem.Bundle.BundlePrice;
-                                        string itemTitle = boughtItem.Offer != null ? boughtItem.Offer.Title : boughtItem.Bundle.Title;
-                                    }
-
-                                    <div class="col-4 pl-2">
-                                        @itemTitle
-                                    </div>
-                                    <div class="col-4 pl-2">
-                                        @boughtItem.Quantity
-                                    </div>
-                                    <div class="col-4 pl-0">
-                                        @itemPrice.ToString("N2") zł
-                                    </div>
-
-                                </div>
-                            }
-                        </div>
-                    </div>
-                    <hr>
-                }
+                    }
+                </div>
+            </div>
+            <hr>
+            }
             }
         </div>
 
@@ -144,23 +150,7 @@
         <div id="soldDiv" class="d-none">
             <br />
             @{
-                <div class="row mr-3 mb-3 mt-1 pb-4" style="border-bottom-style:solid; border-bottom-width:thin;">
-                    <div class="col-1 pl-2 text-secondary font-weight-bold ">
-                        ID
-                    </div>
-                    <div class="col-2 text-secondary font-weight-bold">
-                        Data
-                    </div>
-                    <div class="col-3 text-secondary font-weight-bold">
-                        Kupujący
-                    </div>
-                    <div class="col-2 text-secondary font-weight-bold">
-                        Suma
-                    </div>
-                    <div class="col-3 text-secondary font-weight-bold">
-                        Status
-                    </div>
-                </div>
+                
                 foreach (var soldTransaction in Model.Sold)
                 {
                     string collapseID = "soldCollapse-" + soldTransaction.TransactionID;
@@ -171,54 +161,60 @@
                     {
                         transactionSum += item.TotalPrice * item.Quantity;
                     }
+                    
+                    <div class="col-12 sold-row pb-4 pt-1">
+                        <div class=" transaction-row" id="transaction-row-@soldTransaction.TransactionID">
+                            <div class="row">
+                                <div class="col-4 col-lg-1 col-md-1 text-secondary font-weight-bold ">
+                                    ID:
+                                </div>
+                                <div class="col-5 col-lg-1 col-md-1 pb-2 ">
+                                    @soldTransaction.TransactionID
+                                </div>
+                                <div class="col-4 col-lg-1 col-md-1 text-secondary font-weight-bold">
+                                    Data:
+                                </div>
+                                <div class="col-5 col-lg-2 col-md-2 col-md-1  pb-2" data-placement="top" title="Dokładna data: @soldTransaction.CreationDate">
+                                    @soldTransaction.CreationDate.ToShortDateString()
+                                </div>
 
-                    <div class="col-12 sold-row pb-4">
-                        <div class="row transaction-row" id="transaction-row-@soldTransaction.TransactionID">
+                                <div class="col-4 col-lg-1 col-md-1 text-secondary font-weight-bold">
+                                    Kupujący:
+                                </div>
 
-                            <div class="col-10 col-lg-1 col-md-1 pl-lg-2 pb-2 ">
-                                @soldTransaction.TransactionID
-                            </div>
-                            <div class="col-10 col-lg-2 col-md-2  pb-2" data-placement="top" title="Dokładna data: @soldTransaction.CreationDate">
-                                @soldTransaction.CreationDate.ToShortDateString()
-                            </div>
-                            <div class="col-10 col-lg-3  col-md-2  pb-2">
-                                @soldTransaction.Buyer.Login
-                            </div>
-                            <div class="col-10 col-lg-2 col-md-2  pb-4">
-                                @transactionSum zł
-                            </div>
+                                <div class="col-3 col-lg-2 col-md-2 ml-2 pb-3">
+                                    @soldTransaction.Buyer.Login
+                                </div>
 
-                            @if (!soldTransaction.IsChosen)
-                            {
-                                <div class="row col-3">
+                                @if (!soldTransaction.IsChosen)
+                                {
 
-                                    <div class="btn-group col-9 manage-transaction" role="group" id="@soldTransaction.TransactionID">
+                                    <div class="btn-group col-7 col-lg-2 col-md-2 mr-5 mr-lg-0 manage-transaction" role="group" id="@soldTransaction.TransactionID">
                                         <button class="btn btn-success btn-accept"> Akceptuj </button>
                                         <button class="btn btn-danger btn-discard"> Odrzuć </button>
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col-1">
                                         <a class="btn btn-warning" data-toggle="collapse" href="#@collapseID" role="button" aria-expanded="false" aria-controls="collapseExample">
                                             <i class="fas fa-chevron-down"></i>
                                         </a>
                                     </div>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="col-10 col-lg-2 col-md-2  pb-4" style="color:@transactionStatusColor">Status: @transactionStatus</div>
-                                <div class="col-1 col-1-lg pb-3">
-                                    <a class="btn btn-warning" data-toggle="collapse" href="#@collapseID" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                        <i class="fas fa-chevron-down"></i>
-                                    </a>
-                                </div>
-                            }
-
-
+                                }
+                                else
+                                {
+                                    <div class="col-9 col-lg-2 col-md-2 pb-4 font-weight-bold" style="color:@transactionStatusColor">Status: @transactionStatus</div>
+                                    <div class="col-1 col-1-lg pb-3">
+                                        <a class="btn btn-warning" data-toggle="collapse" href="#@collapseID" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                            <i class="fas fa-chevron-down"></i>
+                                        </a>
+                                    </div>
+                                }
+                          
+                            </div>
                         </div>
 
                         <div class="collapse" id="@collapseID">
 
-                            <div class="row mr-3 mb-3 mt-5 pb-4" style="border-bottom-style:solid; border-bottom-width:thin;">
+                            <div class="row mr-1 mb-3 mt-2 pb-4 pt-3" style="border-bottom-style:solid; border-bottom-width:thin;">
                                 <div class="col-4 pl-2 text-secondary font-weight-bold ">
                                     Produkt
                                 </div>
@@ -250,6 +246,19 @@
                                     </div>
 
                                 </div>
+                                <hr />
+                                <div class="d-flex flex-row-reverse">
+                                
+                                    <div class="col-5 col-lg-2 col-md-2  pb-4">
+                                        @transactionSum zł
+                                    </div>
+                                    <div class="col-4 col-lg-2 text-secondary font-weight-bold">
+                                        Suma
+                                    </div>
+
+                                </div>
+
+                              
 
                             }
                         </div>
