@@ -21,7 +21,7 @@ namespace ShopApp.Controllers
         //Displaying particular offer
         public ActionResult Index(int? OfferID)
         {
-            var offer = db.Offers.Where(i => i.OfferID == OfferID && i.IsActive).FirstOrDefault();
+            var offer = db.Offers.Where(i => i.OfferID == OfferID).FirstOrDefault();
             if (offer != null)
             {
                 OfferIndexViewModel offerIndexViewModel = new OfferIndexViewModel
