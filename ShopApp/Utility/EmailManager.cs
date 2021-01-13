@@ -20,8 +20,7 @@ namespace ShopApp.Utility
         {
             Registration,
             ChangePassword,
-            TransactionRequest,
-            PasswordReset
+            TransactionRequest
         }
 
         // Return true if email was successfuly sent to receiver
@@ -208,6 +207,87 @@ namespace ShopApp.Utility
             return result;
         }
 
+        public static async Task<bool> SendEmailAsync(string receiverFirstName, string receiverLastName, string receiverEmail, string PasswordResetCode)
+        {
+            bool result = false;
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Zakupowo Team", "zakupowo2020@gmail.com"));
+            message.To.Add(new MailboxAddress(receiverFirstName + " " + receiverLastName, receiverEmail));
+            message.Subject = string.Empty;
+            var builder = new BodyBuilder();
+            string messageBody = string.Empty;
+
+            builder.HtmlBody = PasswordResetText(PasswordResetCode);
+            message.Subject = @"Password reset code on zakupowo.";
+
+            builder.HtmlBody += EndOfEmail();
+            message.Body = builder.ToMessageBody();
+
+            using (var client = new SmtpClient())
+            {
+                try
+                {
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+
+                    await client.ConnectAsync("smtp.gmail.com", 587, SecureSocketOptions.Auto);
+
+                    await client.AuthenticateAsync("zakupowo2020", "Zakupowo2020$$$");
+
+                    await client.SendAsync(message);
+                    client.Disconnect(true);
+                    result = true;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+
+            return result;
+        }
+
+        public static bool SendEmail(string receiverFirstName, string receiverLastName, string receiverEmail, string PasswordResetCode)
+        {
+            bool result = false;
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Zakupowo Team", "zakupowo2020@gmail.com"));
+            message.To.Add(new MailboxAddress(receiverFirstName + " " + receiverLastName, receiverEmail));
+
+            message.Subject = string.Empty;
+            var builder = new BodyBuilder();
+            string messageBody = string.Empty;
+
+            builder.HtmlBody = PasswordResetText(PasswordResetCode);
+            message.Subject = @"Password reset code on zakupowo.";
+
+            builder.HtmlBody += EndOfEmail();
+
+            message.Body = builder.ToMessageBody();
+
+            using (var client = new SmtpClient())
+            {
+                try
+                {
+                    client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+
+                    client.Connect("smtp.gmail.com", 587, SecureSocketOptions.Auto);
+
+                    client.Authenticate("zakupowo2020", "Zakupowo2020$$$");
+
+                    client.Send(message);
+                    client.Disconnect(true);
+                    result = true;
+                    Debug.WriteLine("EMAIL SENT!");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+
+            return result;
+        }
+
         // A message sent to new registered accounts.
         private static string RegistrationText(string encryptedEmail)
         {
@@ -351,6 +431,21 @@ namespace ShopApp.Utility
             }
 
             return result.ToString();
+        }
+
+        public static string PasswordResetText(string PasswordResetCode)
+        {
+            StringBuilder message = new StringBuilder();
+
+
+            message.AppendLine(ShopApp.Utility.EmailDesigner.EmailDesigner.PrePasswordResetCodeHTML);
+
+            message.AppendLine($"<tr> <td style=\"border-bottom: 1px solid black;\"> <p style=\"margin-top: 5px;\"><span style=\"font-size: 2.6rem; font-weight: 700;\">{PasswordResetCode}</span></p> </td> </tr>");
+
+            message.AppendLine(ShopApp.Utility.EmailDesigner.EmailDesigner.PostPasswordResetCodeHTML);
+
+
+            return message.ToString();
         }
     }
 }

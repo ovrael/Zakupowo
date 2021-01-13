@@ -28,6 +28,8 @@ namespace ShopApp.DAL
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
+        public virtual DbSet<PasswordReset> PasswordResetCodes { get; set; }
+
         //public virtual DbSet<Chat> Chats { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

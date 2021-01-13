@@ -2,11 +2,6 @@
 
 @Styles.Render("~/bundles/Offer")
 
-
-@{
-    string czyAktywna = Model.Offer.IsActive ? "Aktywna" : "Nieaktywna";
-}
-
 @if (ViewBag.BucketItem != null)
 {
     <div class="messages-box h5">
@@ -103,41 +98,59 @@
                 <h3 class="product-name">@Model.Offer.Title</h3>
 
                 @{
-                    if (Model.IsInFavourite && HttpContext.Current.User.Identity.IsAuthenticated)
+                    if (Model.Offer.IsActive)
                     {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" data-type="Offer" data-id="@Model.Offer.OfferID"></i>
-                    }
-                    else if (HttpContext.Current.User.Identity.IsAuthenticated)
-                    {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav fav-unActive" data-type="Offer" data-id="@Model.Offer.OfferID"></i>
-                    }
-                    else
-                    {
-                        <i class="fas fa-heart fa-fw d-inline-block product-fav not-logged"></i>
+                        if (Model.IsInFavourite && HttpContext.Current.User.Identity.IsAuthenticated)
+                        {
+                            <i class="fas fa-heart fa-fw d-inline-block product-fav fav-active" data-type="Offer" data-id="@Model.Offer.OfferID"></i>
+                        }
+                        else if (HttpContext.Current.User.Identity.IsAuthenticated)
+                        {
+                            <i class="fas fa-heart fa-fw d-inline-block product-fav fav-unActive" data-type="Offer" data-id="@Model.Offer.OfferID"></i>
+                        }
+                        else
+                        {
+                            <i class="fas fa-heart fa-fw d-inline-block product-fav not-logged"></i>
+                        }
                     }
                 }
 
             </div>
             <p class="seller d-block m-0 p-0"> Sprzedawca: <a class="seller-name" href="@Url.Action("UserInformation","User",new { userID = Model.Offer.User.UserID})">@Model.Offer.User.Login</a></p>
-            <p class="product-condition d-block m-0 p-0"> Status: @czyAktywna</p>
+            <p class="product-condition d-block m-0 p-0">
+                Status:
+                @if (Model.Offer.IsActive)
+                {
+                    <span>Aktywna</span>
+                }
+                else
+                {
+                    <span class="text-danger">Nieaktywna</span>
+                }
+            </p>
             <p class="product-condition m-0 p-0">Stan: @Model.Offer.OfferState</p>
             <hr class="mb-2" />
             <h3 class="product-price">@Model.Offer.Price zł</h3>
-            <hr class="mb-2" />
-            <p class="buyer-counter mb-1"></p>
-            <label for="quantity-input">Pozostało: @Model.Offer.InStockNow</label>
-            <input type="number" step="1" max="@Model.Offer.InStockNow" min="1" value="1" id="quantity" class="quantity-field w-25">
-            @if (Model.IsInBucket && HttpContext.Current.User.Identity.IsAuthenticated)
+            @if (Model.Offer.IsActive)
             {
-                <button class="offer-button w-100 p-3 mt-2 in-bucket addToBucket" data-id="@Model.Offer.OfferID" data-type="Offer" data-quantity="1">OFERTA ZNAJDUJE SIĘ W KOSZYKU</button>
-            }
-            else if (HttpContext.Current.User.Identity.IsAuthenticated)
-            {
-                <button class="offer-button w-100 p-3 mt-2 addToBucket" data-id="@Model.Offer.OfferID" data-type="Offer" data-quantity="1">DODAJ DO KOSZYKA</button>
-            }
-            else
-            {
-                <button class="offer-button w-100 p-3 mt-2 addToBucket not-logged">DODAJ DO KOSZYKA</button>
+                <hr class="mb-2" />
+                <p class="buyer-counter mb-1"></p>
+                <label for="quantity-input">Pozostało: @Model.Offer.InStockNow</label>
+
+                <input type="number" step="1" max="@Model.Offer.InStockNow" min="1" value="1" id="quantity" class="quantity-field w-25">
+
+                if (Model.IsInBucket && HttpContext.Current.User.Identity.IsAuthenticated)
+                {
+                    <button class="offer-button w-100 p-3 mt-2 in-bucket addToBucket" data-id="@Model.Offer.OfferID" data-type="Offer" data-quantity="1">OFERTA ZNAJDUJE SIĘ W KOSZYKU</button>
+                }
+                else if (HttpContext.Current.User.Identity.IsAuthenticated)
+                {
+                    <button class="offer-button w-100 p-3 mt-2 addToBucket" data-id="@Model.Offer.OfferID" data-type="Offer" data-quantity="1">DODAJ DO KOSZYKA</button>
+                }
+                else
+                {
+                    <button class="offer-button w-100 p-3 mt-2 addToBucket not-logged">DODAJ DO KOSZYKA</button>
+                }
             }
         </div>
         <div class="col-12 col-lg-10 offer-desc w-100 m-0 p-0">

@@ -170,35 +170,99 @@ namespace ShopApp.Controllers
         }
 
         [HttpGet]
-        public ActionResult PreRestorePassword()
+        public ActionResult PasswordResetRequest()
         {
-
-            return View();
+            if (!User.Identity.IsAuthenticated)
+            {
+                return View();
+            }
+            else
+                return new HttpStatusCodeResult(404);
         }
         [HttpPost]
-        public ActionResult PreRestorePassword(FormCollection collection)
+        public ActionResult PasswordResetRequest(FormCollection collection)
         {
+            if (collection != null && !User.Identity.IsAuthenticated)
+            {
+                if (collection["email-input"] != null && collection["email-input"].Contains('@'))
+                {
+                    string Email = collection["email-input"];
+                    string PasswordResetCode = ShopApp.Utility.Utilities.RandomString(8);
+                    var user = db.Users.Where(i => i.Email == Email).FirstOrDefault();
+                    
+                    if (user != null)
+                    {
+                        Task.Run(() => EmailManager.SendEmailAsync(user.FirstName, user.LastName, Email, PasswordResetCode));
 
-            //if (collection != null)
-            //{
+                        PasswordReset ResetCode = new PasswordReset(Email,PasswordResetCode);
 
-            //} collection["email-input"]
 
-            //wysylamy maila
+                        db.PasswordResetCodes.Add(ResetCode);
+                        ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                    }
+
+                    Session["ResetPasswordEmail"] = Email;
+                    return RedirectToAction("PasswordReset", "User");
+                }
+                else
+                    ViewBag.ErrorMessage = "Prosze podać email";
+            }
+            else
+                ViewBag.ErrorMessage = "Nieprawidłowe dane";
             return View();
         }
         [HttpGet]
-        public ActionResult RestorePassword()
+        public ActionResult PasswordReset(string e)
         {
-            //wyswietlanie pola do wpisania kodu kodu
-            return View();
+            if (Session["ResetPasswordEmail"] != null && !User.Identity.IsAuthenticated)
+                return View();
+            else
+                return new HttpStatusCodeResult(404);
         }
         [HttpPost]
-        public ActionResult RestorePassword(FormCollection collection)
+        public ActionResult PasswordReset(FormCollection collection)
         {
-            //collection["restore-code"]
-            //collection["new-password"]
-            return View();
+            if (Session["ResetPasswordEmail"] != null && !User.Identity.IsAuthenticated)
+            {
+                string email = Session["ResetPasswordEmail"].ToString();
+                if (collection["codeInput"] != null && collection["EncryptedPassword"] != null && collection["passwordRegisterInput2"] != null)
+                {
+                    try
+                    {
+                    string Code = collection["codeInput"];
+                    string NewPassword = collection["EncryptedPassword"];
+                    string NewPasswordRepeated = collection["passwordRegisterInput2"];
+
+                        var PasswordCode = db.PasswordResetCodes.Where(i => i.EmailAddress == email && i.CodeExpirationTime > DateTime.UtcNow && !i.Used).OrderByDescending(i => i.CodeCreationTime).FirstOrDefault(); 
+                        var user = db.Users.Where(i => i.Email == email).FirstOrDefault();
+                    
+                    if(PasswordCode != null && user != null)
+                    {
+                        if(Code.Equals(PasswordCode.PasswordResetCode) && NewPassword.Equals(NewPasswordRepeated) && PasswordCode.TriesCount < 3)
+                        {
+                            user.EncryptedPassword = Cryptographing.Encrypt(NewPassword);
+                            PasswordCode.Used = true;
+                            ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                            Session.Clear();
+                            return RedirectToAction("Login", "User");
+                        }
+                        else
+                        {
+                            PasswordCode.TriesCount++;
+                            ViewBag.ErrorMessage = "Niepoprawny kod";
+                           ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                            return View();
+                        }
+                    }
+                    }catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.StackTrace);
+                        return new HttpStatusCodeResult(500);
+                    }
+                    
+                }
+            }
+                return new HttpStatusCodeResult(404);
         }
 
         //Logout method 
@@ -211,15 +275,8 @@ namespace ShopApp.Controllers
 
         public ActionResult UserInformation(int? UserId)
         {
-            //int lastUserID = db.Users.ToList().Last().UserID;//if (userID != null && userID >= 0 && userID <= lastUserID)//{
-            //    var showUser = db.Users.Where(u => u.UserID == userID).FirstOrDefault();
-            //    if (showUser != null)
-            //    {
-            //        return View(showUser);
-            //    }
-            //}
-
-            //return View();
+            if (UserId != null)
+            {
                 var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
                 var ViewUser = db.Users.Where(i => i.UserID == UserId).FirstOrDefault();
 
@@ -227,40 +284,38 @@ namespace ShopApp.Controllers
                 {
 
                     OffersAndBundles offersAndBundles = new OffersAndBundles();
+                    ViewModels.UserViewModel UserViewModel = new ViewModels.UserViewModel();
+                    UserViewModel.user = ViewUser;
                     var offers = db.Offers.Where(i => i.User.UserID == ViewUser.UserID).ToList();
                     var bundles = db.Bundles.Where(i => i.User.UserID == ViewUser.UserID).ToList();
-
-                    var FavouriteOffersIDs = ViewUser.FavouriteOffer?.Where(i => i.Offer != null && i.Offer.IsActive).Select(i => i.FavouriteOfferID).ToList();
-                    var FavouriteBundlesIDs = ViewUser.FavouriteOffer?.Where(i => i.Bundle != null && i.Bundle.IsActive).Select(i => i.FavouriteOfferID).ToList();
-
-                    var InBucketOffersIDs = ViewUser.Bucket?.BucketItems?.Where(i => i.Offer != null && i.Offer.IsActive).Select(i => i.BucketItemID).ToList();
-                    var InBucketBundlesIDs = ViewUser.Bucket?.BucketItems?.Where(i => i.Bundle != null && i.Bundle.IsActive).Select(i => i.BucketItemID).ToList();
-
-                    if (offers != null)
-                        offersAndBundles.Offers = offers;
-                    if (bundles != null)
-                        offersAndBundles.Bundles = bundles;
-                    if (FavouriteOffersIDs != null)
-                        offersAndBundles.FavouriteOffersIDs = FavouriteOffersIDs;
-                    if (FavouriteBundlesIDs != null)
-                        offersAndBundles.FavouriteBundlesIDs = FavouriteBundlesIDs;
-                    if (InBucketOffersIDs != null)
-                        offersAndBundles.InBucketOffersIDs = InBucketOffersIDs;
-                    if (InBucketBundlesIDs != null)
-                        offersAndBundles.InBucketBundlesIDs = InBucketBundlesIDs;
-
-
-                    ViewModels.UserViewModel UserViewModel = new ViewModels.UserViewModel()
-                    {
-                        user = ViewUser,
-                        OffersAndBundles = offersAndBundles
-                    };
                     if (user != null)
-                        UserViewModel.IsOwner = user == ViewUser;
+                    {
+                        var FavouriteOffersIDs = user.FavouriteOffer?.Where(i => i.Offer != null && i.Offer.IsActive).Select(i => i.FavouriteOfferID).ToList();
+                        var FavouriteBundlesIDs = user.FavouriteOffer?.Where(i => i.Bundle != null && i.Bundle.IsActive).Select(i => i.FavouriteOfferID).ToList();
 
+                        var InBucketOffersIDs = user.Bucket?.BucketItems?.Where(i => i.Offer != null && i.Offer.IsActive).Select(i => i.BucketItemID).ToList();
+                        var InBucketBundlesIDs = user.Bucket?.BucketItems?.Where(i => i.Bundle != null && i.Bundle.IsActive).Select(i => i.BucketItemID).ToList();
+
+                        if (offers != null)
+                            offersAndBundles.Offers = offers;
+                        if (bundles != null)
+                            offersAndBundles.Bundles = bundles;
+                        if (FavouriteOffersIDs != null)
+                            offersAndBundles.FavouriteOffersIDs = FavouriteOffersIDs;
+                        if (FavouriteBundlesIDs != null)
+                            offersAndBundles.FavouriteBundlesIDs = FavouriteBundlesIDs;
+                        if (InBucketOffersIDs != null)
+                            offersAndBundles.InBucketOffersIDs = InBucketOffersIDs;
+                        if (InBucketBundlesIDs != null)
+                            offersAndBundles.InBucketBundlesIDs = InBucketBundlesIDs;
+                        if (user.UserID == ViewUser.UserID)
+                            UserViewModel.IsOwner = user == ViewUser;
+                    }
+                    UserViewModel.OffersAndBundles = offersAndBundles;
                     return View(UserViewModel);
                 }
-                return new HttpStatusCodeResult(404);
             }
+            return new HttpStatusCodeResult(404);
+        }
     }
 }

@@ -400,6 +400,10 @@
     <Compile Include="Migrations\202101072024567_AddingCreationTime.Designer.cs">
       <DependentUpon>202101072024567_AddingCreationTime.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101131455011_ResetCodeTable.cs" />
+    <Compile Include="Migrations\202101131455011_ResetCodeTable.Designer.cs">
+      <DependentUpon>202101131455011_ResetCodeTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelsForm\UserBasicData.cs" />
     <Compile Include="ModelsForm\UserPasswordModel.cs" />
@@ -414,6 +418,7 @@
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\OfferPicture.cs" />
     <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\PasswordReset.cs" />
     <Compile Include="Models\ShippingAdress.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\UserConnection.cs" />
@@ -706,8 +711,8 @@
     <Content Include="Views\Offer\Bundle.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Error\InternalServerError.cshtml" />
-    <Content Include="Views\User\PreRestorePassword.cshtml" />
-    <Content Include="Views\User\RestorePassword.cshtml" />
+    <Content Include="Views\User\PasswordResetRequest.cshtml" />
+    <Content Include="Views\User\PasswordReset.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -879,6 +884,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101072024567_AddingCreationTime.resx">
       <DependentUpon>202101072024567_AddingCreationTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101131455011_ResetCodeTable.resx">
+      <DependentUpon>202101131455011_ResetCodeTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
