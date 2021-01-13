@@ -46,6 +46,75 @@
                 jQuery(this).addClass('hidden');
         })
     })
+
+    $('body').on("click", '.btn-deactivate', function () {
+        var elementID = this.id;
+
+        console.log("elementID: " + elementID);
+
+        var userPanelMethod = "DeactivateOffer";
+        var methodArgument = "offerID";
+        var deactivate = "deactivateOffer-";
+        var status = "offerStatus-";
+        var statusInnerHtml = "<b>Nieaktywna</b>";
+        var elementRow = "#offerRow-";
+        var elementA = "<a class=\"btn btn-outline-info\" href=\"@Url.Action(\"Index\", \"Offer\", new { OfferID = " + elementID + " })\"> Zobacz ofertę </a>";
+        var alertSuccess = "Pomyślnie dezaktywowano ofertę!";
+        var alertFail = "Nie udało się zdezaktywować oferty!";
+
+        var whatToDeactivate = this.title.split(" ")[1];
+
+        if (whatToDeactivate == "Bundle") {
+            userPanelMethod = "DeactivateBundle";
+            methodArgument = "bundleID";
+            deactivate = "deactivateBundle-";
+            status = "bundleStatus-";
+            statusInnerHtml = "<b>Nieaktywny</b>";
+            elementRow = "#bundleRow-";
+            elementA = "<a class=\"btn btn-outline-info\" href=\"@Url.Action(\"Bundle\", \"Offer\", new { BundleID = " + elementID + " })\"> Zobacz zestaw </a>";
+            alertSuccess = "Pomyślnie dezaktywowano zestaw!";
+            alertFail = "Nie udało się zdezaktywować zestawu!";
+        }
+
+        $.ajax({
+            url: "/UserPanel/" + userPanelMethod,
+            method: 'POST',
+            dataType: 'json',
+            data: '{"' + methodArgument + '":"' + elementID + '"}',
+            contentType: 'application/json; charset=utf-8',
+            success: function (returnData) {
+                $("#warningBeforeDeactivate_" + elementID).modal('hide');
+                if (returnData == true) {
+
+                    document.getElementById("warningBeforeDeactivate_" + elementID).remove();
+                    //var editID = "editOffer-" + offerID;
+                    var deactivateID = deactivate + elementID;
+                    var elementStatusId = status + elementID;
+
+                    //document.getElementById(editID).remove();
+                    document.getElementById(deactivateID).remove();
+
+                    document.getElementById(elementStatusId).classList.remove("text-succses");
+                    document.getElementById(elementStatusId).classList.add("text-danger");
+                    document.getElementById(elementStatusId).innerHTML = statusInnerHtml;
+
+                    var elementRowID = elementRow + elementID;
+
+                    $(elementRowID).append(
+                        "<td class=\"td-text\">"
+                        + elementA
+                        + "</td>"
+                    );
+
+                    alert(alertSuccess);
+                }
+                else {
+                    alert(alertFail);
+                }
+            },
+            // error handling
+        });
+    })
 })()
 
 //SORTING
