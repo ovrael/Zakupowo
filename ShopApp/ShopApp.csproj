@@ -674,7 +674,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\UserPanel\EditBasicInfo_UNUSED.cshtml" />
-    <Content Include="Views\UserPanel\TransactionHistory.cshtml" />
+    <Content Include="Views\UserPanel\Transactions.cshtml" />
     <Content Include="Views\UserPanel\Communicator.cshtml" />
     <Content Include="Views\UserPanel\EditPassword_UNUSED.cshtml" />
     <Content Include="Views\UserPanel\ShippingAdresses_UNUSED.cshtml" />

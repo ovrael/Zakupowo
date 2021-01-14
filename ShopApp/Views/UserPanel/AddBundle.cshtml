@@ -27,23 +27,23 @@
 				@using (Html.BeginForm("AddBundle", "UserPanel", FormMethod.Post, new { enctype = "multipart/form-data" }))
 				{
 					<div class="row">
-						<div class="col-8">
+						<div class="col-8 " >
 
 							<div class="row row-offer mr-1 ml-0 pb-2">
-								<div class="col-10 col-md-2 col-lg-2">
+								<div class="col-10 col-md-3 col-lg-3">
 									<label class=" control-label" for="Name">Nazwa zestawu</label>
 								</div>
-								<div class="col-9 col-md-10">
+								<div class="col-9">
 									<input maxlength="60" id="bundle_name" name="BundleTitle" placeholder="Bundle name" class="form-control input-md" required type="text" />
 									<small id="descriptionCodeHelp" class="form-text text-muted">Maksymalnie 60 znaków</small>
 								</div>
 							</div>
 
 							<div class="row row-offer mr-1 ml-0 pt-3">
-								<div class="col-10 col-md-2 col-lg-2">
+								<div class="col-10 col-md-3 col-lg-3">
 									<label class="control-label" for="">Szukaj oferty</label>
 								</div>
-								<div class="col-9 col-md-10">
+								<div class="col-9">
 									<div class="form-group has-search">
 
 										<span class="fa fa-search form-control-feedback"></span>

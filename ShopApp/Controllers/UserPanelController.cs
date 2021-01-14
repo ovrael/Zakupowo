@@ -947,7 +947,7 @@ namespace ShopApp.Controllers
 		#endregion
 
 		#region Transaction
-		public ActionResult TransactionHistory()
+		public ActionResult Transactions()
 		{
 			var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
 
