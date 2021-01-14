@@ -404,6 +404,10 @@
     <Compile Include="Migrations\202101131455011_ResetCodeTable.Designer.cs">
       <DependentUpon>202101131455011_ResetCodeTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101141504136_CreatedBundlePictureModel.cs" />
+    <Compile Include="Migrations\202101141504136_CreatedBundlePictureModel.Designer.cs">
+      <DependentUpon>202101141504136_CreatedBundlePictureModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelsForm\UserBasicData.cs" />
     <Compile Include="ModelsForm\UserPasswordModel.cs" />
@@ -412,6 +416,7 @@
     <Compile Include="Models\Bucket.cs" />
     <Compile Include="Models\BucketItem.cs" />
     <Compile Include="Models\Bundle.cs" />
+    <Compile Include="Models\BundlePicture.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Chat.cs" />
     <Compile Include="Models\Favourite.cs" />
@@ -888,6 +893,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101131455011_ResetCodeTable.resx">
       <DependentUpon>202101131455011_ResetCodeTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101141504136_CreatedBundlePictureModel.resx">
+      <DependentUpon>202101141504136_CreatedBundlePictureModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
