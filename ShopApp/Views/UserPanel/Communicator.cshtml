@@ -19,7 +19,7 @@
 
 <div class="container pl-5 pr-1 pb-5">
 
-    <div class="col-12 col-lg-3  pb-3 pl-4">
+    <div class="col-12 col-lg-4  pb-3 pl-4">
         <h4> Napisz wiadomość do: </h4>
     </div>
     <div class="row rounded-lg overflow-hidden pl-lg-4 pl-md-4 mr-5">
@@ -55,7 +55,7 @@
                     <p class="h5 mb-0 py-1 ">Najnowsze</p>
                 </div>
 
-                <div class="messages-box">
+                <div class="messages-box" style="overflow-y:scroll; overflow-x:hidden">
                     <div class="list-group rounded-0 nav-pills" role="tablist" aria-orientation="vertical" id="div-user-boxes">
                         @{
                             if (Model != null && Model.Count() > 0 && !lackMessages)

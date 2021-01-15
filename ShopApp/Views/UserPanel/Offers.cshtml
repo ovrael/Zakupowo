@@ -19,172 +19,178 @@
 						<div class="col p-0 pt-3 font-weight-bold"> <h3> Moje oferty </h3> </div>
 					</div>
 				</div>
-				<div class="col pb-3">
-					<div class="row justify-content-center pl-4">
-						<h6> W tym miejscu możesz dodawać, przeglądać, edytować oraz deaktywować swoje oferty.</h6>
-					</div>
-					<hr>
-					<a href="@Url.Action("AddOffer", "UserPanel")" class="btn btn-outline-warning" role="button">Dodaj ofertę!</a>
-
-					@if (ViewBag.UserNotActivated != null)
-					{
-						<div class="alert alert-danger alert-dismissible mt-3">
-							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-							<strong><i class="fas fa-info-circle"></i></strong> @ViewBag.UserNotActivated
-						</div>
-
-					}
-
-					@if (ViewBag.Success != null)
-					{
-						<div class="alert alert-secondary alert-dismissible mt-3">
-							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-							<strong><i class="fas fa-info-circle"></i></strong> @ViewBag.Success
-						</div>
-					}
-
-					<hr>
+                <div class="col pb-3">
+                    <div class="row justify-content-center pl-4">
+                        <h6> W tym miejscu możesz dodawać, przeglądać, edytować oraz deaktywować swoje oferty.</h6>
+                    </div>
+                    <hr>
+                    <div class="col pb-3">
+                        <div class="col-md d-flex justify-content-center">
+                            <a href="@Url.Action("AddOffer", "UserPanel")" class="btn btn-outline-warning" role="button">Dodaj ofertę!</a>
+                        </div>
 
 
-					<div class="row justify-content-center pl-2">
-						<input type="text" class="form-control" id="offerNameFilter" placeholder="Szukaj po nazwie">
-					</div>
-				</div>
+                        @if (ViewBag.UserNotActivated != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible mt-3">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong><i class="fas fa-info-circle"></i></strong> @ViewBag.UserNotActivated
+                            </div>
+
+                        }
+
+                        @if (ViewBag.Success != null)
+                        {
+                            <div class="alert alert-secondary alert-dismissible mt-3">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong><i class="fas fa-info-circle"></i></strong> @ViewBag.Success
+                            </div>
+                        }
+
+                        <hr>
+
+
+                        <div class="row justify-content-center pl-2 mr-2">
+                            <input type="text" class="form-control" id="offerNameFilter" placeholder="Szukaj po nazwie">
+                        </div>
+                    </div>
 
 
 
-				@{
-					if (Model.Count() > 0)
-					{
-						<div class="table-responsive">
-							<table class="table table-striped">
-								<thead class="thead-dark">
-									<tr>
+                    @{
+                        if (Model.Count() > 0)
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead class="thead-dark">
+                                        <tr>
 
-										@*TITLE*@
-										<th scope="col" class="td-title">
-											<a class="text-white" href="#" id="Name-Asc" onclick="sortOffersBy(this.id); return false;">Nazwa</a>
-										</th>
+                                            @*TITLE*@
+                                            <th scope="col" class="td-title">
+                                                <a class="text-white" href="#" id="Name-Asc" onclick="sortOffersBy(this.id); return false;">Nazwa</a>
+                                            </th>
 
-										@*CATEGORY*@
-										<th scope="col" class="td-text">
-											<a class="text-white" href="#" id="Category-Asc" onclick="sortOffersBy(this.id); return false;">Kategoria</a>
-										</th>
+                                            @*CATEGORY*@
+                                            <th scope="col" class="td-text">
+                                                <a class="text-white" href="#" id="Category-Asc" onclick="sortOffersBy(this.id); return false;">Kategoria</a>
+                                            </th>
 
-										@*STATUS*@
-										<th scope="col" class="td-text">
-											<a class="text-white" href="#" id="Status-Asc" onclick="sortOffersBy(this.id); return false;">Status</a>
-										</th>
+                                            @*STATUS*@
+                                            <th scope="col" class="td-text">
+                                                <a class="text-white" href="#" id="Status-Asc" onclick="sortOffersBy(this.id); return false;">Status</a>
+                                            </th>
 
-										@*CREATION DATE*@
-										<th scope="col" class="td-text">
-											<a class="text-white" href="#" id="Date-Asc" onclick="sortOffersBy(this.id); return false;">Dodano</a>
-										</th>
+                                            @*CREATION DATE*@
+                                            <th scope="col" class="td-text">
+                                                <a class="text-white" href="#" id="Date-Asc" onclick="sortOffersBy(this.id); return false;">Dodano</a>
+                                            </th>
 
-										@*PRICE*@
-										<th scope="col" class="td-text">
-											<a class="text-white" href="#" id="Price-Asc" onclick="sortOffersBy(this.id); return false;">Cena[zł]</a>
-										</th>
+                                            @*PRICE*@
+                                            <th scope="col" class="td-text">
+                                                <a class="text-white" href="#" id="Price-Asc" onclick="sortOffersBy(this.id); return false;">Cena[zł]</a>
+                                            </th>
 
-										@*LEFT*@
-										<th scope="col" class="td-text">
-											<a class="text-white" href="#" id="Left-Asc" onclick="sortOffersBy(this.id); return false;">Pozostało</a>
-										</th>
+                                            @*LEFT*@
+                                            <th scope="col" class="td-text">
+                                                <a class="text-white" href="#" id="Left-Asc" onclick="sortOffersBy(this.id); return false;">Pozostało</a>
+                                            </th>
 
-										@*SOLD*@
-										<th scope="col" class="td-text">
-											<a class="text-white" href="#" id="Sold-Asc" onclick="sortOffersBy(this.id); return false;">Sprzedano</a>
-										</th>
+                                            @*SOLD*@
+                                            <th scope="col" class="td-text">
+                                                <a class="text-white" href="#" id="Sold-Asc" onclick="sortOffersBy(this.id); return false;">Sprzedano</a>
+                                            </th>
 
-										@*SETTINGS*@
-										<th scope="colgroup" colspan="2" class="td-text text-white">
-											Ustawienia
-										</th>
-									</tr>
-								</thead>
-								<tbody id="offersTableBody">
-									@{
-										int n = 0;
-										foreach (var offer in Model)
-										{
-											n++;
+                                            @*SETTINGS*@
+                                            <th scope="colgroup" colspan="2" class="td-text text-white">
+                                                Ustawienia
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="offersTableBody">
+                                        @{
+                                            int n = 0;
+                                            foreach (var offer in Model)
+                                            {
+                                                n++;
 
-											string status = offer.IsActive ? "Aktywna" : "Nieaktywna";
-											string statusColorClass = offer.IsActive ? "text-success" : "text-danger";
-											string offerWarning = "#warningBeforeDeactivate_" + offer.OfferID;
-											string offerRowId = "offerRow-" + offer.OfferID;
-											string offerStatusId = "offerStatus-" + offer.OfferID;
+                                                string status = offer.IsActive ? "Aktywna" : "Nieaktywna";
+                                                string statusColorClass = offer.IsActive ? "text-success" : "text-danger";
+                                                string offerWarning = "#warningBeforeDeactivate_" + offer.OfferID;
+                                                string offerRowId = "offerRow-" + offer.OfferID;
+                                                string offerStatusId = "offerStatus-" + offer.OfferID;
 
-											<tr class="offer-row" id="@offerRowId">
+                                                <tr class="offer-row" id="@offerRowId">
 
-												<td class="td-title">
-													<a class="text-warning" href="@Url.Action("Index","Offer",new { OfferID = offer.OfferID})">
-													<b><i>@offer.Title</i></b>
-													</a>
-												</td>
+                                                    <td class="td-title">
+                                                        <a class="text-warning" href="@Url.Action("Index","Offer",new { OfferID = offer.OfferID})">
+                                                            <b><i>@offer.Title</i></b>
+                                                        </a>
+                                                    </td>
 
-												<td class="td-text">
-													@offer.Category.CategoryName
-												</td>
+                                                    <td class="td-text">
+                                                        @offer.Category.CategoryName
+                                                    </td>
 
-												<td class="@statusColorClass td-text" id="@offerStatusId">
-													<b>@status</b>
-												</td>
+                                                    <td class="@statusColorClass td-text" id="@offerStatusId">
+                                                        <b>@status</b>
+                                                    </td>
 
-												<td class="td-text">
-													@offer.CreationDate.ToShortDateString()
-												</td>
+                                                    <td class="td-text">
+                                                        @offer.CreationDate.ToShortDateString()
+                                                    </td>
 
-												<td class="td-number">
-													@offer.Price.ToString("N2")
-												</td>
+                                                    <td class="td-number">
+                                                        @offer.Price.ToString("N2")
+                                                    </td>
 
-												<td class="td-text">
-													@offer.InStockNow
-												</td>
+                                                    <td class="td-text">
+                                                        @offer.InStockNow
+                                                    </td>
 
-												<td class="td-text">
-													@(offer.InStockOriginaly-offer.InStockNow)
-												</td>
+                                                    <td class="td-text">
+                                                        @(offer.InStockOriginaly-offer.InStockNow)
+                                                    </td>
 
-												@if (offer.IsActive)
-												{
-													//string editID = "editOffer-" + offer.OfferID;
-													string deactivateID = "deactivateOffer-" + offer.OfferID;
+                                                    @if (offer.IsActive)
+                                                    {
+                                                        //string editID = "editOffer-" + offer.OfferID;
+                                                        string deactivateID = "deactivateOffer-" + offer.OfferID;
 
-													@*<td class="td-text" id="@editID">
-															<button class="btn btn-outline-warning"> Edytuj </button>
-														</td>*@
-													<td class="td-text" id="@deactivateID">
-														<button data-toggle="modal" data-target="@offerWarning" class="btn btn-outline-danger"> Dezaktywuj </button>
-													</td>
-												}
-												else
-												{
-													<td class="td-text">
-														<a class="btn btn-outline-info" href="@Url.Action("Index","Offer",new { OfferID = offer.OfferID})"> Zobacz ofertę </a>
-													</td>
-												}
+                                                        @*<td class="td-text" id="@editID">
+                                                <button class="btn btn-outline-warning"> Edytuj </button>
+                                            </td>*@
+                                                        <td class="td-text" id="@deactivateID">
+                                                            <button data-toggle="modal" data-target="@offerWarning" class="btn btn-outline-danger"> Dezaktywuj </button>
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="td-text">
+                                                            <a class="btn btn-outline-info" href="@Url.Action("Index","Offer",new { OfferID = offer.OfferID})"> Zobacz ofertę </a>
+                                                        </td>
+                                                    }
 
-											</tr>
-										}
-									}
-								</tbody>
-							</table>
-						</div>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
 
-					}
-					else
-					{
-						<div class="alert alert-secondary" role="alert">
-							Nie utworzyłeś jeszcze żadnych ofert!
-						</div>
-					}
-				}
+                        }
+                        else
+                        {
+                            <div class="col-12 pt-3 pl-0 ">
+                                <div class="alert alert-secondary " role="alert">
+                                    Nie utworzyłeś jeszcze żadnych ofert!
+                                </div>
+                            </div>
+                                }
+                                }
 
 
-			</div>
-		</div>
+                            </div>
+                        </div>
 	</div>
 </div>
 

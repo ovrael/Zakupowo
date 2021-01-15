@@ -27,7 +27,7 @@
 				@using (Html.BeginForm("AddBundle", "UserPanel", FormMethod.Post, new { enctype = "multipart/form-data" }))
 				{
 					<div class="row">
-						<div class="col-8 " >
+						<div class="col-12 col-lg-8 col-md-8 " >
 
 							<div class="row row-offer mr-1 ml-0 pb-2">
 								<div class="col-10 col-md-3 col-lg-3">
@@ -54,8 +54,8 @@
 							</div>
 
 						</div>
-						<div class="col-3" id="UploadImageDiv">
-							<div id="UploadImageButton" class="imagePreview btn" style="background-image:url(../../Images/DodajZdjecie.png); border: 2px solid blue;">
+						<div class="col-10 ml-3 ml-lg-0 col-lg-3 col-md-3 pb-3" id="UploadImageDiv">
+							<div id="UploadImageButton" class="imagePreview btn" style=" background-image: url(../../Images/DodajZdjecie.png); border: 2px solid #ccc8c8; width:130px; height:130px">
 								<input id="UploadImageInput" title="Dodaj zdjęcie!" type="file" accept="image/*" value="Upload Photo" name="UploadOfferImage" style="opacity: 0.0; position: absolute; top: 0; left: 0; bottom: 0; right: 0; width: 100%; height:100%;" required>
 							</div>
 						</div>
