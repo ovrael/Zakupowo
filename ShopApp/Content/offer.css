@@ -145,9 +145,33 @@
     outline: none;
 }
 
+.bundle-info {
+    background-color: white;
+}
+
+
+.bundle-info-offer-img {
+    max-height: 200px !important;
+}
+
+.bundle-info-offer-name, .bundle-info-offer-name:active, .bundle-info-offer-name:focus, .bundle-info-offer-name:visited {
+    font-weight: 700;
+    font-size: 14px;
+    color: black;
+    word-break: break-word;
+}
+
+.bundle-info-offer-name:hover {
+    color: #6684A1;
+}
+
+.img-div {
+    height: 200px;
+}
+
 /* RESPONSIVE BREAKPOINTS */
-@media (min-width: 576px) { 
-  #carousel-offer > .carousel-inner {
+@media (min-width: 576px) {
+    #carousel-offer > .carousel-inner {
     height: 500px !important;
   }
 }
@@ -158,6 +182,9 @@
   }
   .bundle-offers {
     width: 60%;
+  }
+  .bundle-info {
+      width: 60%;
   }
   #carousel-offer > .carousel-inner {
     height: 620px !important;
