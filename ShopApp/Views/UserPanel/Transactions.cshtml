@@ -32,6 +32,7 @@
 				</div>
 			</div>
 		</div>
+		<hr>
 
 		@* BOUGHT TRANSACTIONS *@
 		<div id="boughtDiv" class="">
@@ -174,8 +175,7 @@
 					}
 
 					<div class="col-12 sold-row pb-4 pt-1">
-						<div class=" transaction-row" id="transaction-row-@soldTransaction.TransactionID">
-							<div class="row">
+						<div class="row transaction-row" id="transaction-row-@soldTransaction.TransactionID">
 								<div class="col-4 col-lg-1 col-md-1 text-secondary font-weight-bold ">
 									ID:
 								</div>
@@ -198,17 +198,17 @@
 								</div>
 
 
+
 								@if (!soldTransaction.IsChosen)
 								{
-
-									<div class="btn-group col-7 col-lg-3 col-md-2 mr-5 mr-lg-0 manage-transaction" role="group" id="@soldTransaction.TransactionID">
-										<button class="btn btn-success btn-accept"> Akceptuj </button>
-										<button class="btn btn-danger btn-discard"> Odrzuć </button>
-									</div>
-									<div class="col-1 col-lg-1 col-md-1">
-										<a class="btn btn-warning" data-toggle="collapse" href="#@collapseID" role="button" aria-expanded="false" aria-controls="collapseExample">
-											<i class="fas fa-chevron-down"></i>
-										</a>
+									<div class="col-3  pl-5">@* TEN DIV POTRZEBNY *@					
+										<div class="btn-group mr-5 mr-lg-0 manage-transaction" role="group" id="@soldTransaction.TransactionID">
+											<button class="btn btn-success btn-accept"> Akceptuj </button>
+											<button class="btn btn-danger btn-discard"> Odrzuć </button>
+											<a class="btn btn-warning" data-toggle="collapse" href="#@collapseID" role="button" aria-expanded="false" aria-controls="collapseExample">
+												<i class="fas fa-chevron-down"></i>
+											</a>
+										</div>
 									</div>
 								}
 								else
@@ -223,8 +223,6 @@
 										</a>
 									</div>
 								}
-
-							</div>
 						</div>
 
 						<div class="collapse" id="@collapseID">

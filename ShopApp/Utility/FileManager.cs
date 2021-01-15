@@ -10,182 +10,238 @@ using System.Web;
 
 namespace ShopApp.Utility
 {
-    public class FileManager
-    {
-        static readonly string[] imageValidExtensions = new string[] { "jpg", "png", "jpeg, blob" };
-        static readonly string[] documentValidFileExtensions = new string[] { "pdf", "doc", "docx" };
+	public class FileManager
+	{
+		static readonly string[] imageValidExtensions = new string[] { "jpg", "png", "jpeg, blob" };
+		static readonly string[] documentValidFileExtensions = new string[] { "pdf", "doc", "docx" };
 
-        public static async Task<string> UploadAvatar(HttpPostedFileBase file, int userID)
-        {
-            string imageFullPath = null;
+		public static async Task<string> UploadAvatar(HttpPostedFileBase file, int userID)
+		{
+			string imageFullPath = null;
 
-            if (file == null || file.ContentLength == 0)
-            {
-                return null;
-            }
+			if (file == null || file.ContentLength == 0)
+			{
+				return null;
+			}
 
-            try
-            {
-                string fileName = string.Empty;
-                string fileExtension = file.FileName.Substring(file.FileName.LastIndexOf('.') + 1);
+			try
+			{
+				string fileName = string.Empty;
+				string fileExtension = file.FileName.Substring(file.FileName.LastIndexOf('.') + 1);
 
-                if (!imageValidExtensions.Contains(fileExtension.ToLower()))
-                    throw new Exception("The file extension is invalid!");
-
-
-                CloudStorageAccount cloudStorageAccount = ConnectionString.GetConnectionString();
-                CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
-                CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference("avatars");
+				if (!imageValidExtensions.Contains(fileExtension.ToLower()))
+					throw new Exception("The file extension is invalid!");
 
 
-                StringBuilder fileNameBuilder = new StringBuilder("Avatar");
-                fileNameBuilder.Append('_');
-                fileNameBuilder.Append(userID);
-                fileNameBuilder.Append('.');
-                fileNameBuilder.Append(fileExtension);
-
-                fileName = fileNameBuilder.ToString();
+				CloudStorageAccount cloudStorageAccount = ConnectionString.GetConnectionString();
+				CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
+				CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference("avatars");
 
 
-                if (await cloudBlobContainer.CreateIfNotExistsAsync())
-                {
-                    await cloudBlobContainer.SetPermissionsAsync(
-                        new BlobContainerPermissions
-                        {
-                            PublicAccess = BlobContainerPublicAccessType.Container
-                        }
-                        );
-                }
+				StringBuilder fileNameBuilder = new StringBuilder("Avatar");
+				fileNameBuilder.Append('_');
+				fileNameBuilder.Append(userID);
+				fileNameBuilder.Append('.');
+				fileNameBuilder.Append(fileExtension);
 
-                CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(fileName);
-                cloudBlockBlob.Properties.ContentType = file.ContentType;
-
-                await cloudBlockBlob.UploadFromStreamAsync(file.InputStream);
-
-                imageFullPath = cloudBlockBlob.Uri.ToString();
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-            }
-            return imageFullPath;
-        }
-
-        public static async Task<string> UploadOfferImage(HttpPostedFileBase file, int offerID, int pictureNumber)
-        {
-            string imageFullPath = null;
-
-            if (file == null || file.ContentLength == 0)
-            {
-                return null;
-            }
-
-            try
-            {
-                string fileName = string.Empty;
-                string fileExtenstion = file.FileName.Substring(file.FileName.LastIndexOf('.') + 1);
-
-                if (!imageValidExtensions.Contains(fileExtenstion.ToLower()))
-                    throw new Exception("The file extension is invalid!");
+				fileName = fileNameBuilder.ToString();
 
 
-                CloudStorageAccount cloudStorageAccount = ConnectionString.GetConnectionString();
-                CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
-                CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference("offerpictures");
+				if (await cloudBlobContainer.CreateIfNotExistsAsync())
+				{
+					await cloudBlobContainer.SetPermissionsAsync(
+						new BlobContainerPermissions
+						{
+							PublicAccess = BlobContainerPublicAccessType.Container
+						}
+						);
+				}
+
+				CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(fileName);
+				cloudBlockBlob.Properties.ContentType = file.ContentType;
+
+				await cloudBlockBlob.UploadFromStreamAsync(file.InputStream);
+
+				imageFullPath = cloudBlockBlob.Uri.ToString();
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine(ex.Message);
+			}
+			return imageFullPath;
+		}
+
+		public static async Task<string> UploadOfferImage(HttpPostedFileBase file, int offerID, int pictureNumber)
+		{
+			string imageFullPath = null;
+
+			if (file == null || file.ContentLength == 0)
+			{
+				return null;
+			}
+
+			try
+			{
+				string fileName = string.Empty;
+				string fileExtenstion = file.FileName.Substring(file.FileName.LastIndexOf('.') + 1);
+
+				if (!imageValidExtensions.Contains(fileExtenstion.ToLower()))
+					throw new Exception("The file extension is invalid!");
 
 
-                StringBuilder fileNameBuilder = new StringBuilder("OfferPicture");
-                fileNameBuilder.Append('_');
-                fileNameBuilder.Append(offerID);
-                fileNameBuilder.Append("_PictureNo_");
-                fileNameBuilder.Append(pictureNumber);
-                fileNameBuilder.Append('.');
-                fileNameBuilder.Append(fileExtenstion);
-
-                fileName = fileNameBuilder.ToString();
+				CloudStorageAccount cloudStorageAccount = ConnectionString.GetConnectionString();
+				CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
+				CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference("offerpictures");
 
 
-                if (await cloudBlobContainer.CreateIfNotExistsAsync())
-                {
-                    await cloudBlobContainer.SetPermissionsAsync(
-                        new BlobContainerPermissions
-                        {
-                            PublicAccess = BlobContainerPublicAccessType.Container
-                        }
-                     );
-                }
+				StringBuilder fileNameBuilder = new StringBuilder("OfferPicture");
+				fileNameBuilder.Append('_');
+				fileNameBuilder.Append(offerID);
+				fileNameBuilder.Append("_PictureNo_");
+				fileNameBuilder.Append(pictureNumber);
+				fileNameBuilder.Append('.');
+				fileNameBuilder.Append(fileExtenstion);
 
-                CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(fileName);
-                cloudBlockBlob.Properties.ContentType = file.ContentType;
-
-                await cloudBlockBlob.UploadFromStreamAsync(file.InputStream);
-
-                imageFullPath = cloudBlockBlob.Uri.ToString();
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-            }
-            return imageFullPath;
-        }
-
-        public static async Task<string> UploadDocument(HttpPostedFileBase file, int userID, int documentID)
-        {
-            string imageFullPath = null;
-
-            if (file == null || file.ContentLength == 0)
-            {
-                return null;
-            }
-
-            try
-            {
-                string fileName = string.Empty;
-                string fileExtenstion = file.FileName.Substring(file.FileName.LastIndexOf('.') + 1);
-
-                if (!documentValidFileExtensions.Contains(fileExtenstion))
-                    throw new Exception("The file extension is invalid!");
+				fileName = fileNameBuilder.ToString();
 
 
-                CloudStorageAccount cloudStorageAccount = ConnectionString.GetConnectionString();
-                CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
-                CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference("documents");
+				if (await cloudBlobContainer.CreateIfNotExistsAsync())
+				{
+					await cloudBlobContainer.SetPermissionsAsync(
+						new BlobContainerPermissions
+						{
+							PublicAccess = BlobContainerPublicAccessType.Container
+						}
+					 );
+				}
 
-                // DO POPRAWY BY KAŻDY DOKUMENT MIAŁ WŁASNE ID
-                StringBuilder fileNameBuilder = new StringBuilder("Document");
-                fileNameBuilder.Append('_');
-                fileNameBuilder.Append(userID);
-                fileNameBuilder.Append('_');
-                fileNameBuilder.Append(documentID);
-                fileNameBuilder.Append('.');
-                fileNameBuilder.Append(fileExtenstion);
+				CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(fileName);
+				cloudBlockBlob.Properties.ContentType = file.ContentType;
 
-                fileName = fileNameBuilder.ToString();
+				await cloudBlockBlob.UploadFromStreamAsync(file.InputStream);
+
+				imageFullPath = cloudBlockBlob.Uri.ToString();
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine(ex.Message);
+			}
+			return imageFullPath;
+		}
+
+		public static async Task<string> UploadBundlePicture(HttpPostedFileBase file, int bundleID)
+		{
+			string imageFullPath = null;
+
+			if (file == null || file.ContentLength == 0)
+			{
+				return null;
+			}
+
+			try
+			{
+				string fileName = string.Empty;
+				string fileExtenstion = file.FileName.Substring(file.FileName.LastIndexOf('.') + 1);
+
+				if (!imageValidExtensions.Contains(fileExtenstion.ToLower()))
+					throw new Exception("The file extension is invalid!");
 
 
-                if (await cloudBlobContainer.CreateIfNotExistsAsync())
-                {
-                    await cloudBlobContainer.SetPermissionsAsync(
-                        new BlobContainerPermissions
-                        {
-                            PublicAccess = BlobContainerPublicAccessType.Container
-                        }
-                        );
-                }
+				CloudStorageAccount cloudStorageAccount = ConnectionString.GetConnectionString();
+				CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
+				CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference("bundlepictures");
 
-                CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(fileName);
-                cloudBlockBlob.Properties.ContentType = file.ContentType;
 
-                await cloudBlockBlob.UploadFromStreamAsync(file.InputStream);
+				StringBuilder fileNameBuilder = new StringBuilder("BundlePicture");
+				fileNameBuilder.Append('_');
+				fileNameBuilder.Append(bundleID);
+				fileNameBuilder.Append('.');
+				fileNameBuilder.Append(fileExtenstion);
 
-                imageFullPath = cloudBlockBlob.Uri.ToString();
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-            }
-            return imageFullPath;
-        }
+				fileName = fileNameBuilder.ToString();
 
-    }
+
+				if (await cloudBlobContainer.CreateIfNotExistsAsync())
+				{
+					await cloudBlobContainer.SetPermissionsAsync(
+						new BlobContainerPermissions
+						{
+							PublicAccess = BlobContainerPublicAccessType.Container
+						}
+					 );
+				}
+
+				CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(fileName);
+				cloudBlockBlob.Properties.ContentType = file.ContentType;
+
+				await cloudBlockBlob.UploadFromStreamAsync(file.InputStream);
+
+				imageFullPath = cloudBlockBlob.Uri.ToString();
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine(ex.Message);
+			}
+			return imageFullPath;
+		}
+
+		public static async Task<string> UploadDocument(HttpPostedFileBase file, int userID, int documentID)
+		{
+			string imageFullPath = null;
+
+			if (file == null || file.ContentLength == 0)
+			{
+				return null;
+			}
+
+			try
+			{
+				string fileName = string.Empty;
+				string fileExtenstion = file.FileName.Substring(file.FileName.LastIndexOf('.') + 1);
+
+				if (!documentValidFileExtensions.Contains(fileExtenstion))
+					throw new Exception("The file extension is invalid!");
+
+
+				CloudStorageAccount cloudStorageAccount = ConnectionString.GetConnectionString();
+				CloudBlobClient cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
+				CloudBlobContainer cloudBlobContainer = cloudBlobClient.GetContainerReference("documents");
+
+				// DO POPRAWY BY KAŻDY DOKUMENT MIAŁ WŁASNE ID
+				StringBuilder fileNameBuilder = new StringBuilder("Document");
+				fileNameBuilder.Append('_');
+				fileNameBuilder.Append(userID);
+				fileNameBuilder.Append('_');
+				fileNameBuilder.Append(documentID);
+				fileNameBuilder.Append('.');
+				fileNameBuilder.Append(fileExtenstion);
+
+				fileName = fileNameBuilder.ToString();
+
+
+				if (await cloudBlobContainer.CreateIfNotExistsAsync())
+				{
+					await cloudBlobContainer.SetPermissionsAsync(
+						new BlobContainerPermissions
+						{
+							PublicAccess = BlobContainerPublicAccessType.Container
+						}
+						);
+				}
+
+				CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(fileName);
+				cloudBlockBlob.Properties.ContentType = file.ContentType;
+
+				await cloudBlockBlob.UploadFromStreamAsync(file.InputStream);
+
+				imageFullPath = cloudBlockBlob.Uri.ToString();
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine(ex.Message);
+			}
+			return imageFullPath;
+		}
+
+	}
 }

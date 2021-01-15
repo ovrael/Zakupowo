@@ -131,10 +131,10 @@ function sortOffersBy(sortByID) {
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
             var sortByArray = sortByID.split("-");
-            var sortSign = "↑";
+            var sortSign = "↓";
 
             if (sortByArray[1] == "Asc") {
-                sortSign = "↓";
+                sortSign = "↑";
                 sortByArray[1] = "Dsc";
             }
             else
@@ -188,8 +188,12 @@ function createOfferDiv(offer) {
     if (offerTitle.includes(filterValue))
         isHiddenClass = "";
 
+    var offerURL = '/Offer?OfferID=' + offer.OfferID;
+
     var titleTD = "<td class=\"td-title\">"
-        + "<a class=\"text-warning\" href=\"@Url.Action(\"Index\",\"Offer\",new { OfferID =" + offer.OfferID + "})\"><b><i>" + offer.Title + "</i></b></a>"
+        + "<a class=\"text-warning\" href=\"" + offerURL + "\">"
+        + "<b><i>" + offer.Title + "</i></b>"
+        + "</a>"
         + "</td>";
 
     var categoryTD = "<td class=\"td-text\">"
@@ -224,10 +228,11 @@ function createOfferDiv(offer) {
     if (offer.Status == true) {
 
         var offerWarning = "#warningBeforeDeactivate_" + offer.OfferID;
-        settingsTD = "<td class=\"td-text\">"
-            + "<button class=\"btn btn-outline-warning\"> Edytuj </button>"
-            + "</td >"
-            + "<td class=\"td-text\">"
+        settingsTD =
+            // "<td class=\"td-text\">"
+            // + "<button class=\"btn btn-outline-warning\"> Edytuj </button>"
+            // + "</td >"
+            "<td class=\"td-text\">"
             + " <button data-toggle=\"modal\" data-target=\"" + offerWarning + "\" class=\"btn btn-outline-danger\"> Dezaktywuj </button>"
             + "</td >";
     }
@@ -265,10 +270,10 @@ function sortsBundlesBy(sortByID) {
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
             var sortByArray = sortByID.split("-");
-            var sortSign = "↑";
+            var sortSign = "↓";
 
             if (sortByArray[1] == "Asc") {
-                sortSign = "↓";
+                sortSign = "↑";
                 sortByArray[1] = "Dsc";
             }
             else
@@ -322,8 +327,11 @@ function createBundleDiv(bundle) {
     if (bundleTitle.includes(filterValue))
         isHiddenClass = "";
 
+    var bundleURL = '/Offer/Bundle?BundleID=' + bundle.BundleID;
+
+
     var titleTD = "<td class=\"td-title\">"
-        + "<a class=\"text-warning\" href=\"@Url.Action(\"Index\",\"Bundle\",new { BundleID =" + bundle.BundleID + "})\"><b><i>" + bundle.Title + "</i></b></a>"
+        + "<a class=\"text-warning\" href=\"" + bundleURL + "\"><b><i>" + bundle.Title + "</i></b></a>"
         + "</td>";
 
     var priceTD = "<td class=\"td-number\">"
@@ -348,15 +356,16 @@ function createBundleDiv(bundle) {
     if (bundle.Status == true) {
 
         var bundleWarning = "#warningBeforeDeactivate_" + bundle.BundleID;
-        settingsTD = "<td class=\"td-text\">"
-            + "<button class=\"btn btn-outline-warning\"> Edytuj </button>"
-            + "</td >"
-            + "<td class=\"td-text\">"
+        settingsTD =
+            // "<td class=\"td-text\">"
+            // + "<button class=\"btn btn-outline-warning\"> Edytuj </button>"
+            // + "</td >"
+            "<td class=\"td-text\">"
             + " <button data-toggle=\"modal\" data-target=\"" + bundleWarning + "\" class=\"btn btn-outline-danger\"> Dezaktywuj </button>"
             + "</td >";
     }
     else {
-        settingsTD = "<td colspan=\"2\" class=\"td-text\">"
+        settingsTD = "<td class=\"td-text\">"
             + "<a class=\"btn btn-outline-dark\" href=\"@Url.Action(\"Index\", \"Bundle\", new { BundleID = " + bundle.BundleID + "})\"> Zobacz zestaw </a>"
             + "</td >";
     }

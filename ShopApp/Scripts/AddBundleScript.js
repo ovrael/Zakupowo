@@ -7,7 +7,7 @@ function changeOfferPrice(offerCheckbox) {
     if (document)
         var multiplicationFactor = -1;
     var offerPriceID = "OfferPrice_" + offerCheckbox.id.split("_")[1];
-    var offerPrice = document.getElementById(offerPriceID).innerHTML.trim().split(" ")[0];
+    var offerPrice = document.getElementById(offerPriceID).innerHTML.trim().split(" ")[0].replaceAll("&nbsp;", "");
 
     if (offerCheckbox.checked)
         multiplicationFactor = 1;

@@ -778,15 +778,6 @@ namespace ShopApp.Controllers
 				bundlePrice = offersPriceSum;
 			}
 
-			if (Request.Files.Count > 0)
-			{
-				// CREATE BUNDLE PICTURE
-			}
-			else
-			{
-				return RedirectToAction("AddBundle", "UserPanel", new { noPickedOffers = true });
-			}
-
 			Bundle newBundle = new Bundle()
 			{
 				Title = collection["BundleTitle"],
@@ -797,6 +788,30 @@ namespace ShopApp.Controllers
 				IsActive = true,
 				User = editUser
 			};
+
+			if (Request.Files.Count > 0)
+			{
+				var bundleFile = Request.Files[0];
+
+				if (bundleFile != null)
+				{
+					try
+					{
+						var fileUrl = await FileManager.UploadBundlePicture(bundleFile, newBundle.BundleID);
+
+						if (fileUrl != null)
+						{
+							BundlePicture bundlePicture = new BundlePicture() { PathToFile = fileUrl, Bundle = newBundle };
+							newBundle.BundlePicture = bundlePicture;
+							db.SaveChanges();
+						}
+					}
+					catch (Exception ex)
+					{
+						ViewBag.Error = "Wystąpił błąd: " + ex.Message.ToString();
+					}
+				}
+			}
 
 			if (ViewBag.Error == null)
 			{

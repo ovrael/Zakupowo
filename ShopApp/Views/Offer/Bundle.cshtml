@@ -104,10 +104,10 @@
                             <img class="img-fluid" src="@item.OfferPictures.First().PathToFile">
                         </div>
                         <div class="col-12 col-lg-6 text-left offer-desc">
-                            <h3><a class="bundle-product-name" href="@Url.Action("Index", "Home", new { OfferID = item.OfferID })">@item.Title</a></h3>
-                            <p class="bundle-seller d-none d-lg-block mb-2">sprzedawca: <a class="seller-name" href="@Url.Action("UserInformation","User",new { UserID = item.User.UserID })"> @item.User.Login</a></p>
-                            <h3 class="bundle-product-price mb">@item.Price</h3>
-                            <p class="offer-count d-none d-lg-block pb-3">dostępne: @item.InStockNow z @item.InStockOriginaly</p>
+                            <h3><a class="bundle-product-name" href="@Url.Action("Index", "Offer", new { OfferID = item.OfferID })">@item.Title</a></h3>
+                            <p class="bundle-seller d-none d-lg-block mb-2">Sprzedawca: <a class="seller-name" href="@Url.Action("UserInformation","User",new { UserID = item.User.UserID })"> @item.User.Login</a></p>
+                            <h3 class="bundle-product-price mb">@item.Price zł</h3>
+                            <p class="offer-count d-none d-lg-block pb-3">Dostępne: @item.InStockNow z @item.InStockOriginaly</p>
                             <br>
                             @if (HttpContext.Current.User.Identity.IsAuthenticated)
                             {
