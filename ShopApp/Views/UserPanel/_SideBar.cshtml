@@ -2,14 +2,8 @@
     string viewPath = Request.RawUrl;
     string viewName = viewPath.Substring(viewPath.LastIndexOf('/') + 1);
 
-    string[] settingViews = new string[] { "EditBasicInfo", "ShippingAdresses", "EditPassword", "EditAvatar" };
     string[] offerViews = new string[] { "Offers", "AddOffer"};
     string[] bundleViews = new string[] { "Bundles", "AddBundle" };
-
-    if (settingViews.Contains(viewName))
-    {
-        viewName = "Settings";
-    }
 
     if (offerViews.Contains(viewName))
     {
@@ -26,7 +20,7 @@
     activeView.Add("Account", string.Empty);
     activeView.Add("Offers", string.Empty);
     activeView.Add("Bundles", string.Empty);
-    activeView.Add("TransactionHistory", string.Empty);
+    activeView.Add("Transactions", string.Empty);
     activeView.Add("Communicator", string.Empty);
     activeView.Add("Settings", string.Empty);
 
@@ -54,25 +48,25 @@
         <li class="links @activeView["Offers"]">
             <a href="@Url.Action("Offers", "UserPanel")">
                 <div class="sidebar-elements mr-3 ml-3">
-                    <div class="icon"><i class="fa fa-plus"></i></div>
-                    <div class="title">Moje oferty</div>
+                    <div class="icon"><i class="fab fa-wpforms"></i></div>
+                    <div class="title">Oferty</div>
                 </div>
             </a>
         </li>
         <li class="links @activeView["Bundles"] ">
             <a href="@Url.Action("Bundles", "UserPanel")">
                 <div class="sidebar-elements mr-3 ml-3">
-                    <div class="icon"><i class="fa fa-plus"></i></div>
-                    <div class="title">Moje zestawy</div>
+                    <div class="icon"><i class="fas fa-archive"></i></div>
+                    <div class="title">Zestawy</div>
                 </div>
             </a>
         </li>
      
-        <li class="links @activeView["TransactionHistory"]">
-            <a href="@Url.Action("TransactionHistory", "UserPanel")">
+        <li class="links @activeView["Transactions"]">
+            <a href="@Url.Action("Transactions", "UserPanel")">
                 <div class="sidebar-elements mr-3 ml-3">
-                    <div class="icon"><i class="fas fa-file-alt"></i></div>
-                    <div class="title">Historia</div>
+                    <div class="icon"><i class="fas fa-history"></i></div>
+                    <div class="title">Transakcje</div>
                 </div>
             </a>
         </li>

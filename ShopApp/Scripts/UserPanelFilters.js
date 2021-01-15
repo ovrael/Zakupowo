@@ -46,6 +46,75 @@
                 jQuery(this).addClass('hidden');
         })
     })
+
+    $('body').on("click", '.btn-deactivate', function () {
+        var elementID = this.id;
+
+        console.log("elementID: " + elementID);
+
+        var userPanelMethod = "DeactivateOffer";
+        var methodArgument = "offerID";
+        var deactivate = "deactivateOffer-";
+        var status = "offerStatus-";
+        var statusInnerHtml = "<b>Nieaktywna</b>";
+        var elementRow = "#offerRow-";
+        var elementA = "<a class=\"btn btn-outline-info\" href=\"@Url.Action(\"Index\", \"Offer\", new { OfferID = " + elementID + " })\"> Zobacz ofertę </a>";
+        var alertSuccess = "Pomyślnie dezaktywowano ofertę!";
+        var alertFail = "Nie udało się zdezaktywować oferty!";
+
+        var whatToDeactivate = this.title.split(" ")[1];
+
+        if (whatToDeactivate == "Bundle") {
+            userPanelMethod = "DeactivateBundle";
+            methodArgument = "bundleID";
+            deactivate = "deactivateBundle-";
+            status = "bundleStatus-";
+            statusInnerHtml = "<b>Nieaktywny</b>";
+            elementRow = "#bundleRow-";
+            elementA = "<a class=\"btn btn-outline-info\" href=\"@Url.Action(\"Bundle\", \"Offer\", new { BundleID = " + elementID + " })\"> Zobacz zestaw </a>";
+            alertSuccess = "Pomyślnie dezaktywowano zestaw!";
+            alertFail = "Nie udało się zdezaktywować zestawu!";
+        }
+
+        $.ajax({
+            url: "/UserPanel/" + userPanelMethod,
+            method: 'POST',
+            dataType: 'json',
+            data: '{"' + methodArgument + '":"' + elementID + '"}',
+            contentType: 'application/json; charset=utf-8',
+            success: function (returnData) {
+                $("#warningBeforeDeactivate_" + elementID).modal('hide');
+                if (returnData == true) {
+
+                    document.getElementById("warningBeforeDeactivate_" + elementID).remove();
+                    //var editID = "editOffer-" + offerID;
+                    var deactivateID = deactivate + elementID;
+                    var elementStatusId = status + elementID;
+
+                    //document.getElementById(editID).remove();
+                    document.getElementById(deactivateID).remove();
+
+                    document.getElementById(elementStatusId).classList.remove("text-succses");
+                    document.getElementById(elementStatusId).classList.add("text-danger");
+                    document.getElementById(elementStatusId).innerHTML = statusInnerHtml;
+
+                    var elementRowID = elementRow + elementID;
+
+                    $(elementRowID).append(
+                        "<td class=\"td-text\">"
+                        + elementA
+                        + "</td>"
+                    );
+
+                    alert(alertSuccess);
+                }
+                else {
+                    alert(alertFail);
+                }
+            },
+            // error handling
+        });
+    })
 })()
 
 //SORTING
@@ -62,10 +131,10 @@ function sortOffersBy(sortByID) {
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
             var sortByArray = sortByID.split("-");
-            var sortSign = "↑";
+            var sortSign = "↓";
 
             if (sortByArray[1] == "Asc") {
-                sortSign = "↓";
+                sortSign = "↑";
                 sortByArray[1] = "Dsc";
             }
             else
@@ -119,8 +188,12 @@ function createOfferDiv(offer) {
     if (offerTitle.includes(filterValue))
         isHiddenClass = "";
 
+    var offerURL = '/Offer?OfferID=' + offer.OfferID;
+
     var titleTD = "<td class=\"td-title\">"
-        + "<a class=\"text-warning\" href=\"@Url.Action(\"Index\",\"Offer\",new { OfferID =" + offer.OfferID + "})\"><b><i>" + offer.Title + "</i></b></a>"
+        + "<a class=\"text-warning\" href=\"" + offerURL + "\">"
+        + "<b><i>" + offer.Title + "</i></b>"
+        + "</a>"
         + "</td>";
 
     var categoryTD = "<td class=\"td-text\">"
@@ -155,10 +228,11 @@ function createOfferDiv(offer) {
     if (offer.Status == true) {
 
         var offerWarning = "#warningBeforeDeactivate_" + offer.OfferID;
-        settingsTD = "<td class=\"td-text\">"
-            + "<button class=\"btn btn-outline-warning\"> Edytuj </button>"
-            + "</td >"
-            + "<td class=\"td-text\">"
+        settingsTD =
+            // "<td class=\"td-text\">"
+            // + "<button class=\"btn btn-outline-warning\"> Edytuj </button>"
+            // + "</td >"
+            "<td class=\"td-text\">"
             + " <button data-toggle=\"modal\" data-target=\"" + offerWarning + "\" class=\"btn btn-outline-danger\"> Dezaktywuj </button>"
             + "</td >";
     }
@@ -196,10 +270,10 @@ function sortsBundlesBy(sortByID) {
         contentType: 'application/json; charset=utf-8',
         success: function (data) {
             var sortByArray = sortByID.split("-");
-            var sortSign = "↑";
+            var sortSign = "↓";
 
             if (sortByArray[1] == "Asc") {
-                sortSign = "↓";
+                sortSign = "↑";
                 sortByArray[1] = "Dsc";
             }
             else
@@ -253,8 +327,11 @@ function createBundleDiv(bundle) {
     if (bundleTitle.includes(filterValue))
         isHiddenClass = "";
 
+    var bundleURL = '/Offer/Bundle?BundleID=' + bundle.BundleID;
+
+
     var titleTD = "<td class=\"td-title\">"
-        + "<a class=\"text-warning\" href=\"@Url.Action(\"Index\",\"Bundle\",new { BundleID =" + bundle.BundleID + "})\"><b><i>" + bundle.Title + "</i></b></a>"
+        + "<a class=\"text-warning\" href=\"" + bundleURL + "\"><b><i>" + bundle.Title + "</i></b></a>"
         + "</td>";
 
     var priceTD = "<td class=\"td-number\">"
@@ -279,15 +356,16 @@ function createBundleDiv(bundle) {
     if (bundle.Status == true) {
 
         var bundleWarning = "#warningBeforeDeactivate_" + bundle.BundleID;
-        settingsTD = "<td class=\"td-text\">"
-            + "<button class=\"btn btn-outline-warning\"> Edytuj </button>"
-            + "</td >"
-            + "<td class=\"td-text\">"
+        settingsTD =
+            // "<td class=\"td-text\">"
+            // + "<button class=\"btn btn-outline-warning\"> Edytuj </button>"
+            // + "</td >"
+            "<td class=\"td-text\">"
             + " <button data-toggle=\"modal\" data-target=\"" + bundleWarning + "\" class=\"btn btn-outline-danger\"> Dezaktywuj </button>"
             + "</td >";
     }
     else {
-        settingsTD = "<td colspan=\"2\" class=\"td-text\">"
+        settingsTD = "<td class=\"td-text\">"
             + "<a class=\"btn btn-outline-dark\" href=\"@Url.Action(\"Index\", \"Bundle\", new { BundleID = " + bundle.BundleID + "})\"> Zobacz zestaw </a>"
             + "</td >";
     }

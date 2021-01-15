@@ -588,27 +588,27 @@ namespace ShopApp.Controllers
 			return Json("Moved files to AddOffer method.");
 		}
 
-		public ActionResult DeactivateOffer(int? offerID)
+		public ActionResult DeactivateOffer(int offerID)
 		{
-			if (offerID == null)
-			{
-				ViewBag.Error = "offerID == null";
-				return RedirectToAction("Offers", "UserPanel");
-			}
-
+			bool result = true;
 			User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 			Offer offerToDeactivate = db.Offers.Where(o => o.OfferID == offerID).FirstOrDefault();
 
-			offerToDeactivate.IsActive = false;
-			ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
-
-			if (offerToDeactivate.Bundle != null)
+			if (offerToDeactivate == null)
+				result = false;
+			else
 			{
-				offerToDeactivate.Bundle.IsActive = false;
+				offerToDeactivate.IsActive = false;
 				ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+
+				if (offerToDeactivate.Bundle != null)
+				{
+					offerToDeactivate.Bundle.IsActive = false;
+					ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+				}
 			}
 
-			return RedirectToAction("Offers", "UserPanel");
+			return Json(result);
 		}
 
 		#endregion
@@ -742,8 +742,7 @@ namespace ShopApp.Controllers
 					Offer offer = db.Offers.Where(o => o.OfferID == ID).FirstOrDefault();
 					bundleOffers.Add(offer);
 
-					string offerQuantity = "OffersQuantity_" + offerID;
-					offersPriceSum += offer.Price * int.Parse(collection[offerQuantity]);
+					offersPriceSum += offer.Price;
 				}
 			}
 
@@ -790,6 +789,30 @@ namespace ShopApp.Controllers
 				User = editUser
 			};
 
+			if (Request.Files.Count > 0)
+			{
+				var bundleFile = Request.Files[0];
+
+				if (bundleFile != null)
+				{
+					try
+					{
+						var fileUrl = await FileManager.UploadBundlePicture(bundleFile, newBundle.BundleID);
+
+						if (fileUrl != null)
+						{
+							BundlePicture bundlePicture = new BundlePicture() { PathToFile = fileUrl, Bundle = newBundle };
+							newBundle.BundlePicture = bundlePicture;
+							db.SaveChanges();
+						}
+					}
+					catch (Exception ex)
+					{
+						ViewBag.Error = "Wystąpił błąd: " + ex.Message.ToString();
+					}
+				}
+			}
+
 			if (ViewBag.Error == null)
 			{
 				db.Bundles.Add(newBundle);
@@ -806,33 +829,28 @@ namespace ShopApp.Controllers
 
 		}
 
-		public ActionResult DeactivateBundle(int? bundleID)
+		public ActionResult DeactivateBundle(int bundleID)
 		{
-			if (bundleID == null)
-			{
-				ViewBag.Error = "BundleID == null";
-				return RedirectToAction("Bundles", "UserPanel");
-			}
+			bool result = true;
 
 			User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 			Bundle bundleToDeactivate = db.Bundles.Where(b => b.BundleID == bundleID).FirstOrDefault();
 
-			bundleToDeactivate.IsActive = false;
-			db.SaveChanges();
-
-			foreach (var offer in bundleToDeactivate.Offers)
+			if (bundleToDeactivate == null)
+				result = false;
+			else
 			{
-				offer.Bundle = null;
+				bundleToDeactivate.IsActive = false;
+				ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+
+				foreach (var offer in bundleToDeactivate.Offers)
+				{
+					offer.Bundle = null;
+				}
+				ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
 			}
-			db.SaveChanges();
 
-
-			//editUser.Bundles.Remove(bundleToDeactivate);
-			//db.SaveChanges();
-			//db.Bundles.Remove(bundleToDeactivate);
-			//db.SaveChanges();
-
-			return RedirectToAction("Bundles", "UserPanel");
+			return Json(result);
 		}
 
 		#endregion
@@ -944,7 +962,7 @@ namespace ShopApp.Controllers
 		#endregion
 
 		#region Transaction
-		public ActionResult TransactionHistory()
+		public ActionResult Transactions()
 		{
 			var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
 

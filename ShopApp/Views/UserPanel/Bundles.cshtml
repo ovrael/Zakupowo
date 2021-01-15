@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<ShopApp.Models.Bundle>
 @{
-    ViewBag.Title = "Zestawy";
+	ViewBag.Title = "Zestawy";
 }
 
 @Styles.Render("~/bundles/UserPanel")
@@ -10,228 +10,233 @@
 
 <div class="container pl-5">
 
-    <div class="row">
-        <div class="col-12">
-            <div class="use-add-product pb-3">
-                <div class=" row justify-content-center">
-                    <div class="row mb-4 mr-1">
-                        <div class="col p-0 pt-3 font-weight-bold"> <h3> Moje zestawy</h3> </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <h6>W tym miejscu możesz dodawać, przeglądać, edytować oraz deaktywować swoje zestawy.</h6>
-                </div>
-                <hr>
+	<div class="row">
+		<div class="col-12">
+			<div class="use-add-product pb-3">
+				<div class=" row justify-content-center">
+					<div class="row mb-4 mr-1">
+						<div class="col p-0 pt-3 font-weight-bold"> <h3> Moje zestawy</h3> </div>
+					</div>
+				</div>
+				<div class="row justify-content-center">
+					<h6>W tym miejscu możesz dodawać, przeglądać, edytować oraz deaktywować swoje zestawy.</h6>
+				</div>
+				<hr>
 
-                <div class="col pb-3">
-                    <div class="col-md " style="display: inline-block;">
-                        <a class="btn btn-outline-warning" href="@Url.Action("AddBundle", "UserPanel")">Stwórz nowy zestaw!</a>
-                    </div>
+				<div class="col pb-3">
+					<div class="col-md " style="display: inline-block;">
+						<a class="btn btn-outline-warning" href="@Url.Action("AddBundle", "UserPanel")">Stwórz nowy zestaw!</a>
+					</div>
 
-                    <div class="col-8">
-                        @if (ViewBag.NoOffers != null)
-                        {
-                            <div class="alert alert-danger alert-dismissible mt-3 ml-1">
-                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                <strong><i class="fas fa-info-circle"></i></strong> @ViewBag.NoOffers
-                            </div>
-                        }
+					<div class="col-8">
+						@if (ViewBag.NoOffers != null)
+						{
+							<div class="alert alert-danger alert-dismissible mt-3 ml-1">
+								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+								<strong><i class="fas fa-info-circle"></i></strong> @ViewBag.NoOffers
+							</div>
+						}
 
-                        @if (ViewBag.Success != null)
-                        {
-                            <div class="alert alert-secondary alert-dismissible mt-3 ml-3">
-                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                <strong><i class="fas fa-info-circle"></i></strong> @ViewBag.Success
-                            </div>
-                        }
-                    </div>
+						@if (ViewBag.Success != null)
+						{
+							<div class="alert alert-secondary alert-dismissible mt-3 ml-3">
+								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+								<strong><i class="fas fa-info-circle"></i></strong> @ViewBag.Success
+							</div>
+						}
+					</div>
 
-                    <hr>
-                    <div class="row justify-content-center pl-4">
-                        <input type="text" class="form-control" id="bundleNameFilter" placeholder="Szukaj po nazwie">
-                    </div>
-                </div>
+					<hr>
+					<div class="row justify-content-center pl-4">
+						<input type="text" class="form-control" id="bundleNameFilter" placeholder="Szukaj po nazwie">
+					</div>
+				</div>
 
-                @{
-                    string titleSign = string.Empty;
-                    //string categorySign = string.Empty;
-                    string statusSign = string.Empty;
-                    string dateSign = string.Empty;
-                    string priceSign = string.Empty;
+				@{
+					string titleSign = string.Empty;
+					//string categorySign = string.Empty;
+					string statusSign = string.Empty;
+					string dateSign = string.Empty;
+					string priceSign = string.Empty;
 
-                    if (ViewBag.SortBy != null)
-                    {
-                        string sortBy = ViewBag.SortBy;
-                        switch (sortBy)
-                        {
-                            case "Title":
-                                titleSign = ViewBag.TitleSort == 0 ? "↑" : "↓";
-                                break;
-                            //case "Category":
-                            //    categorySign = ViewBag.CategorySort == 0 ? "↑" : "↓";
-                            // break;
-                            case "Status":
-                                statusSign = ViewBag.StatusSort == 0 ? "↓" : "↑";
-                                break;
-                            case "Date":
-                                dateSign = ViewBag.CreationDateSort == 0 ? "↓" : "↑";
-                                break;
-                            case "Price":
-                                priceSign = ViewBag.PriceSort == 0 ? "↑" : "↓";
-                                break;
-                        }
-                    }
+					if (ViewBag.SortBy != null)
+					{
+						string sortBy = ViewBag.SortBy;
+						switch (sortBy)
+						{
+							case "Title":
+								titleSign = ViewBag.TitleSort == 0 ? "↑" : "↓";
+								break;
+							//case "Category":
+							//    categorySign = ViewBag.CategorySort == 0 ? "↑" : "↓";
+							// break;
+							case "Status":
+								statusSign = ViewBag.StatusSort == 0 ? "↓" : "↑";
+								break;
+							case "Date":
+								dateSign = ViewBag.CreationDateSort == 0 ? "↓" : "↑";
+								break;
+							case "Price":
+								priceSign = ViewBag.PriceSort == 0 ? "↑" : "↓";
+								break;
+						}
+					}
 
 
-                    if (Model.Count() > 0)
-                    {
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead class="thead-dark">
-                                    <tr>
+					if (Model.Count() > 0)
+					{
+						<div class="table-responsive">
+							<table class="table table-striped">
+								<thead class="thead-dark">
+									<tr>
 
-                                        @*TITLE*@
-                                        <th scope="col" class="td-title" style="width:35%;">
-                                            <a style="color:white" href="#" id="Name-Asc" onclick="sortsBundlesBy(this.id); return false;">Nazwa</a>
-                                        </th>
+										@*TITLE*@
+										<th scope="col" class="td-title" style="width:35%;">
+											<a style="color:white" href="#" id="Name-Asc" onclick="sortsBundlesBy(this.id); return false;">Nazwa</a>
+										</th>
 
-                                        @*PRICE*@
-                                        <th scope="col" class="td-number" style="width:15%;">
-                                            <a style="color:white" href="#" id="Price-Asc" onclick="sortsBundlesBy(this.id); return false;">Cena[zł]</a>
-                                        </th>
+										@*PRICE*@
+										<th scope="col" class="td-number" style="width:15%;">
+											<a style="color:white" href="#" id="Price-Asc" onclick="sortsBundlesBy(this.id); return false;">Cena[zł]</a>
+										</th>
 
-                                        @*STATUS*@
-                                        <th scope="col" class="td-text" style="width:15%;">
-                                            <a style="color:white" href="#" id="Status-Asc" onclick="sortsBundlesBy(this.id); return false;">Status</a>
-                                        </th>
+										@*STATUS*@
+										<th scope="col" class="td-text" style="width:15%;">
+											<a style="color:white" href="#" id="Status-Asc" onclick="sortsBundlesBy(this.id); return false;">Status</a>
+										</th>
 
-                                        @*CREATION DATE*@
-                                        <th scope="col" class="td-text" style="width:10%;">
-                                            <a style="color:white" href="#" id="Date-Asc" onclick="sortsBundlesBy(this.id); return false;">Dodano</a>
-                                        </th>
+										@*CREATION DATE*@
+										<th scope="col" class="td-text" style="width:10%;">
+											<a style="color:white" href="#" id="Date-Asc" onclick="sortsBundlesBy(this.id); return false;">Dodano</a>
+										</th>
 
-                                        @*SETTINGS*@
-                                        <th scope="colgroup" colspan="2" class="text-white text-center" style="width:25%;">
-                                            Ustawienia
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody id="bundlesTableBody">
-                                    @{
-                                        int n = 0;
-                                        foreach (var bundle in Model)
-                                        {
-                                            n++;
-                                            string status = bundle.IsActive ? "Aktywny" : "Nieaktywny";
-                                            string statusColorClass = bundle.IsActive ? "text-success" : "text-danger";
-                                            string bundleWarning = "#warningBeforeDeactivate_" + bundle.BundleID;
+										@*SETTINGS*@
+										<th scope="colgroup" colspan="2" class="text-white text-center" style="width:25%;">
+											Ustawienia
+										</th>
+									</tr>
+								</thead>
+								<tbody id="bundlesTableBody">
+									@{
+										int n = 0;
+										foreach (var bundle in Model)
+										{
+											n++;
+											string status = bundle.IsActive ? "Aktywny" : "Nieaktywny";
+											string statusColorClass = bundle.IsActive ? "text-success" : "text-danger";
+											string bundleWarning = "#warningBeforeDeactivate_" + bundle.BundleID;
 
-                                            <tr class="bundle-row">
+											string bundleRowID = "bundleRow-" + bundle.BundleID;
+											string bundleStatusID = "bundleStatus-" + bundle.BundleID;
 
-                                                @*NAZWA*@
-                                                <td class="td-title">
-                                                    <a class="text-warning" href="@Url.Action("Index","Bundle",new { BundleID= bundle.BundleID})">
-                                                        <b><i> @bundle.Title</i></b>
-                                                    </a>
-                                                </td>
+											<tr class="bundle-row" id="@bundleRowID">
 
-                                                @*CENA*@
-                                                <td class="td-number">
-                                                    @bundle.BundlePrice.ToString("N2")
-                                                </td>
+												@*NAZWA*@
+												<td class="td-title">
+													<a class="text-warning" href="@Url.Action("Bundle","Offer",new { BundleID= bundle.BundleID})">
+														<b><i> @bundle.Title</i></b>
+													</a>
+												</td>
 
-                                                @*STATUS*@
-                                                <td class="td-text">
-                                                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Zdezaktywowana oferta jest możliwa tylko do przeglądania, nie można jej ani modyfikować ani kupić.">
-                                                        <a class="@statusColorClass" style="pointer-events: none;"><b>@status</b></a>
-                                                    </span>
-                                                </td>
+												@*CENA*@
+												<td class="td-number">
+													@bundle.BundlePrice.ToString("N2")
+												</td>
 
-                                                @*DODANO*@
-                                                <td class="td-text">
-                                                    @bundle.CreationDate.ToShortDateString()
-                                                </td>
+												@*STATUS*@
+												<td class="td-text" id="@bundleStatusID">
+													<span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Zdezaktywowana oferta jest możliwa tylko do przeglądania, nie można jej ani modyfikować ani kupić.">
+														<a class="@statusColorClass" style="pointer-events: none;"><b>@status</b></a>
+													</span>
+												</td>
 
-                                                @if (bundle.IsActive)
-                                                {
-                                                    <td class="td-text">
-                                                        <button type="button" class="btn btn-outline-warning">Edytuj</button>
-                                                    </td>
-                                                    <td class="td-text">
-                                                        <button data-toggle="modal" data-target="@bundleWarning" class="btn btn-outline-danger">Dezaktywuj</button>
-                                                    </td>
-                                                }
-                                                else
-                                                {
-                                                    <td colspan="2" class="td-text">
-                                                        <button class="btn btn-outline-dark" href="#"> Zobacz zestaw </button>
-                                                    </td>
-                                                }
+												@*DODANO*@
+												<td class="td-text">
+													@bundle.CreationDate.ToShortDateString()
+												</td>
 
-                                            </tr>
-                                        }
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="col-12 pt-3 ">
-                            <div class="alert alert-secondary" role="alert">
-                                Nie utworzyłeś jeszcze żadnych zestawów!
-                            </div>
-                        </div>
-                    }
-                }
+												@if (bundle.IsActive)
+												{
+													string deactivateID = "deactivateBundle-" + bundle.BundleID;
 
-            </div>
-        </div>
-    </div>
+													@*<td class="td-text">
+															<button type="button" class="btn btn-outline-warning">Edytuj</button>
+														</td>*@
+													<td class="td-text" id="@deactivateID">
+														<button data-toggle="modal" data-target="@bundleWarning" class="btn btn-outline-danger">Dezaktywuj</button>
+													</td>
+												}
+												else
+												{
+													<td class="td-text">
+														<a class="btn btn-outline-info" href="@Url.Action("Bundle","Offer",new { BundleID= bundle.BundleID})"> Zobacz zestaw </a>
+													</td>
+												}
+
+											</tr>
+										}
+									}
+								</tbody>
+							</table>
+						</div>
+					}
+					else
+					{
+						<div class="col-12 pt-3 ">
+							<div class="alert alert-secondary" role="alert">
+								Nie utworzyłeś jeszcze żadnych zestawów!
+							</div>
+						</div>
+					}
+				}
+
+			</div>
+		</div>
+	</div>
 </div>
 
 
 @{
-    foreach (var bundle in Model)
-    {
-        string bundleWarning = "warningBeforeDeactivate_" + bundle.BundleID;
+	foreach (var bundle in Model)
+	{
+		string bundleWarning = "warningBeforeDeactivate_" + bundle.BundleID;
 
-        <div class="modal fade" id="@bundleWarning" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">
-                            Czy na pewno chcesz dezaktywować zestaw:
-                            <br />
-                            "@bundle.Title"?
-                        </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>
-                            Pamiętaj, że dezaktywowany zestaw nie zniknie z serwisu.
-                            <br />
-                            Jego status zostanie zaktualizawny do <i>nieaktywnego</i>.
-                            <br />
-                            Nie będzie można go kupić, ale nadal będzie można go przeglądać.
-                            <br /><br />
-                            <i>Wszystkie oferty z zestawu będą dalej dostępne do kupienia oraz ponownie będą mogły wejść w skład (nowego) zestawu.</i>
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Nie usuwaj</button>
-                        <a href="@Url.Action("DeactivateBundle", "UserPanel", new { bundleID = bundle.BundleID })" class="btn-outline-danger btn" title="DeactivateButton">Dezaktywuj</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
+		<div class="modal fade" id="@bundleWarning" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLongTitle">
+							Czy na pewno chcesz dezaktywować zestaw:
+							<br />
+							"@bundle.Title"?
+						</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<p>
+							Pamiętaj, że dezaktywowany zestaw nie zniknie z serwisu.
+							<br />
+							Jego status zostanie zaktualizawny do <i>nieaktywnego</i>.
+							<br />
+							Nie będzie można go kupić, ale nadal będzie można go przeglądać.
+							<br /><br />
+							<i>Wszystkie oferty z zestawu będą dalej dostępne do kupienia oraz ponownie będą mogły wejść w skład (nowego) zestawu.</i>
+						</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Nie usuwaj</button>
+						<button class="btn-outline-danger btn btn-deactivate" id="@bundle.BundleID" title="Deacitvate Bundle"> Dezaktywuj </button>
+					</div>
+				</div>
+			</div>
+		</div>
+	}
 }
 
 @section scripts
 {
-    <script src="~/Scripts/UserPanelFilters.js"></script>
+	<script src="~/Scripts/UserPanelFilters.js"></script>
 }
 

@@ -400,6 +400,14 @@
     <Compile Include="Migrations\202101072024567_AddingCreationTime.Designer.cs">
       <DependentUpon>202101072024567_AddingCreationTime.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202101131455011_ResetCodeTable.cs" />
+    <Compile Include="Migrations\202101131455011_ResetCodeTable.Designer.cs">
+      <DependentUpon>202101131455011_ResetCodeTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202101141504136_CreatedBundlePictureModel.cs" />
+    <Compile Include="Migrations\202101141504136_CreatedBundlePictureModel.Designer.cs">
+      <DependentUpon>202101141504136_CreatedBundlePictureModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ModelsForm\UserBasicData.cs" />
     <Compile Include="ModelsForm\UserPasswordModel.cs" />
@@ -408,12 +416,14 @@
     <Compile Include="Models\Bucket.cs" />
     <Compile Include="Models\BucketItem.cs" />
     <Compile Include="Models\Bundle.cs" />
+    <Compile Include="Models\BundlePicture.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Chat.cs" />
     <Compile Include="Models\Favourite.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\OfferPicture.cs" />
     <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\PasswordReset.cs" />
     <Compile Include="Models\ShippingAdress.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\UserConnection.cs" />
@@ -503,6 +513,7 @@
     <Content Include="Images\user.jpg" />
     <Content Include="Images\user2.jpg" />
     <Content Include="libman.json" />
+    <Content Include="Scripts\AddBundleScript.js" />
     <Content Include="Scripts\AddOfferScript.js" />
     <Content Include="Scripts\bootstrap-input-spinner.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -669,7 +680,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\UserPanel\EditBasicInfo_UNUSED.cshtml" />
-    <Content Include="Views\UserPanel\TransactionHistory.cshtml" />
+    <Content Include="Views\UserPanel\Transactions.cshtml" />
     <Content Include="Views\UserPanel\Communicator.cshtml" />
     <Content Include="Views\UserPanel\EditPassword_UNUSED.cshtml" />
     <Content Include="Views\UserPanel\ShippingAdresses_UNUSED.cshtml" />
@@ -707,8 +718,8 @@
     <Content Include="Views\Offer\Bundle.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Error\InternalServerError.cshtml" />
-    <Content Include="Views\User\PreRestorePassword.cshtml" />
-    <Content Include="Views\User\RestorePassword.cshtml" />
+    <Content Include="Views\User\PasswordResetRequest.cshtml" />
+    <Content Include="Views\User\PasswordReset.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -880,6 +891,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202101072024567_AddingCreationTime.resx">
       <DependentUpon>202101072024567_AddingCreationTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101131455011_ResetCodeTable.resx">
+      <DependentUpon>202101131455011_ResetCodeTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202101141504136_CreatedBundlePictureModel.resx">
+      <DependentUpon>202101141504136_CreatedBundlePictureModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

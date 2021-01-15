@@ -46,16 +46,22 @@
 
                         var transactionStatusColor = isAccepted ? "green" : "red";
                         var transactionStatus = isAccepted ? "Potwierdzona" : "Odrzucona";
-                        var collapseID = "soldCollapse-" + transactionID;
+                        var collapseID = "#soldCollapse-" + transactionID;
 
                         $("#transaction-row-" + transactionID).append(
-                            "<div class=\"col-10 col-lg-2 col-md-2  pb-4\" style=\"color:" + transactionStatusColor + "\">Status: " + transactionStatus + "</div>"
-                            + "<div class=\"col-2 col-lg-2 pb-3\">"
-                            + "<a class=\"btn btn-warning\" data-toggle=\"collapse\" href=\"#" + collapseID + "\" role=\"button\" aria-expanded=\"false\" aria-controls=\"collapseExample\">"
+                            "<div class=\"col-4 col-lg-1 col-md-1 text-secondary font-weight-bold\">"
+                            + "Status:"
+                            + "</div>"
+                            + "<div class=\"col-5 col-lg-3 col-md-3  pb-4\" style=\"color:" + transactionStatusColor + "\">" + transactionStatus + "</div>"
+                            + "<div class=\"col-1 col-lg-1 pb-3\">"
+                            + "<a class=\"btn btn-warning\" data-toggle=\"collapse\" href=\"" + collapseID + "\" role=\"button\" aria-expanded=\"false\" aria-controls=\"collapseExample\">"
                             + "<i class=\"fas fa-chevron-down\"></i>"
                             + "</a>"
                             + "</div>"
                         );
+
+
+
                     }
                 },
                 // error handling
