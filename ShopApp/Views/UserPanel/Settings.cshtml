@@ -160,63 +160,62 @@
                                                     </div>
                                                 }
 
-                                                <div class="col-6 adress-div" id="@adressBodyID">
+                                                <div class="col-10 col-lg-6 col-md-6 adress-div" id="@adressBodyID">
                                                     <form class="form-horizontal adress-form" method="post" id="@adressFormID">
-
-                                                        <p id="p-@i" class="adress-p"> Adres wysyłki numer: @(i+1)  </p>
-
-                                                        <input id="AdressID" name="AdressID" value="@adresses[i].AdressID" class="hidden form-control input-md" type="number" hidden>
-
-                                                        <div class="form-group">
-                                                            <label class="col-md-4 control-label" for="Country">Kraj</label>
-                                                            <div class="col-md-10">
-                                                                <input id="Country" name="Country" value="@adresses[i].Country" class="form-control input-md" type="text" required autofocus>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label class="col-md-4 control-label" for="City">Miasto</label>
-                                                            <div class="col-md-10">
-                                                                <input id="City" name="City" value="@adresses[i].City" class="form-control input-md" type="text" required>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label class="col-md-4 control-label" for="Street">Ulica</label>
-                                                            <div class="col-md-10">
-                                                                <input id="Street" name="Street" value="@adresses[i].Street" class="form-control input-md" type="text" required>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label class="col-md-4 control-label" for="PremisesNumber">Numer lokalu*</label>
-                                                            <div class="col-md-10">
-                                                                <input id="PremisesNumber" name="PremisesNumber" value="@adresses[i].PremisesNumber" class="form-control input-md" type="text">
-                                                                <small id="premisesNumberHelp" class="form-text text-muted">Pole nie jest wymagane.</small>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label class="col-md-4 control-label" for="PostalCode">Kod pocztowy*</label>
-                                                            <div class="col-md-10">
-                                                                <input id="PostalCode" name="PostalCode" value="@adresses[i].PostalCode" class="form-control input-md" type="text">
-                                                                <small id="postalCodeHelp" class="form-text text-muted">Pole nie jest wymagane.</small>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <div class="row">
-
-                                                                <div class="col-6">
-                                                                    <button class="btn btn-success change-adress-btn" value="Zmień" id="@adressInputID">Zmień</button>
+                                                       
+                                                            <p id="p-@i" class="adress-p"> Adres wysyłki numer: @(i+1)  </p>
+                                                     
+                                                            <input id="AdressID" name="AdressID" value="@adresses[i].AdressID" class="hidden form-control input-md" type="number" hidden>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label" for="Country">Kraj</label>
+                                                                <div class="col-md-10">
+                                                                    <input id="Country" name="Country" value="@adresses[i].Country" class="form-control input-md" type="text" required autofocus>
                                                                 </div>
-
-                                                                <div class="col-6">
-                                                                    <button class="btn btn-danger delete-adress-btn" value="Usuń" id="@adressDeleteID">Usuń</button>
-                                                                </div>
-
                                                             </div>
-                                                        </div>
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label" for="City">Miasto</label>
+                                                                <div class="col-md-10">
+                                                                    <input id="City" name="City" value="@adresses[i].City" class="form-control input-md" type="text" required>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label" for="Street">Ulica</label>
+                                                                <div class="col-md-10">
+                                                                    <input id="Street" name="Street" value="@adresses[i].Street" class="form-control input-md" type="text" required>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label" for="PremisesNumber">Numer lokalu*</label>
+                                                                <div class="col-md-10">
+                                                                    <input id="PremisesNumber" name="PremisesNumber" value="@adresses[i].PremisesNumber" class="form-control input-md" type="text">
+                                                                    <small id="premisesNumberHelp" class="form-text text-muted">Pole nie jest wymagane.</small>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label" for="PostalCode">Kod pocztowy*</label>
+                                                                <div class="col-md-10">
+                                                                    <input id="PostalCode" name="PostalCode" value="@adresses[i].PostalCode" class="form-control input-md" type="text">
+                                                                    <small id="postalCodeHelp" class="form-text text-muted">Pole nie jest wymagane.</small>
+                                                                </div>
+                                                    
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <div class="row">
+
+                                                                    <div class="col-6">
+                                                                        <button class="btn btn-success change-adress-btn" value="Zmień" id="@adressInputID">Zmień</button>
+                                                                    </div>
+
+                                                                    <div class="col-6">
+                                                                        <button class="btn btn-danger delete-adress-btn" value="Usuń" id="@adressDeleteID">Usuń</button>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
 
                                                     </form>
                                                 </div>
