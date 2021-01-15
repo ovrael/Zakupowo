@@ -2,7 +2,7 @@ $(document).ready(function () {
     // Add-to-favourites button handler
     $(".product-fav").on("click", function () {
 
-        var id = jQuery(this).attr('id');
+        var id = jQuery(this).attr('data-id');
         var type = jQuery(this).attr('data-type');
 
         if ($(this).hasClass("fav-active")) {
@@ -14,14 +14,23 @@ $(document).ready(function () {
                     type: type,
                     id: id
                 },
-                success: function (data) {
-                    if (data.text == null)// No errors
+                success: function (ErrorMessage) {
+                    if (ErrorMessage == "") // No errors
                     {
                         $(element).addClass("fav-unActive");
                         $(element).removeClass("fav-active");
                     }
                     else {
-                        console.log(data);
+                        $.alert({
+                            title: 'Wystąpił błąd',
+                            content: ErrorMessage,
+                            buttons: {
+                                ok: {
+                                    text: 'ok',
+                                    btnClass: 'btn-popout'
+                                }
+                            }
+                        });
                     }
                 },
             });
@@ -36,15 +45,24 @@ $(document).ready(function () {
                     type: type,
                     id: id
                 },
-                success: function (data) {
-                    if (data.text == null)// No errors
+                success: function (ErrorMessage) {
+                    if (ErrorMessage == "") // No errors
                     {
                         $(element).addClass("fav-active");
                         $(element).removeClass("fav-unActive");
                     }
                     else
                     {
-                        console.log(data);
+                        $.alert({
+                            title: 'Wystąpił błąd',
+                            content: ErrorMessage,
+                            buttons: {
+                                ok: {
+                                    text: 'ok',
+                                    btnClass: 'btn-popout'
+                                }
+                            }
+                        });
                     }
 
                 },
