@@ -20,6 +20,7 @@
 .product-name {
     color: black;
     font-size: 18px;
+    word-break: break-all;
 }
 
 .product-price {
@@ -149,10 +150,11 @@
 .in-bucket, .in-bucket:hover, .in-bucket:active, .in-bucket:focus {
     cursor: not-allowed;
     color: grey;
+    font-size: 10px;
 }
 
 .offer {
-    height: 300px;
+    height: 350px;
 }
 
 .offer-img > img {

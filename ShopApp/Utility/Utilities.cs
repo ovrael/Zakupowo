@@ -21,7 +21,9 @@ namespace ShopApp.Utility
         {
             bool result = false;
 
-            if (DateTime.Now.AddYears(-13).CompareTo(birthDate) == 1)
+            System.Diagnostics.Debug.WriteLine(DateTime.Now.AddYears(-100).CompareTo(birthDate));
+
+            if (DateTime.Now.AddYears(-13).CompareTo(birthDate) == 1 && DateTime.Now.AddYears(-100).CompareTo(birthDate) == -1)
                 result = true;
 
             return result;

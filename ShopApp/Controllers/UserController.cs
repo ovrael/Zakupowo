@@ -37,61 +37,76 @@ namespace ShopApp.Controllers
 		[HttpPost]
 		public async Task<ActionResult> Register(FormCollection collection)
 		{
-			string email = collection["Email"].Trim();
-			string login = collection["Login"].Trim();
-			User tmpEmailUser = db.Users.Where(u => u.Email == email).FirstOrDefault();
-			User tmpLoginUser = db.Users.Where(u => u.Login == login).FirstOrDefault();
+			if(collection != null)
+            {
+				if(collection["Email"] != null && collection["Login"] !=null && collection["BirthDate"] != null && collection["Password"] != null)
+                {
+					string email = collection["Email"].Trim();
+					string login = collection["Login"].Trim();
+					User tmpEmailUser = db.Users.Where(u => u.Email == email).FirstOrDefault();
+					User tmpLoginUser = db.Users.Where(u => u.Login == login).FirstOrDefault();
 
-			bool properDate = DateTime.TryParse(collection["BirthDate"], out DateTime dataUrodzenia);
-			bool properAge = Utilities.CheckRegistrationAge(dataUrodzenia);
-			bool uniqueEmail = tmpEmailUser is null; // If user with given EMAIL doesn't exist returns true that allows to register, works like "tmpEmailUser is null ? true : null"
-			bool uniqueLogin = tmpLoginUser is null; // If user with given LOGIN doesn't exist returns true that allows to register, works like "tmpLoginUser is null ? true : null"
+					bool properDate = DateTime.TryParse(collection["BirthDate"], out DateTime dataUrodzenia);
+					bool properAge = Utilities.CheckRegistrationAge(dataUrodzenia);
+					bool uniqueEmail = tmpEmailUser is null; // If user with given EMAIL doesn't exist returns true that allows to register, works like "tmpEmailUser is null ? true : null"
+					bool uniqueLogin = tmpLoginUser is null; // If user with given LOGIN doesn't exist returns true that allows to register, works like "tmpLoginUser is null ? true : null"
+					bool minimalPswLength = collection["Password"].Length >= 8;
 
-			if (!properDate) ViewBag.DateMessage = "Invalid date.";
-			if (!properAge) ViewBag.AgeMessage = "You must be at least 13 years old.";
-			if (!uniqueEmail) ViewBag.EmailMessage = "Account with that email already exists!";
-			if (!uniqueLogin) ViewBag.LoginMessage = "Account with that login already exists!";
+					if (!properDate) ViewBag.DateMessage = "Nieprawidłowa data.";
+					if (!properAge) ViewBag.AgeMessage = "Musisz mieć ukończone przynajmniej 13 lat.";
+					if (!uniqueEmail) ViewBag.EmailMessage = "Konto z podanym emailem już istnieje!";
+					if (!uniqueLogin) ViewBag.LoginMessage = "Konto z podanym loginem już istnieje!";
+					if (!minimalPswLength) ViewBag.minimalPswLength = "Hasło musi być dłuższe niż 8 znaków!";
 
-			if (ModelState.IsValid && properDate && properAge && uniqueEmail && uniqueLogin)
-			{
-				User user = new User()
-				{
-					FirstName = collection["FirstName"].Trim(),
-					LastName = collection["LastName"].Trim(),
-					Login = login,
-					EncryptedPassword = Cryptographing.Encrypt(collection["Password"]),
-					Email = email,
-					BirthDate = dataUrodzenia,
-					CreationDate = DateTime.Now,
-					IsActivated = false
-				};
-				AvatarImage avatarImage = new AvatarImage() { PathToFile = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg", User = user };
+					if (ModelState.IsValid && properDate && properAge && uniqueEmail && uniqueLogin && minimalPswLength)
+					{
+						try
+                        {
+							User user = new User()
+							{
+								FirstName = collection["FirstName"].Trim(),
+								LastName = collection["LastName"].Trim(),
+								Login = login,
+								EncryptedPassword = Cryptographing.Encrypt(collection["Password"]),
+								Email = email,
+								BirthDate = dataUrodzenia,
+								CreationDate = DateTime.Now,
+								IsActivated = false
+							};
+							AvatarImage avatarImage = new AvatarImage() { PathToFile = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg", User = user };
 
-				db.Users.Add(user);
-				db.SaveChanges();
+							db.Users.Add(user);
+							db.SaveChanges();
 
-				user.AvatarImage = avatarImage;
-				db.SaveChanges();
+							user.AvatarImage = avatarImage;
+							db.SaveChanges();
 
-				var bucket = new Bucket
-				{
-					User = db.Users.Where(i => i.Login == user.Login).First()
-				};
-				db.Buckets.Add(bucket);
-				db.SaveChanges();
+							var bucket = new Bucket
+							{
+								User = db.Users.Where(i => i.Login == user.Login).First()
+							};
+							db.Buckets.Add(bucket);
+							db.SaveChanges();
 
-				Order UniqueOrderForThatUser = new Order
-				{
-					User = db.Users.Where(i => i.Login == user.Login).First()
-				};
+							Order UniqueOrderForThatUser = new Order
+							{
+								User = db.Users.Where(i => i.Login == user.Login).First()
+							};
 
-				db.Orders.Add(UniqueOrderForThatUser);
-				db.SaveChanges();
+							db.Orders.Add(UniqueOrderForThatUser);
+							db.SaveChanges();
 
-
-				Task.Run(() => EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email));
-				return RedirectToAction("Login");
-			}
+							Task.Run(() => EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email));
+							return RedirectToAction("Login");
+						}
+						catch(Exception ex)
+                        {
+							Debug.WriteLine(ex.StackTrace);
+							ViewBag.SomethingWentWrong = "Coś poszło nie tak";
+                        }
+					}
+				}
+            }
 			return View();
 		}
 
@@ -139,34 +154,40 @@ namespace ShopApp.Controllers
 		[HttpPost]
 		public ActionResult Login(FormCollection collection)
 		{
-			var userIdenticator = collection["UserIdenticator"];
-			var password = Cryptographing.Encrypt(collection["EncryptedPassword"]);
-
-			User user = null;
-
-			if (userIdenticator != null && userIdenticator.Contains("@"))
-				user = db.Users.Where(x => x.Email == userIdenticator && x.EncryptedPassword == password).SingleOrDefault();
-			else
-				user = db.Users.Where(x => x.Login == userIdenticator && x.EncryptedPassword == password).SingleOrDefault();
-
-			if (user != null)
+			if (collection["UserIdenticator"] != null && collection["EncryptedPassword"] != null)
 			{
-				FormsAuthentication.SetAuthCookie(user.Login, (collection["rememberMeInput"] == "rememberMe"));
+				var userIdenticator = collection["UserIdenticator"];
+				var password = Cryptographing.Encrypt(collection["EncryptedPassword"]);
 
-				if (user.AvatarImage == null)
+				User user = null;
+
+				if (userIdenticator != null && userIdenticator.Contains("@"))
+					user = db.Users.Where(x => x.Email == userIdenticator && x.EncryptedPassword == password).FirstOrDefault();
+				else
+					user = db.Users.Where(x => x.Login == userIdenticator && x.EncryptedPassword == password).FirstOrDefault();
+
+				if (user != null)
 				{
-					Debug.WriteLine("Brak zdjęcia dodam defaultowe");
-					AvatarImage avatarImage = new AvatarImage() { PathToFile = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg", User = user };
+					FormsAuthentication.SetAuthCookie(user.Login, (collection["rememberMeInput"] == "rememberMe"));
 
-					user.AvatarImage = avatarImage;
-					db.SaveChanges();
+					if (user.AvatarImage == null)
+					{
+						Debug.WriteLine("Brak zdjęcia dodam defaultowe");
+						AvatarImage avatarImage = new AvatarImage() { PathToFile = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg", User = user };
+
+						user.AvatarImage = avatarImage;
+						db.SaveChanges();
+					}
+
+					ViewBag.UserAvatarURL = user.AvatarImage.PathToFile;
+					return RedirectToAction("Index", "Home");
 				}
-
-				ViewBag.UserAvatarURL = user.AvatarImage.PathToFile;
-				return RedirectToAction("Index", "Home");
+				ViewBag.ErrorMessage = "Nieprawidłowe dane logowania";
 			}
-			ViewBag.ErrorMessage = "Nieprawidłowe dane logowania";
+			else
+				ViewBag.SomethingWentWrong = "Coś poszło nie tak.";
 			return View();
+
 		}
 
 		[HttpGet]
@@ -291,11 +312,11 @@ namespace ShopApp.Controllers
 					var bundles = db.Bundles.Where(i => i.User.UserID == ViewUser.UserID && i.IsActive).ToList();
 					if (user != null)
 					{
-						var FavouriteOffersIDs = user.FavouriteOffer?.Where(i => i.Offer != null && i.Offer.IsActive).Select(i => i.FavouriteOfferID).ToList();
-						var FavouriteBundlesIDs = user.FavouriteOffer?.Where(i => i.Bundle != null && i.Bundle.IsActive).Select(i => i.FavouriteOfferID).ToList();
+						var FavouriteOffersIDs = user.FavouriteOffer?.Where(i => i.Offer != null && i.Offer.IsActive).Select(i => i.Offer.OfferID).ToList();
+						var FavouriteBundlesIDs = user.FavouriteOffer?.Where(i => i.Bundle != null && i.Bundle.IsActive).Select(i => i.Bundle.BundleID).ToList();
 
-						var InBucketOffersIDs = user.Bucket?.BucketItems?.Where(i => i.Offer != null && i.Offer.IsActive).Select(i => i.BucketItemID).ToList();
-						var InBucketBundlesIDs = user.Bucket?.BucketItems?.Where(i => i.Bundle != null && i.Bundle.IsActive).Select(i => i.BucketItemID).ToList();
+						var InBucketOffersIDs = user.Bucket?.BucketItems?.Where(i => i.Offer != null && i.Offer.IsActive).Select(i => i.Offer.OfferID).ToList();
+						var InBucketBundlesIDs = user.Bucket?.BucketItems?.Where(i => i.Bundle != null && i.Bundle.IsActive).Select(i => i.Bundle.BundleID).ToList();
 
 						if (offers != null)
 							offersAndBundles.Offers = offers;
