@@ -439,6 +439,7 @@
     <Compile Include="Utility\EmailManager.cs" />
     <Compile Include="Utility\FileManager.cs" />
     <Compile Include="Utility\Utilities.cs" />
+    <Compile Include="ViewModels\BucketViewModel.cs" />
     <Compile Include="ViewModels\CashOutViewModel.cs" />
     <Compile Include="ViewModels\OfferIndexViewModel.cs" />
     <Compile Include="ViewModels\OffersAndBundles.cs" />
