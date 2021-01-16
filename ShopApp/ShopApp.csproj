@@ -547,6 +547,7 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="LICENSE" />
     <Content Include="Scripts\OrderHistoryScript.js" />
+    <Content Include="Scripts\passwordRestore.js" />
     <Content Include="Scripts\UserInformation.js" />
     <Content Include="Scripts\UserPanelEditAvatar.js" />
     <Content Include="Scripts\UserPanelFilters.js" />
