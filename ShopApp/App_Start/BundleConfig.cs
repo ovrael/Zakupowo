@@ -23,6 +23,9 @@ namespace ShopApp
                        "~/Scripts/register.js",
                        "~/Scripts/login.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/RestorePasswordjs").Include(
+                       "~/Scripts/passwordRestore.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/Layoutjs").Include(
                         "~/Scripts/layout.js"));
 

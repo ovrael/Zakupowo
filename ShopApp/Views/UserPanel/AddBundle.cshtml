@@ -27,7 +27,7 @@
 				@using (Html.BeginForm("AddBundle", "UserPanel", FormMethod.Post, new { enctype = "multipart/form-data" }))
 				{
 					<div class="row">
-						<div class="col-12 col-lg-8 col-md-8 " >
+						<div class="col-12 col-lg-8 col-md-8 ">
 
 							<div class="row row-offer mr-1 ml-0 pb-2">
 								<div class="col-10 col-md-3 col-lg-3">
@@ -65,12 +65,12 @@
 						<table class="table table-fixed">
 							<tbody>
 								@foreach (var offer in Model)
-				{
+								{
 
-					string id = "Offer_" + offer.OfferID;
-					string offerRowID = "OfferRow_" + offer.OfferID;
-					string offerPriceID = "OfferPrice_" + offer.OfferID;
-					string offerQuantity = "OffersQuantity_" + offer.OfferID;
+									string id = "Offer_" + offer.OfferID;
+									string offerRowID = "OfferRow_" + offer.OfferID;
+									string offerPriceID = "OfferPrice_" + offer.OfferID;
+									string offerQuantity = "OffersQuantity_" + offer.OfferID;
 
 									<tr class="offer-row" id="@offerRowID">
 
@@ -98,7 +98,7 @@
 										</td>-->
 										@*OFFER PRICE*@
 										<td style="width:15%;" class="td-text" id="@offerPriceID">
-											@offer.Price.ToString("N2") zł
+											@offer.Price.ToString("N2").Replace(",", " ") zł
 										</td>
 									</tr>
 								}
