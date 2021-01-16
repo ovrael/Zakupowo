@@ -304,9 +304,32 @@ namespace ShopApp.Controllers
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
             if (user != null)
             {
-                var BucketItems = user.Bucket.BucketItems.GroupBy(i => i.Offer != null ? i.Offer.User : i.Bundle.User);
-                //Consider using Critical error page for below
-                //Consinder deleting 0 quant items;
+                List<string> InActiveBucketItems = new List<string>();
+                var BucketItems = user.Bucket.BucketItems.ToList();
+                if (BucketItems != null)
+                {
+                    foreach (var BucketItem in BucketItems)
+                    {
+                        if (BucketItem.Offer != null && !BucketItem.Offer.IsActive)
+                        {
+                            InActiveBucketItems.Add(BucketItem.Offer.Title);
+                            RemoveFromBucket("offer", BucketItem.Offer.OfferID);
+                        }
+                        else if (BucketItem.Bundle != null && !BucketItem.Bundle.IsActive)
+                        {
+                            InActiveBucketItems.Add(BucketItem.Bundle.Title);
+                            RemoveFromBucket("bundle", BucketItem.Bundle.BundleID);
+                        }
+                    }
+                }
+
+                var BucketItemsGrouped = user.Bucket.BucketItems.GroupBy(i => i.Offer != null ? i.Offer.User : i.Bundle.User);
+
+                BucketViewModel BucketViewModel = new BucketViewModel()
+                {
+                    GroupedBucketItems = BucketItemsGrouped,
+                    InActiveBucketItems = InActiveBucketItems
+                };
                 if (TempData["ErrorMessage"] == "TransactionRequestError")
                 {
                     ViewBag.NotEveryBucketCouldHaveBeenSold = "Niestety, nie udało się zakupić wszystkich przedmiotów.";
@@ -319,7 +342,7 @@ namespace ShopApp.Controllers
                 if ((bool)!user?.IsActivated)
                     ViewBag.UserIsNotActivated = "Aby dokonać zakupu konto musi być aktywowane";
 
-                return View(BucketItems);
+                return View(BucketViewModel);
             }
             else
                 //Returning 404 when somehow user is authorized but not in Database
@@ -330,8 +353,6 @@ namespace ShopApp.Controllers
         [Authorize]
         public ActionResult Bucket(FormCollection collection)
         {
-            Stopwatch watcher = new Stopwatch();
-            watcher.Start();
             var user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
             if (user != null)
             {
@@ -381,7 +402,6 @@ namespace ShopApp.Controllers
                                 }
                             }
                         }
-                        Debug.WriteLine("Przed ifem " + watcher.ElapsedMilliseconds);
 
                         //If collection offers bundles and sellers all were valid => View if not => Redirect
                         if (BucketItemsListToBuy.Count() > 0)
@@ -393,7 +413,6 @@ namespace ShopApp.Controllers
                                     if (item != null && item.Order.Contains(user.Order))
                                         item.Order.Remove(user.Order);
 
-                                Debug.WriteLine("1 " + watcher.ElapsedMilliseconds);
 
 
                                 //user.Order.BucketItems.Clear();
@@ -401,7 +420,6 @@ namespace ShopApp.Controllers
 
                                 user.Order.BucketItems = BucketItemsListToBuy;
 
-                                Debug.WriteLine("2 " + watcher.ElapsedMilliseconds);
 
 
                                 foreach (var item in user.Order.BucketItems)
@@ -410,7 +428,6 @@ namespace ShopApp.Controllers
                                 ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
 
 
-                                Debug.WriteLine("3 " + watcher.ElapsedMilliseconds);
 
                             }
                             catch (Exception e)
@@ -420,8 +437,6 @@ namespace ShopApp.Controllers
                             }
 
                             TempData["RedirectedFrom"] = "Bucket";
-                            Debug.WriteLine("Przed stopem " + watcher.ElapsedMilliseconds);
-                            watcher.Stop();
                             return RedirectToAction("Order");
                         }
                         return RedirectToAction("Bucket");

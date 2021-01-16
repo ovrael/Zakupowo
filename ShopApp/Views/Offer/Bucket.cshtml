@@ -1,4 +1,4 @@
-﻿@model IEnumerable<IGrouping<ShopApp.Models.User, ShopApp.Models.BucketItem>>
+﻿@model ShopApp.ViewModels.BucketViewModel
 
 @Styles.Render("~/bundles/Bucket")
 
@@ -8,7 +8,6 @@
         <hr />
     </div>
 </div>
-
 <div class="bucket mb-2 mx-auto">
     <div class="items">
         @if (ViewBag.NotEveryBucketCouldHaveBeenSold != null && ViewBag.PleaseContactWithSupport != null)
@@ -21,9 +20,18 @@
             </p>
         </div>
         }
+
+        @if(Model.InActiveBucketItems != null && Model.InActiveBucketItems.Count > 0)
+        {
+            foreach(var item in Model.InActiveBucketItems)
+            {
+                <p>Nazwa itemku: @item</p>
+            }
+        }
+
         <form method="post">
 
-            @foreach (var Seller in Model)
+            @foreach (var Seller in Model.GroupedBucketItems)
             {
             <div class="items-group shadow mt-3 selected" selected>
                 <div class="row items-header p-3">
