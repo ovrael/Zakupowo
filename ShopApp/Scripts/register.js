@@ -4,30 +4,28 @@
             error.appendTo($("#" + element.attr('id') + "_validation"));
         },
         rules: {
-            firstNameRegisterInput: "required",
-            lastNameRegisterInput: "required",
-            emailAddressRegisterInput: "required",
-            passwordRegisterInput: {
-                required: true,
+            Password: {
                 minlength: 8
             },
             passwordRegisterInput2: {
                 required: true,
                 equalTo: "#passwordRegisterInput"
+            },
+            BirthDate: {
+                required: true,
+                minAge: 13
             }
         },
         messages: {
-            firstNameRegisterInput: "Please enter your first name",
-            lastNameRegisterInput: "Please enter your last name",
-            emailAddressRegisterInput: "Please enter your e-mail",
-            passwordRegisterInput: {
-                required: "Please enter your password",
-                minlength: "Password must be at least 8 characters"
+            Password: {
+                minlength: "Hasło musi posiadać co najmniej 8 znaków."
             },
             passwordRegisterInput2: {
-                required: "Please confirm your password",
-                equalTo: "Passwords do not match"
+                equalTo: "Hasła się nie zgadzają."
             },
+            BirthDate: {
+                minAge: "Musisz mieć co najmniej 13 lat."
+            }
         },
     });
 });

@@ -83,19 +83,7 @@ function createMessageWindow(userLogin) {
                 if (actualUserBox != undefined) {
                     actualUserBox.classList.remove("active");
                 }
-                //$("#div-user-boxes").append(
-                //    "<a onclick=\"scrollToBottom(this.id)\" id=\"" + tabID + "\" data-toggle=\"pill\" href=\"" + hrefLink + "\" role=\tab\" class=\"user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 active nav-link\">"
-                //    + "<div class=\"media\">"
-                //    + "<img src=\"" + data.userAvatarURL + "\" alt=\"user\" width=\"50\" class=\"rounded-circle\">"
-                //    + "<div class=\"media-body ml-4\">"
-                //    + "<div class=\"d-flex align-items-center justify-content-between mb-1\">"
-                //    + "<h6 class=\"mb-0\">" + userLogin + "</h6><small id=\"" + dateID + "\" class=\"small font-weight-bold\"></small>"
-                //    + "</div>"
-                //    + "<p style=\"color:lightskyblue\" id=\"" + pID + "\" class=\"font-italic mb-0 text-small\"></p>"
-                //    + "</div>"
-                //    + "</div>"
-                //    + "</a>"
-                //);
+
                 $("#div-user-boxes").append(
                     "<a onclick=\"scrollToBottom(this.id)\" id=\"" + tabID + "\" data-toggle=\"pill\" href=\"" + hrefLink + "\" role=\tab\" class=\"user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 active nav-link\">"
                     + "<div class=\"users-box-content ml-3\" style=\"display:grid\">"
@@ -260,28 +248,16 @@ function createMessageWindow(userLogin) {
         var conversationID = "v-pills-" + idHelper;
         var hrefLink = "#" + conversationID;
 
-        //$("#div-user-boxes").prepend(
-        //    "<a onclick=\"scrollToBottom(this.id)\" id=\"" + tabID + "\" data-toggle=\"pill\" href=\"" + hrefLink + "\" role=\tab\" class=\"user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 nav-link\">"
-        //    + "<div class=\"media\">"
-        //    + "<img src=\"" + avatarImmageURL + "\" alt=\"user\" width=\"50\" class=\"rounded-circle\">"
-        //    + "<div class=\"media-body ml-4\">"
-        //    + "<div class=\"d-flex align-items-center justify-content-between mb-1\">"
-        //    + "<h6 class=\"mb-0\">" + senderName + "</h6><small id=\"" + dateID + "\" class=\"small font-weight-bold\"></small>"
-        //    + "</div>"
-        //    + "<p style=\"color:lightskyblue\" id=\"" + pID + "\" class=\"font-italic mb-0 text-small\"></p>"
-        //    + "</div>"
-        //    + "</div>"
-        //    + "</a>"
-        //);
         $("#div-user-boxes").append(
             "<a onclick=\"scrollToBottom(this.id)\" id=\"" + tabID + "\" data-toggle=\"pill\" href=\"" + hrefLink + "\" role=\tab\" class=\"user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 active nav-link\">"
             + "<div class=\"users-box-content ml-3\">"
-            +"<div class=\"users-box-content ml-3\" style=\"display:grid\">"
+            + "<div class=\"row media-body \" style=\"display:grid\">"
             + "<div class=\"d-flex justify-content-between mb-1\">"
-            + "<img src=\"" + avatarImmageURL + "\" alt=\"user\" width=\"45\" class=\"p-2 rounded-circle img-user-box\">"
-            + "<h6 class=\"p-2 col-6 mb-0 pl-3\">" + userLogin + "</h6><small  id=\"" + dateID + "\" class=\"p-2 mr-5  small font-weight-bold \"></small>"
+            + "<img src=\"" + avatarImmageURL + "\" alt=\"" + userLogin + "\" width=\"45\" class=\"p-2 rounded-circle img-user-box\">"
+            + "<h6 class=\"p-2 col-6 mb-0 pl-3\">" + userLogin + "</h6>"
+            + "<small  id=\"" + dateID + "\" class=\"p-2 mr-5  small font-weight-bold \"></small>"
             + "</div>"
-            + "<div style=\"color:black;overflow:hidden\" id=\"" + pID + "\" class=\"col-10 short-ms pl-3 ml-5  font-italic mb-0 text-small\"></div>"
+            + "<div style=\"color:black;overflow:hidden\" id=\"" + pID + "\" class=\"col-10 short-ms pl-3 ml-5  font-weight-bold mb-0 text-small\"></div>"
             + "</div>"
             + "</div>"
             + "</a>"
@@ -306,7 +282,12 @@ function createMessageWindow(userLogin) {
         var date = $(dateID)[0];
 
         if (paragraph != undefined) {
-            paragraph.innerHTML = message;
+            var content = message;
+            if (message.length > 20)
+                content = message.substring(0, 20) + "...";
+
+            paragraph.innerHTML = content;
+
         }
 
         if (date != undefined) {
@@ -348,7 +329,7 @@ function createMessageWindow(userLogin) {
             + "</div>"
             + "</div>"
         );
-  
+
 
         if (actualChatBox != undefined && receivedMessageChatBox != undefined && actualChatBox.id == receivedMessageChatBox.id) {
             receivedMessageChatBox.scrollTop = receivedMessageChatBox.scrollHeight;
@@ -371,7 +352,12 @@ function createMessageWindow(userLogin) {
         var date = $(dateID)[0];
 
         date.innerHTML = hours + ":" + minutes;
-        paragraph.innerHTML = "Ty: " + message;
+
+        var content = message;
+        if (message.length > 20)
+            content = message.substring(0, 20) + "...";
+
+        paragraph.innerHTML = "Ty: " + content;
 
         $(conversationID).append(
             "<div class=\"media w-50 ml-auto mb-3 message\">"
@@ -445,7 +431,7 @@ function createMessageWindow(userLogin) {
             + userAvatar
             + userData
             + "</a>";
-         
+
 
 
 

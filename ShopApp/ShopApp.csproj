@@ -679,11 +679,8 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\UserPanel\EditBasicInfo_UNUSED.cshtml" />
     <Content Include="Views\UserPanel\Transactions.cshtml" />
     <Content Include="Views\UserPanel\Communicator.cshtml" />
-    <Content Include="Views\UserPanel\EditPassword_UNUSED.cshtml" />
-    <Content Include="Views\UserPanel\ShippingAdresses_UNUSED.cshtml" />
     <Content Include="Views\Database\AddCategory.cshtml" />
     <Content Include="Views\Database\AddToBundle.cshtml" />
     <Content Include="Views\Database\BucketIndex.cshtml" />
@@ -699,14 +696,10 @@
     <Content Include="Views\UserPanelJonak\AddOrEdit.cshtml" />
     <Content Include="Views\UserPanelJonak\Index.cshtml" />
     <Content Include="Views\UserPanel\_SideBar.cshtml" />
-    <Content Include="Views\UserPanel\AddShippingAdress_UNUSED.cshtml" />
-    <Content Include="Views\UserPanel\_SettingsSideBar_UNUSED.cshtml" />
-    <Content Include="Views\UserPanel\EditAvatar_UNUSED.cshtml" />
     <Content Include="Views\Offer\Index.cshtml" />
     <Content Include="Views\Home\Kat.cshtml" />
     <Content Include="Views\Offer\Bucket.cshtml" />
     <Content Include="Views\User\ActivateAccount.cshtml" />
-    <Content Include="Views\UserPanel\PasswordChange_UNUSED.cshtml" />
     <Content Include="Views\Offer\SuccesfulShopping.cshtml" />
     <Content Include="Views\UserPanel\Offers.cshtml" />
     <Content Include="Views\UserPanel\Bundles.cshtml" />
