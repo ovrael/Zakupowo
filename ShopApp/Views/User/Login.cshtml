@@ -32,6 +32,11 @@
                 {
                     <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
                 }
+                
+                @if (ViewBag.SomethingWentWrong != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.SomethingWentWrong</div>
+                }
             </div>
         </form>
     </div>

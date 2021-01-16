@@ -20,32 +20,30 @@
 
 ## General info
 
-This is our academic project which is made using agile working. Our purpose is to make fully working site where users can buy / sell things.
+This is our academic project which is made using agile working. Our purpose is to make fully working site where users make buy / sell transactions.
 
 ## Screenshots
 
 <img src="./ShopApp/Images/ReadMeImages/RegistrationView.png"/>
 <img src="./ShopApp/Images/ReadMeImages/MainView.png"/>
-<img src="./ShopApp/Images/ReadMeImages/SettingsView.png"/>
-<img src="./ShopApp/Images/ReadMeImages/AdressesView.png"/>
+<img src="./ShopApp/Images/ReadMeImages/Messenger.png"/>
 
-<!-- ![Registration](./img/RegistrationView.png)
-![Main](./img/MainView.png)
-![User panel](./img/SettingsView.png)
-![Shipping adresses](./img/AdressesView.png) -->
 
 ## Technologies
 
 Front-end:
-* HTML - version 5.0
-* Bootstrap - version 4.5.3
-* CSS - version 3.0
+* HTML v 5.0
+* Bootstrap v 4.5.3
+* CSS v 3.0
 
 Back-end:
-* C# - version 8.0
-* .Net Framework - version 4.7.2
-* Ajax
-* Entity framework
+* C# v 8.0
+* .Net Framework v 4.7.2
+* Entity framework v 6.1.3
+* SignalR v 2.4.1
+* Croppie v 2.6.5
+* MimeKit v 2.10.0
+* AJAX
 
 Cloud:
 * Azure Database
@@ -54,16 +52,12 @@ Cloud:
 
 ## Features
 
-* Browse offers from 14 different categories.
-* Follow each offer.
-* Add offer with multpile pictures.
-* Manage your account via user panel (e.g. many shipping adresses).
-
-To-do:
-
-* Multilingual.
-* Improve bucket.
-* Browse favourite (followed) offers.
+* 14 different categories.
+* Browsing offers and bundles.
+* Favourites system.
+* Creating offers and bundles (with discounts).
+* Transactions system.
+* Cummunicator.
 
 ## Status
 

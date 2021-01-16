@@ -15,20 +15,29 @@
             <div>
                 @if (ViewBag.DateMessage != null)
                 {
-                    <label>@ViewBag.DateMessage</label>
+                    <label class="text-danger">@ViewBag.DateMessage</label>
                 }
                 @if (ViewBag.AgeMessage != null)
                 {
-                    <label>@ViewBag.AgeMessage</label>
+                    <label class="text-danger">@ViewBag.AgeMessage</label>
                 }
                 @if (ViewBag.EmailMessage != null)
                 {
-                    <label>@ViewBag.EmailMessage</label>
+                    <label class="text-danger">@ViewBag.EmailMessage</label>
                 }
                 @if (ViewBag.LoginMessage != null)
                 {
-                    <label>@ViewBag.LoginMessage</label>
+                    <label class="text-danger">@ViewBag.LoginMessage</label>
                 }
+                @if (ViewBag.minimalPswLength != null)
+                {
+                    <label class="text-danger">@ViewBag.minimalPswLength</label>
+                }
+                @if (ViewBag.SomethingWentWrong != null)
+                {
+                    <label class="text-danger">@ViewBag.SomethingWentWrong</label>
+                }
+
             </div>
 
             <br>

@@ -12,7 +12,7 @@ namespace ShopApp.Utility
 {
 	public class FileManager
 	{
-		static readonly string[] imageValidExtensions = new string[] { "jpg", "png", "jpeg, blob" };
+		//static readonly string[] imageValidExtensions = new string[] { "jpg", "png", "jpeg, blob" };
 		static readonly string[] documentValidFileExtensions = new string[] { "pdf", "doc", "docx" };
 
 		public static async Task<string> UploadAvatar(HttpPostedFileBase file, int userID)
@@ -29,8 +29,8 @@ namespace ShopApp.Utility
 				string fileName = string.Empty;
 				string fileExtension = file.FileName.Substring(file.FileName.LastIndexOf('.') + 1);
 
-				if (!imageValidExtensions.Contains(fileExtension.ToLower()))
-					throw new Exception("The file extension is invalid!");
+				//if (!imageValidExtensions.Contains(fileExtension.ToLower()))
+				//	throw new Exception("The file extension is invalid!");
 
 
 				CloudStorageAccount cloudStorageAccount = ConnectionString.GetConnectionString();
@@ -85,8 +85,8 @@ namespace ShopApp.Utility
 				string fileName = string.Empty;
 				string fileExtenstion = file.FileName.Substring(file.FileName.LastIndexOf('.') + 1);
 
-				if (!imageValidExtensions.Contains(fileExtenstion.ToLower()))
-					throw new Exception("The file extension is invalid!");
+				//if (!imageValidExtensions.Contains(fileExtenstion.ToLower()))
+				//	throw new Exception("The file extension is invalid!");
 
 
 				CloudStorageAccount cloudStorageAccount = ConnectionString.GetConnectionString();
@@ -143,8 +143,8 @@ namespace ShopApp.Utility
 				string fileName = string.Empty;
 				string fileExtenstion = file.FileName.Substring(file.FileName.LastIndexOf('.') + 1);
 
-				if (!imageValidExtensions.Contains(fileExtenstion.ToLower()))
-					throw new Exception("The file extension is invalid!");
+				//if (!imageValidExtensions.Contains(fileExtenstion.ToLower()))
+				//	throw new Exception("The file extension is invalid!");
 
 
 				CloudStorageAccount cloudStorageAccount = ConnectionString.GetConnectionString();
