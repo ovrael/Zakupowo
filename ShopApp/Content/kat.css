@@ -150,7 +150,7 @@
 .in-bucket, .in-bucket:hover, .in-bucket:active, .in-bucket:focus {
     cursor: not-allowed;
     color: grey;
-    font-size: 10px;
+    font-size: 10px !important;
 }
 
 .offer {
@@ -182,5 +182,8 @@
     }
     .offers-header {
         width: 60%;
+    }
+    .in-bucket, .in-bucket:hover, .in-bucket:active, .in-bucket:focus {
+        font-size: 14px !important;
     }
 }
