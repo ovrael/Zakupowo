@@ -12,7 +12,7 @@
             </h2>
             <label for="emailAddressInput" class="sr-only">Adres email</label>
             <input id="emailAddressInput" name="UserIdenticator" class="form-control mb-2" placeholder="Adres email lub login" required autofocus>
-            @*<div id="emailAddressInput_validation" class="invalid-feedback d-block text-left"></div>*@
+            <div id="emailAddressInput_validation" class="invalid-feedback d-block text-left"></div>
             @*<div> @Html.ValidationMessageFor(Model => Model.Email)</div>*@
             <label for="password" class="sr-only">Hasło</label>
             <input type="password" id="passwordInput" name="EncryptedPassword" placeholder="Hasło" class="form-control mb-2" required>
@@ -37,4 +37,4 @@
     </div>
 </div>
 
-@Scripts.Render("~/Scripts/Userjs")
+@Scripts.Render("~/bundles/Userjs")
