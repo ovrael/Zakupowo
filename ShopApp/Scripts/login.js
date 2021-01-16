@@ -11,10 +11,10 @@
             },
         },
         messages: {
-            emailAddressInput: "Please enter your e-mail",
+            emailAddressInput: "Podaj swój e-mail",
             passwordInput: {
-                required: "Please enter your password",
-                minlength: "Password must be at least 8 characters"
+                required: "Podaj swoje hasło",
+                minlength: "Hasło musi posiadać co najmniej 8 znaków"
             },
         },
     });

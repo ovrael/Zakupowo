@@ -12,7 +12,7 @@ namespace ShopApp
                         "~/Scripts/jquery-3.5.1.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+                        "~/Scripts/jquery.validate.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrapjs").Include(
                          "~/Scripts/bootstrap.js",
