@@ -75,7 +75,7 @@
                                 <i class="fas fa-times"></i>
                             </div>
                             <div class="col-5 col-lg-3 item-image">
-                                <img class="img-fluid" src="@item.Bundle.Offers.First().OfferPictures.First().PathToFile">
+                                <img class="img-fluid" src="@item.Bundle.BundlePicture.PathToFile">
                             </div>
                             <div class="col-5 col-lg-3 item-name">
                                 <a href="@Url.Action("Bundle", "Offer", new { BundleID = item.Bundle.BundleID })">@item.Bundle.Title</a>

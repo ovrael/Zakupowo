@@ -212,7 +212,7 @@ namespace ShopApp.Controllers
 			return View();
 		}
 		[HttpGet]
-		public ActionResult PasswordReset(string e)
+		public ActionResult PasswordReset()
 		{
 			if (Session["ResetPasswordEmail"] != null && !User.Identity.IsAuthenticated)
 				return View();

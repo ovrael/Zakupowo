@@ -65,7 +65,7 @@
                             {
                                 <div class="row item justify-content-center align-items-center text-center">
                                     <div class="col-6 col-lg-4 item-image">
-                                        <img class="img-fluid" src="@item.Bundle.Offers.First().OfferPictures.First().PathToFile">
+                                        <img class="img-fluid" src="@item.Bundle.BundlePicture.PathToFile">
                                     </div>
                                     <div class="col-6 col-lg-4 item-desc">
                                         <p><a class="product-name" href="@Url.Action("Bundle","Offer",new { BundleId = item.Bundle.BundleID })">@item.Bundle.Title</a></p>
