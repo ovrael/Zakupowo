@@ -6,248 +6,248 @@
 @Html.Partial("_SideBar")
 
 @{
-    bool lackMessages = ViewBag.LackMessages == null ? false : true;
+	bool lackMessages = ViewBag.LackMessages == null ? false : true;
 
-    ShopApp.Models.User lastUser = null;
-    if (!lackMessages)
-    {
-        lastUser = HttpContext.Current.User.Identity.Name == Model.First().Sender.Login ? Model.First().Receiver : Model.First().Sender;
-    }
+	ShopApp.Models.User lastUser = null;
+	if (!lackMessages)
+	{
+		lastUser = HttpContext.Current.User.Identity.Name == Model.First().Sender.Login ? Model.First().Receiver : Model.First().Sender;
+	}
 
-    List<List<ShopApp.Models.Message>> allMessages = (List<List<ShopApp.Models.Message>>)ViewBag.AllMessages;
+	List<List<ShopApp.Models.Message>> allMessages = (List<List<ShopApp.Models.Message>>)ViewBag.AllMessages;
 }
 
 <div class="container pl-5 pr-1 pb-5">
 
-    <div class="col-12 col-lg-4  pb-3 pl-4">
-        <h4> Napisz wiadomość do: </h4>
-    </div>
-    <div class="row rounded-lg overflow-hidden pl-lg-4 pl-md-4 mr-5">
-        <div class="col-12 col-lg-5 pl-4 pr-5 pb-4">
-            <form id="create-message-user-form " class="bg-light">
-                <div class="input-group">
-                    <input id="create-message-user" type="text" placeholder="Login użytkownika" aria-describedby="create-message-user-btn" class="form-control rounded-0 border-0 py-4 bg-light" autocomplete="off">
-                    <i class="fas fa-user-plus pt-3 pr-2" style="color:black"></i>
-                </div>
-            </form>
+	<div class="col-12 col-lg-4  pb-3 pl-4">
+		<h4> Napisz wiadomość do: </h4>
+	</div>
+	<div class="row rounded-lg overflow-hidden pl-lg-4 pl-md-4 mr-5">
+		<div class="col-12 col-lg-5 pl-4 pr-5 pb-4">
+			<form id="create-message-user-form " class="bg-light">
+				<div class="input-group">
+					<input id="create-message-user" type="text" placeholder="Login użytkownika" aria-describedby="create-message-user-btn" class="form-control rounded-0 border-0 py-4 bg-light" autocomplete="off">
+					<i class="fas fa-user-plus pt-3 pr-2" style="color:black"></i>
+				</div>
+			</form>
 
-            <div class="userTable col-12 d-flex" style="display: -webkit-inline-box" id="usersTableBody">
-                @*<a href="#" onclick="createMessageWindow()" class="user-row row" id="userLogin" style="background-color:lightblue;">
-                                <div class="col-3">
-                                    <img src="~/Images/user.jpg" alt="user" width="50" class="rounded-circle">
-                                </div>
-                                <div style="color:black" class="td-text col-9">
-                                    UserLogin - UserFirstName
-                        </div>
-                    </a>*@
-            </div>
+			<div class="userTable col-12 d-flex" style="display: -webkit-inline-box" id="usersTableBody">
+				@*<a href="#" onclick="createMessageWindow()" class="user-row row" id="userLogin" style="background-color:lightblue;">
+								<div class="col-3">
+									<img src="~/Images/user.jpg" alt="user" width="50" class="rounded-circle">
+								</div>
+								<div style="color:black" class="td-text col-9">
+									UserLogin - UserFirstName
+						</div>
+					</a>*@
+			</div>
 
-        </div>
-    </div>
+		</div>
+	</div>
 
-    <div class="row rounded-lg overflow-hidden pl-lg-5 pl-md-4">
+	<div class="row rounded-lg overflow-hidden pl-lg-5 pl-md-4">
 
-        <!-- Users box-->
-        <div class="col-2 col-lg-4 col-md-3 pl-lg-0 pl-md-0 pl-3 pr-0">
-            <div class="bg-white pb-4 pb-lg-0 pb-md-0">
+		<!-- Users box-->
+		<div class="col-2 col-lg-4 col-md-3 pl-lg-0 pl-md-0 pl-3 pr-0">
+			<div class="bg-white pb-4 pb-lg-0 pb-md-0">
 
-                <div class="text-communicator bg-gray px-4 py-2 bg-light">
-                    <p class="h5 mb-0 py-1 ">Najnowsze</p>
-                </div>
+				<div class="text-communicator bg-gray px-4 py-2 bg-light">
+					<p class="h5 mb-0 py-1 ">Najnowsze</p>
+				</div>
 
-                <div class="messages-box" style="overflow-y:scroll; overflow-x:hidden">
-                    <div class="list-group rounded-0 nav-pills" role="tablist" aria-orientation="vertical" id="div-user-boxes">
-                        @{
-                            if (Model != null && Model.Count() > 0 && !lackMessages)
-                            {
-                                int n = 0;
-                                foreach (var msg in Model)
-                                {
-                                    string shortSentDate = string.Empty;
-                                    int userID = msg.Sender.Login == HttpContext.Current.User.Identity.Name ? msg.Receiver.UserID : msg.Sender.UserID;
-                                    string ariaControls = userID + "Conversation";             // userIDConversation
-                                    string tabID = ariaControls + "-tab";                      // userIDConversation-tab
-                                    string pID = ariaControls + "-p";                          // userIDConversation-p
-                                    string dateID = ariaControls + "-date";                    // userIDConversation-date
-                                    string mediaID = ariaControls + "-media";                  // userIDConversation-media
-                                    string hrefLink = "#v-pills-" + ariaControls;              // #v-pills-userIDConversation
+				<div class="messages-box" style="overflow-y:scroll; overflow-x:hidden">
+					<div class="list-group rounded-0 nav-pills" role="tablist" aria-orientation="vertical" id="div-user-boxes">
+						@{
+							if (Model != null && Model.Count() > 0 && !lackMessages)
+							{
+								int n = 0;
+								foreach (var msg in Model)
+								{
+									string shortSentDate = string.Empty;
+									int userID = msg.Sender.Login == HttpContext.Current.User.Identity.Name ? msg.Receiver.UserID : msg.Sender.UserID;
+									string ariaControls = userID + "Conversation";             // userIDConversation
+									string tabID = ariaControls + "-tab";                      // userIDConversation-tab
+									string pID = ariaControls + "-p";                          // userIDConversation-p
+									string dateID = ariaControls + "-date";                    // userIDConversation-date
+									string mediaID = ariaControls + "-media";                  // userIDConversation-media
+									string hrefLink = "#v-pills-" + ariaControls;              // #v-pills-userIDConversation
 
-                                    string selectedAreaClass = n == 0 ? "true" : "false";
-                                    string activeClass = n == 0 ? "active" : string.Empty;
-                                    string contactLogin = msg.Sender.Login;
-                                    string whomWrote = string.Empty;
-                                    string avatarURL = msg.Sender.AvatarImage.PathToFile;
-                                    string unreadClass = string.Empty;
-                                    string messageContent = msg.Content;
+									string selectedAreaClass = n == 0 ? "true" : "false";
+									string activeClass = n == 0 ? "active" : string.Empty;
+									string contactLogin = msg.Sender.Login;
+									string whomWrote = string.Empty;
+									string avatarURL = msg.Sender.AvatarImage.PathToFile;
+									string unreadClass = string.Empty;
+									string messageContent = msg.Content;
 
-                                    if (msg.Sender.Login == HttpContext.Current.User.Identity.Name) // IT MEANS WE  WRITE TO SOMEONE AND WITHOUT RESPONSE
-                                    {
-                                        contactLogin = msg.Receiver.Login;
-                                        whomWrote = "Ty: ";
-                                        avatarURL = msg.Receiver.AvatarImage.PathToFile;
-                                    }
-                                    else
-                                    {
-                                        if (msg.IsRead == false)
-                                        {
-                                            unreadClass = "undread-msg";
-                                        }
-                                    }
+									if (msg.Sender.Login == HttpContext.Current.User.Identity.Name) // IT MEANS WE  WRITE TO SOMEONE AND WITHOUT RESPONSE
+									{
+										contactLogin = msg.Receiver.Login;
+										whomWrote = "Ty: ";
+										avatarURL = msg.Receiver.AvatarImage.PathToFile;
+									}
+									else
+									{
+										if (msg.IsRead == false)
+										{
+											unreadClass = "undread-msg";
+										}
+									}
 
-                                    if (msg.SentTime.CompareTo(DateTime.Now.AddDays(-1)) < 1)
-                                    {
-                                        shortSentDate = msg.SentTime.ToShortDateString();
-                                    }
-                                    else
-                                    {
-                                        shortSentDate = msg.SentTime.ToShortTimeString();
-                                    }
+									if (msg.SentTime.CompareTo(DateTime.Now.AddDays(-1)) < 1)
+									{
+										shortSentDate = msg.SentTime.ToShortDateString();
+									}
+									else
+									{
+										shortSentDate = msg.SentTime.ToShortTimeString();
+									}
 
-                                    if (msg.Sender.AvatarImage == null)
-                                    {
-                                        msg.Sender.AvatarImage.PathToFile = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg";
-                                    }
+									if (msg.Sender.AvatarImage == null)
+									{
+										msg.Sender.AvatarImage.PathToFile = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg";
+									}
 
-                                    if (messageContent.Length > 35)
-                                    {
-                                        messageContent = messageContent.Substring(0, 30) + "...";
-                                    }
+									if (messageContent.Length > 20)
+									{
+										messageContent = messageContent.Substring(0, 20) + "...";
+									}
 
-                                    //<a onclick="scrollToBottom(this.id)" id="@tabID" data-toggle="pill" href="@hrefLink" role="tab" class="user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 @activeClass nav-link">
-                                        <a onclick="scrollToBottom(this.id)" id="@tabID" data-toggle="pill" href="@hrefLink" role="tab" class="user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 @activeClass nav-link ">
-                                            @*<div class="media" id="@mediaID">*@
-                                            <div class="" id="@mediaID">
+									//<a onclick="scrollToBottom(this.id)" id="@tabID" data-toggle="pill" href="@hrefLink" role="tab" class="user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 @activeClass nav-link">
+									<a onclick="scrollToBottom(this.id)" id="@tabID" data-toggle="pill" href="@hrefLink" role="tab" class="@unreadClass user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 @activeClass nav-link ">
+										@*<div class="media" id="@mediaID">*@
+										<div class="" id="@mediaID">
 
-                                                <div class="users-box-content ml-3">
-                                                    <div class="row media-body "style="display:grid">
-                                                       <div class="d-flex justify-content-between mb-1">
-                                                        <img src="@avatarURL" alt="user" width="45" class="p-2 rounded-circle img-user-box">
-                                                        <h6 class="p-2 col-6 mb-0 pl-3"> @contactLogin </h6>
-                                                        <small id="@dateID" class="p-2 mr-5  small font-weight-bold "> @shortSentDate </small>
-                                                    </div>
-                                                       
-                                                        <div style="color:black;overflow:hidden" id="@pID" class="col-10 short-ms pl-3 ml-5 font-weight-bold mb-0 text-small">@whomWrote@msg.Content</div>
-                                                    </div>
-                                                </div>
-                                           
-                                            </div>
-                                               </a>
-                                          
-                                
-                                    n++;
-                                }
-                            }
-                        }
+											<div class="users-box-content ml-3">
+												<div class="row media-body " style="display:grid">
+													<div class="d-flex justify-content-between mb-1">
+														<img src="@avatarURL" alt="user" width="45" class="p-2 rounded-circle img-user-box">
+														<h6 class="p-2 col-6 mb-0 pl-3"> @contactLogin </h6>
+														<small id="@dateID" class="p-2 mr-5  small font-weight-bold "> @shortSentDate </small>
+													</div>
 
-                    </div>
-                </div>
-            </div>
-        </div>
+													<div style="color:black;overflow:hidden" id="@pID" class="col-10 short-ms pl-3 ml-5 font-weight-bold mb-0 text-small">@whomWrote@messageContent</div>
+												</div>
+											</div>
 
-        <!-- Chat Box-->
+										</div>
+									</a>
 
 
-        <div class="col-9 col-lg-7 px-0 pb-3">
-            <div id="div-chat-boxes" class="col-12 tab-content p-0">
-                @{
-                    if (!lackMessages)
-                    {
-                        int k = 0;
-                        foreach (var messagesList in allMessages)
-                        {
-                            //JEŚLI ODBIORCĄ JESTEŚMY MY PRZYDZIEL NADAWCĘ WIADOMOŚCI, W PRZECIWYNYM WYPADKU (GDY MY JESTEŚMY NADAWCĄ) PRZYDZIEL NASZE KONTO
-                            ShopApp.Models.User user = messagesList[0].Receiver.Login == HttpContext.Current.User.Identity.Name ? messagesList[0].Sender : messagesList[0].Receiver;
+									n++;
+								}
+							}
+						}
 
-                            string conversationID = "v-pills-" + user.UserID + "Conversation";
-                            string ariaLabelled = conversationID + "-tab";
-                            string activeClass = user == lastUser ? "active" : string.Empty;
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Chat Box-->
 
 
-                            <div class="px-3 py-3 chat-box bg-white tab-pane @activeClass" id="@conversationID" role="tabpanel" aria-labelledby="@ariaLabelled">
+		<div class="col-9 col-lg-7 px-0 pb-3">
+			<div id="div-chat-boxes" class="col-12 tab-content p-0">
+				@{
+					if (!lackMessages)
+					{
+						int k = 0;
+						foreach (var messagesList in allMessages)
+						{
+							//JEŚLI ODBIORCĄ JESTEŚMY MY PRZYDZIEL NADAWCĘ WIADOMOŚCI, W PRZECIWYNYM WYPADKU (GDY MY JESTEŚMY NADAWCĄ) PRZYDZIEL NASZE KONTO
+							ShopApp.Models.User user = messagesList[0].Receiver.Login == HttpContext.Current.User.Identity.Name ? messagesList[0].Sender : messagesList[0].Receiver;
 
-                                @{
-                                    string customSentDate = string.Empty;
-                                    foreach (var message in messagesList)
-                                    {
+							string conversationID = "v-pills-" + user.UserID + "Conversation";
+							string ariaLabelled = conversationID + "-tab";
+							string activeClass = user == lastUser ? "active" : string.Empty;
 
-                                        if (message.SentTime.CompareTo(DateTime.Now.AddDays(-1)) < 1)
-                                        {
-                                            customSentDate = message.SentTime.ToString();
-                                        }
-                                        else
-                                        {
-                                            customSentDate = message.SentTime.ToShortTimeString();
-                                        }
 
-                                        if (message.Sender == user)
-                                        {
+							<div class="px-3 py-3 chat-box bg-white tab-pane @activeClass" id="@conversationID" role="tabpanel" aria-labelledby="@ariaLabelled">
 
-                                            @*<div class="media w-50 mb-3 message">
-                                                    <img src="@user.AvatarImage.PathToFile" alt="user" width="30" class="rounded-circle">
-                                                    <div class="media-body ml-3">
-                                                        <div class="bg-light rounded py-2 px-3 mb-2" data-toggle="tooltip" title="@customSentDate">
-                                                            <p class="text-small mb-0 text-muted">@message.Content</p>
-                                                        </div>
-                                                    </div>
-                                                </div>*@
-                                            <div class=" media w-50 mb-3 message">
-                                                <img src="@user.AvatarImage.PathToFile" alt="user" width="20" class="rounded-circle">
-                                                <div class="media-body ml-3">
-                                                    <div class="bg-light rounded py-2 px-3 mb-2" data-toggle="tooltip" style="word-break:break-all" title="@customSentDate">
-                                                        <p class="text-small mb-0 text-muted">@message.Content</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
+								@{
+									string customSentDate = string.Empty;
+									foreach (var message in messagesList)
+									{
 
-                                        if (message.Sender.Login == HttpContext.Current.User.Identity.Name)
-                                        {
-                                            <div class="media w-50 ml-auto mb-3 message">
-                                                <div class="media-body">
-                                                    <div class="bg-primary rounded py-2 px-3 mb-2" style="word-break:break-all" data-toggle="tooltip" title="@customSentDate">
-                                                        <p class="text-small mb-0 text-white">@message.Content</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
-                                    }
-                                }
-                            </div>
+										if (message.SentTime.CompareTo(DateTime.Now.AddDays(-1)) < 1)
+										{
+											customSentDate = message.SentTime.ToString();
+										}
+										else
+										{
+											customSentDate = message.SentTime.ToShortTimeString();
+										}
 
-                            k++;
-                        }
-                    }
-                    else
-                    {
-                        <div class="px-4 py-5 chat-box bg-white tab-pane active" role="tabpanel"></div>
-                    }
-                }
+										if (message.Sender == user)
+										{
 
-            </div>
-            <div class="typing-area">
-                <div class="col-13">
+											@*<div class="media w-50 mb-3 message">
+													<img src="@user.AvatarImage.PathToFile" alt="user" width="30" class="rounded-circle">
+													<div class="media-body ml-3">
+														<div class="bg-light rounded py-2 px-3 mb-2" data-toggle="tooltip" title="@customSentDate">
+															<p class="text-small mb-0 text-muted">@message.Content</p>
+														</div>
+													</div>
+												</div>*@
+											<div class=" media w-50 mb-3 message">
+												<img src="@user.AvatarImage.PathToFile" alt="user" width="20" class="rounded-circle">
+												<div class="media-body ml-3">
+													<div class="bg-light rounded py-2 px-3 mb-2" data-toggle="tooltip" style="word-break:break-all" title="@customSentDate">
+														<p class="text-small mb-0 text-muted">@message.Content</p>
+													</div>
+												</div>
+											</div>
+										}
 
-                    <!-- Typing area -->
-                    <form id="message-send-form" class="bg-light">
-                        <div class="input-group">
-                            <input id="message-content" type="text" placeholder="Napisz wiadomość" aria-describedby="send-message-btn" class="form-control rounded-0 border-0 py-4 bg-light" autocomplete="off">
-                            <div class="input-group-append">
-                                <a id="send-message-btn" class="btn btn-link"> <i class="fa fa-paper-plane"></i></a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+										if (message.Sender.Login == HttpContext.Current.User.Identity.Name)
+										{
+											<div class="media w-50 ml-auto mb-3 message">
+												<div class="media-body">
+													<div class="bg-primary rounded py-2 px-3 mb-2" style="word-break:break-all" data-toggle="tooltip" title="@customSentDate">
+														<p class="text-small mb-0 text-white">@message.Content</p>
+													</div>
+												</div>
+											</div>
+										}
+									}
+								}
+							</div>
 
-            </div>
-        </div>
-    </div>
+							k++;
+						}
+					}
+					else
+					{
+						<div class="px-4 py-5 chat-box bg-white tab-pane active" role="tabpanel"></div>
+					}
+				}
+
+			</div>
+			<div class="typing-area">
+				<div class="col-13">
+
+					<!-- Typing area -->
+					<form id="message-send-form" class="bg-light">
+						<div class="input-group">
+							<input id="message-content" type="text" placeholder="Napisz wiadomość" aria-describedby="send-message-btn" class="form-control rounded-0 border-0 py-4 bg-light" autocomplete="off">
+							<div class="input-group-append">
+								<a id="send-message-btn" class="btn btn-link"> <i class="fa fa-paper-plane"></i></a>
+							</div>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
 </div>
 
 
 
 @section scripts
 {
-    <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
-    <script src="~/signalr/js"></script>
-    <script src="~/Scripts/ChatScript.js"></script>
+	<script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+	<script src="~/signalr/js"></script>
+	<script src="~/Scripts/ChatScript.js"></script>
 }
