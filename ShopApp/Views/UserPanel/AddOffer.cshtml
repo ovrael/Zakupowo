@@ -30,7 +30,7 @@
 				</div>
 
 				<div id="addOfferMenu" class="container">
-					@using (Html.BeginForm("AddOffer", "UserPanel", FormMethod.Post, new { enctype = "multipart/form-data" }))
+					@using (Html.BeginForm("AddOffer", "UserPanel", FormMethod.Post, new { enctype = "multipart/form-data", id = "addOfferForm" }))
 					{
 						<div class="tab-content">
 							<fieldset class="add-produt">
@@ -44,6 +44,7 @@
 									<label class="col-md-4 control-label" for="Name">Nazwa oferty</label>
 									<div class="col-md-4 col-lg-6">
 										<input maxlength="60" id="product_name" name="Name" placeholder="Nazwa oferty" class="form-control input-md" required type="text" />
+										<div id="product_name_validation" class="invalid-feedback d-block"> </div>
 										<small id="descriptionCodeHelp" class="form-text text-muted">Maksymalnie 60 znaków</small>
 									</div>
 								</div>
@@ -51,7 +52,8 @@
 								<div class="form-group">
 									<label class="col-md-4 control-label" for="Description">Opis</label>
 									<div class="col-md-4 col-lg-6">
-										<textarea maxlength="700" id="product_name_fr" name="Description" placeholder="Opis" class="form-control input-md" required></textarea>
+										<textarea maxlength="700" id="product_description" name="Description" placeholder="Opis" class="form-control input-md" required></textarea>
+										<div id="product_description_validation" class="invalid-feedback d-block"> </div>
 										<small id="descriptionCodeHelp" class="form-text text-muted">Maksymalnie 700 znaków</small>
 									</div>
 								</div>
@@ -93,14 +95,15 @@
 								<div class="form-group">
 									<label class="col-md-4 control-label" for="Quantity">Ilość produktu</label>
 									<div class="col-md-4 col-lg-4">
-										<input id="available_quantity" name="Quantity" placeholder="Ilość produktu" class="form-control input-md" required type="number" value="1" min="1" max="@int.MaxValue">
+										<input id="available_quantity" name="Quantity" placeholder="Ilość produktu" class="form-control input-md" required type="number" value="1" min="1" max="100000">
+										<small id="quantityCodeHelp" class="form-text text-muted">Maksymalnie 100 000 produktów.</small>
 									</div>
 								</div>
 
 								<div class="form-group">
 									<label class="col-md-4 control-label" for="Price">Cena</label>
 									<div class="col-md-4 col-lg-4">
-										<input id="product_price" name="Price" placeholder="Cena" class="form-control input-md" required type="text">
+										<input id="product_price" name="Price" placeholder="Cena" class="form-control input-md" required type="text" min="0">
 									</div>
 								</div>
 
@@ -116,7 +119,7 @@
 
 
 									<div id="UploadImageDiv" class="col-lg-3 col-md-4 col-sm-6 mt-4">
-										<div id="UploadImageButton" class="imagePreview btn" style="background-image:url(../../Images/DodajZdjecie.png)">
+										<div id="UploadImageButton" class="imagePreview btn" style="background-image:url(../../Images/DodajZdjecie.png);  border:4px solid #FFB24A">
 											<input id="UploadImageInput" title="Dodaj zdjęcie!" type="file" multiple accept="image/*" value="Upload Photo" name="UploadOfferImage" style="opacity: 0.0; position: absolute; top: 0; left: 0; bottom: 0; right: 0; width: 100%; height:100%;" required>
 										</div>
 									</div>
@@ -143,4 +146,5 @@
 @section scripts
 {
 	<script src="~/Scripts/AddOfferScript.js"></script>
+	<script src="~/Scripts/UserPanelValidation.js"></script>
 }

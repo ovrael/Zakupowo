@@ -1038,15 +1038,24 @@ namespace ShopApp.Controllers
 
 		private bool DecrementProductFromOffer(Offer offer, double quantity)
 		{
-			double inStockNow = offer.InStockNow;
-			if (inStockNow > 1 && quantity <= inStockNow)
+			double restInSctock = offer.InStockNow - quantity;
+			if (restInSctock > 1 && quantity <= offer.InStockNow)
 			{
 				offer.InStockNow -= quantity;
 			}
-			else if (inStockNow == 1)
+			else if (restInSctock == 0)
 			{
 				offer.InStockNow = 0;
 				offer.IsActive = false;
+
+				if (offer.Bundle != null)
+				{
+					offer.Bundle.IsActive = false;
+					foreach (Offer offerInBundle in offer.Bundle.Offers)
+					{
+						offerInBundle.IsActive = false;
+					}
+				}
 			}
 			else
 			{
