@@ -34,7 +34,7 @@
 									<label class=" control-label" for="Name">Nazwa zestawu</label>
 								</div>
 								<div class="col-9">
-									<input maxlength="60" id="bundle_name" name="BundleTitle" placeholder="Bundle name" class="form-control input-md" required type="text" />
+									<input maxlength="60" id="bundle_name" name="BundleTitle" placeholder="Nazwa zestawu" class="form-control input-md" required type="text" />
 									<small id="descriptionCodeHelp" class="form-text text-muted">Maksymalnie 60 znaków</small>
 								</div>
 							</div>
@@ -54,8 +54,9 @@
 							</div>
 
 						</div>
-						<div class="col-10 ml-3 ml-lg-0 col-lg-3 col-md-3 pb-3" id="UploadImageDiv">
-							<div id="UploadImageButton" class="imagePreview btn" style=" background-image: url(../../Images/DodajZdjecie.png); border: 2px solid #ccc8c8; width:130px; height:130px">
+
+						<div class="col-10 ml-3 ml-lg-0 col-lg-3 col-md-3 pb-3 justify-content-center" id="UploadImageDiv" style="display:grid;">
+							<div id="UploadImageButton" class="imagePreview btn" style=" background-image: url(../../Images/DodajZdjecie.png); border:4px solid #FFB24A; width:150px; height:110px">
 								<input id="UploadImageInput" title="Dodaj zdjęcie!" type="file" accept="image/*" value="Upload Photo" name="UploadOfferImage" style="opacity: 0.0; position: absolute; top: 0; left: 0; bottom: 0; right: 0; width: 100%; height:100%;" required>
 							</div>
 						</div>
@@ -182,9 +183,8 @@
 					</div>
 
 					<div class="row row-offer mr-1 ml-0 pb-4 pt-4">
-
-						<div class="col-8 col-lg-2 ml-lg-5 pl-lg-5 p-0 text-danger font-weight-bold " style="font-size:18px;">Cena końcowa: </div>
-						<div id="afterDiscount" class="col-3 p-0 text-danger text-center font-weight-bold" style="font-size:18px;"> 0.00 zł </div>
+						<div class="col-8 p-0 pl-lg-5 pl-2 ml-lg-5 text-black font-weight-bold mr-4 " style="font-size:18px;">Cena końcowa: </div>
+						<div id="afterDiscount" class="col-3 p-0 text-danger font-weight-bold" style="font-size:18px;"> 0.00 zł </div>
 					</div>
 
 					<div class="row  justify-content-end row-offer mr-1 pt-3">
