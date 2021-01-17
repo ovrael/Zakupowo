@@ -153,6 +153,7 @@ body {
         height:fit-content;
         margin-bottom: 2.5rem;
     }
+
 }
 /*SETTING_SIDE_BAR*/
 @media (min-width:768px) {
@@ -282,7 +283,7 @@ ul.navbar-nav {
 }
 
 .container-fluid {
-   /* min-height: calc(100vh - 98px)!important;*/
+    min-height: calc(100vh - 68px)!important;
    
     padding-top: 16px;
 }
@@ -396,7 +397,7 @@ ul.navbar-nav {
 
 /*ADD-BUNDLE*/
 .footer {
-    padding-left: 35px !important;
+    padding-left: 45px !important;
 }
 
 .has-search .form-control {
@@ -436,9 +437,7 @@ ul.navbar-nav {
     .short-ms {
         display: none;
     }
-    .img-user-box {
-        width: 24px;
-    }
+   
     .text-communicator p {
         font-size: 0px !important;
     }
@@ -446,7 +445,11 @@ ul.navbar-nav {
         overflow-x: scroll;
     }
 }
-
+@media screen and (max-width: 576px) {
+     .img-user-box {
+        width: 29px;
+    }
+}
 /* TABLES FOR OFFERS AND BUNDLES */
 .td-text {
     text-align: center;
