@@ -298,7 +298,7 @@ namespace ShopApp.Controllers
         }
         [HttpPost]
         [Route("ChangeAvatar")]
-        public async Task<IHttpActionResult> ChangePassword()
+        public async Task<IHttpActionResult> ChangeAvatar()
         {
             var uploadPath = HostingEnvironment.MapPath("/") + @"/Uploads";
             Directory.CreateDirectory(uploadPath);
@@ -375,13 +375,66 @@ namespace ShopApp.Controllers
 
             return BadRequest();
         }
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.Route("AddOfferToBucket")]
+        public async Task<IHttpActionResult> AddOfferToBucketAsync()
+        {
+            string json = await Request.Content.ReadAsStringAsync();
+            dynamic data = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            string login = data["login"];
+            int offerId = Convert.ToInt32(data["offerId"]);
+            string quantity = data["quantity"];
 
+            User user = db.Users.Where(i => i.Login == login).FirstOrDefault();
+            BucketItem NewBucketItem = new BucketItem();
+
+
+            var Offer = db.Offers.Where(i => i.OfferID == offerId && i.IsActive).FirstOrDefault();
+            if (Offer != null)//We chceck if user called for existing and active offer
+            {
+                bool? AlreadyInBucket = user.Bucket?.BucketItems?.Where(i => i.Offer != null && i.Offer.OfferID == offerId).Any();
+                if (AlreadyInBucket == false)
+                {
+                    bool? IsOwner = user.Offers?.Where(i => i.OfferID == offerId).Any();
+                    if (IsOwner == false)
+                    {
+                        if (int.TryParse(quantity, out int QuantityAsInt))
+                        {
+                            if (Offer.InStockNow < QuantityAsInt || QuantityAsInt < 1)
+                            {
+                                return BadRequest("Przekroczono dostępną ilość danego produktu");
+                            }
+                            else
+                            {
+                                NewBucketItem.Offer = Offer;
+                                NewBucketItem.Quantity = QuantityAsInt;
+                                NewBucketItem.TotalPrice = QuantityAsInt * Offer.Price;
+                                db.BucketItems.Add(NewBucketItem);
+
+                                user.Bucket.BucketItems.Add(NewBucketItem);
+                                NewBucketItem.Bucket = user.Bucket;
+                                Offer.BucketItems.Add(NewBucketItem);
+                                ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+                                return Ok("true");
+                            }
+                        }
+                    }
+                    else
+                        return BadRequest("Już posiadasz tę ofertę");
+                }
+                return BadRequest("Oferta znajduje sie juz w koszyku");
+
+            }
+            return BadRequest("Nie udalo sie dodac oferty");
+        }
 
     }
-   
-
 
 }
+
+
+
+
   
 public class ShippingAdressBindingModel
     {
