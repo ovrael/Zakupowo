@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Http;
@@ -30,11 +31,11 @@ namespace ShopApp.ControllersAPI
         {
             var offers = db.Offers;
             List<OfferItem> offerItems = new List<OfferItem>();
-            foreach(Offer offer in offers)
+            foreach (Offer offer in offers)
             {
-               var offerItem = OfferItem.ConvertOfferToOfferItem(offer);
-               offerItems.Add(offerItem);
-                
+                var offerItem = OfferItem.ConvertOfferToOfferItem(offer);
+                offerItems.Add(offerItem);
+
             }
             return Ok(offerItems);
         }
@@ -48,10 +49,14 @@ namespace ShopApp.ControllersAPI
             {
                 if (id == offer.Category.CategoryID)
                 {
-                    var offerItem = OfferItem.ConvertOfferToOfferItem(offer);
-                    offerItems.Add(offerItem);
+                    if (offer.IsActive && offer.InStockNow > 0 )
+                    {
+                        var offerItem = OfferItem.ConvertOfferToOfferItem(offer);
+                        offerItems.Add(offerItem);
+                    }
+               
                 }
-          
+
             }
             return Ok(offerItems);
         }
@@ -71,7 +76,7 @@ namespace ShopApp.ControllersAPI
             {
                 foreach (var val in provider.FormData.GetValues(key))
                 {
-                    if(val != "")
+                    if (val != "")
                     {
                         serializedModel = val;
                     }
@@ -95,7 +100,9 @@ namespace ShopApp.ControllersAPI
                 Category = offerCategory,
                 User = user,
                 IsActive = true,
-                CreationDate = DateTime.Now
+                CreationDate = DateTime.Now,
+                OfferState = model.OfferState
+
             };
             offer.InStockNow = offer.InStockOriginaly;
 
@@ -133,7 +140,7 @@ namespace ShopApp.ControllersAPI
                     }
                     catch (Exception ex)
                     {
-                       
+
                     }
                 }
                 else if (files.Count == 0)
@@ -141,7 +148,7 @@ namespace ShopApp.ControllersAPI
                     OfferPicture offerPicture = new OfferPicture() { PathToFile = "../../Images/product.jpg", Offer = offer };
                     pictures.Add(offerPicture);
                 }
-             
+
                 offer.OfferPictures = pictures;
                 db.SaveChanges();
 
@@ -172,6 +179,8 @@ namespace ShopApp.ControllersAPI
         }
 
 
+     
+
         private bool OfferExists(int id)
         {
             return db.Offers.Count(e => e.OfferID == id) > 0;
@@ -194,6 +203,8 @@ namespace ShopApp.ControllersAPI
         public int CategoryID { get; set; }
         public double InStockOriginaly { get; set; }
 
+        public virtual OfferState OfferState { get; set; }
+
         public List<FileResult> files { get; set; }
 
 }
@@ -208,6 +219,7 @@ namespace ShopApp.ControllersAPI
 
         public string Description { get; set; }
 
+        public virtual OfferState OfferState { get; set; }
         public DateTime CreationDate { get; set; }
 
         public bool IsActive { get; set; }
@@ -228,7 +240,7 @@ namespace ShopApp.ControllersAPI
 
 
 
-        public OfferItem(int offerID, string title, string description, DateTime creationDate, bool isActive, string stocking, double inStockOriginaly, double inStockNow, double price, int userID, int categoryID,  List<OfferItemPicture> offerItemPictures, string login)
+        public OfferItem(int offerID, string title, string description, DateTime creationDate, bool isActive, string stocking, double inStockOriginaly, double inStockNow, double price, int userID, int categoryID,  List<OfferItemPicture> offerItemPictures, string login, OfferState offerState)
         {
             OfferID = offerID;
             Title = title;
@@ -243,6 +255,9 @@ namespace ShopApp.ControllersAPI
             Login = login;
             CategoryID = categoryID;
             OfferPictures = offerItemPictures;
+            OfferState = offerState;
+
+
         }
 
         
@@ -256,7 +271,7 @@ namespace ShopApp.ControllersAPI
                 offerItemPictures.Add(offerItemPicture);
             }
 
-            return new OfferItem(offer.OfferID,offer.Title, offer.Description, offer.CreationDate, offer.IsActive,offer.Stocking,offer.InStockOriginaly,offer.InStockNow,offer.Price,offer.User.UserID,offer.Category.CategoryID,  offerItemPictures, offer.User.Login);
+            return new OfferItem(offer.OfferID,offer.Title, offer.Description, offer.CreationDate, offer.IsActive,offer.Stocking,offer.InStockOriginaly,offer.InStockNow,offer.Price,offer.User.UserID,offer.Category.CategoryID,  offerItemPictures, offer.User.Login, offer.OfferState);
         }
 
     }
