@@ -106,16 +106,29 @@
                         + "</td>"
                     );
 
-                    alert(alertSuccess);
+                    createCustomAlert("Usunięto!", alertSuccess);
                 }
                 else {
-                    alert(alertFail);
+                    createCustomAlert("Problem!", alertSuccess);
                 }
             },
             // error handling
         });
     })
 })()
+
+function createCustomAlert(title, message) {
+    $.alert({
+        title: title,
+        content: message,
+        buttons: {
+            ok: {
+                text: 'ok',
+                btnClass: 'btn-popout'
+            }
+        }
+    });
+}
 
 //SORTING
 function sortOffersBy(sortByID) {
@@ -238,7 +251,7 @@ function createOfferDiv(offer) {
     }
     else {
         settingsTD = "<td colspan=\"2\" class=\"td-text\">"
-            + "<a class=\"btn btn-outline-info\" href=\"@Url.Action(\"Index\", \"Offer\", new { OfferID = " + offer.OfferID + "})\"> Zobacz ofertę </a>"
+            + "<a class=\"btn btn-outline-info\" href=\"" + offerURL + "\"> Zobacz ofertę </a>"
             + "</td >";
     }
 
@@ -366,7 +379,7 @@ function createBundleDiv(bundle) {
     }
     else {
         settingsTD = "<td class=\"td-text\">"
-            + "<a class=\"btn btn-outline-dark\" href=\"@Url.Action(\"Index\", \"Bundle\", new { BundleID = " + bundle.BundleID + "})\"> Zobacz zestaw </a>"
+            + "<a class=\"btn btn-outline-dark\" href=\"" + bundleURL + "\"> Zobacz zestaw </a>"
             + "</td >";
     }
 

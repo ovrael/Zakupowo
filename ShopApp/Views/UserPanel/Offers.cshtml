@@ -41,9 +41,16 @@
 
 						@if (ViewBag.Success != null)
 						{
-							<div class="alert alert-secondary alert-dismissible mt-3">
+							string colorClass = "alert-success";
+							string messageContent = "Pomyślnie utworzono oferte!";
+							if (!ViewBag.Success)
+							{
+								colorClass = "alert-danger";
+								messageContent = "Nie udało się utworzyć oferty.";
+							}
+							<div class="alert @colorClass alert-dismissible mt-3">
 								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-								<strong><i class="fas fa-info-circle"></i></strong> @ViewBag.Success
+								<strong><i class="fas fa-info-circle"></i></strong> @messageContent
 							</div>
 						}
 

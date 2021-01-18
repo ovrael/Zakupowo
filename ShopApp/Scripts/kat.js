@@ -2,8 +2,8 @@
     $("#dslider-range").slider({
         range: true,
         min: 0,
-        max: 5000,
-        values: [0, 5000],
+        max: 10000,
+        values: [0, 10000],
         slide: function (event, ui) {
             $("#damount").val(ui.values[0] + " zł - " + ui.values[1] + " zł");
         }
@@ -13,8 +13,8 @@
     $("#mslider-range").slider({
         range: true,
         min: 0,
-        max: 5000,
-        values: [0, 5000],
+        max: 10000,
+        values: [0, 10000],
         slide: function (event, ui) {
             $("#mamount").val(ui.values[0] + " zł - " + ui.values[1] + " zł");
         }

@@ -426,7 +426,7 @@ namespace ShopApp.Controllers
 			return Json(jsonOffers);
 		}
 
-		public ActionResult Offers(bool? userActivated, bool? success)
+		public ActionResult Offers(bool? userActivated, bool? success, int? offerID)
 		{
 			if (userActivated != null && !(bool)userActivated)
 			{
@@ -435,7 +435,22 @@ namespace ShopApp.Controllers
 
 			if (success != null && (bool)success)
 			{
-				ViewBag.Success = "Oferta dodana pomyślnie!";
+				ViewBag.Success = true;
+			}
+
+			if (success != null && !(bool)success)
+			{
+				ViewBag.Success = false;
+				if (offerID != null)
+				{
+					Offer offerToRemove = db.Offers.Where(o => o.OfferID == offerID).FirstOrDefault();
+					if (offerToRemove != null)
+					{
+						db.Offers.Remove(offerToRemove);
+						ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
+					}
+
+				}
 			}
 
 			User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
@@ -528,21 +543,21 @@ namespace ShopApp.Controllers
 								OfferPicture offerPicture = new OfferPicture() { PathToFile = fileUrl, Offer = offer };
 								pictures.Add(offerPicture);
 							}
+							else
+							{
+								return RedirectToAction("Offers", "UserPanel", new { success = false, offerID = offer.OfferID });
+							}
 						}
 					}
 					catch (Exception ex)
 					{
 						ViewBag.Error = "Wystąpił błąd: " + ex.Message.ToString();
+						return RedirectToAction("Offers", "UserPanel", new { success = false, offerID = offer.OfferID });
 					}
-				}
-				else if (files.Count == 0)
-				{
-					OfferPicture offerPicture = new OfferPicture() { PathToFile = "../../Images/product.jpg", Offer = offer };
-					pictures.Add(offerPicture);
 				}
 				else
 				{
-					ViewBag.Error = "Brak zdjęć";
+					return RedirectToAction("Offers", "UserPanel", new { success = false, offerID = offer.OfferID });
 				}
 
 				if (ViewBag.Error == null)
@@ -554,6 +569,12 @@ namespace ShopApp.Controllers
 			else
 			{
 				ViewBag.Error = "Wystąpiły problemy ze zdjęciami";
+				return RedirectToAction("Offers", "UserPanel", new { success = false, offerID = offer.OfferID });
+			}
+
+			if (offer.OfferPictures.Count == 0)
+			{
+				return RedirectToAction("Offers", "UserPanel", new { success = false, offerID = offer.OfferID });
 			}
 
 
@@ -565,19 +586,11 @@ namespace ShopApp.Controllers
 				editUser.Offers.Add(offer);
 				db.SaveChanges();
 
-				if (offer.OfferPictures.Count == 0)
-				{
-					OfferPicture offerPicture = new OfferPicture() { PathToFile = "../../Images/product.jpg", Offer = offer };
-					offer.OfferPictures.Add(offerPicture);
-
-					db.SaveChanges();
-				}
-
 				return RedirectToAction("Offers", "UserPanel", new { success = true });
 			}
 			else
 			{
-				return RedirectToAction("AddOffer", "UserPanel", new { success = false });
+				return RedirectToAction("AddOffer", "UserPanel", new { success = false, offerID = offer.OfferID });
 			}
 		}
 
@@ -680,7 +693,7 @@ namespace ShopApp.Controllers
 			return Json(jsonBundles);
 		}
 
-		public ActionResult Bundles(bool? availableOffers, bool? addedBundle)
+		public ActionResult Bundles(bool? availableOffers, bool? addedBundle, int? bundleID)
 		{
 			User editUser = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).First();
 
@@ -691,9 +704,22 @@ namespace ShopApp.Controllers
 				ViewBag.NoOffers = "Brak dostępnych ofert do stworzenia zestawu!";
 			}
 
+			if (addedBundle != null && (bool)addedBundle)
+			{
+				Debug.WriteLine("Dodano!");
+				ViewBag.Success = "Zestaw stworzony pomyślnie!";
+			}
+
 			if (addedBundle != null && !(bool)addedBundle)
 			{
-				ViewBag.Success = "Zestaw stworzony pomyślnie!";
+				var newBundle = db.Bundles.Where(b => b.BundleID == bundleID).FirstOrDefault();
+				if (newBundle != null)
+				{
+					db.Bundles.Remove(newBundle);
+					db.SaveChanges();
+					ViewBag.Success = "Zestaw stworzony pomyślnie!";
+
+				}
 			}
 
 			userBundles = userBundles.OrderBy(o => o.BundleID).ToList();
@@ -789,6 +815,13 @@ namespace ShopApp.Controllers
 				User = editUser
 			};
 
+			Debug.WriteLine("--------------------- PRZED");
+			db.Bundles.Add(newBundle);
+			db.SaveChanges();
+
+			Debug.WriteLine("--------------------- PO");
+
+
 			if (Request.Files.Count > 0)
 			{
 				var bundleFile = Request.Files[0];
@@ -805,26 +838,28 @@ namespace ShopApp.Controllers
 							newBundle.BundlePicture = bundlePicture;
 							db.SaveChanges();
 						}
+						else
+						{
+							return RedirectToAction("Bundles", "UserPanel", new { addedBundle = false, bundleID = newBundle.BundleID });
+						}
 					}
 					catch (Exception ex)
 					{
 						ViewBag.Error = "Wystąpił błąd: " + ex.Message.ToString();
+						return RedirectToAction("Bundles", "UserPanel", new { addedBundle = false, bundleID = newBundle.BundleID });
 					}
 				}
 			}
 
 			if (ViewBag.Error == null)
 			{
-				db.Bundles.Add(newBundle);
-				db.SaveChanges();
-
 				editUser.Bundles.Add(newBundle);
 				db.SaveChanges();
 				return RedirectToAction("Bundles", "UserPanel", new { addedBundle = true });
 			}
 			else
 			{
-				return RedirectToAction("Bundles", "UserPanel", new { addedBundle = false });
+				return RedirectToAction("Bundles", "UserPanel", new { addedBundle = false, bundleID = newBundle.BundleID });
 			}
 
 		}

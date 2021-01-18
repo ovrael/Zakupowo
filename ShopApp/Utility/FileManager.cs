@@ -2,6 +2,7 @@
 using Microsoft.WindowsAzure.Storage.Blob;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -104,7 +105,6 @@ namespace ShopApp.Utility
 
 				fileName = fileNameBuilder.ToString();
 
-
 				if (await cloudBlobContainer.CreateIfNotExistsAsync())
 				{
 					await cloudBlobContainer.SetPermissionsAsync(
@@ -118,13 +118,19 @@ namespace ShopApp.Utility
 				CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(fileName);
 				cloudBlockBlob.Properties.ContentType = file.ContentType;
 
-				await cloudBlockBlob.UploadFromStreamAsync(file.InputStream);
+				Stream fileStream = null;
+
+				fileStream = file.InputStream;
+
+				await cloudBlockBlob.UploadFromStreamAsync(fileStream);
+
 
 				imageFullPath = cloudBlockBlob.Uri.ToString();
 			}
 			catch (Exception ex)
 			{
 				System.Diagnostics.Debug.WriteLine(ex.Message);
+				return null;
 			}
 			return imageFullPath;
 		}
