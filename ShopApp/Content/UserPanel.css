@@ -284,15 +284,15 @@ ul.navbar-nav {
 
 .container-fluid {
     min-height: calc(100vh - 68px) !important;
-    padding-bottom: 650px !important;
+   /* padding-bottom: 650px !important;*/
     padding-top: 16px;
 }
-@media screen and (min-width: 992px)
+/*@media screen and (min-width: 992px)
 {
     .container-fluid{
         padding-bottom:0px !important;
     }
-}
+}*/
 
 .links i {
     color: white;
