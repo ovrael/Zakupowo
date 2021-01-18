@@ -313,12 +313,12 @@ namespace ShopApp.Controllers
                         if (BucketItem.Offer != null && !BucketItem.Offer.IsActive)
                         {
                             InActiveBucketItems.Add(BucketItem.Offer.Title);
-                            RemoveFromBucket("offer", BucketItem.Offer.OfferID);
+                            RemoveFromBucket("Offer", BucketItem.Offer.OfferID);
                         }
                         else if (BucketItem.Bundle != null && !BucketItem.Bundle.IsActive)
                         {
                             InActiveBucketItems.Add(BucketItem.Bundle.Title);
-                            RemoveFromBucket("bundle", BucketItem.Bundle.BundleID);
+                            RemoveFromBucket("Bundle", BucketItem.Bundle.BundleID);
                         }
                     }
                 }
