@@ -7,11 +7,11 @@
     border-radius: .25rem;
 }
 
-    .filter-button:hover, .filter-button:active {
+.filter-button:hover, .filter-button:active {
         color: #495057 !important;
         border: 1px solid rgb(206, 212, 218) !important;
         background-color: white !important;
-    }
+}
 
 .offers-main, .offers-menu-filters {
     background-color: white;
@@ -61,9 +61,9 @@
     cursor: pointer;
 }
 
-    .addToBucket:hover, .addToBucket:visited {
+.addToBucket:hover, .addToBucket:visited {
         color: #FFB24A;
-    }
+}
 
 .overlay {
     position: absolute;
@@ -77,13 +77,13 @@
     font-size: 18px;
 }
 
-    .overlay > .row > .col-12 > form > h2 {
+.overlay > .row > .col-12 > form > h2 {
         font-size: 38px;
-    }
+}
 
-    .overlay > .row > .col-12 > form > h5 {
+.overlay > .row > .col-12 > form > h5 {
         font-size: 24px;
-    }
+}
 
 .fa-times {
     font-size: 32px;
