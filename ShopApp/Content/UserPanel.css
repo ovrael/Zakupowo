@@ -283,10 +283,16 @@ ul.navbar-nav {
 }
 
 .container-fluid {
-    min-height: calc(100vh - 68px)!important;
-   
+    min-height: calc(100vh - 68px) !important;
+/*    padding-bottom: 450px !important;*/
     padding-top: 16px;
 }
+/*@media screen and (min-width: 992px)
+{
+    .container-fluid{
+        padding-bottom:0px !important;
+    }
+}*/
 
 .links i {
     color: white;
@@ -447,7 +453,7 @@ ul.navbar-nav {
 }
 @media screen and (max-width: 576px) {
      .img-user-box {
-        width: 29px;
+        width: 28px;
     }
 }
 /* TABLES FOR OFFERS AND BUNDLES */
