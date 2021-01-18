@@ -78,7 +78,7 @@ max-height: 200px;
 }
 
 @media (min-width: 992px) {
-    .bucket, .bucket-header {
+    .bucket, .bucket-header, .warning-div, .deleted-items {
         width: 60%;
     }
     .item-name > a {
