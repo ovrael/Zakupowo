@@ -9,7 +9,6 @@
 function filter() {
 
     var sortOption = document.getElementById("sortForm").value;
-    console.log(sortOption);
 
     var priceID = "amount";
     var stateNew = "statenew";
@@ -57,13 +56,24 @@ function filter() {
         states += "damaged";
     }
 
-    var category = document.getElementById("categoryName").innerHTML.trim();
+    var categoryDiv = document.getElementById("categoryName");
+    var category = "";
+    if (categoryDiv != undefined) {
+        category = categoryDiv.innerHTML.trim();
+    }
+
+    var queryString = document.getElementById("queryString");
+    var query = "";
+    if (queryString != undefined) {
+        query = queryString.innerHTML.trim();
+        query = query.substring(query.indexOf("\"") + 1, query.lastIndexOf("\""));
+    }
+
 
     $.ajax({
         url: "/Home/FilterOffersAndBundles",
         method: 'POST',
-        data: { sortBy: sortOption, minPrice: minPrice, maxPrice: maxPrice, states: states, category: category },
-        //data: '{"sortBy":"' + sortOption + '","minPrice":"' + minPrice + '","maxPrice":"' + maxPrice + '","states":"' + states + '","category":"' + category + '"}',
+        data: { sortBy: sortOption, minPrice: minPrice, maxPrice: maxPrice, states: states, category: category, query: query },
         success: function (returnData) {
             if (returnData != false) {
 

@@ -1,6 +1,6 @@
 $(document).ready(function () {
     // Add-to-favourites button handler
-    $(".product-fav").on("click", function () {
+    $('body').on("click", '.product-fav', function () {
 
         var id = jQuery(this).attr('data-id');
         var type = jQuery(this).attr('data-type');
@@ -51,8 +51,7 @@ $(document).ready(function () {
                         $(element).addClass("fav-active");
                         $(element).removeClass("fav-unActive");
                     }
-                    else
-                    {
+                    else {
                         $.alert({
                             title: 'Wystąpił błąd',
                             content: ErrorMessage,
@@ -80,13 +79,12 @@ $(document).ready(function () {
                         btnClass: 'btn-popout'
                     }
                 }
-            });    
+            });
         }
     }),
 
 
-
-        $(".addToBucket").on("click", function () {
+        $('body').on("click", '.addToBucket', function () {
             var id = jQuery(this).attr('data-id');
             var type = jQuery(this).attr('data-type');
             var quantity = jQuery(this).attr('data-quantity');
@@ -101,7 +99,7 @@ $(document).ready(function () {
                             btnClass: 'btn-popout'
                         }
                     }
-                });    
+                });
             }
             else if (!jQuery(this).hasClass('in-bucket')) {
                 $.ajax({
@@ -135,7 +133,7 @@ $(document).ready(function () {
         }
         ),
 
-        $(".item-delete").click( function () {
+        $(".item-delete").click(function () {
             var id = jQuery(this).attr('data-id');
             var type = jQuery(this).attr('data-type');
             var element = this;

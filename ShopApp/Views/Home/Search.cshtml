@@ -31,21 +31,21 @@
 				<br>
 				<input type="checkbox" value="true" name="stateDamaged" id="mstatedamaged">
 				<label for="mstatedamaged">Uszkodzony</label>
-				<input class="btn btn-primary filterSubmit d-block p-3" type="submit" value="POKAŻ OFERTY">
 			</form>
+			<button id="showOffersButton" class="btn btn-primary filterSubmit d-block p-3" value="POKAŻ OFERTY">POKAŻ OFERTY</button>
 		</div>
 	</div>
 </div>
 <div class="row offers-header text-center mx-auto">
 	<div class="col-12">
-		<h1 class="my-lg-4 my-2 mt-4">
+		<h1 class="my-lg-4 my-2 mt-4" id="queryString">
 			Wyniki wyszukiwania dla: "@query"
 		</h1>
 		<hr>
 	</div>
 </div>
 <div class="row offers offer-row p-2 mx-lg-auto justify-content-center">
-	<div class="col-2 d-none d-lg-block offers-menu-filters m-2 p-4 shadow">
+	<div class="col-2 d-none d-lg-block offers-menu-filters m-2 p-4 shadow" @*style="max-height:400px"*@>
 		<form name="dform" method="post">
 			<h2 class="my-1">Filtry</h2>
 			<h5 class="my-3">Cena</h5>
@@ -62,8 +62,8 @@
 			<br>
 			<input type="checkbox" value="true" name="stateDamaged" id="dstatedamaged">
 			<label for="dstatedamaged">Uszkodzony</label>
-			<input class="btn btn-primary filterSubmit d-block p-3 mx-auto mt-2 w-100" type="submit" value="POKAŻ OFERTY">
 		</form>
+		<button id="showOffersButton" class="btn btn-primary filterSubmit d-block p-3 mx-auto mt-2 w-100" value="POKAŻ OFERTY">POKAŻ OFERTY</button>
 	</div>
 	<div class="col-12 col-lg-6 offers-main m-lg-2 shadow p-3 pb-5">
 
@@ -75,12 +75,14 @@
 				</div>
 			</div>
 			<div class="col-9 col-lg-12 mx-lg-2 my-2">
-				<select class="form-control">
-					<option>cena: od najniższej</option>
-					<option>cena: od najwyższej</option>
+				<select class="form-control" id="sortForm" onchange="filter()">
+					<option id="date_asc" value="date_dsc">Data: od najnowszej</option>
+					<option id="date_dsc" value="date_asc">Data: od najstarszej</option>
+					<option id="price_asc" value="price_asc">Cena: od najniższej</option>
+					<option id="price_dsc" value="price_dsc">Cena: od najwyższej</option>
 				</select>
 			</div>
-			<div class="col-3 d-lg-none text-center my-2">
+			<div class="col-3 d-lg-none text-center my-2" id="filterButton">
 				<button class="btn btn-primary filter-button w-100">Filtry</button>
 			</div>
 		</div>
@@ -95,8 +97,6 @@
 						Brak znalezionych ofert.
 					</div>
 				}
-
-				int Counter = 1;
 				foreach (var item in Model.Offers)
 				{
 					string pictureUrl = string.Empty;
@@ -110,10 +110,9 @@
 					}
 
 					<div class="row offer item-row p-2 m-0 mt-1">
-						@if (Counter != 1)
-						{
 							<hr class="w-100">
-						}                            <div class="col-12 col-lg-4 text-center offer-img my-auto">
+						  
+						<div class="col-12 col-lg-4 text-center offer-img my-auto">
 							<img class="img-fluid" src="@pictureUrl">
 						</div>
 						<div class="col-12 col-lg-8 offer-desc p-0">
@@ -148,9 +147,6 @@
 							}
 						</div>
 					</div>
-
-					Counter++;
-
 				}
 			}
 			</>
@@ -164,14 +160,10 @@
 							Brak znalezionych zestawów.
 						</div>
 					}
-					int Counter = 1;
 					foreach (var item in Model.Bundles)
 					{
 						<div class="row offer bundle-row d-none p-2 m-0 mt-1">
-							@if (Counter != 1)
-							{
 								<hr class="w-100">
-							}
 							<div class="col-12 col-lg-4 text-center my-auto">
 								@*Looking for last offer in bundle becuase it has been ordered by descending creation date*@
 								<img class="img-fluid" src="@item.BundlePicture.PathToFile">
@@ -208,7 +200,6 @@
 								}
 							</div>
 						</div>
-						Counter++;
 					}
 
 				}
@@ -224,3 +215,8 @@
 
 @Scripts.Render("~/bundles/BucketAndFavjs")
 @Scripts.Render("~/bundles/Katjs")
+
+@section scripts
+{
+	<script src="~/Scripts/OffersKatFilter.js"></script>
+}

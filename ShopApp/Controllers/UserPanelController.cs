@@ -815,11 +815,8 @@ namespace ShopApp.Controllers
 				User = editUser
 			};
 
-			Debug.WriteLine("--------------------- PRZED");
 			db.Bundles.Add(newBundle);
 			db.SaveChanges();
-
-			Debug.WriteLine("--------------------- PO");
 
 
 			if (Request.Files.Count > 0)

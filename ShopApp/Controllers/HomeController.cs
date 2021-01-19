@@ -284,16 +284,9 @@ namespace ShopApp.Controllers
 		}
 
 		[HttpPost]
-		public JsonResult FilterOffersAndBundles(string sortBy, int? minPrice, int? maxPrice, string states, string category)
+		public JsonResult FilterOffersAndBundles(string sortBy, int? minPrice, int? maxPrice, string states, string category, string query)
 		{
-			Debug.WriteLine("Test");
-			Debug.WriteLineIf(sortBy != null, "SortBy: " + sortBy);
-			Debug.WriteLineIf(states != null, "states: " + states);
-			Debug.WriteLineIf(category != null, "category: " + category);
-			Debug.WriteLineIf(minPrice != null, "Min: " + minPrice);
-			Debug.WriteLineIf(minPrice != null, "Min: " + maxPrice);
-
-
+			Debug.WriteLine(query);
 			User user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
 
 			List<OfferState> offerStates = new List<OfferState>();
@@ -317,22 +310,41 @@ namespace ShopApp.Controllers
 				offerStates.Add(OfferState.Uszkodzony);
 			}
 
+
 			List<Offer> offers = db.Offers
 				.Where(o => o.IsActive
-				&& o.Category.CategoryName.Equals(category)
 				&& o.Price >= minPrice
 				&& o.Price <= maxPrice
 				&& offerStates.Contains(o.OfferState))
-				//.Take(20)
 				.ToList();
 
 			List<Bundle> bundles = db.Bundles
 				.Where(b => b.IsActive
-				&& b.Offers.Where(o => o.Category.CategoryName == category).Any()
 				&& b.BundlePrice >= minPrice
 				&& b.BundlePrice <= maxPrice)
-				//.Take(20)
 				.ToList();
+
+			if (category != null && category != "")
+			{
+				offers = offers
+				.Where(o => o.Category.CategoryName.Equals(category))
+				.ToList();
+
+				bundles = bundles
+				.Where(b => b.Offers.Where(o => o.Category.CategoryName == category).Any())
+				.ToList();
+			}
+
+			if (query != null && query != "")
+			{
+				offers = offers
+				.Where(o => o.Title.Contains(query) || o.Description.Contains(query))
+				.ToList();
+
+				bundles = bundles
+				.Where(b => b.Title.Contains(query) || b.Offers.Where(o => o.Title.Contains(query)).Any())
+				.ToList();
+			}
 
 			if (sortBy == null)
 				return Json(false);
