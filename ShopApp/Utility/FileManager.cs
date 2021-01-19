@@ -81,6 +81,7 @@ namespace ShopApp.Utility
 				return null;
 			}
 
+
 			try
 			{
 				string fileName = string.Empty;
@@ -104,6 +105,7 @@ namespace ShopApp.Utility
 				fileNameBuilder.Append(fileExtenstion);
 
 				fileName = fileNameBuilder.ToString();
+
 
 				if (await cloudBlobContainer.CreateIfNotExistsAsync())
 				{
