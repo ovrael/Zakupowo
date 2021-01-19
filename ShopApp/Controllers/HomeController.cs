@@ -286,7 +286,13 @@ namespace ShopApp.Controllers
 		[HttpPost]
 		public JsonResult FilterOffersAndBundles(string sortBy, int? minPrice, int? maxPrice, string states, string category, string query)
 		{
-			Debug.WriteLine(query);
+			Debug.WriteLine("sortBy: " + sortBy);
+			Debug.WriteLine("minPrice: " + maxPrice);
+			Debug.WriteLine("maxPrice: " + sortBy);
+			Debug.WriteLine("states: " + states);
+			Debug.WriteLine("category: " + category);
+			Debug.WriteLine("query: " + query);
+
 			User user = db.Users.Where(i => i.Login == HttpContext.User.Identity.Name).FirstOrDefault();
 
 			List<OfferState> offerStates = new List<OfferState>();
@@ -337,17 +343,18 @@ namespace ShopApp.Controllers
 
 			if (query != null && query != "")
 			{
+				query = query.ToLower();
 				offers = offers
-				.Where(o => o.Title.Contains(query) || o.Description.Contains(query))
+				.Where(o => o.Title.ToLower().Contains(query) || o.Description.ToLower().Contains(query))
 				.ToList();
 
 				bundles = bundles
-				.Where(b => b.Title.Contains(query) || b.Offers.Where(o => o.Title.Contains(query)).Any())
+				.Where(b => b.Title.ToLower().Contains(query) || b.Offers.Where(o => o.Title.ToLower().Contains(query)).Any())
 				.ToList();
 			}
 
 			if (sortBy == null)
-				return Json(false);
+				sortBy = "date_asc";
 
 			switch (sortBy)
 			{
@@ -378,36 +385,6 @@ namespace ShopApp.Controllers
 					bundles = bundles.OrderBy(o => o.BundleID).ToList();
 					break;
 			}
-
-			//List<int> favOfferIDs = new List<int>();
-			//List<int> bucketOfferIDs = new List<int>();
-
-			//List<int> favBundlesIDs = new List<int>();
-			//List<int> bucketBundlesIDs = new List<int>();
-
-			//if (user != null)
-			//{
-			//	var favouriteOffers = user.FavouriteOffer.Where(i => i.Offer != null).Select(i => i.Offer).ToList();
-			//	favOfferIDs = favouriteOffers
-			//		.Where(i => i.IsActive && offers.Contains(i))
-			//		.Select(i => i.OfferID)
-			//		.ToList();
-			//	if (user.Bucket.BucketItems != null)
-			//	{
-			//		bucketOfferIDs = user.Bucket.BucketItems.Where(i => i.Offer != null).Select(i => i.Offer.OfferID).ToList();
-			//	}
-
-			//	var favouriteBundles = user.FavouriteOffer.Where(i => i.Bundle != null).Select(i => i.Bundle).ToList();
-			//	if (favouriteBundles != null)
-			//	{
-			//		favBundlesIDs = favouriteBundles
-			//			.Where(i => i.IsActive && bundles.Contains(i))
-			//			.Select(i => i.BundleID)
-			//			.ToList();
-			//		if (user.Bucket.BucketItems != null)
-			//			favBundlesIDs = user.Bucket.BucketItems.Where(i => i.Bundle != null).Select(i => i.Bundle.BundleID).ToList();
-			//	}
-			//}
 
 			if (user != null)
 			{

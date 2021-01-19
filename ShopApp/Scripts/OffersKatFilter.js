@@ -1,7 +1,6 @@
 ﻿(function () {
     $('.filterSubmit').click(function (e) {
         e.preventDefault();
-        console.log("chce filtrować!");
         filter();
     });
 })()
@@ -24,6 +23,7 @@ function filter() {
         stateNew = "mstatenew";
         stateUsed = "mstateold";
         stateDamaged = "mstatedamaged";
+        document.getElementById("smallFilterTab").classList.add("d-none");
     }
     else {
         priceID = "#d" + priceID;
@@ -69,6 +69,12 @@ function filter() {
         query = query.substring(query.indexOf("\"") + 1, query.lastIndexOf("\""));
     }
 
+    console.log("sortOption: " + sortOption);
+    console.log("minPrice: " + minPrice);
+    console.log("maxPrice: " + maxPrice);
+    console.log("states: " + states);
+    console.log("category: " + category);
+    console.log("query: " + query);
 
     $.ajax({
         url: "/Home/FilterOffersAndBundles",
@@ -89,6 +95,8 @@ function filter() {
 
                 var Offers = returnData.Offers;
                 var Bundles = returnData.Bundles;
+
+                console.log(Offers);
 
                 for (let i = 0; i < Offers.length; i++) {
                     const offer = Offers[i];
@@ -113,6 +121,12 @@ function filter() {
 }
 
 function createOfferDiv(offer) {
+
+    var dNoneClass = "d-none";
+    if (document.getElementById("offersButton").classList.contains("on")) {
+        console.log("przegladam oferty");
+        dNoneClass = "";
+    }
 
     var picture = "<div class=\"col-12 col-lg-4 text-center offer-img my-auto\">"
         + "<img class=\"img-fluid\" src=\"" + offer.PictureURL + "\">"
@@ -142,7 +156,7 @@ function createOfferDiv(offer) {
     }
 
     var offerRow =
-        "<div class=\"row offer item-row p-2 m-0 mt-1\">"
+        "<div class=\"row offer " + dNoneClass + " item-row p-2 m-0 mt-1\">"
         + "<hr class=\"w-100\">"
         + picture
         + "<div class=\"col-12 col-lg-8 offer-desc p-0\">"
@@ -161,6 +175,12 @@ function createOfferDiv(offer) {
 
 function createBundleDiv(bundle) {
 
+    var dNoneClass = "d-none";
+    if (document.getElementById("bundlesButton").classList.contains("on")) {
+        console.log("przegladam zestawy");
+        dNoneClass = "";
+    }
+
     var picture = "<div class=\"col-12 col-lg-4 text-center offer-img my-auto\">"
         + "<img class=\"img-fluid\" src=\"" + bundle.PictureURL + "\">"
         + "</div>"
@@ -170,7 +190,7 @@ function createBundleDiv(bundle) {
     var seller = "<p class=\"seller d-none d-lg-block mb-3\">Sprzedawca: <a class=\"seller-name\" href=\"" + '/User/UserInformation?userID=' + bundle.UserID + "\">" + bundle.UserLogin + "</a></p>";
 
     var oldPrice = "<h3 class=\"product-price mb-1\" style=\"text-decoration: line-through;\">" + bundle.OffersPriceSum + " zł</h3>";
-    var newPrice = "<h3 class=\"product-price mb-5\">" + offer.BundlePrice + " zł</h3>";
+    var newPrice = "<h3 class=\"product-price mb-5\">" + bundle.BundlePrice + " zł</h3>";
 
     var bucket = "<a class=\"addToBucket\" data-id=\"" + bundle.BundleID + "\" data-type=\"Bundle\" data-quantity=\"1\">DODAJ DO KOSZYKA</a>";
     if (bundle.InBucket != undefined && bundle.InBucket == true) {
@@ -188,7 +208,7 @@ function createBundleDiv(bundle) {
     }
 
     var offerRow =
-        "<div class=\"row offer bundle-row d-none p-2 m-0 mt-1\">"
+        "<div class=\"row offer bundle-row " + dNoneClass + " p-2 m-0 mt-1\">"
         + "<hr class=\"w-100\">"
         + picture
         + "<div class=\"col-12 col-lg-8 offer-desc p-0\">"

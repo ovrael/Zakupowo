@@ -39,6 +39,7 @@ Front-end:
 Back-end:
 * C# v 8.0
 * .Net Framework v 4.7.2
+* IISExpress
 * Entity framework v 6.1.3
 * SignalR v 2.4.1
 * Croppie v 2.6.5
@@ -50,14 +51,17 @@ Cloud:
 * Azure Blobs
 * GitHub
 
+Mobile App:
+* Xamarin.Forms framework
+
 ## Features
 
-* 14 different categories.
-* Browsing offers and bundles.
-* Favourites system.
-* Creating offers and bundles (with discounts).
-* Transactions system.
-* Cummunicator.
+* 14 different categories
+* Browsing offers and bundles
+* Favourites system
+* Creating offers and bundles (with discounts)
+* Transactions system
+* Cummunicator
 
 ## Status
 

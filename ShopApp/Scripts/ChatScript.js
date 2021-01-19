@@ -42,8 +42,6 @@ function createMessageWindow(userLogin) {
         jQuery(this).remove();
     })
 
-
-
     $.ajax({
         url: '/UserPanel/GetUserIdFromName',
         type: 'POST',
@@ -248,16 +246,16 @@ function createMessageWindow(userLogin) {
         var conversationID = "v-pills-" + idHelper;
         var hrefLink = "#" + conversationID;
 
-        $("#div-user-boxes").append(
-            "<a onclick=\"scrollToBottom(this.id)\" id=\"" + tabID + "\" data-toggle=\"pill\" href=\"" + hrefLink + "\" role=\tab\" class=\"user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 active nav-link\">"
+        $("#div-user-boxes").eq(0).prepend(
+            "<a onclick=\"scrollToBottom(this.id)\" id=\"" + tabID + "\" data-toggle=\"pill\" href=\"" + hrefLink + "\" role=\tab\" class=\"user-last-msg list-group-item list-group-item-action list-group-item-light rounded-0 nav-link\">"
             + "<div class=\"users-box-content ml-3\">"
             + "<div class=\"row media-body \" style=\"display:grid\">"
             + "<div class=\"d-flex justify-content-between mb-1\">"
-            + "<img src=\"" + avatarImmageURL + "\" alt=\"" + userLogin + "\" width=\"45\" class=\"p-2 rounded-circle img-user-box\">"
-            + "<h6 class=\"p-2 col-6 mb-0 pl-3\">" + userLogin + "</h6>"
-            + "<small  id=\"" + dateID + "\" class=\"p-2 mr-5  small font-weight-bold \"></small>"
+            + "<img src=\"" + avatarImmageURL + "\" alt=\"" + senderName + "\" width=\"45\" class=\"p-2 rounded-circle img-user-box\">"
+            + "<h6 class=\"p-2 col-6 mb-0 pl-3\">" + senderName + "</h6>"
+            + "<small  id=\"" + dateID + "\" class=\"p-2 mr-5 small font-weight-bold \"></small>"
             + "</div>"
-            + "<div style=\"color:black;overflow:hidden\" id=\"" + pID + "\" class=\"col-10 short-ms pl-3 ml-5  font-weight-bold mb-0 text-small\"></div>"
+            + "<div style=\"color:black;overflow:hidden\" id=\"" + pID + "\" class=\"col-10 short-ms pl-3 ml-5 font-weight-bold mb-0 text-small\"></div>"
             + "</div>"
             + "</div>"
             + "</a>"
@@ -321,9 +319,7 @@ function createMessageWindow(userLogin) {
             "<div class=\"media w-50 mb-3 message\">"
             + "<img src=\"" + avatarImageUrl + "\" alt=\"user\" width=\"20\" class=\"rounded-circle\">"
             + "<div class=\"media-body ml-3\">"
-            + "<div class=\"bg-light rounded py-2 px-3 mb-2\" style=\"word-break:break-all\" data-toggle=\"tooltip\" title=\""
-            + hours + ":" + minutes
-            + "\">"
+            + "<div class=\"bg-light rounded py-2 px-3 mb-2\" style=\"word-break:break-all\" data-toggle=\"tooltip\" title=\"" + hours + ":" + minutes + "\">"
             + "<p class=\"text-small mb-0 text-muted\">" + message + "</p>"
             + "</div>"
             + "</div>"
@@ -362,9 +358,7 @@ function createMessageWindow(userLogin) {
         $(conversationID).append(
             "<div class=\"media w-50 ml-auto mb-3 message\">"
             + "<div class=\"media-body\">"
-            + "<div class=\"bg-primary rounded py-2 px-3 mb-2\" style=\"word-break:break-all\" data-toggle=\"tooltip\" title=\""
-            + hours + ":" + minutes
-            + "\">"
+            + "<div class=\"bg-primary rounded py-2 px-3 mb-2\" style=\"word-break:break-all\" data-toggle=\"tooltip\" title=\"" + hours + ":" + minutes + "\">"
             + "<p class=\"text-small mb-0 text-white\">" + message + "</p>"
             + "</div>"
             + "</div>"
