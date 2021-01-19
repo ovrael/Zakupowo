@@ -54,10 +54,11 @@
                     imageCounter += 1;
 
                     if (i == files.length - 1) {
-                        reappendAddImgBtn();
                         findFirstPhoto();
+                        reappendAddImgBtn();
                     }
                 }
+                reappendAddImgBtn();
             }
         }
 
