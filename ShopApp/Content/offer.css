@@ -23,6 +23,12 @@
   background-color: #444;
 }
 
+.carausel-custom-icon{
+  color:white; 
+  font-size:40px; 
+  text-shadow: -3px 0 3px black, 0 3px 3px black, 3px 0 3px black, 0 -3px 3px black;
+}
+
 .product-name {
   font-weight: 700;
   font-size: 26px;
