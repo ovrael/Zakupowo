@@ -21,37 +21,37 @@ namespace ShopApp.Migrations
 
 		protected override void Seed(ShopContext context)
 		{
-			User admin = context.Users.Where(u => u.Login == "Zakupowo").FirstOrDefault();
+			//User admin = context.Users.Where(u => u.Login == "Zakupowo").FirstOrDefault();
 
-			if (admin == null)
-			{
-				var user = new User()
-				{
-					UserID = 1,
-					Email = "Zakupowo2020@gmail.com",
-					Login = "Zakupowo",
-					EncryptedPassword = Utility.Cryptographing.Encrypt("Zakupowo2020$$$"),
-					FirstName = "Zakupowo",
-					LastName = "Administration",
-					CreationDate = DateTime.Now,
-					IsActivated = true,
-					Bucket = new Bucket(),
-					Order = new Order()
-				};
+			//if (admin == null)
+			//{
+			//	var user = new User()
+			//	{
+			//		UserID = 1,
+			//		Email = "Zakupowo2020@gmail.com",
+			//		Login = "Zakupowo",
+			//		EncryptedPassword = Utility.Cryptographing.Encrypt("Zakupowo2020$$$"),
+			//		FirstName = "Zakupowo",
+			//		LastName = "Administration",
+			//		CreationDate = DateTime.Now,
+			//		IsActivated = true,
+			//		Bucket = new Bucket(),
+			//		Order = new Order()
+			//	};
 
-				var avatarImage = new AvatarImage()
-				{
-					AvatarImageID = 1,
-					PathToFile = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg",
-					User = user
-				};
+			//	var avatarImage = new AvatarImage()
+			//	{
+			//		AvatarImageID = 1,
+			//		PathToFile = "../../App_Files/Images/UserAvatars/DefaultAvatar.jpg",
+			//		User = user
+			//	};
 
-				context.AvatarImages.Add(avatarImage);
-				context.SaveChanges();
+			//	context.AvatarImages.Add(avatarImage);
+			//	context.SaveChanges();
 
-				context.Users.Add(user);
-				context.SaveChanges();
-			}
+			//	context.Users.Add(user);
+			//	context.SaveChanges();
+			//}
 
 
 			var categories = new List<Category>
