@@ -220,7 +220,7 @@ function createOfferDiv(offer) {
         + "<b>" + status + "</b>"
         + "</td >";
 
-    var dateTD = "<td class=\"td-text\">"
+    var dateTD = "<td class=\"td-text\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Dokładna data: " + offer.LongCreationDate + "\">"
         + offer.CreationDate
         + "</td >";
 
@@ -360,7 +360,7 @@ function createBundleDiv(bundle) {
         + "</span>"
         + "</td >";
 
-    var dateTD = "<td class=\"td-text\">"
+    var dateTD = "<td class=\"td-text\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Dokładna data: " + bundle.LongCreationDate + "\">"
         + bundle.CreationDate
         + "</td >";
 

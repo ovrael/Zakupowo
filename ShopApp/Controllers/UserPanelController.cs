@@ -416,6 +416,7 @@ namespace ShopApp.Controllers
 					Title = o.Title,         // Can be written as just "o.Title"
 					Status = o.IsActive,
 					CreationDate = o.CreationDate.ToShortDateString(),
+					LongCreationDate = o.CreationDate.ToString(),
 					Price = o.Price,         // Can be written as just "o.Price"
 					Left = o.InStockNow,
 					Sold = o.InStockOriginaly - o.InStockNow,
@@ -686,6 +687,7 @@ namespace ShopApp.Controllers
 					Title = b.Title,                // Can be written as just "b.Title"
 					Status = b.IsActive,
 					CreationDate = b.CreationDate.ToShortDateString(),
+					LongCreationDate = b.CreationDate.ToString(),
 					BundlePrice = b.BundlePrice,    // Can be written as just "b.BundlePrice"
 				})
 				.ToList();
