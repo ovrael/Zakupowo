@@ -23,15 +23,13 @@ using ShopApp.Utility;
 namespace ShopApp.Controllers
 {
     [RoutePrefix("api/Users")]
+
+
     public class UsersController : ApiController
     {
         private ShopContext db = new ShopContext();
 
-
-        // GET: api/Users/Avatar/5
-        [Route("Avatar")]
-
-        public IHttpActionResult GetAvatarURI(int userID)
+        public IHttpActionResult GetUser(int userID)
         {
             User user = null;
             try
@@ -49,12 +47,10 @@ namespace ShopApp.Controllers
                 return BadRequest("Couldn't find user!");
             }
 
-            var avatarImage = user.AvatarImage;
-            var uriBase = "http://192.168.0.103:45455/../";
-            var uri = uriBase + "App_Files/Images/UserAvatars/DefaultAvatar.jpg";
-            if (avatarImage != null) uri = uriBase + avatarImage.PathToFile;
-            return Ok(uri);
+          
+            return Ok(user);
         }
+
 
         //POST api/Users/Register
         [AllowAnonymous]
@@ -375,6 +371,8 @@ namespace ShopApp.Controllers
 
             return BadRequest();
         }
+
+
         [System.Web.Http.HttpPost]
         [System.Web.Http.Route("AddOfferToBucket")]
         public async Task<IHttpActionResult> AddOfferToBucketAsync()
