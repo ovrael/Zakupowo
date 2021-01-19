@@ -49,7 +49,7 @@
             beforeSend: function () {
             },
             success: function (response) {
-                alert(response);
+                createCustomAlert("Zmieniono avatar!", response);
             },
             complete: function () {
             }
@@ -57,3 +57,16 @@
     }
 
 });
+
+function createCustomAlert(title, message) {
+    $.alert({
+        title: title,
+        content: message,
+        buttons: {
+            ok: {
+                text: 'ok',
+                btnClass: 'btn-popout'
+            }
+        }
+    });
+}
