@@ -4,187 +4,187 @@
 @Styles.Render("~/bundles/UserInformation")
 
 <div class="row p-2 mt-5 user-header mx-auto shadow align-items-center justify-content-center text-center mb-4">
-    <div class="col-12">
-        <img class="img-thumbnail avatar m-2" src="@Model.user.AvatarImage.PathToFile" />
-    </div>
-    <div class="col-12 p-2 pb-4">
-        <h3 class="user-name">@Model.user.Login</h3>
-    </div>
-    <div class="col-12 text-center pb-4">
-        <h3 class="info-header">Informacje o sprzedającym</h3>
-    </div>
-    <div class="col-12 col-lg-8">
-        <p class="d-inline-block user-attribute">Imię i nazwisko:</p>
-        <p class="d-inline-block user-attribute-value">@Model.user.FirstName @Model.user.LastName</p>
-        <hr class="mt-0">
-    </div>
-    <div class="col-12 col-lg-8">
-        <p class="d-inline-block user-attribute">Telefon kontaktowy:</p>
-        <p class="d-inline-block user-attribute-value">@Model.user.Phone</p>
-        <hr class="mt-0">
-    </div>
-    <div class="col-12 col-lg-8">
-        <p class="d-inline-block user-attribute">E-mail:</p>
-        <p class="d-inline-block user-attribute-value">@Model.user.Email</p>
-        <hr class="mt-0">
-    </div>
-    <div class="col-12 text-center p-4">
-        <button type="button" class="btn user-message p-2 px-4" data-toggle="modal" data-target="#sendMessageModal"> Napisz wiadomość</button>
-    </div>
+	<div class="col-12">
+		<img class="img-thumbnail avatar m-2" src="@Model.user.AvatarImage.PathToFile" />
+	</div>
+	<div class="col-12 p-2 pb-4">
+		<h3 class="user-name">@Model.user.Login</h3>
+	</div>
+	<div class="col-12 text-center pb-4">
+		<h3 class="info-header">Informacje o sprzedającym</h3>
+	</div>
+	<div class="col-12 col-lg-8">
+		<p class="d-inline-block user-attribute">Imię i nazwisko:</p>
+		<p class="d-inline-block user-attribute-value">@Model.user.FirstName @Model.user.LastName</p>
+		<hr class="mt-0">
+	</div>
+	<div class="col-12 col-lg-8">
+		<p class="d-inline-block user-attribute">Telefon kontaktowy:</p>
+		<p class="d-inline-block user-attribute-value">@Model.user.Phone</p>
+		<hr class="mt-0">
+	</div>
+	<div class="col-12 col-lg-8">
+		<p class="d-inline-block user-attribute">E-mail:</p>
+		<p class="d-inline-block user-attribute-value">@Model.user.Email</p>
+		<hr class="mt-0">
+	</div>
+	<div class="col-12 text-center p-4">
+		<button type="button" class="btn user-message p-2 px-4" data-toggle="modal" data-target="#sendMessageModal"> Napisz wiadomość</button>
+	</div>
 </div>
 <div class="row offers m-0 p-0 mt-2 mb-2 justify-content-center">
-    <div class="col-12 col-lg-6 offers-main m-lg-2 shadow p-3">
-        <div class="col-12 mb-2 text-center">
-            <div class="btn-group" role="group">
-                <button type="button"
-                        class="btn switch switch-offer btn-primary on">
-                    Oferty
-                </button>
-                <button type="button"
-                        class="btn switch switch-bundle btn-secondary">
-                    Zestawy
-                </button>
-            </div>
-        </div>
-        @if (Model.OffersAndBundles != null && Model.OffersAndBundles.Offers != null && Model.OffersAndBundles.Offers.Count() != 0)
-        {
-            foreach (var offer in Model.OffersAndBundles.Offers)
-            {
-                string pictureUrl = string.Empty;
-                if (offer.OfferPictures.Count > 0)
-                {
-                    pictureUrl = offer.OfferPictures.First().PathToFile;
-                }
-                else
-                {
-                    pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
-                }
+	<div class="col-12 col-lg-6 offers-main m-lg-2 shadow p-3">
+		<div class="col-12 mb-2 text-center">
+			<div class="btn-group" role="group">
+				<button type="button"
+						class="btn switch switch-offer btn-primary on">
+					Oferty
+				</button>
+				<button type="button"
+						class="btn switch switch-bundle btn-secondary">
+					Zestawy
+				</button>
+			</div>
+		</div>
+		@if (Model.OffersAndBundles != null && Model.OffersAndBundles.Offers != null && Model.OffersAndBundles.Offers.Count() != 0)
+		{
+			foreach (var offer in Model.OffersAndBundles.Offers)
+			{
+				string pictureUrl = string.Empty;
+				if (offer.OfferPictures.Count > 0)
+				{
+					pictureUrl = offer.OfferPictures.First().PathToFile;
+				}
+				else
+				{
+					pictureUrl = @"..\..\App_Files\Images\OfferPictures\DefaultOfferPicture.jpg";
+				}
 
-                <div class="row offer item-row p-2 m-0">
-                    <div class="col-12 col-lg-4 text-center offer-img my-auto text-center">
-                        <img class="img-fluid" src="@pictureUrl" />
-                    </div>
-                    <div class="col-12 col-lg-8 offer-desc">
-                        <h3><a class="product-name" href="@Url.Action("Index","Offer",new { OfferID = offer.OfferID})">@offer.Title</a></h3>
-                        <h3 class="product-price mb">100 zł</h3>
-                        <p class="offer-count d-none d-lg-block pb-3">
-                            dostępne: @offer.InStockNow z @offer.InStockOriginaly
-                        </p>
-                        <br />
-                        @if (Model.IsOwner)
-                        {
+				<div class="row offer item-row p-2 m-0">
+					<div class="col-12 col-lg-4 text-center offer-img my-auto text-center">
+						<img class="img-fluid" src="@pictureUrl" />
+					</div>
+					<div class="col-12 col-lg-8 offer-desc">
+						<h3><a class="product-name" href="@Url.Action("Index","Offer",new { OfferID = offer.OfferID})">@offer.Title</a></h3>
+						<h3 class="product-price mb">@offer.Price.ToString("N2").Replace(",", " ") zł</h3>
+						<p class="offer-count d-none d-lg-block pb-3">
+							Dostępne: @offer.InStockNow z @offer.InStockOriginaly
+						</p>
+						<br />
+						@if (Model.IsOwner)
+						{
 
-                        }
-                        else if (HttpContext.Current.User.Identity.IsAuthenticated)
-                        {
-                            if (Model.OffersAndBundles.InBucketOffersIDs != null && Model.OffersAndBundles.InBucketOffersIDs.Contains(offer.OfferID))
-                            {
-                                <a class="addToBucket in-bucket" data-type="Offer" data-id="@offer.OfferID" data-quantity="1">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
-                            }
-                            else
-                            {
-                                <a class="addToBucket" data-type="Offer" data-id="@offer.OfferID" data-quantity="1">DODAJ DO KOSZYKA</a>
-                            }
-                            if (Model.OffersAndBundles.FavouriteOffersIDs != null && Model.OffersAndBundles.FavouriteOffersIDs.Contains(offer.OfferID))
-                            {
-                                <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Offer" data-id="@offer.OfferID"></i>
-                            }
-                            else
-                            {
-                                <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Offer" data-id="@offer.OfferID"></i>
-                            }
-                        }
-                        else
-                        {
-                            <a class="addToBucket not-logged">DODAJ DO KOSZYKA</a>
-                            <i class="fas fa-heart fa-fw product-fav not-logged"></i>
-                        }
-                    </div>
-                    <hr class="w-100" />
-                </div>
-            }
-        }
-        else
-        {
-            <div class="row offer item-row p-2 m-0"><p>Użytkownik nie posiada jeszcze żadnej oferty</p></div>
-        }
-        @if (Model.OffersAndBundles != null && Model.OffersAndBundles.Bundles != null && Model.OffersAndBundles.Bundles.Count() != 0)
-        {
-            foreach (var bundle in Model.OffersAndBundles.Bundles)
-            {
-                <div class="row bundle-row offer p-2 m-0 d-none">
-                    <div class="col-4 offer-img my-auto text-center">
-                        <img class="img-fluid" src="@bundle.BundlePicture.PathToFile" />
-                    </div>
-                    <div class="col-8 offer-desc">
-                        <h3><a class="product-name" href="@Url.Action("Bundle", "Offer", new { BundleId = bundle.BundleID })">@bundle.Title</a></h3>
-                        <h3 class="product-price mb-1"><s>@bundle.OffersPriceSum zł</s></h3>
-                        <h3 class="product-price mb-4">@bundle.BundlePrice zł</h3>
-                        <br />
-                            @if (Model.IsOwner){}
+						}
+						else if (HttpContext.Current.User.Identity.IsAuthenticated)
+						{
+							if (Model.OffersAndBundles.InBucketOffersIDs != null && Model.OffersAndBundles.InBucketOffersIDs.Contains(offer.OfferID))
+							{
+								<a class="addToBucket in-bucket" data-type="Offer" data-id="@offer.OfferID" data-quantity="1">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
+							}
+							else
+							{
+								<a class="addToBucket" data-type="Offer" data-id="@offer.OfferID" data-quantity="1">DODAJ DO KOSZYKA</a>
+							}
+							if (Model.OffersAndBundles.FavouriteOffersIDs != null && Model.OffersAndBundles.FavouriteOffersIDs.Contains(offer.OfferID))
+							{
+								<i class="fas fa-heart fa-fw product-fav fav-active" data-type="Offer" data-id="@offer.OfferID"></i>
+							}
+							else
+							{
+								<i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Offer" data-id="@offer.OfferID"></i>
+							}
+						}
+						else
+						{
+							<a class="addToBucket not-logged">DODAJ DO KOSZYKA</a>
+							<i class="fas fa-heart fa-fw product-fav not-logged"></i>
+						}
+					</div>
+					<hr class="w-100" />
+				</div>
+			}
+		}
+		else
+		{
+			<div class="row offer item-row p-2 m-0"><p>Użytkownik nie posiada jeszcze żadnej oferty</p></div>
+		}
+		@if (Model.OffersAndBundles != null && Model.OffersAndBundles.Bundles != null && Model.OffersAndBundles.Bundles.Count() != 0)
+		{
+			foreach (var bundle in Model.OffersAndBundles.Bundles)
+			{
+				<div class="row bundle-row offer p-2 m-0 d-none">
+					<div class="col-4 offer-img my-auto text-center">
+						<img class="img-fluid" src="@bundle.BundlePicture.PathToFile" />
+					</div>
+					<div class="col-8 offer-desc">
+						<h3><a class="product-name" href="@Url.Action("Bundle", "Offer", new { BundleId = bundle.BundleID })">@bundle.Title</a></h3>
+						<h3 class="product-price mb-1"><s>@bundle.OffersPriceSum zł</s></h3>
+						<h3 class="product-price mb-4">@bundle.BundlePrice.ToString("N2").Replace(",", " ") zł</h3>
+						<br />
+						@if (Model.IsOwner) { }
 
-                            else if (HttpContext.Current.User.Identity.IsAuthenticated)
-                            {
-                            if (Model.OffersAndBundles.InBucketBundlesIDs != null && Model.OffersAndBundles.InBucketBundlesIDs.Contains(bundle.BundleID))
-                            {
-                            <a class="addToBucket in-bucket" data-type="Bundle" data-id="@bundle.BundleID" data-quantity="1">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
-                            }
-                            else
-                            {
-                            <a class="addToBucket" data-type="Bundle" data-id="@bundle.BundleID" data-quantity="1">DODAJ DO KOSZYKA</a>
-                            }
-                            if (Model.OffersAndBundles.FavouriteBundlesIDs != null && Model.OffersAndBundles.FavouriteBundlesIDs.Contains(bundle.BundleID))
-                            {
-                            <i class="fas fa-heart fa-fw product-fav fav-active" data-type="Bundle" data-id="@bundle.BundleID."></i>
-                            }
-                            else
-                            {
-                            <i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Bundle" data-id="@bundle.BundleID"></i>
-                            }
-                            }
-                            else
-                            {
-                            <a class="addToBucket not-logged">DODAJ DO KOSZYKA</a>
-                            <i class="fas fa-heart fa-fw product-fav not-logged"></i>
-                            }
+						else if (HttpContext.Current.User.Identity.IsAuthenticated)
+						{
+							if (Model.OffersAndBundles.InBucketBundlesIDs != null && Model.OffersAndBundles.InBucketBundlesIDs.Contains(bundle.BundleID))
+							{
+								<a class="addToBucket in-bucket" data-type="Bundle" data-id="@bundle.BundleID" data-quantity="1">OFERTA ZNAJDUJE SIĘ W KOSZYKU</a>
+							}
+							else
+							{
+								<a class="addToBucket" data-type="Bundle" data-id="@bundle.BundleID" data-quantity="1">DODAJ DO KOSZYKA</a>
+							}
+							if (Model.OffersAndBundles.FavouriteBundlesIDs != null && Model.OffersAndBundles.FavouriteBundlesIDs.Contains(bundle.BundleID))
+							{
+								<i class="fas fa-heart fa-fw product-fav fav-active" data-type="Bundle" data-id="@bundle.BundleID."></i>
+							}
+							else
+							{
+								<i class="fas fa-heart fa-fw product-fav fav-unActive" data-type="Bundle" data-id="@bundle.BundleID"></i>
+							}
+						}
+						else
+						{
+							<a class="addToBucket not-logged">DODAJ DO KOSZYKA</a>
+							<i class="fas fa-heart fa-fw product-fav not-logged"></i>
+						}
 
-                    </div>
-                    <hr class="w-100" />
-                </div>
-            }
-        }
-        else
-        {
-            <div class="row bundle-row offer p-2 m-0 d-none"><p>Użytkownik nie posiada jeszcze żadnego zestawu</p></div>
-        }
+					</div>
+					<hr class="w-100" />
+				</div>
+			}
+		}
+		else
+		{
+			<div class="row bundle-row offer p-2 m-0 d-none"><p>Użytkownik nie posiada jeszcze żadnego zestawu</p></div>
+		}
 
-    </div>
+	</div>
 </div>
 
 <div class="modal fade" id="sendMessageModal" tabindex="-1" role="dialog" aria-labelledby="sendMessage" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Napisz nową wiadomość</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <h4 class="col-form-label receiver-label" id="receiver-@Model.user.UserID">Do: @Model.user.Login</h4>
-                    <div class="form-group">
-                        <label for="message-text" class="col-form-label">Treść:</label>
-                        <textarea class="form-control" id="messageContent"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="createMessageBtn">Send message</button>
-            </div>
-        </div>
-    </div>
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Napisz nową wiadomość</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form>
+					<h4 class="col-form-label receiver-label" id="receiver-@Model.user.UserID">Do: @Model.user.Login</h4>
+					<div class="form-group">
+						<label for="message-text" class="col-form-label">Treść:</label>
+						<textarea class="form-control" id="messageContent"></textarea>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" id="createMessageBtn">Send message</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 @Scripts.Render("~/bundles/BucketAndFavjs")
@@ -192,7 +192,7 @@
 
 @section scripts
 {
-    <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
-    <script src="~/signalr/js"></script>
-    <script src="~/Scripts/ChatScript.js"></script>
+	<script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+	<script src="~/signalr/js"></script>
+	<script src="~/Scripts/ChatScript.js"></script>
 }

@@ -118,11 +118,8 @@ namespace ShopApp.Utility
 				CloudBlockBlob cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(fileName);
 				cloudBlockBlob.Properties.ContentType = file.ContentType;
 
-				Stream fileStream = null;
 
-				fileStream = file.InputStream;
-
-				await cloudBlockBlob.UploadFromStreamAsync(fileStream);
+				await cloudBlockBlob.UploadFromStreamAsync(file.InputStream);
 
 
 				imageFullPath = cloudBlockBlob.Uri.ToString();

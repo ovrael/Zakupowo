@@ -239,7 +239,7 @@ namespace ShopApp.Controllers
 					.ToList();
 
 				var foundBundles = db.Bundles
-					.Where(b => b.IsActive && b.Title.Contains(queryText))
+					.Where(b => b.IsActive && b.Title.Contains(queryText) || b.Offers.Where(o => o.Title.Contains(queryText)).Any())
 					.OrderByDescending(o => o.CreationDate)
 					.Take(20)
 					.ToList();
