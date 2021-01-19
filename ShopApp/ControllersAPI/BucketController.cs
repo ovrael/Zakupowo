@@ -155,7 +155,7 @@ namespace ShopApp.ControllersAPI
                         }
                     }
 
-                    user.Order.BucketItems.Clear();
+                    user.Order?.BucketItems?.Clear();
                     ConcurencyHandling.SaveChangesWithConcurencyHandling(db);
                 }
             }
