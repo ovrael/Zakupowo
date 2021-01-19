@@ -3,146 +3,146 @@
 @Styles.Render("~/bundles/Bucket")
 
 <div class="row bucket-header text-center mx-auto">
-    <div class="col-12">
-        <h1 class="my-lg-4 my-2 mt-4">Twój koszyk</h1>
-        <hr />
-    </div>
+	<div class="col-12">
+		<h1 class="my-lg-4 my-2 mt-4">Twój koszyk</h1>
+		<hr />
+	</div>
 </div>
 @if (ViewBag.NotEveryBucketCouldHaveBeenSold != null && ViewBag.PleaseContactWithSupport != null)
 {
-    <div class="row warning-div text-center mx-auto">
-        <div class="col-12 alert alert-warning m-0 p-2 text-center">
-            <p>
-                @ViewBag.NotEveryBucketCouldHaveBeenSold
-                <br />
-                @ViewBag.PleaseContactWithSupport
-            </p>
-        </div>
-    </div>
+	<div class="row warning-div text-center mx-auto">
+		<div class="col-12 alert alert-warning m-0 p-2 text-center">
+			<p>
+				@ViewBag.NotEveryBucketCouldHaveBeenSold
+				<br />
+				@ViewBag.PleaseContactWithSupport
+			</p>
+		</div>
+	</div>
 }
 
 @if (Model.InActiveBucketItems != null && Model.InActiveBucketItems.Count > 0)
 {
-    <div class="row deleted-items text-center mx-auto">
-        <div class="col-12 alert alert-danger m-0 p-2 text-center">
-            <p class="font-weight-bold">Następujące oferty zostały usunięte z koszyka, ponieważ są już nieaktywne: </p>
-            @foreach (var item in Model.InActiveBucketItems)
-            {
-                <p>"@item"</p>
-            }
-        </div>
-    </div>
+	<div class="row deleted-items text-center mx-auto">
+		<div class="col-12 alert alert-danger m-0 p-2 text-center">
+			<p class="font-weight-bold">Następujące oferty zostały usunięte z koszyka, ponieważ są już nieaktywne: </p>
+			@foreach (var item in Model.InActiveBucketItems)
+			{
+				<p>"@item"</p>
+			}
+		</div>
+	</div>
 }
 <div class="bucket mb-2 mx-auto">
-    <div class="items">
-        <form method="post">
+	<div class="items">
+		<form method="post">
 
-            @foreach (var Seller in Model.GroupedBucketItems)
-            {
-                <div class="items-group shadow mt-3 selected" selected>
-                    <div class="row items-header p-3">
-                        <div class="col-1 my-auto bucket-items-checkbox">
-                            <input type="checkbox"
-                                   name="SelectedSeller_@Seller.Key.Login" checked />
-                        </div>
-                        <div class="col-10 items-seller">
-                            <p class="m-0">od: <a href="@Url.Action("UserInformation","User", new { UserId = Seller.Key.UserID})" class="seller-name">@Seller.Key.Login</a></p>
-                        </div>
-                    </div>
+			@foreach (var Seller in Model.GroupedBucketItems)
+			{
+				<div class="items-group shadow mt-3 selected" selected>
+					<div class="row items-header p-3">
+						<div class="col-1 my-auto bucket-items-checkbox">
+							<input type="checkbox"
+								   name="SelectedSeller_@Seller.Key.Login" checked />
+						</div>
+						<div class="col-10 items-seller">
+							<p class="m-0">Od: <a href="@Url.Action("UserInformation","User", new { UserId = Seller.Key.UserID})" class="seller-name">@Seller.Key.Login</a></p>
+						</div>
+					</div>
 
 
 
-                    @foreach (var item in Seller)
-                    {
-                        if (item.Offer != null)
-                        {
-                            <div class="row item justify-content-around align-items-baseline text-center p-3 pt-0">
-                                <div class="col-12 mt-0 pt-0">
-                                    <hr>
-                                </div>
-                                <div class="col-1 item-delete" data-id="@item.Offer.OfferID" data-type="Offer">
-                                    <i class="fas fa-times"></i>
-                                </div>
-                                <div class="col-6 col-lg-3 item-image">
-                                    <img class="img-fluid" src="@item.Offer.OfferPictures.First().PathToFile">
-                                </div>
-                                <div class="col-4 col-lg-3 item-name">
-                                    <a href="@Url.Action("Index", "Offer", new { OfferID = @item.Offer.OfferID })">@item.Offer.Title</a>
-                                </div>
-                                <div class="col-1 m-1 d-lg-none"></div>
-                                <div class="col-6 col-lg-3 item-quantity pt-3 pt-lg-0">
-                                    <input name="Offer_quantity_@item.BucketItemID" type="number" value="@item.Quantity" min="1" max="@item.Offer.InStockNow">
-                                </div>
-                                <div class="col-4 col-lg-2 item-price pt-3 pt-lg-0">
-                                    <p class="total-price m-0">@item.TotalPrice zł</p>
-                                    <p class="price m-0 d-none">@item.Offer.Price zł za sztukę</p>
-                                </div>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="row item justify-content-around align-items-baseline text-center p-3 pt-0">
-                                <div class="col-12 mt-0 pt-0">
-                                    <hr>
-                                </div>
-                                <div class="col-1 item-delete" data-id="@item.Bundle.BundleID" data-type="Bundle">
-                                    <i class="fas fa-times"></i>
-                                </div>
-                                <div class="col-5 col-lg-3 item-image">
-                                    <img class="img-fluid" src="@item.Bundle.BundlePicture.PathToFile">
-                                </div>
-                                <div class="col-5 col-lg-3 item-name">
-                                    <a href="@Url.Action("Bundle", "Offer", new { BundleID = item.Bundle.BundleID })">@item.Bundle.Title</a>
-                                </div>
-                                <div class="col-1 m-1 d-lg-none"></div>
-                                <div class="col-5 col-lg-3 item-quantity pt-3 pt-lg-0">
-                                    ZESTAW
-                                </div>
-                                <div class="col-5 col-lg-2 item-price pt-3 pt-lg-0">
-                                    <p class="total-price m-0">@item.Bundle.BundlePrice zł</p>
-                                </div>
-                                <input type="hidden" name="Bundle_quantity_@item.BucketItemID" value="1" />
-                            </div>
-                        }
-                    }
-                </div>
-            }
-            <div class="row bucket-summary justify-content-center text-center shadow m-0 mt-4 mb-4 p-2">
-                <div class="col-12">
-                    <p class="bucket-price-header m-0">Razem do zapłaty:</p>
-                    <p class="bucket-price m-0"><span class="bucket-price-amount">1500 zł</span> + dostawa</p>
-                    @if (ViewBag.UserHasNoShippingAddress != null)
-                    {
-                        <div>
-                            <p class="alert-danger m-2"> @ViewBag.UserHasNoShippingAddress </p>
-                            <a type="button" class="addAddress" href="@Url.Action("Settings","UserPanel")">Dodaj Adres</a>
-                        </div>
-                    }
-                    @if (ViewBag.BucketItemsCountZero != null)
-                    {
-                        <div>
-                            <p class="alert-danger m-0"> @ViewBag.BucketItemsCountZero </p>
-                        </div>
-                    }
-                    @if (ViewBag.UserIsNotActivated != null)
-                    {
-                        <div>
-                            <p class="alert-danger m-0"> @ViewBag.UserIsNotActivated </p>
-                        </div>
-                    }
-                </div>
+					@foreach (var item in Seller)
+					{
+						if (item.Offer != null)
+						{
+							<div class="row item justify-content-around align-items-baseline text-center p-3 pt-0">
+								<div class="col-12 mt-0 pt-0">
+									<hr>
+								</div>
+								<div class="col-1 item-delete" data-id="@item.Offer.OfferID" data-type="Offer">
+									<i class="fas fa-times"></i>
+								</div>
+								<div class="col-6 col-lg-3 item-image">
+									<img class="img-fluid" src="@item.Offer.OfferPictures.First().PathToFile">
+								</div>
+								<div class="col-4 col-lg-3 item-name">
+									<a href="@Url.Action("Index", "Offer", new { OfferID = @item.Offer.OfferID })">@item.Offer.Title</a>
+								</div>
+								<div class="col-1 m-1 d-lg-none"></div>
+								<div class="col-6 col-lg-3 item-quantity pt-3 pt-lg-0">
+									<input name="Offer_quantity_@item.BucketItemID" type="number" value="@item.Quantity" min="1" max="@item.Offer.InStockNow">
+								</div>
+								<div class="col-4 col-lg-2 item-price pt-3 pt-lg-0">
+									@*<p class="total-price m-0">@item.TotalPrice zł</p>*@
+									<p class="total-price m-0">@item.Offer.Price zł</p>
+								</div>
+							</div>
+						}
+						else
+						{
+							<div class="row item justify-content-around align-items-baseline text-center p-3 pt-0">
+								<div class="col-12 mt-0 pt-0">
+									<hr>
+								</div>
+								<div class="col-1 item-delete" data-id="@item.Bundle.BundleID" data-type="Bundle">
+									<i class="fas fa-times"></i>
+								</div>
+								<div class="col-5 col-lg-3 item-image">
+									<img class="img-fluid" src="@item.Bundle.BundlePicture.PathToFile">
+								</div>
+								<div class="col-5 col-lg-3 item-name">
+									<a href="@Url.Action("Bundle", "Offer", new { BundleID = item.Bundle.BundleID })">@item.Bundle.Title</a>
+								</div>
+								<div class="col-1 m-1 d-lg-none"></div>
+								<div class="col-5 col-lg-3 item-quantity pt-3 pt-lg-0">
+									ZESTAW
+								</div>
+								<div class="col-5 col-lg-2 item-price pt-3 pt-lg-0">
+									<p class="total-price m-0">@item.Bundle.BundlePrice zł</p>
+								</div>
+								<input type="hidden" name="Bundle_quantity_@item.BucketItemID" value="1" />
+							</div>
+						}
+					}
+				</div>
+			}
+			<div class="row bucket-summary justify-content-center text-center shadow m-0 mt-4 mb-4 p-2">
+				<div class="col-12">
+					<p class="bucket-price-header m-0">Razem do zapłaty:</p>
+					<p class="bucket-price m-0"><span class="bucket-price-amount">1500 zł</span> + dostawa</p>
+					@if (ViewBag.UserHasNoShippingAddress != null)
+					{
+						<div>
+							<p class="alert-danger m-2"> @ViewBag.UserHasNoShippingAddress </p>
+							<a type="button" class="addAddress" href="@Url.Action("Settings","UserPanel", new { settingPage = 1 })">Dodaj Adres</a>
+						</div>
+					}
+					@if (ViewBag.BucketItemsCountZero != null)
+					{
+						<div>
+							<p class="alert-danger m-0"> @ViewBag.BucketItemsCountZero </p>
+						</div>
+					}
+					@if (ViewBag.UserIsNotActivated != null)
+					{
+						<div>
+							<p class="alert-danger m-0"> @ViewBag.UserIsNotActivated </p>
+						</div>
+					}
+				</div>
 
-                <div class="col-12 p-2">
-                    <input type="submit"
-                           value="DO KASY"
-                           class="cashout-button p-3" />
-                </div>
-                <div class="col-12 p-2">
-                    <a href="@Url.Action("Index","Home")" type="button" class="continue-button p-3">KONTYNNUJ ZAKUPY</a>
-                </div>
-            </div>
-        </form>
-    </div>
+				<div class="col-12 p-2">
+					<input type="submit"
+						   value="DO KASY"
+						   class="cashout-button p-3" />
+				</div>
+				<div class="col-12 p-2">
+					<a href="@Url.Action("Index","Home")" type="button" class="continue-button p-3">KONTYNNUJ ZAKUPY</a>
+				</div>
+			</div>
+		</form>
+	</div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
