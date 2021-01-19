@@ -232,6 +232,8 @@ namespace ShopApp.ControllersAPI
 
         public double Price { get; set; }
         public int UserID { get; set; }
+
+     
         public int CategoryID { get; set; }
        
         public List<OfferItemPicture> OfferPictures { get; set; }
@@ -256,8 +258,7 @@ namespace ShopApp.ControllersAPI
             CategoryID = categoryID;
             OfferPictures = offerItemPictures;
             OfferState = offerState;
-
-
+           
         }
 
         
