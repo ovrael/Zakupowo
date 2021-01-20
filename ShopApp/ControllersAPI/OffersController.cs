@@ -266,11 +266,19 @@ namespace ShopApp.ControllersAPI
         public static OfferItem ConvertOfferToOfferItem(Offer offer)
         {
             List<OfferItemPicture> offerItemPictures = new List<OfferItemPicture>();
-            foreach (OfferPicture offerPicture in offer.OfferPictures)
+            try
             {
-                var offerItemPicture = OfferItemPicture.ConvertOfferPictureToOfferItemPicture(offerPicture);
-                offerItemPictures.Add(offerItemPicture);
+                foreach (OfferPicture offerPicture in offer.OfferPictures)
+                {
+                    var offerItemPicture = OfferItemPicture.ConvertOfferPictureToOfferItemPicture(offerPicture);
+                    offerItemPictures.Add(offerItemPicture);
+                }
             }
+            catch
+            {
+
+            }
+       
 
             return new OfferItem(offer.OfferID,offer.Title, offer.Description, offer.CreationDate, offer.IsActive,offer.Stocking,offer.InStockOriginaly,offer.InStockNow,offer.Price,offer.User.UserID,offer.Category.CategoryID,  offerItemPictures, offer.User.Login, offer.OfferState);
         }
