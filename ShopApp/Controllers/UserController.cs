@@ -37,10 +37,10 @@ namespace ShopApp.Controllers
 		[HttpPost]
 		public async Task<ActionResult> Register(FormCollection collection)
 		{
-			if(collection != null)
-            {
-				if(collection["Email"] != null && collection["Login"] !=null && collection["BirthDate"] != null && collection["Password"] != null)
-                {
+			if (collection != null)
+			{
+				if (collection["Email"] != null && collection["Login"] != null && collection["BirthDate"] != null && collection["Password"] != null)
+				{
 					string email = collection["Email"].Trim();
 					string login = collection["Login"].Trim();
 					User tmpEmailUser = db.Users.Where(u => u.Email == email).FirstOrDefault();
@@ -61,7 +61,7 @@ namespace ShopApp.Controllers
 					if (ModelState.IsValid && properDate && properAge && uniqueEmail && uniqueLogin && minimalPswLength)
 					{
 						try
-                        {
+						{
 							User user = new User()
 							{
 								FirstName = collection["FirstName"].Trim(),
@@ -99,14 +99,14 @@ namespace ShopApp.Controllers
 							Task.Run(() => EmailManager.SendEmailAsync(EmailManager.EmailType.Registration, user.FirstName, user.LastName, user.Email));
 							return RedirectToAction("Login");
 						}
-						catch(Exception ex)
-                        {
+						catch (Exception ex)
+						{
 							Debug.WriteLine(ex.StackTrace);
 							ViewBag.SomethingWentWrong = "Coś poszło nie tak";
-                        }
+						}
 					}
 				}
-            }
+			}
 			return View();
 		}
 
@@ -308,8 +308,14 @@ namespace ShopApp.Controllers
 					OffersAndBundles offersAndBundles = new OffersAndBundles();
 					ViewModels.UserViewModel UserViewModel = new ViewModels.UserViewModel();
 					UserViewModel.user = ViewUser;
-					var offers = db.Offers.Where(i => i.User.UserID == ViewUser.UserID && i.IsActive).ToList();
-					var bundles = db.Bundles.Where(i => i.User.UserID == ViewUser.UserID && i.IsActive).ToList();
+					//var offers = db.Offers.Where(i => i.User.UserID == ViewUser.UserID && i.IsActive).ToList();
+					var offers = ViewUser.Offers.Where(o => o.IsActive).ToList();
+					//var bundles = db.Bundles.Where(i => i.User.UserID == ViewUser.UserID && i.IsActive).ToList();
+					var bundles = ViewUser.Bundles.Where(b => b.IsActive).ToList();
+					if (offers != null)
+						offersAndBundles.Offers = offers;
+					if (bundles != null)
+						offersAndBundles.Bundles = bundles;
 					if (user != null)
 					{
 						var FavouriteOffersIDs = user.FavouriteOffer?.Where(i => i.Offer != null && i.Offer.IsActive).Select(i => i.Offer.OfferID).ToList();
@@ -318,10 +324,7 @@ namespace ShopApp.Controllers
 						var InBucketOffersIDs = user.Bucket?.BucketItems?.Where(i => i.Offer != null && i.Offer.IsActive).Select(i => i.Offer.OfferID).ToList();
 						var InBucketBundlesIDs = user.Bucket?.BucketItems?.Where(i => i.Bundle != null && i.Bundle.IsActive).Select(i => i.Bundle.BundleID).ToList();
 
-						if (offers != null)
-							offersAndBundles.Offers = offers;
-						if (bundles != null)
-							offersAndBundles.Bundles = bundles;
+						
 						if (FavouriteOffersIDs != null)
 							offersAndBundles.FavouriteOffersIDs = FavouriteOffersIDs;
 						if (FavouriteBundlesIDs != null)
