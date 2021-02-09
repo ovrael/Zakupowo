@@ -74,6 +74,6 @@ That means it is unfinished and we are still working on its functionalities.
 
 * [Jacek Jendrzejewski](https://jacek-jendrzejewski.azurewebsites.net) (back-end, Azure manager)
 * [Piotr Kaczka](https://github.com/P3rf3cT12) (back-end, database manager)
-* [Kamil Jonak](kamreo.github.io/portfolio-website/) (back-end, mobile app)
+* [Kamil Jonak](https://kamreo.github.io/portfolio-website/) (back-end, mobile app)
 * [Sławomir Perlak](https://github.com/perlak99) (front-end)
 * [Dominika Pietrzyk](https://github.com/DominikaPietrzyk) (front-end)
