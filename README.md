@@ -4,11 +4,10 @@
 >  * Browse users' offers and bundles. 
 >  * Make your own offers and bundles.
 >  * Manage your account to simplify buying process.
+>  Check the webiste! http://zakupowo.azurewebsites.net/
 >  </hr><br>Enjoy shoppin'!
 
 ## Content
-
-Check the webiste! http://zakupowo.azurewebsites.net/
 
 - [Zakupowo site](#Zakupowo-site)
   - [Content](#Content)
