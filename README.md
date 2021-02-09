@@ -8,6 +8,8 @@
 
 ## Content
 
+Check the webiste! http://zakupowo.azurewebsites.net/
+
 - [Zakupowo site](#Zakupowo-site)
   - [Content](#Content)
   - [General info](#general-info)
@@ -20,7 +22,7 @@
 
 ## General info
 
-This is our academic project which is made using agile working. Our purpose is to make fully working site where users make buy / sell transactions.
+This is our academic project which is made using agile working. Our purpose is to make fully working site where users make buy / sell transactions. 
 
 ## Screenshots
 
